@@ -97,8 +97,13 @@ export default function Sidebar() {
       {/* Brand Header with Uploaded AX / AYITRIX Logo */}
       <div
         style={{
-          padding: '1.25rem 1.25rem 1rem',
+          height: '70px',
+          boxSizing: 'border-box',
+          padding: '0 1.25rem',
+          display: 'flex',
+          alignItems: 'center',
           borderBottom: '1px solid var(--border-subtle)',
+          flexShrink: 0,
         }}
       >
         <BrandLogo size="md" showSubtitle={true} />
