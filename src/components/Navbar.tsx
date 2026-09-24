@@ -154,11 +154,18 @@ export default function Navbar() {
               resetAllData();
             }
           }}
-          className="btn-icon btn-secondary"
+          className="btn-icon btn-ghost"
           title="Reset to initial seed data"
-          style={{ cursor: 'pointer' }}
+          style={{
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
         >
-          <RotateCcw size={16} color="var(--text-secondary)" />
+          <RotateCcw size={16} />
         </button>
 
         {/* Interactive Role Switcher */}
@@ -179,7 +186,6 @@ export default function Navbar() {
               transition: 'all var(--transition-fast)',
             }}
           >
-            <Sparkles size={15} color="#0284c7" />
             <div style={{ textAlign: 'left', lineHeight: 1.2 }}>
               <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em', fontWeight: 600 }}>
                 Active Persona
@@ -291,12 +297,6 @@ export default function Navbar() {
             className="avatar"
             style={{ width: '38px', height: '38px' }}
           />
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)' }}>{currentUser.name}</span>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-              {currentUser.designation}
-            </span>
-          </div>
         </div>
       </div>
     </header>
