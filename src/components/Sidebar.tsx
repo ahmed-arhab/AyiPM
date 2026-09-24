@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useApp } from '@/context/AppContext';
@@ -13,11 +13,14 @@ import {
   FolderKanban,
   CheckSquare,
   Activity,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 
 export default function Sidebar() {
   const pathname = usePathname();
   const { employees, projects, tasks, attendance, leaveRequests, currentRole } = useApp();
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const todayStr = new Date().toISOString().slice(0, 10);
   const todayPresentCount = attendance.filter(
@@ -81,7 +84,7 @@ export default function Sidebar() {
   return (
     <aside
       style={{
-        width: '260px',
+        width: isCollapsed ? '72px' : '260px',
         backgroundColor: '#ffffff',
         borderRight: '1px solid var(--border-subtle)',
         display: 'flex',
@@ -92,6 +95,8 @@ export default function Sidebar() {
         top: 0,
         zIndex: 30,
         boxShadow: 'var(--shadow-sm)',
+        transition: 'width 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+        overflow: 'hidden',
       }}
     >
       {/* Brand Header with Uploaded AX / AYITRIX Logo */}
@@ -99,39 +104,120 @@ export default function Sidebar() {
         style={{
           height: '70px',
           boxSizing: 'border-box',
-          padding: '0 1.25rem',
+          padding: isCollapsed ? '0' : '0 1.25rem',
           display: 'flex',
           alignItems: 'center',
+          justifyContent: isCollapsed ? 'center' : 'flex-start',
           borderBottom: '1px solid var(--border-subtle)',
           flexShrink: 0,
         }}
       >
-        <BrandLogo size="md" showSubtitle={true} />
+        <BrandLogo size="md" showSubtitle={true} showWordmark={!isCollapsed} />
       </div>
+
+      {/* Button between AX logo and Dashboard icon when collapsed */}
+      {isCollapsed && (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: '0.75rem 0 0.25rem',
+            flexShrink: 0,
+          }}
+        >
+          <button
+            onClick={() => setIsCollapsed(false)}
+            title="Expand sidebar"
+            aria-label="Expand sidebar"
+            style={{
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '0.4rem',
+              borderRadius: 'var(--radius-md)',
+              color: 'var(--text-secondary)',
+              transition: 'all var(--transition-fast)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = 'var(--text-primary)';
+              e.currentTarget.style.background = 'rgba(0, 0, 0, 0.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = 'var(--text-secondary)';
+              e.currentTarget.style.background = 'transparent';
+            }}
+          >
+            <ChevronRight size={18} />
+          </button>
+        </div>
+      )}
 
       {/* Navigation Links */}
       <nav
         style={{
           flex: 1,
-          padding: '1rem 0.75rem',
+          padding: isCollapsed ? '0.5rem 0' : '1rem 0.75rem',
           display: 'flex',
           flexDirection: 'column',
           gap: '0.35rem',
           overflowY: 'auto',
+          overflowX: 'hidden',
         }}
       >
-        <div
-          style={{
-            fontSize: '0.68rem',
-            fontWeight: 700,
-            color: 'var(--text-muted)',
-            textTransform: 'uppercase',
-            letterSpacing: '0.08em',
-            padding: '0.5rem 0.75rem 0.25rem',
-          }}
-        >
-          Core Workspace
-        </div>
+        {!isCollapsed && (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '0.5rem 0.75rem 0.25rem',
+            }}
+          >
+            <span
+              style={{
+                fontSize: '0.68rem',
+                fontWeight: 700,
+                color: 'var(--text-muted)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.08em',
+              }}
+            >
+              Core Workspace
+            </span>
+            <button
+              onClick={() => setIsCollapsed(true)}
+              title="Collapse sidebar"
+              aria-label="Collapse sidebar"
+              style={{
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '0.2rem',
+                borderRadius: 'var(--radius-sm)',
+                color: 'var(--text-muted)',
+                transition: 'all var(--transition-fast)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = 'var(--text-primary)';
+                e.currentTarget.style.background = 'rgba(0, 0, 0, 0.05)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'var(--text-muted)';
+                e.currentTarget.style.background = 'transparent';
+              }}
+            >
+              <ChevronLeft size={16} />
+            </button>
+          </div>
+        )}
+
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
@@ -140,11 +226,13 @@ export default function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
+              title={isCollapsed ? item.name : undefined}
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: '0.65rem 0.85rem',
+                justifyContent: isCollapsed ? 'center' : 'space-between',
+                padding: isCollapsed ? '0.65rem 0' : '0.65rem 0.85rem',
+                margin: isCollapsed ? '0 0.625rem' : '0',
                 borderRadius: 'var(--radius-md)',
                 color: isActive ? '#0284c7' : 'var(--text-secondary)',
                 backgroundColor: isActive ? '#f0f9ff' : 'transparent',
@@ -155,14 +243,14 @@ export default function Sidebar() {
                 transition: 'all var(--transition-fast)',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: isCollapsed ? 0 : '0.75rem' }}>
                 <Icon
                   size={18}
                   color={isActive ? '#0284c7' : '#64748b'}
                 />
-                <span>{item.name}</span>
+                {!isCollapsed && <span>{item.name}</span>}
               </div>
-              {item.badge !== undefined && (
+              {!isCollapsed && item.badge !== undefined && (
                 <span
                   className={`badge ${item.badgeColor || 'badge-neutral'}`}
                   style={{
@@ -181,46 +269,48 @@ export default function Sidebar() {
       </nav>
 
       {/* Role Indicator Footer - Light Mode */}
-      <div
-        style={{
-          padding: '1rem',
-          borderTop: '1px solid var(--border-subtle)',
-          backgroundColor: '#f8fafc',
-        }}
-      >
+      {!isCollapsed && (
         <div
           style={{
-            background: '#ffffff',
-            borderRadius: 'var(--radius-md)',
-            padding: '0.75rem',
-            border: '1px solid var(--border-subtle)',
-            boxShadow: 'var(--shadow-sm)',
+            padding: '1rem',
+            borderTop: '1px solid var(--border-subtle)',
+            backgroundColor: '#f8fafc',
           }}
         >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
-            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>
-              Perspective
-            </span>
-            <span
-              style={{
-                fontSize: '0.72rem',
-                fontWeight: 700,
-                color: currentRole === 'admin' ? '#d97706' : currentRole === 'project_manager' ? '#0284c7' : '#059669',
-                textTransform: 'capitalize',
-              }}
-            >
-              {currentRole.replace('_', ' ')}
-            </span>
-          </div>
-          <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', lineHeight: 1.3 }}>
-            {currentRole === 'admin'
-              ? 'Root access to employee onboarding, approvals & system settings.'
-              : currentRole === 'project_manager'
-              ? 'Organize sprints, manage tasks, and approve team leave.'
-              : 'Log personal attendance, submit leave, and update personal tasks.'}
+          <div
+            style={{
+              background: '#ffffff',
+              borderRadius: 'var(--radius-md)',
+              padding: '0.75rem',
+              border: '1px solid var(--border-subtle)',
+              boxShadow: 'var(--shadow-sm)',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
+              <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>
+                Perspective
+              </span>
+              <span
+                style={{
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
+                  color: currentRole === 'admin' ? '#d97706' : currentRole === 'project_manager' ? '#0284c7' : '#059669',
+                  textTransform: 'capitalize',
+                }}
+              >
+                {currentRole.replace('_', ' ')}
+              </span>
+            </div>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', lineHeight: 1.3 }}>
+              {currentRole === 'admin'
+                ? 'Root access to employee onboarding, approvals & system settings.'
+                : currentRole === 'project_manager'
+                  ? 'Organize sprints, manage tasks, and approve team leave.'
+                  : 'Log personal attendance, submit leave, and update personal tasks.'}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </aside>
   );
 }
