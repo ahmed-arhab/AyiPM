@@ -16,9 +16,9 @@ export default function BrandLogo({ size = 'md', showSubtitle = true }: BrandLog
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          height: `${iconHeight + 6}px`,
-          width: `${Math.round(iconHeight * 1.55)}px`,
+          height: `${iconHeight}px`,
           position: 'relative',
+          flexShrink: 0,
         }}
       >
         <img
@@ -28,51 +28,44 @@ export default function BrandLogo({ size = 'md', showSubtitle = true }: BrandLog
             height: `${iconHeight}px`,
             width: 'auto',
             objectFit: 'contain',
-            filter: 'drop-shadow(0 2px 8px rgba(0, 102, 255, 0.25))',
+            display: 'block',
+            filter: 'drop-shadow(0 2px 8px rgba(0, 102, 255, 0.22))',
           }}
         />
       </div>
 
       {/* Brand Wordmark & System Tag */}
-      <div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', lineHeight: 1 }}>
           <span
             style={{
-              fontSize: size === 'sm' ? '1rem' : size === 'md' ? '1.25rem' : '1.5rem',
+              fontSize: size === 'sm' ? '0.95rem' : size === 'md' ? '1.2rem' : '1.45rem',
               fontWeight: 800,
-              letterSpacing: '0.04em',
+              letterSpacing: '0.03em',
               color: '#0f172a',
               fontFamily: 'var(--font-sans)',
+              lineHeight: 1.1,
             }}
           >
             AYITRIX
           </span>
           <span
             style={{
-              fontSize: '0.65rem',
+              fontSize: '0.62rem',
               fontWeight: 700,
               background: 'linear-gradient(135deg, #0284c7, #2563eb)',
               color: '#ffffff',
-              padding: '0.1rem 0.4rem',
+              padding: '0.12rem 0.38rem',
               borderRadius: 'var(--radius-sm)',
               boxShadow: '0 2px 4px rgba(2, 132, 199, 0.2)',
+              lineHeight: 1,
+              display: 'inline-flex',
+              alignItems: 'center',
             }}
           >
             PM
           </span>
         </div>
-        {showSubtitle && (
-          <div
-            style={{
-              fontSize: '0.72rem',
-              color: '#64748b',
-              fontWeight: 500,
-              letterSpacing: '0.02em',
-            }}
-          >
-            People & Delivery Platform
-          </div>
-        )}
       </div>
     </div>
   );
