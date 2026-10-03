@@ -175,7 +175,7 @@ export default function ActivityPage() {
                       fontSize: '0.8rem',
                       color: 'var(--text-muted)',
                       marginTop: '0.35rem',
-                      background: '#f8fafc',
+                      background: 'var(--bg-card-nested, #f8fafc)',
                       border: '1px solid var(--border-subtle)',
                       padding: '0.4rem 0.75rem',
                       borderRadius: 'var(--radius-sm)',

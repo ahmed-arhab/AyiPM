@@ -316,7 +316,7 @@ export default function DashboardPage() {
                 style={{
                   padding: '1rem',
                   borderRadius: 'var(--radius-md)',
-                  background: '#f8fafc',
+                  background: 'var(--bg-card-nested, #f8fafc)',
                   border: '1px solid var(--border-subtle)',
                   display: 'flex',
                   flexDirection: 'column',
@@ -396,7 +396,7 @@ export default function DashboardPage() {
               style={{
                 padding: '0.875rem',
                 borderRadius: 'var(--radius-md)',
-                background: '#f8fafc',
+                background: 'var(--bg-card-nested, #f8fafc)',
                 border: '1px solid var(--border-subtle)',
               }}
             >
@@ -407,7 +407,7 @@ export default function DashboardPage() {
               style={{
                 padding: '0.875rem',
                 borderRadius: 'var(--radius-md)',
-                background: '#f8fafc',
+                background: 'var(--bg-card-nested, #f8fafc)',
                 border: '1px solid var(--border-subtle)',
               }}
             >
@@ -418,7 +418,7 @@ export default function DashboardPage() {
               style={{
                 padding: '0.875rem',
                 borderRadius: 'var(--radius-md)',
-                background: '#f8fafc',
+                background: 'var(--bg-card-nested, #f8fafc)',
                 border: '1px solid var(--border-subtle)',
               }}
             >
@@ -429,7 +429,7 @@ export default function DashboardPage() {
               style={{
                 padding: '0.875rem',
                 borderRadius: 'var(--radius-md)',
-                background: '#f8fafc',
+                background: 'var(--bg-card-nested, #f8fafc)',
                 border: '1px solid var(--border-subtle)',
               }}
             >
@@ -453,7 +453,7 @@ export default function DashboardPage() {
                     fontSize: '0.8125rem',
                     padding: '0.4rem 0.6rem',
                     borderRadius: 'var(--radius-sm)',
-                    background: '#f8fafc',
+                    background: 'var(--bg-card-nested, #f8fafc)',
                     border: '1px solid var(--border-subtle)',
                   }}
                 >
@@ -502,7 +502,7 @@ export default function DashboardPage() {
                   style={{
                     padding: '0.875rem',
                     borderRadius: 'var(--radius-md)',
-                    background: '#f8fafc',
+                    background: 'var(--bg-card-nested, #f8fafc)',
                     border: '1px solid var(--border-subtle)',
                     display: 'flex',
                     flexDirection: 'column',

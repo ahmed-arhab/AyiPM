@@ -236,7 +236,7 @@ export default function TasksPage() {
             <div
               key={col.id}
               style={{
-                background: '#f8fafc',
+                background: 'var(--bg-card-nested, #f8fafc)',
                 border: '1px solid var(--border-subtle)',
                 borderRadius: 'var(--radius-lg)',
                 display: 'flex',
@@ -268,7 +268,7 @@ export default function TasksPage() {
                 <span
                   style={{
                     fontSize: '0.75rem',
-                    background: '#e2e8f0',
+                    background: 'var(--bg-elevated, #e2e8f0)',
                     color: 'var(--text-secondary)',
                     padding: '0.15rem 0.5rem',
                     borderRadius: 'var(--radius-full)',
@@ -554,7 +554,7 @@ export default function TasksPage() {
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
                 gap: '1rem',
-                background: '#f8fafc',
+                background: 'var(--bg-card-nested, #f8fafc)',
                 padding: '0.875rem',
                 borderRadius: 'var(--radius-md)',
                 border: '1px solid var(--border-subtle)',
@@ -618,7 +618,7 @@ export default function TasksPage() {
                       style={{
                         padding: '0.625rem 0.75rem',
                         borderRadius: 'var(--radius-md)',
-                        background: '#f8fafc',
+                        background: 'var(--bg-card-nested, #f8fafc)',
                         border: '1px solid var(--border-subtle)',
                         fontSize: '0.825rem',
                       }}

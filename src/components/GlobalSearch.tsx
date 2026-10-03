@@ -139,7 +139,7 @@ export default function GlobalSearch() {
             top: 'calc(100% + 8px)',
             left: 0,
             right: 0,
-            background: '#ffffff',
+            background: 'var(--bg-card)',
             border: '1px solid var(--border-medium)',
             borderRadius: 'var(--radius-xl)',
             boxShadow: '0 20px 40px -10px rgba(15, 23, 42, 0.16)',
@@ -196,14 +196,14 @@ export default function GlobalSearch() {
                         textAlign: 'left',
                         transition: 'background 0.15s ease',
                       }}
-                      onMouseEnter={(e) => (e.currentTarget.style.background = '#f0f9ff')}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-card-hover)')}
                       onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
                         <div
                           style={{
-                            background: '#e0f2fe',
-                            color: '#0284c7',
+                            background: 'var(--info-bg)',
+                            color: 'var(--info)',
                             padding: '4px',
                             borderRadius: 'var(--radius-sm)',
                             display: 'flex',
@@ -259,14 +259,14 @@ export default function GlobalSearch() {
                         textAlign: 'left',
                         transition: 'background 0.15s ease',
                       }}
-                      onMouseEnter={(e) => (e.currentTarget.style.background = '#f5f3ff')}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-card-hover)')}
                       onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
                         <div
                           style={{
-                            background: '#ede9fe',
-                            color: '#7c3aed',
+                            background: 'rgba(168, 85, 247, 0.15)',
+                            color: 'var(--accent-purple)',
                             padding: '4px',
                             borderRadius: 'var(--radius-sm)',
                             display: 'flex',
@@ -322,7 +322,7 @@ export default function GlobalSearch() {
                         textAlign: 'left',
                         transition: 'background 0.15s ease',
                       }}
-                      onMouseEnter={(e) => (e.currentTarget.style.background = '#ecfdf5')}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-card-hover)')}
                       onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
@@ -379,14 +379,14 @@ export default function GlobalSearch() {
                         textAlign: 'left',
                         transition: 'background 0.15s ease',
                       }}
-                      onMouseEnter={(e) => (e.currentTarget.style.background = '#fef3c7')}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-card-hover)')}
                       onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
                         <div
                           style={{
-                            background: '#fef3c7',
-                            color: '#d97706',
+                            background: 'var(--warning-bg)',
+                            color: 'var(--warning)',
                             padding: '4px',
                             borderRadius: 'var(--radius-sm)',
                             display: 'flex',

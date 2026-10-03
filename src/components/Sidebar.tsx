@@ -89,12 +89,6 @@ export default function Sidebar() {
       badgeColor: 'badge-danger',
       roles: ['admin', 'project_manager', 'employee'],
     },
-    {
-      name: 'Settings',
-      href: '/settings',
-      icon: Settings,
-      roles: ['admin', 'project_manager', 'employee'],
-    },
   ];
 
 
@@ -102,7 +96,7 @@ export default function Sidebar() {
     <aside
       style={{
         width: isCollapsed ? '72px' : '260px',
-        backgroundColor: '#ffffff',
+        backgroundColor: 'var(--bg-sidebar)',
         borderRight: '1px solid var(--border-subtle)',
         display: 'flex',
         flexDirection: 'column',
@@ -132,46 +126,6 @@ export default function Sidebar() {
         <BrandLogo size="md" showSubtitle={true} showWordmark={!isCollapsed} />
       </div>
 
-      {/* Button between AX logo and Dashboard icon when collapsed */}
-      {isCollapsed && (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '0.75rem 0 0.25rem',
-            flexShrink: 0,
-          }}
-        >
-          <button
-            onClick={() => setIsCollapsed(false)}
-            title="Expand sidebar"
-            aria-label="Expand sidebar"
-            style={{
-              background: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '0.4rem',
-              borderRadius: 'var(--radius-md)',
-              color: 'var(--text-secondary)',
-              transition: 'all var(--transition-fast)',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = 'var(--text-primary)';
-              e.currentTarget.style.background = 'rgba(0, 0, 0, 0.05)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = 'var(--text-secondary)';
-              e.currentTarget.style.background = 'transparent';
-            }}
-          >
-            <ChevronRight size={18} />
-          </button>
-        </div>
-      )}
 
       {/* Navigation Links */}
       <nav
@@ -188,9 +142,6 @@ export default function Sidebar() {
         {!isCollapsed && (
           <div
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
               padding: '0.5rem 0.75rem 0.25rem',
             }}
           >
@@ -205,33 +156,6 @@ export default function Sidebar() {
             >
               Core Workspace
             </span>
-            <button
-              onClick={() => setIsCollapsed(true)}
-              title="Collapse sidebar"
-              aria-label="Collapse sidebar"
-              style={{
-                background: 'transparent',
-                border: 'none',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '0.2rem',
-                borderRadius: 'var(--radius-sm)',
-                color: 'var(--text-muted)',
-                transition: 'all var(--transition-fast)',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = 'var(--text-primary)';
-                e.currentTarget.style.background = 'rgba(0, 0, 0, 0.05)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = 'var(--text-muted)';
-                e.currentTarget.style.background = 'transparent';
-              }}
-            >
-              <ChevronLeft size={16} />
-            </button>
           </div>
         )}
 
@@ -251,9 +175,9 @@ export default function Sidebar() {
                 padding: isCollapsed ? '0.65rem 0' : '0.65rem 0.85rem',
                 margin: isCollapsed ? '0 0.625rem' : '0',
                 borderRadius: 'var(--radius-md)',
-                color: isActive ? '#0284c7' : 'var(--text-secondary)',
-                backgroundColor: isActive ? '#f0f9ff' : 'transparent',
-                border: isActive ? '1px solid #bae6fd' : '1px solid transparent',
+                color: isActive ? 'var(--primary)' : 'var(--text-secondary)',
+                backgroundColor: isActive ? 'var(--primary-glow)' : 'transparent',
+                border: isActive ? '1px solid var(--border-focus)' : '1px solid transparent',
                 textDecoration: 'none',
                 fontSize: '0.875rem',
                 fontWeight: isActive ? 700 : 500,
@@ -263,7 +187,7 @@ export default function Sidebar() {
               <div style={{ display: 'flex', alignItems: 'center', gap: isCollapsed ? 0 : '0.75rem' }}>
                 <Icon
                   size={18}
-                  color={isActive ? '#0284c7' : '#64748b'}
+                  color={isActive ? 'var(--primary)' : 'var(--text-muted)'}
                 />
                 {!isCollapsed && <span>{item.name}</span>}
               </div>
@@ -285,49 +209,54 @@ export default function Sidebar() {
         })}
       </nav>
 
-      {/* Role Indicator Footer - Light Mode */}
-      {!isCollapsed && (
-        <div
+      {/* Bottom Collapse Button */}
+      <div
+        style={{
+          padding: isCollapsed ? '0.75rem 0' : '0.75rem',
+          borderTop: '1px solid var(--border-subtle)',
+          flexShrink: 0,
+        }}
+      >
+        <button
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           style={{
-            padding: '1rem',
-            borderTop: '1px solid var(--border-subtle)',
-            backgroundColor: '#f8fafc',
+            width: isCollapsed ? 'calc(100% - 1.25rem)' : '100%',
+            margin: isCollapsed ? '0 auto' : '0',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: isCollapsed ? 'center' : 'flex-start',
+            gap: isCollapsed ? 0 : '0.75rem',
+            padding: isCollapsed ? '0.65rem 0' : '0.65rem 0.85rem',
+            borderRadius: 'var(--radius-md)',
+            border: '1px solid transparent',
+            background: 'transparent',
+            color: 'var(--text-secondary)',
+            fontSize: '0.875rem',
+            fontWeight: 500,
+            cursor: 'pointer',
+            transition: 'all var(--transition-fast)',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = 'var(--text-primary)';
+            e.currentTarget.style.backgroundColor = 'var(--bg-card-hover)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = 'var(--text-secondary)';
+            e.currentTarget.style.backgroundColor = 'transparent';
           }}
         >
-          <div
-            style={{
-              background: '#ffffff',
-              borderRadius: 'var(--radius-md)',
-              padding: '0.75rem',
-              border: '1px solid var(--border-subtle)',
-              boxShadow: 'var(--shadow-sm)',
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
-              <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>
-                Perspective
-              </span>
-              <span
-                style={{
-                  fontSize: '0.72rem',
-                  fontWeight: 700,
-                  color: currentRole === 'admin' ? '#d97706' : currentRole === 'project_manager' ? '#0284c7' : '#059669',
-                  textTransform: 'capitalize',
-                }}
-              >
-                {currentRole.replace('_', ' ')}
-              </span>
-            </div>
-            <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', lineHeight: 1.3 }}>
-              {currentRole === 'admin'
-                ? 'Root access to employee onboarding, approvals & system settings.'
-                : currentRole === 'project_manager'
-                  ? 'Organize sprints, manage tasks, and approve team leave.'
-                  : 'Log personal attendance, submit leave, and update personal tasks.'}
-            </div>
-          </div>
-        </div>
-      )}
+          {isCollapsed ? (
+            <ChevronRight size={18} color="var(--text-muted)" />
+          ) : (
+            <>
+              <ChevronLeft size={18} color="var(--text-muted)" />
+              <span>Collapse</span>
+            </>
+          )}
+        </button>
+      </div>
     </aside>
   );
 }
