@@ -89,10 +89,9 @@ export default function ProfileDropdown({ className }: ProfileDropdownProps) {
   };
 
   const languagesList = [
-    { code: 'en', label: 'English (US)' },
-    { code: 'es', label: 'Español' },
-    { code: 'fr', label: 'Français' },
-    { code: 'de', label: 'Deutsch' },
+    { code: 'en', label: 'English', native: 'English' },
+    { code: 'ta', label: 'Tamil', native: 'தமிழ்' },
+    { code: 'si', label: 'Sinhala', native: 'සිංහල' },
   ];
 
   return (
@@ -528,7 +527,10 @@ export default function ProfileDropdown({ className }: ProfileDropdownProps) {
                         textAlign: 'left',
                       }}
                     >
-                      <span>{lang.label}</span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                        <span>{lang.label}</span>
+                        <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>({lang.native})</span>
+                      </div>
                       {language === lang.label && <Check size={13} color="var(--primary)" />}
                     </button>
                   ))}

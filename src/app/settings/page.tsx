@@ -24,6 +24,8 @@ import {
   RotateCcw,
   Sparkles,
 } from 'lucide-react';
+import CountryPhoneInput from '@/components/CountryPhoneInput';
+import AvatarUploadBadge from '@/components/AvatarUploadBadge';
 
 export default function SettingsPage() {
   const {
@@ -39,7 +41,8 @@ export default function SettingsPage() {
   // Profile Form State
   const [name, setName] = useState(currentUser?.name || '');
   const [email, setEmail] = useState(currentUser?.email || '');
-  const [phone, setPhone] = useState(currentUser?.phone || '+1 (555) 234-5678');
+  const [phone, setPhone] = useState(currentUser?.phone || '+1 5552345678');
+  const [avatar, setAvatar] = useState(currentUser?.avatar || '');
   const [location, setLocation] = useState(currentUser?.location || 'New York, USA');
   const [designation, setDesignation] = useState(currentUser?.designation || '');
   const [department, setDepartment] = useState(currentUser?.department || '');
@@ -86,12 +89,25 @@ export default function SettingsPage() {
     if (currentUser) {
       setName(currentUser.name || '');
       setEmail(currentUser.email || '');
-      setPhone(currentUser.phone || '+1 (555) 234-5678');
+      setPhone(currentUser.phone || '+1 5552345678');
       setLocation(currentUser.location || 'New York, USA');
       setDesignation(currentUser.designation || '');
       setDepartment(currentUser.department || '');
+      setAvatar(currentUser.avatar || '');
     }
   }, [currentUser]);
+
+  const handleAvatarUpload = (newAvatar: string) => {
+    setAvatar(newAvatar);
+    if (currentUser?.id) {
+      updateEmployee(currentUser.id, { avatar: newAvatar });
+    }
+    setSaveSuccess(true);
+    setSaveMessage('Profile picture updated successfully!');
+    setTimeout(() => {
+      setSaveSuccess(false);
+    }, 4000);
+  };
 
   const handleSaveAll = (e: React.FormEvent) => {
     e.preventDefault();
@@ -105,6 +121,7 @@ export default function SettingsPage() {
         location,
         designation,
         department,
+        avatar: avatar || currentUser.avatar,
       });
     }
 
@@ -118,7 +135,7 @@ export default function SettingsPage() {
   const handleResetDefaults = () => {
     if (confirm('Reset preferences to system defaults?')) {
       setTheme('light');
-      setLanguage('English (US)');
+      setLanguage('English');
       setDateFormat('YYYY-MM-DD');
       setTimeFormat('12h');
       setWeekStart('Monday');
@@ -273,11 +290,12 @@ export default function SettingsPage() {
               border: '1px solid var(--border-subtle)',
             }}
           >
-            <img
-              src={currentUser?.avatar || 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80'}
+            <AvatarUploadBadge
+              currentAvatar={avatar || currentUser?.avatar}
+              onImageSelected={handleAvatarUpload}
+              size={64}
+              badgeSize={22}
               alt={currentUser?.name || 'User avatar'}
-              className="avatar"
-              style={{ width: '64px', height: '64px' }}
             />
             <div style={{ flex: 1 }}>
               <div style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)' }}>
@@ -325,12 +343,10 @@ export default function SettingsPage() {
 
             <div className="form-group">
               <label className="form-label">Phone Number</label>
-              <input
-                type="text"
-                className="form-input"
+              <CountryPhoneInput
+                id="settings-phone"
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="+1 (555) 000-0000"
+                onChange={(fullVal) => setPhone(fullVal)}
               />
             </div>
 
@@ -463,29 +479,9 @@ export default function SettingsPage() {
                 >
                   <Moon size={18} />
                 </div>
-                {theme === 'dark' && (
-                  <span
-                    style={{
-                      width: '20px',
-                      height: '20px',
-                      borderRadius: '50%',
-                      background: 'var(--primary)',
-                      color: '#ffffff',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <Check size={12} strokeWidth={3} />
-                  </span>
-                )}
-              </div>
-              <div>
+
                 <div style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--text-primary)' }}>
                   Dark Mode
-                </div>
-                <div className="subtext" style={{ fontSize: '0.78rem', marginTop: '0.2rem' }}>
-                  High-contrast dark palette tailored for focus and reduced eye strain in low-light environments.
                 </div>
               </div>
             </div>
@@ -523,29 +519,9 @@ export default function SettingsPage() {
                 >
                   <Sun size={18} />
                 </div>
-                {theme === 'light' && (
-                  <span
-                    style={{
-                      width: '20px',
-                      height: '20px',
-                      borderRadius: '50%',
-                      background: 'var(--primary)',
-                      color: '#ffffff',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <Check size={12} strokeWidth={3} />
-                  </span>
-                )}
-              </div>
-              <div>
+
                 <div style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--text-primary)' }}>
                   Light Mode
-                </div>
-                <div className="subtext" style={{ fontSize: '0.78rem', marginTop: '0.2rem' }}>
-                  Ultra-clean enterprise white theme with electric cyan and brand blue accents.
                 </div>
               </div>
             </div>
@@ -583,29 +559,8 @@ export default function SettingsPage() {
                 >
                   <Monitor size={18} />
                 </div>
-                {theme === 'device' && (
-                  <span
-                    style={{
-                      width: '20px',
-                      height: '20px',
-                      borderRadius: '50%',
-                      background: 'var(--primary)',
-                      color: '#ffffff',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <Check size={12} strokeWidth={3} />
-                  </span>
-                )}
-              </div>
-              <div>
                 <div style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--text-primary)' }}>
                   Device Theme
-                </div>
-                <div className="subtext" style={{ fontSize: '0.78rem', marginTop: '0.2rem' }}>
-                  Synchronizes automatically with your operating system’s dark/light schedule.
                 </div>
               </div>
             </div>
@@ -660,12 +615,9 @@ export default function SettingsPage() {
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
               >
-                <option value="English (US)">English (US)</option>
-                <option value="Español">Español (Spanish)</option>
-                <option value="Français">Français (French)</option>
-                <option value="Deutsch">Deutsch (German)</option>
-                <option value="日本語">日本語 (Japanese)</option>
-                <option value="العربية">العربية (Arabic)</option>
+                <option value="English">English</option>
+                <option value="Tamil">Tamil (தமிழ்)</option>
+                <option value="Sinhala">Sinhala (සිංහල)</option>
               </select>
             </div>
 

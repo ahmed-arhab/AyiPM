@@ -21,7 +21,7 @@ import {
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const { employees, projects, tasks, attendance, leaveRequests, currentRole, unreadNotificationsCount } = useApp();
+  const { employees, projects, tasks, attendance, leaveRequests, currentRole, unreadNotificationsCount, t } = useApp();
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const todayStr = new Date().toISOString().slice(0, 10);
@@ -189,7 +189,7 @@ export default function Sidebar() {
                   size={18}
                   color={isActive ? 'var(--primary)' : 'var(--text-muted)'}
                 />
-                {!isCollapsed && <span>{item.name}</span>}
+                {!isCollapsed && <span>{t(item.name)}</span>}
               </div>
               {!isCollapsed && item.badge !== undefined && (
                 <span
@@ -252,7 +252,7 @@ export default function Sidebar() {
           ) : (
             <>
               <ChevronLeft size={18} color="var(--text-muted)" />
-              <span>Collapse</span>
+              <span>{t('Collapse')}</span>
             </>
           )}
         </button>

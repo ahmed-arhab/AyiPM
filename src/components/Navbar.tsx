@@ -31,6 +31,7 @@ export default function Navbar() {
     checkOut,
     attendance,
     resetAllData,
+    t,
   } = useApp();
 
   const pathname = usePathname();
@@ -131,7 +132,7 @@ export default function Navbar() {
             title="Log attendance check-in"
           >
             <CheckCircle2 size={15} />
-            <span>Check In</span>
+            <span>{t('Check In')}</span>
           </button>
         ) : !isCheckedOut ? (
           <button
@@ -141,7 +142,7 @@ export default function Navbar() {
             title="Log attendance check-out"
           >
             <LogOut size={15} />
-            <span>Check Out ({todayRecord?.checkIn})</span>
+            <span>{t('Check Out')} ({todayRecord?.checkIn})</span>
           </button>
         ) : (
           <span

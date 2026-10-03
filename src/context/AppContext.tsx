@@ -25,6 +25,8 @@ import {
   initialActivityLog,
   initialNotifications,
 } from '@/data/seedData';
+import { t as translateFn } from '@/translations/dictionary';
+import { AutoTranslator } from '@/translations/translator';
 
 interface AppContextType {
   currentRole: UserRole;
@@ -43,6 +45,7 @@ interface AppContextType {
   setTheme: (theme: ThemeMode) => void;
   language: string;
   setLanguage: (lang: string) => void;
+  t: (text: string) => string;
   
   // Actions
   addEmployee: (emp: Omit<Employee, 'id'>) => void;
@@ -84,7 +87,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [activityLog, setActivityLog] = useState<ActivityLogItem[]>(initialActivityLog);
   const [notifications, setNotifications] = useState<NotificationItem[]>(initialNotifications);
   const [theme, setThemeState] = useState<ThemeMode>('light');
-  const [language, setLanguageState] = useState<string>('English (US)');
+  const [language, setLanguageState] = useState<string>('English');
 
   const applyThemeToDOM = (mode: ThemeMode) => {
     if (typeof window === 'undefined') return;
@@ -112,7 +115,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
       const savedLang = localStorage.getItem('ayipm_language');
       if (savedLang) {
-        setLanguageState(savedLang);
+        if (savedLang === 'Tamil' || savedLang.toLowerCase().includes('tamil')) {
+          setLanguageState('Tamil');
+        } else if (savedLang === 'Sinhala' || savedLang.toLowerCase().includes('sinhala')) {
+          setLanguageState('Sinhala');
+        } else {
+          setLanguageState('English');
+        }
       }
       const savedRole = localStorage.getItem('ayipm_role');
       if (savedRole && ['admin', 'project_manager', 'employee'].includes(savedRole)) {
@@ -164,9 +173,15 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   };
 
   const setLanguage = (lang: string) => {
-    setLanguageState(lang);
+    const normalized =
+      lang === 'Tamil' || lang.toLowerCase().includes('tamil')
+        ? 'Tamil'
+        : lang === 'Sinhala' || lang.toLowerCase().includes('sinhala')
+        ? 'Sinhala'
+        : 'English';
+    setLanguageState(normalized);
     try {
-      localStorage.setItem('ayipm_language', lang);
+      localStorage.setItem('ayipm_language', normalized);
     } catch {
       // ignore
     }
@@ -806,6 +821,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         setTheme,
         language,
         setLanguage,
+        t: (text: string) => translateFn(text, language),
         addEmployee,
         updateEmployeeRole,
         updateEmployee,
@@ -831,6 +847,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         resetAllData,
       }}
     >
+      <AutoTranslator language={language} />
       {children}
     </AppContext.Provider>
   );
