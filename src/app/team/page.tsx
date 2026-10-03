@@ -32,9 +32,10 @@ import {
   PlaneTakeoff,
   Edit3,
   ExternalLink,
-  ChevronRight,
   Info,
 } from 'lucide-react';
+import CountryPhoneInput from '@/components/CountryPhoneInput';
+import AvatarUploadBadge from '@/components/AvatarUploadBadge';
 
 export default function TeamManagementPage() {
   const {
@@ -1937,26 +1938,23 @@ export default function TeamManagementPage() {
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                  <div className="form-group">
-                    <label className="form-label">Phone</label>
-                    <input
-                      type="text"
-                      className="form-input"
-                      value={editFormData.phone || ''}
-                      onChange={(e) => setEditFormData({ ...editFormData, phone: e.target.value })}
-                    />
-                  </div>
+                <div className="form-group">
+                  <label className="form-label">Phone Number</label>
+                  <CountryPhoneInput
+                    id="edit-emp-phone"
+                    value={editFormData.phone || ''}
+                    onChange={(fullVal) => setEditFormData({ ...editFormData, phone: fullVal })}
+                  />
+                </div>
 
-                  <div className="form-group">
-                    <label className="form-label">Location</label>
-                    <input
-                      type="text"
-                      className="form-input"
-                      value={editFormData.location || ''}
-                      onChange={(e) => setEditFormData({ ...editFormData, location: e.target.value })}
-                    />
-                  </div>
+                <div className="form-group">
+                  <label className="form-label">Location</label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    value={editFormData.location || ''}
+                    onChange={(e) => setEditFormData({ ...editFormData, location: e.target.value })}
+                  />
                 </div>
 
                 {currentRole === 'admin' && (
@@ -1975,13 +1973,25 @@ export default function TeamManagementPage() {
                 )}
 
                 <div className="form-group">
-                  <label className="form-label">Avatar Photo URL</label>
-                  <input
-                    type="url"
-                    className="form-input"
-                    value={editFormData.avatar || ''}
-                    onChange={(e) => setEditFormData({ ...editFormData, avatar: e.target.value })}
-                  />
+                  <label className="form-label">Profile Photo</label>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <AvatarUploadBadge
+                      currentAvatar={editFormData.avatar}
+                      onImageSelected={(newImg) => setEditFormData({ ...editFormData, avatar: newImg })}
+                      size={56}
+                      badgeSize={20}
+                      alt="Edit employee avatar"
+                    />
+                    <div style={{ flex: 1 }}>
+                      <input
+                        type="url"
+                        className="form-input"
+                        placeholder="Or enter image URL"
+                        value={editFormData.avatar || ''}
+                        onChange={(e) => setEditFormData({ ...editFormData, avatar: e.target.value })}
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '0.5rem' }}>
@@ -2014,6 +2024,35 @@ export default function TeamManagementPage() {
         title="Onboard New Team Member"
       >
         <form onSubmit={handleCreateEmployee} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          {/* Employee Avatar Preview & Upload with + badge */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1.25rem',
+              padding: '0.875rem 1rem',
+              background: 'var(--bg-card-hover, #f8fafc)',
+              borderRadius: 'var(--radius-md)',
+              border: '1px solid var(--border-subtle)',
+            }}
+          >
+            <AvatarUploadBadge
+              currentAvatar={addFormData.avatar}
+              onImageSelected={(newImg) => setAddFormData({ ...addFormData, avatar: newImg })}
+              size={68}
+              badgeSize={24}
+              alt="New employee profile"
+            />
+            <div>
+              <div style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--text-primary)' }}>
+                Employee Profile Picture
+              </div>
+              <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: '0.2rem 0 0 0' }}>
+                Click the + badge on the avatar to upload an employee photo
+              </p>
+            </div>
+          </div>
+
           <div className="form-group">
             <label className="form-label">Full Name *</label>
             <input
@@ -2095,12 +2134,10 @@ export default function TeamManagementPage() {
 
           <div className="form-group">
             <label className="form-label">Phone Number</label>
-            <input
-              type="text"
-              placeholder="+1 (555) 000-0000"
-              className="form-input"
+            <CountryPhoneInput
+              id="onboard-phone"
               value={addFormData.phone}
-              onChange={(e) => setAddFormData({ ...addFormData, phone: e.target.value })}
+              onChange={(fullVal) => setAddFormData({ ...addFormData, phone: fullVal })}
             />
           </div>
 
