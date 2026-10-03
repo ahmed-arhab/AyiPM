@@ -112,7 +112,7 @@ export default function Navbar() {
             gap: '0.5rem',
             color: 'var(--text-secondary)',
             fontSize: '0.8125rem',
-            background: '#f1f5f9',
+            background: 'var(--bg-elevated)',
             padding: '0.4rem 0.85rem',
             borderRadius: 'var(--radius-full)',
             border: '1px solid var(--border-subtle)',
@@ -137,7 +137,7 @@ export default function Navbar() {
           <button
             onClick={() => checkOut()}
             className="btn btn-secondary btn-sm"
-            style={{ color: '#dc2626', borderColor: '#fecaca', background: '#fef2f2' }}
+            style={{ color: 'var(--danger)', borderColor: 'var(--danger-border)', background: 'var(--danger-bg)' }}
             title="Log attendance check-out"
           >
             <LogOut size={15} />

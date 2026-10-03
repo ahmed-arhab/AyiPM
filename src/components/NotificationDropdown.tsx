@@ -187,7 +187,7 @@ export default function NotificationDropdown({ className }: NotificationDropdown
           width: '42px',
           height: '42px',
           borderRadius: 'var(--radius-lg)',
-          background: isOpen ? '#f1f5f9' : '#ffffff',
+          background: isOpen ? 'var(--bg-elevated)' : 'var(--bg-card)',
           border: isOpen ? '1px solid var(--primary)' : '1px solid var(--border-medium)',
           color: isOpen ? 'var(--primary)' : 'var(--text-secondary)',
           cursor: 'pointer',
@@ -196,14 +196,14 @@ export default function NotificationDropdown({ className }: NotificationDropdown
         }}
         onMouseEnter={(e) => {
           if (!isOpen) {
-            e.currentTarget.style.background = '#f8fafc';
+            e.currentTarget.style.background = 'var(--bg-card-hover)';
             e.currentTarget.style.borderColor = 'var(--primary)';
             e.currentTarget.style.color = 'var(--primary)';
           }
         }}
         onMouseLeave={(e) => {
           if (!isOpen) {
-            e.currentTarget.style.background = '#ffffff';
+            e.currentTarget.style.background = 'var(--bg-card)';
             e.currentTarget.style.borderColor = 'var(--border-medium)';
             e.currentTarget.style.color = 'var(--text-secondary)';
           }
@@ -229,7 +229,7 @@ export default function NotificationDropdown({ className }: NotificationDropdown
               fontWeight: 800,
               lineHeight: '20px',
               textAlign: 'center',
-              boxShadow: '0 2px 6px rgba(220, 38, 38, 0.45), 0 0 0 2px #ffffff',
+              boxShadow: '0 2px 6px rgba(220, 38, 38, 0.45), 0 0 0 2px var(--bg-card)',
               animation: unreadNotificationsCount > 0 ? 'pulse-alert 2.5s infinite ease-in-out' : 'none',
               display: 'flex',
               alignItems: 'center',
@@ -263,7 +263,7 @@ export default function NotificationDropdown({ className }: NotificationDropdown
             right: 0,
             top: 'calc(100% + 10px)',
             width: 'min(440px, calc(100vw - 24px))',
-            background: '#ffffff',
+            background: 'var(--bg-card)',
             border: '1px solid var(--border-medium)',
             borderRadius: 'var(--radius-xl)',
             boxShadow: '0 20px 45px -10px rgba(15, 23, 42, 0.16), 0 0 0 1px rgba(15, 23, 42, 0.04)',
@@ -279,7 +279,7 @@ export default function NotificationDropdown({ className }: NotificationDropdown
             style={{
               padding: '1.125rem 1.25rem 0.875rem 1.25rem',
               borderBottom: '1px solid var(--border-subtle)',
-              background: 'linear-gradient(to bottom, #ffffff, #fafafa)',
+              background: 'var(--bg-card)',
             }}
           >
             <div
@@ -343,7 +343,7 @@ export default function NotificationDropdown({ className }: NotificationDropdown
                       display: 'flex',
                       alignItems: 'center',
                       gap: '0.35rem',
-                      background: '#f8fafc',
+                      background: 'var(--bg-card-nested, #f8fafc)',
                       border: '1px solid var(--border-subtle)',
                       borderRadius: 'var(--radius-md)',
                       padding: '0.35rem 0.65rem',
@@ -354,12 +354,12 @@ export default function NotificationDropdown({ className }: NotificationDropdown
                       transition: 'all 0.15s ease',
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = '#e0f2fe';
+                      e.currentTarget.style.background = 'var(--primary-glow)';
                       e.currentTarget.style.color = 'var(--primary)';
-                      e.currentTarget.style.borderColor = '#bae6fd';
+                      e.currentTarget.style.borderColor = 'var(--border-focus)';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = '#f8fafc';
+                      e.currentTarget.style.background = 'var(--bg-card-nested, #f8fafc)';
                       e.currentTarget.style.color = 'var(--text-secondary)';
                       e.currentTarget.style.borderColor = 'var(--border-subtle)';
                     }}
@@ -478,7 +478,7 @@ export default function NotificationDropdown({ className }: NotificationDropdown
                 style={{
                   height: '36px',
                   padding: '0.15rem 0.5rem 0.15rem 0.75rem',
-                  background: '#f8fafc',
+                  background: 'var(--bg-card-nested, #f8fafc)',
                 }}
               >
                 <Search size={14} className="search-icon" />
@@ -512,7 +512,7 @@ export default function NotificationDropdown({ className }: NotificationDropdown
               maxHeight: '380px',
               overflowY: 'auto',
               overscrollBehavior: 'contain',
-              background: '#ffffff',
+              background: 'var(--bg-card)',
             }}
           >
             {filteredNotifications.length === 0 ? (
@@ -574,7 +574,7 @@ export default function NotificationDropdown({ className }: NotificationDropdown
                     onClick={() => setUnreadOnly(false)}
                     style={{
                       marginTop: '0.875rem',
-                      background: '#f8fafc',
+                      background: 'var(--bg-card-nested, #f8fafc)',
                       border: '1px solid var(--border-subtle)',
                       borderRadius: 'var(--radius-md)',
                       padding: '0.35rem 0.75rem',
@@ -605,15 +605,15 @@ export default function NotificationDropdown({ className }: NotificationDropdown
                       gap: '0.875rem',
                       padding: '0.875rem 1.125rem',
                       borderBottom: '1px solid var(--border-subtle)',
-                      background: item.read ? '#ffffff' : '#f8fafc',
+                      background: item.read ? 'var(--bg-card)' : 'var(--bg-card-hover)',
                       cursor: item.link ? 'pointer' : 'default',
                       transition: 'background 0.15s ease',
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = item.read ? '#f8fafc' : '#f0f9ff';
+                      e.currentTarget.style.background = item.read ? 'var(--bg-card-hover)' : 'var(--primary-glow)';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = item.read ? '#ffffff' : '#f8fafc';
+                      e.currentTarget.style.background = item.read ? 'var(--bg-card)' : 'var(--bg-card-hover)';
                     }}
                   >
                     {/* Unread pulse dot on the left */}

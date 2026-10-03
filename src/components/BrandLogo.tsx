@@ -48,7 +48,7 @@ export default function BrandLogo({
                 fontSize: size === 'sm' ? '0.95rem' : size === 'md' ? '1.2rem' : '1.45rem',
                 fontWeight: 800,
                 letterSpacing: '0.03em',
-                color: '#0f172a',
+                color: 'var(--text-primary)',
                 fontFamily: 'var(--font-sans)',
                 lineHeight: 1.1,
               }}

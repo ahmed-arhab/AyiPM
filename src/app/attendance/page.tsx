@@ -335,7 +335,7 @@ export default function AttendancePage() {
                   style={{
                     padding: '1rem',
                     borderRadius: 'var(--radius-md)',
-                    background: '#f8fafc',
+                    background: 'var(--bg-card-nested, #f8fafc)',
                     border: '1px solid var(--border-subtle)',
                     display: 'flex',
                     flexDirection: 'column',

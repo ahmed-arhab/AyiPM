@@ -593,7 +593,7 @@ export default function TeamManagementPage() {
                 className="btn-icon"
                 title="Grid Cards View"
                 style={{
-                  background: viewMode === 'grid' ? '#ffffff' : 'transparent',
+                  background: viewMode === 'grid' ? 'var(--bg-card)' : 'transparent',
                   color: viewMode === 'grid' ? 'var(--primary)' : 'var(--text-muted)',
                   boxShadow: viewMode === 'grid' ? 'var(--shadow-sm)' : 'none',
                   padding: '0.35rem 0.55rem',
@@ -610,7 +610,7 @@ export default function TeamManagementPage() {
                 className="btn-icon"
                 title="Data Table View"
                 style={{
-                  background: viewMode === 'table' ? '#ffffff' : 'transparent',
+                  background: viewMode === 'table' ? 'var(--bg-card)' : 'transparent',
                   color: viewMode === 'table' ? 'var(--primary)' : 'var(--text-muted)',
                   boxShadow: viewMode === 'table' ? 'var(--shadow-sm)' : 'none',
                   padding: '0.35rem 0.55rem',
@@ -774,7 +774,7 @@ export default function TeamManagementPage() {
                         height: '13px',
                         borderRadius: '50%',
                         backgroundColor: emp.status === 'active' ? 'var(--success)' : '#94a3b8',
-                        border: '2px solid #ffffff',
+                        border: '2px solid var(--bg-card)',
                       }}
                       title={emp.status === 'active' ? 'Active' : 'Inactive'}
                     />
@@ -852,7 +852,7 @@ export default function TeamManagementPage() {
                 {/* Contact & Location Strip */}
                 <div
                   style={{
-                    background: '#f8fafc',
+                    background: 'var(--bg-card-nested, #f8fafc)',
                     borderRadius: 'var(--radius-md)',
                     padding: '0.625rem 0.75rem',
                     display: 'flex',
@@ -1079,7 +1079,7 @@ export default function TeamManagementPage() {
                               height: '10px',
                               borderRadius: '50%',
                               backgroundColor: emp.status === 'active' ? 'var(--success)' : '#94a3b8',
-                              border: '2px solid #ffffff',
+                              border: '2px solid var(--bg-card)',
                             }}
                           />
                         </div>
@@ -1204,7 +1204,7 @@ export default function TeamManagementPage() {
                 alignItems: 'center',
                 gap: '1rem',
                 padding: '0.875rem 1rem',
-                background: '#f8fafc',
+                background: 'var(--bg-card-nested, #f8fafc)',
                 borderRadius: 'var(--radius-md)',
                 border: '1px solid var(--border-subtle)',
               }}
@@ -1288,7 +1288,7 @@ export default function TeamManagementPage() {
                         padding: '0.875rem 1rem',
                         borderRadius: 'var(--radius-md)',
                         border: isChecked ? '1.5px solid var(--primary)' : '1px solid var(--border-subtle)',
-                        background: isChecked ? 'rgba(2, 132, 199, 0.04)' : '#ffffff',
+                        background: isChecked ? 'var(--primary-glow)' : 'var(--bg-card)',
                         cursor: 'pointer',
                         transition: 'all 0.15s ease',
                       }}
@@ -1406,7 +1406,7 @@ export default function TeamManagementPage() {
                     height: '14px',
                     borderRadius: '50%',
                     backgroundColor: selectedMember.status === 'active' ? 'var(--success)' : '#94a3b8',
-                    border: '2px solid #ffffff',
+                    border: '2px solid var(--bg-card)',
                   }}
                 />
               </div>
@@ -1496,7 +1496,7 @@ export default function TeamManagementPage() {
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
                     gap: '0.875rem',
-                    background: '#f8fafc',
+                    background: 'var(--bg-card-nested, #f8fafc)',
                     padding: '1rem',
                     borderRadius: 'var(--radius-md)',
                     border: '1px solid var(--border-subtle)',
@@ -1544,22 +1544,22 @@ export default function TeamManagementPage() {
                     borderRadius: 'var(--radius-md)',
                     background:
                       selectedMember.role === 'admin'
-                        ? '#fef3c7'
+                        ? 'var(--warning-bg)'
                         : selectedMember.role === 'project_manager'
-                        ? '#e0f2fe'
-                        : '#ecfdf5',
+                        ? 'var(--info-bg)'
+                        : 'var(--success-bg)',
                     border:
                       selectedMember.role === 'admin'
-                        ? '1px solid #fcd34d'
+                        ? '1px solid var(--warning-border)'
                         : selectedMember.role === 'project_manager'
-                        ? '1px solid #7dd3fc'
-                        : '1px solid #a7f3d0',
+                        ? '1px solid var(--info-border)'
+                        : '1px solid var(--success-border)',
                   }}
                 >
                   <div style={{ fontWeight: 700, fontSize: '0.85rem', marginBottom: '0.25rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    {selectedMember.role === 'admin' && <Shield size={16} color="#92400e" />}
-                    {selectedMember.role === 'project_manager' && <Briefcase size={16} color="#0369a1" />}
-                    {selectedMember.role === 'employee' && <User size={16} color="#065f46" />}
+                    {selectedMember.role === 'admin' && <Shield size={16} color="var(--warning)" />}
+                    {selectedMember.role === 'project_manager' && <Briefcase size={16} color="var(--primary)" />}
+                    {selectedMember.role === 'employee' && <User size={16} color="var(--success)" />}
                     <span>Role Capabilities: {selectedMember.role.replace('_', ' ').toUpperCase()}</span>
                   </div>
                   <p style={{ fontSize: '0.8rem', lineHeight: 1.4, color: 'var(--text-secondary)' }}>
@@ -1575,7 +1575,7 @@ export default function TeamManagementPage() {
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>
                   <div
                     style={{
-                      background: '#ffffff',
+                      background: 'var(--bg-elevated)',
                       border: '1px solid var(--border-subtle)',
                       borderRadius: 'var(--radius-md)',
                       padding: '0.75rem',
@@ -1590,14 +1590,14 @@ export default function TeamManagementPage() {
 
                   <div
                     style={{
-                      background: '#ffffff',
+                      background: 'var(--bg-elevated)',
                       border: '1px solid var(--border-subtle)',
                       borderRadius: 'var(--radius-md)',
                       padding: '0.75rem',
                       textAlign: 'center',
                     }}
                   >
-                    <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#059669' }}>
+                    <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--success)' }}>
                       {tasks.filter((t) => t.assigneeId === selectedMember.id && t.status === 'done').length}
                     </div>
                     <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Tasks Completed</div>
@@ -1605,14 +1605,14 @@ export default function TeamManagementPage() {
 
                   <div
                     style={{
-                      background: '#ffffff',
+                      background: 'var(--bg-elevated)',
                       border: '1px solid var(--border-subtle)',
                       borderRadius: 'var(--radius-md)',
                       padding: '0.75rem',
                       textAlign: 'center',
                     }}
                   >
-                    <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#f59e0b' }}>
+                    <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--warning)' }}>
                       {tasks.filter((t) => t.assigneeId === selectedMember.id && t.status !== 'done').length}
                     </div>
                     <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Tasks In Flight</div>
@@ -1644,7 +1644,7 @@ export default function TeamManagementPage() {
                     style={{
                       padding: '2.5rem',
                       textAlign: 'center',
-                      background: '#f8fafc',
+                      background: 'var(--bg-card-nested, #f8fafc)',
                       borderRadius: 'var(--radius-md)',
                       color: 'var(--text-muted)',
                       border: '1px dashed var(--border-medium)',
@@ -1671,7 +1671,7 @@ export default function TeamManagementPage() {
                         style={{
                           padding: '0.875rem 1rem',
                           borderRadius: 'var(--radius-md)',
-                          background: '#f8fafc',
+                          background: 'var(--bg-card-nested, #f8fafc)',
                           border: '1px solid var(--border-subtle)',
                           display: 'flex',
                           flexDirection: 'column',
@@ -1726,7 +1726,7 @@ export default function TeamManagementPage() {
                         style={{
                           padding: '0.75rem 1rem',
                           borderRadius: 'var(--radius-md)',
-                          background: '#f8fafc',
+                          background: 'var(--bg-card-nested, #f8fafc)',
                           border: '1px solid var(--border-subtle)',
                           display: 'flex',
                           alignItems: 'center',
@@ -1870,7 +1870,7 @@ export default function TeamManagementPage() {
                               justifyContent: 'space-between',
                               alignItems: 'center',
                               padding: '0.5rem 0.75rem',
-                              background: '#f8fafc',
+                              background: 'var(--bg-card-nested, #f8fafc)',
                               borderRadius: 'var(--radius-sm)',
                               fontSize: '0.8125rem',
                             }}

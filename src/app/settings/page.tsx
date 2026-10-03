@@ -197,7 +197,7 @@ export default function SettingsPage() {
             background: 'var(--success-bg, #ecfdf5)',
             border: '1px solid var(--success-border, #a7f3d0)',
             borderRadius: 'var(--radius-md)',
-            color: '#065f46',
+            color: 'var(--success)',
             fontSize: '0.875rem',
             fontWeight: 600,
             boxShadow: 'var(--shadow-sm)',

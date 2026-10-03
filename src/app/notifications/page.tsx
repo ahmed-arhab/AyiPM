@@ -382,7 +382,7 @@ export default function NotificationsPage() {
                     padding: '0.45rem 0.85rem',
                     borderRadius: 'var(--radius-full)',
                     border: isSelected ? '1px solid var(--primary)' : '1px solid var(--border-subtle)',
-                    background: isSelected ? 'var(--primary)' : '#ffffff',
+                    background: isSelected ? 'var(--primary)' : 'var(--bg-card)',
                     color: isSelected ? '#ffffff' : 'var(--text-secondary)',
                     fontSize: '0.8125rem',
                     fontWeight: isSelected ? 700 : 500,
@@ -411,7 +411,7 @@ export default function NotificationsPage() {
               display: 'flex',
               alignItems: 'center',
               gap: '0.25rem',
-              background: '#f1f5f9',
+              background: 'var(--bg-elevated)',
               padding: '3px',
               borderRadius: 'var(--radius-lg)',
               border: '1px solid var(--border-subtle)',
@@ -432,7 +432,7 @@ export default function NotificationsPage() {
                   fontWeight: statusFilter === st.id ? 700 : 500,
                   borderRadius: 'var(--radius-md)',
                   border: 'none',
-                  background: statusFilter === st.id ? '#ffffff' : 'transparent',
+                  background: statusFilter === st.id ? 'var(--bg-card)' : 'transparent',
                   color: statusFilter === st.id ? 'var(--text-primary)' : 'var(--text-secondary)',
                   cursor: 'pointer',
                   boxShadow: statusFilter === st.id ? 'var(--shadow-sm)' : 'none',
@@ -553,16 +553,16 @@ export default function NotificationsPage() {
                     gap: '1.125rem',
                     padding: '1.125rem 1.5rem',
                     borderBottom: idx === filteredNotifications.length - 1 ? 'none' : '1px solid var(--border-subtle)',
-                    background: item.read ? '#ffffff' : '#f8fafc',
+                    background: item.read ? 'var(--bg-card)' : 'var(--bg-card-hover)',
                     cursor: item.link ? 'pointer' : 'default',
                     transition: 'all 0.15s ease',
                     position: 'relative',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = item.read ? '#f8fafc' : '#f0f9ff';
+                    e.currentTarget.style.background = item.read ? 'var(--bg-card-hover)' : 'var(--primary-glow)';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = item.read ? '#ffffff' : '#f8fafc';
+                    e.currentTarget.style.background = item.read ? 'var(--bg-card)' : 'var(--bg-card-hover)';
                   }}
                 >
                   {/* Left Unread Bar Indicator */}
