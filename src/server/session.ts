@@ -17,7 +17,8 @@ export async function startSession(userId: string, remember: boolean): Promise<D
   const token = createToken();
   const expiresAt = new Date(Date.now() + (remember ? REMEMBERED_SESSION_TTL_MS : SESSION_TTL_MS));
   await db.session.create({ data: { tokenHash: hashToken(token), userId, expiresAt } });
-  cookies().set(COOKIE_NAME, token, {
+  const cookieStore = await cookies();
+  cookieStore.set(COOKIE_NAME, token, {
     httpOnly: true,
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production',
@@ -28,13 +29,15 @@ export async function startSession(userId: string, remember: boolean): Promise<D
 }
 
 export async function endSession(): Promise<void> {
-  const token = cookies().get(COOKIE_NAME)?.value;
+  const cookieStore = await cookies();
+  const token = cookieStore.get(COOKIE_NAME)?.value;
   if (token) await db.session.deleteMany({ where: { tokenHash: hashToken(token) } });
-  cookies().delete(COOKIE_NAME);
+  cookieStore.delete(COOKIE_NAME);
 }
 
 export async function getSession(): Promise<{ user: User; expiresAt: Date } | null> {
-  const token = cookies().get(COOKIE_NAME)?.value;
+  const cookieStore = await cookies();
+  const token = cookieStore.get(COOKIE_NAME)?.value;
   if (!token) return null;
   const session = await db.session.findUnique({ where: { tokenHash: hashToken(token) }, include: { user: true } });
   if (!session || session.expiresAt.getTime() <= Date.now() || session.user.status !== 'active' || !session.user.passwordHash) {
