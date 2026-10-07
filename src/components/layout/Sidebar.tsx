@@ -14,6 +14,10 @@ import {
   Collapsible,
   CollapsibleTrigger,
 } from '@/components/animate-ui/primitives/radix/collapsible';
+import {
+  FilesHighlight,
+  FileHighlight,
+} from '@/components/animate-ui/primitives/base/files';
 import { BrandMark } from './BrandLogo';
 import styles from './Sidebar.module.css';
 
@@ -37,46 +41,48 @@ const NavLink = memo(function NavLink({
   const Icon = item.icon;
   const showBadge = badge !== undefined && badge !== 0 && !collapsed;
   return (
-    <Link
-      href={item.href}
-      className={cn(styles.link, active && styles.active)}
-      title={collapsed ? item.label : undefined}
-      aria-current={active ? 'page' : undefined}
-    >
-      <span className={styles.iconSlot}>
-        <Icon size={18} />
-      </span>
-      <AnimatePresence initial={false}>
-        {!collapsed && (
-          <motion.span
-            className={styles.linkLabel}
-            initial={{ opacity: 0, width: 0 }}
-            animate={{ opacity: 1, width: 'auto' }}
-            exit={{ opacity: 0, width: 0 }}
-            transition={{
-              width: { duration: 0.24, ease: [0.2, 0, 0, 1] },
-              opacity: { duration: 0.15, ease: 'easeInOut' },
-            }}
-            style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
-          >
-            {item.label}
-          </motion.span>
-        )}
-      </AnimatePresence>
-      <AnimatePresence initial={false}>
-        {showBadge && (
-          <motion.span
-            initial={{ opacity: 0, scale: 0.7 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.7 }}
-            transition={{ duration: 0.15, ease: 'easeOut' }}
-            className={cn('badge', item.badgeTone ? `badge-${item.badgeTone}` : 'badge-neutral', styles.badge)}
-          >
-            {badge}
-          </motion.span>
-        )}
-      </AnimatePresence>
-    </Link>
+    <FileHighlight asChild id={item.href}>
+      <Link
+        href={item.href}
+        className={cn(styles.link, active && styles.active)}
+        title={collapsed ? item.label : undefined}
+        aria-current={active ? 'page' : undefined}
+      >
+        <span className={styles.iconSlot}>
+          <Icon size={18} />
+        </span>
+        <AnimatePresence initial={false}>
+          {!collapsed && (
+            <motion.span
+              className={styles.linkLabel}
+              initial={{ opacity: 0, width: 0 }}
+              animate={{ opacity: 1, width: 'auto' }}
+              exit={{ opacity: 0, width: 0 }}
+              transition={{
+                width: { duration: 0.24, ease: [0.2, 0, 0, 1] },
+                opacity: { duration: 0.15, ease: 'easeInOut' },
+              }}
+              style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
+            >
+              {item.label}
+            </motion.span>
+          )}
+        </AnimatePresence>
+        <AnimatePresence initial={false}>
+          {showBadge && (
+            <motion.span
+              initial={{ opacity: 0, scale: 0.7 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.7 }}
+              transition={{ duration: 0.15, ease: 'easeOut' }}
+              className={cn('badge', item.badgeTone ? `badge-${item.badgeTone}` : 'badge-neutral', styles.badge)}
+            >
+              {badge}
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </Link>
+    </FileHighlight>
   );
 });
 
@@ -176,9 +182,15 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
                 </CollapsibleTrigger>
               </div>
             </div>
-            {NAV_ITEMS.map((item) => (
-              <NavLink key={item.href} item={item} active={isActive(pathname, item.href)} collapsed={collapsed} badge={badgeFor(item)} />
-            ))}
+            <FilesHighlight
+              containerClassName={styles.navGroup}
+              className={styles.highlightPill}
+              transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+            >
+              {NAV_ITEMS.map((item) => (
+                <NavLink key={item.href} item={item} active={isActive(pathname, item.href)} collapsed={collapsed} badge={badgeFor(item)} />
+              ))}
+            </FilesHighlight>
 
             <div className={styles.sectionHead}>
               <AnimatePresence initial={false}>
@@ -199,9 +211,15 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
                 )}
               </AnimatePresence>
             </div>
-            {ACCOUNT_NAV_ITEMS.map((item) => (
-              <NavLink key={item.href} item={item} active={isActive(pathname, item.href)} collapsed={collapsed} />
-            ))}
+            <FilesHighlight
+              containerClassName={styles.navGroup}
+              className={styles.highlightPill}
+              transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+            >
+              {ACCOUNT_NAV_ITEMS.map((item) => (
+                <NavLink key={item.href} item={item} active={isActive(pathname, item.href)} collapsed={collapsed} />
+              ))}
+            </FilesHighlight>
           </nav>
         </aside>
       </Collapsible>
