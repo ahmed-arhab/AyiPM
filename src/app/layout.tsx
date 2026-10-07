@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 import { JetBrains_Mono, Plus_Jakarta_Sans, Geist } from 'next/font/google';
 import './globals.css';
 import { AppProviders } from '@/components/layout/AppProviders';
@@ -28,7 +29,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={cn(jakarta.variable, jetbrains.variable, "font-sans", geist.variable)} suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }} />
+        <Script
+          id="theme-bootstrap"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }}
+        />
       </head>
       <body>
         <AppProviders>
