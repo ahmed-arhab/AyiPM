@@ -1,3 +1,5 @@
+'use client';
+
 import { useId } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import styles from './BrandLogo.module.css';
