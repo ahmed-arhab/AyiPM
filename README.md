@@ -39,11 +39,12 @@ Permissions are defined once in `src/constants/roles.ts`. The UI and the store a
 
 ## Getting started
 
-You need Node.js 18.17 or newer.
+You need Node.js 18.18 or newer. If you use [nvm](https://github.com/nvm-sh/nvm), run `nvm use` to select the supported version.
 
 ```bash
 git clone https://github.com/mahfoos/AyiPM.git
 cd AyiPM
+nvm use
 npm install
 cp .env.example .env
 npm run db:migrate
