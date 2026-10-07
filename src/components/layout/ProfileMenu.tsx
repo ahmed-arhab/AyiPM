@@ -12,6 +12,11 @@ import { RoleBadge } from '@/components/ui/Badge';
 import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { useConfirm } from '@/components/feedback/ConfirmProvider';
 import type { ThemeMode } from '@/types';
+import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from '@/components/animate-ui/primitives/radix/collapsible';
 import styles from './ProfileMenu.module.css';
 
 const THEME_OPTIONS = [
@@ -35,18 +40,35 @@ export function ProfileMenu() {
   };
 
   return (
-    <div ref={ref} className={styles.wrap}>
-      <button type="button" className={styles.trigger} onClick={toggle} aria-expanded={isOpen} aria-haspopup="menu">
-        <Avatar name={user.name} src={user.avatar} size={34} />
-        <span className={styles.identity}>
-          <span className={styles.name}>{user.name}</span>
-          <span className={styles.meta}>{user.employeeId}</span>
-        </span>
-        <ChevronDown size={14} className={styles.chevron} />
-      </button>
+    <Collapsible open={isOpen} onOpenChange={toggle} asChild>
+      <div ref={ref} className={styles.wrap}>
+        <CollapsibleTrigger asChild>
+          <button type="button" className={styles.trigger} aria-expanded={isOpen} aria-haspopup="menu">
+            <Avatar name={user.name} src={user.avatar} size={34} />
+            <span className={styles.identity}>
+              <span className={styles.name}>{user.name}</span>
+              <span className={styles.meta}>{user.employeeId}</span>
+            </span>
+            <ChevronDown
+              size={14}
+              className={styles.chevron}
+              style={{
+                transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+              }}
+            />
+          </button>
+        </CollapsibleTrigger>
 
-      {isOpen && (
-        <div className={styles.panel} role="menu">
+        <CollapsibleContent
+          className={styles.panel}
+          role="menu"
+          initial={{ opacity: 0, scale: 0.96, y: -6 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.96, y: -6 }}
+          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          style={{ transformOrigin: 'top right' }}
+        >
           <div className={styles.header}>
             <Avatar name={user.name} src={user.avatar} size={44} />
             <div className={styles.headerText}>
@@ -78,8 +100,8 @@ export function ProfileMenu() {
               Sign out
             </button>
           </div>
-        </div>
-      )}
-    </div>
+        </CollapsibleContent>
+      </div>
+    </Collapsible>
   );
 }

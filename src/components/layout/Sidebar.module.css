@@ -10,7 +10,8 @@
   top: 0;
   z-index: 30;
   overflow: hidden;
-  transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: width;
+  transition: width 0.26s cubic-bezier(0.2, 0, 0, 1);
 }
 
 .collapsed {
@@ -19,25 +20,42 @@
 
 .brand {
   height: 70px;
-  padding: 0 1.25rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.brandMarkSlot {
+  width: 72px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
 }
 
-.collapsed .brand {
-  padding: 0;
-  justify-content: center;
+.brandName {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.brandAccent {
+  color: var(--text-muted);
 }
 
 .nav {
   flex: 1;
-  padding: 0.75rem;
+  padding: 0.75rem 0;
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.25rem;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -45,14 +63,10 @@
 .sectionHead {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.6rem 0.5rem 0.25rem 0.75rem;
-  min-height: 32px;
-}
-
-.collapsed .sectionHead {
-  justify-content: center;
-  padding: 0.5rem 0;
+  height: 34px;
+  margin: 0.35rem 0.5rem 0.15rem;
+  overflow: hidden;
+  position: relative;
 }
 
 .sectionLabel {
@@ -61,6 +75,22 @@
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
+  padding-left: 0.75rem;
+  white-space: nowrap;
+}
+
+.collapseBtnSlot {
+  width: 56px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.collapsed .collapseBtnSlot {
+  margin-left: 0;
 }
 
 .collapseBtn {
@@ -71,15 +101,15 @@
 .link {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0.6rem 0.85rem;
+  height: 42px;
+  margin: 0 0.5rem;
   border-radius: var(--radius-md);
   border: 1px solid transparent;
   color: var(--text-secondary);
   text-decoration: none;
   font-size: 0.875rem;
   font-weight: 500;
+  overflow: hidden;
   transition: background var(--transition-fast), color var(--transition-fast);
 }
 
@@ -88,17 +118,20 @@
   color: var(--text-primary);
 }
 
-.collapsed .link {
-  justify-content: center;
-  padding: 0.65rem 0;
-}
-
-.linkMain {
+.iconSlot {
+  width: 56px;
+  height: 42px;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  min-width: 0;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.linkLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
   white-space: nowrap;
+  padding-right: 0.5rem;
 }
 
 .active,
@@ -114,6 +147,8 @@
   padding: 0.12rem 0.45rem;
   min-width: 20px;
   justify-content: center;
+  margin-left: auto;
+  margin-right: 0.65rem;
 }
 
 .mobileClose,

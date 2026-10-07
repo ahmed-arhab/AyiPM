@@ -11,6 +11,11 @@ import { ROUTES } from '@/constants/navigation';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { NotificationRow } from '@/features/notifications/components/NotificationRow';
 import type { NotificationItem } from '@/types';
+import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from '@/components/animate-ui/primitives/radix/collapsible';
 import styles from './NotificationBell.module.css';
 
 const PREVIEW_COUNT = 6;
@@ -33,20 +38,28 @@ export function NotificationBell() {
   );
 
   return (
-    <div ref={ref} className={styles.wrap}>
-      <button
-        type="button"
-        className={`icon-btn ${styles.trigger}`}
-        onClick={toggle}
-        aria-expanded={isOpen}
-        aria-label={unread > 0 ? `Notifications, ${unread} unread` : 'Notifications'}
-      >
-        <Bell size={19} />
-        {unread > 0 && <span className={styles.count}>{unread > 99 ? '99+' : unread}</span>}
-      </button>
+    <Collapsible open={isOpen} onOpenChange={toggle} asChild>
+      <div ref={ref} className={styles.wrap}>
+        <CollapsibleTrigger asChild>
+          <button
+            type="button"
+            className={`icon-btn ${styles.trigger}`}
+            aria-expanded={isOpen}
+            aria-label={unread > 0 ? `Notifications, ${unread} unread` : 'Notifications'}
+          >
+            <Bell size={19} />
+            {unread > 0 && <span className={styles.count}>{unread > 99 ? '99+' : unread}</span>}
+          </button>
+        </CollapsibleTrigger>
 
-      {isOpen && (
-        <div className={styles.panel}>
+        <CollapsibleContent
+          className={styles.panel}
+          initial={{ opacity: 0, scale: 0.96, y: -6 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.96, y: -6 }}
+          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          style={{ transformOrigin: 'top right' }}
+        >
           <div className={styles.header}>
             <h3 className="heading-md">Notifications</h3>
             {unread > 0 && (
@@ -66,8 +79,8 @@ export function NotificationBell() {
           <Link href={ROUTES.notifications} className={styles.footer} onClick={close}>
             View all notifications
           </Link>
-        </div>
-      )}
-    </div>
+        </CollapsibleContent>
+      </div>
+    </Collapsible>
   );
 }
