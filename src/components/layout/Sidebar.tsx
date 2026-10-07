@@ -3,13 +3,18 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { memo, useEffect, useState } from 'react';
-import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { ChevronLeft, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { useNavCounts } from '@/store';
 import { ACCOUNT_NAV_ITEMS, NAV_ITEMS, type NavItem } from '@/constants/navigation';
 import { storage } from '@/lib/storage';
 import { cn } from '@/lib/cn';
 import type { NavCounts } from '@/store/selectors';
-import { BrandLogo } from './BrandLogo';
+import {
+  Collapsible,
+  CollapsibleTrigger,
+} from '@/components/animate-ui/primitives/radix/collapsible';
+import { BrandMark } from './BrandLogo';
 import styles from './Sidebar.module.css';
 
 const COLLAPSE_KEY = 'ayipm:v2:sidebar-collapsed';
@@ -38,11 +43,39 @@ const NavLink = memo(function NavLink({
       title={collapsed ? item.label : undefined}
       aria-current={active ? 'page' : undefined}
     >
-      <span className={styles.linkMain}>
+      <span className={styles.iconSlot}>
         <Icon size={18} />
-        {!collapsed && <span>{item.label}</span>}
       </span>
-      {showBadge && <span className={cn('badge', item.badgeTone ? `badge-${item.badgeTone}` : 'badge-neutral', styles.badge)}>{badge}</span>}
+      <AnimatePresence initial={false}>
+        {!collapsed && (
+          <motion.span
+            className={styles.linkLabel}
+            initial={{ opacity: 0, width: 0 }}
+            animate={{ opacity: 1, width: 'auto' }}
+            exit={{ opacity: 0, width: 0 }}
+            transition={{
+              width: { duration: 0.24, ease: [0.2, 0, 0, 1] },
+              opacity: { duration: 0.15, ease: 'easeInOut' },
+            }}
+            style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
+          >
+            {item.label}
+          </motion.span>
+        )}
+      </AnimatePresence>
+      <AnimatePresence initial={false}>
+        {showBadge && (
+          <motion.span
+            initial={{ opacity: 0, scale: 0.7 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.7 }}
+            transition={{ duration: 0.15, ease: 'easeOut' }}
+            className={cn('badge', item.badgeTone ? `badge-${item.badgeTone}` : 'badge-neutral', styles.badge)}
+          >
+            {badge}
+          </motion.span>
+        )}
+      </AnimatePresence>
     </Link>
   );
 });
@@ -73,37 +106,105 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
   return (
     <>
       <div className={cn(styles.scrim, mobileOpen && styles.scrimVisible)} onClick={onMobileClose} aria-hidden />
-      <aside className={cn(styles.sidebar, collapsed && styles.collapsed, mobileOpen && styles.mobileOpen)} aria-label="Main navigation">
-        <div className={styles.brand}>
-          <BrandLogo size="md" showWordmark={!collapsed} />
-          <button type="button" className={cn('icon-btn', styles.mobileClose)} onClick={onMobileClose} aria-label="Close navigation">
-            <X size={18} />
-          </button>
-        </div>
-
-        <nav className={styles.nav}>
-          <div className={styles.sectionHead}>
-            {!collapsed && <span className={styles.sectionLabel}>Workspace</span>}
-            <button
-              type="button"
-              className={cn('icon-btn', styles.collapseBtn)}
-              onClick={toggleCollapsed}
-              aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-              title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            >
-              {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+      <Collapsible open={!collapsed} onOpenChange={toggleCollapsed} asChild>
+        <aside
+          className={cn(styles.sidebar, collapsed && styles.collapsed, mobileOpen && styles.mobileOpen)}
+          aria-label="Main navigation"
+        >
+          <div className={styles.brand}>
+            <div className={styles.brandMarkSlot}>
+              <BrandMark size={34} />
+            </div>
+            <AnimatePresence initial={false}>
+              {!collapsed && (
+                <motion.span
+                  className={styles.brandName}
+                  initial={{ opacity: 0, width: 0 }}
+                  animate={{ opacity: 1, width: 'auto' }}
+                  exit={{ opacity: 0, width: 0 }}
+                  transition={{
+                    width: { duration: 0.24, ease: [0.2, 0, 0, 1] },
+                    opacity: { duration: 0.15, ease: 'easeInOut' },
+                  }}
+                  style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
+                >
+                  Ayi<span className={styles.brandAccent}>PM</span>
+                </motion.span>
+              )}
+            </AnimatePresence>
+            <button type="button" className={cn('icon-btn', styles.mobileClose)} onClick={onMobileClose} aria-label="Close navigation">
+              <X size={18} />
             </button>
           </div>
-          {NAV_ITEMS.map((item) => (
-            <NavLink key={item.href} item={item} active={isActive(pathname, item.href)} collapsed={collapsed} badge={badgeFor(item)} />
-          ))}
 
-          <div className={styles.sectionHead}>{!collapsed && <span className={styles.sectionLabel}>Account</span>}</div>
-          {ACCOUNT_NAV_ITEMS.map((item) => (
-            <NavLink key={item.href} item={item} active={isActive(pathname, item.href)} collapsed={collapsed} />
-          ))}
-        </nav>
-      </aside>
+          <nav className={styles.nav}>
+            <div className={styles.sectionHead}>
+              <AnimatePresence initial={false}>
+                {!collapsed && (
+                  <motion.span
+                    initial={{ opacity: 0, width: 0 }}
+                    animate={{ opacity: 1, width: 'auto' }}
+                    exit={{ opacity: 0, width: 0 }}
+                    transition={{
+                      width: { duration: 0.24, ease: [0.2, 0, 0, 1] },
+                      opacity: { duration: 0.15, ease: 'easeInOut' },
+                    }}
+                    style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
+                    className={styles.sectionLabel}
+                  >
+                    Workspace
+                  </motion.span>
+                )}
+              </AnimatePresence>
+              <div className={styles.collapseBtnSlot}>
+                <CollapsibleTrigger asChild>
+                  <button
+                    type="button"
+                    className={cn('icon-btn', styles.collapseBtn)}
+                    onClick={toggleCollapsed}
+                    aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+                    title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+                  >
+                    <motion.span
+                      animate={{ rotate: collapsed ? 180 : 0 }}
+                      transition={{ duration: 0.24, ease: [0.2, 0, 0, 1] }}
+                      style={{ display: 'inline-flex' }}
+                    >
+                      <ChevronLeft size={16} />
+                    </motion.span>
+                  </button>
+                </CollapsibleTrigger>
+              </div>
+            </div>
+            {NAV_ITEMS.map((item) => (
+              <NavLink key={item.href} item={item} active={isActive(pathname, item.href)} collapsed={collapsed} badge={badgeFor(item)} />
+            ))}
+
+            <div className={styles.sectionHead}>
+              <AnimatePresence initial={false}>
+                {!collapsed && (
+                  <motion.span
+                    initial={{ opacity: 0, width: 0 }}
+                    animate={{ opacity: 1, width: 'auto' }}
+                    exit={{ opacity: 0, width: 0 }}
+                    transition={{
+                      width: { duration: 0.24, ease: [0.2, 0, 0, 1] },
+                      opacity: { duration: 0.15, ease: 'easeInOut' },
+                    }}
+                    style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
+                    className={styles.sectionLabel}
+                  >
+                    Account
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </div>
+            {ACCOUNT_NAV_ITEMS.map((item) => (
+              <NavLink key={item.href} item={item} active={isActive(pathname, item.href)} collapsed={collapsed} />
+            ))}
+          </nav>
+        </aside>
+      </Collapsible>
     </>
   );
 }
