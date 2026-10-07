@@ -7,12 +7,13 @@
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   max-width: 100%;
+  position: relative;
 }
 
 .option {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
   border: 1px solid transparent;
   background: transparent;
   color: var(--text-secondary);
@@ -23,7 +24,9 @@
   border-radius: var(--radius-sm);
   cursor: pointer;
   white-space: nowrap;
-  transition: background var(--transition-fast), color var(--transition-fast);
+  transition: color var(--transition-fast);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .sm .option {
@@ -36,10 +39,30 @@
 }
 
 .active {
-  background: var(--bg-card);
   color: var(--primary);
-  border-color: var(--border-subtle);
+}
+
+.indicator {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
   box-shadow: var(--shadow-sm);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.icon {
+  flex-shrink: 0;
 }
 
 .count {
@@ -50,6 +73,7 @@
   color: var(--text-secondary);
   min-width: 18px;
   text-align: center;
+  transition: background var(--transition-fast), color var(--transition-fast);
 }
 
 .active .count {

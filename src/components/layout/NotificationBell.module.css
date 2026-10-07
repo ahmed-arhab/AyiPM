@@ -5,7 +5,6 @@
 .trigger {
   width: 42px;
   height: 42px;
-  border: 1px solid var(--border-medium);
   background: var(--bg-card);
   position: relative;
 }

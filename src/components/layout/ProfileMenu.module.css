@@ -105,7 +105,28 @@
   padding: 0.25rem 0.5rem 0.4rem;
 }
 
+.itemGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  position: relative;
+}
+
+.highlightPill {
+  background: var(--bg-hover);
+  border-radius: var(--radius-md);
+  pointer-events: none;
+}
+
+.dangerHighlightPill {
+  background: var(--danger-glow, rgba(239, 68, 68, 0.1));
+  border-radius: var(--radius-md);
+  pointer-events: none;
+}
+
 .item {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 0.65rem;
@@ -120,10 +141,7 @@
   text-decoration: none;
   cursor: pointer;
   text-align: left;
-}
-
-.item:hover {
-  background: var(--bg-hover);
+  transition: color var(--transition-fast);
 }
 
 .danger {

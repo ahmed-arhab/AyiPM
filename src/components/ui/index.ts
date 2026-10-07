@@ -1,4 +1,4 @@
-export { Button, ButtonLink, IconButton, type ButtonVariant } from './Button';
+export { Button, ButtonLink, IconButton, RippleButton, RippleButtonRipples, type ButtonVariant } from './Button';
 export { Card, CardHeader } from './Card';
 export { Badge, StatusBadge, RoleBadge } from './Badge';
 export { Avatar, AvatarGroup } from './Avatar';

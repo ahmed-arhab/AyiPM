@@ -1,7 +1,13 @@
+'use client';
+
 import Link from 'next/link';
 import { forwardRef, type ButtonHTMLAttributes, type ComponentProps } from 'react';
 import { Loader2, type LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/cn';
+import {
+  RippleButton as RippleButtonPrimitive,
+  RippleButtonRipples,
+} from '@/components/animate-ui/primitives/buttons/ripple';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'success';
 export type ButtonSize = 'sm' | 'md';
@@ -17,27 +23,44 @@ function buttonClass({ variant = 'primary', size = 'md', fullWidth }: StyleProps
   return cn('btn', `btn-${variant}`, size === 'sm' && 'btn-sm', fullWidth && 'btn-block', className);
 }
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, StyleProps {
+type NativeButtonProps = Omit<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  'onAnimationStart' | 'onDrag' | 'onDragStart' | 'onDragEnd'
+>;
+
+export interface ButtonProps extends NativeButtonProps, StyleProps {
   loading?: boolean;
+  ripple?: boolean;
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
-  { variant, size, icon: Icon, fullWidth, loading, className, children, disabled, type = 'button', ...rest },
+  { variant, size, icon: Icon, fullWidth, loading, className, children, disabled, type = 'button', ripple = true, ...rest },
   ref
 ) {
   const iconSize = size === 'sm' ? 14 : 16;
   return (
-    <button
+    <RippleButtonPrimitive
       ref={ref}
       type={type}
       className={buttonClass({ variant, size, fullWidth }, className)}
       disabled={disabled || loading}
       aria-busy={loading || undefined}
+      hoverScale={1.01}
+      tapScale={0.98}
       {...rest}
     >
       {loading ? <Loader2 size={iconSize} className="spin" /> : Icon ? <Icon size={iconSize} /> : null}
       {children}
-    </button>
+      {ripple && !disabled && !loading && (
+        <RippleButtonRipples
+          color={
+            variant === 'primary' || variant === 'danger' || variant === 'success'
+              ? 'rgba(255, 255, 255, 0.35)'
+              : 'currentColor'
+          }
+        />
+      )}
+    </RippleButtonPrimitive>
   );
 });
 
@@ -52,27 +75,35 @@ export function ButtonLink({ variant, size, icon: Icon, fullWidth, className, ch
   );
 }
 
-interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface IconButtonProps extends NativeButtonProps {
   icon: LucideIcon;
   label: string;
   size?: number;
   active?: boolean;
+  ripple?: boolean;
 }
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(
-  { icon: Icon, label, size = 18, active, className, type = 'button', ...rest },
+  { icon: Icon, label, size = 18, active, className, type = 'button', ripple = true, disabled, ...rest },
   ref
 ) {
   return (
-    <button
+    <RippleButtonPrimitive
       ref={ref}
       type={type}
       aria-label={label}
       title={label}
       className={cn('icon-btn', active && 'icon-btn-active', className)}
+      hoverScale={1.04}
+      tapScale={0.95}
+      disabled={disabled}
       {...rest}
     >
       <Icon size={size} />
-    </button>
+      {ripple && !disabled && <RippleButtonRipples color="currentColor" />}
+    </RippleButtonPrimitive>
   );
 });
+
+export { RippleButtonPrimitive, RippleButtonRipples };
+export { RippleButton } from '@/components/animate-ui/components/buttons/ripple';

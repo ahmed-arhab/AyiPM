@@ -2,14 +2,13 @@
 
 import Link from 'next/link';
 import { useRef } from 'react';
-import { ChevronDown, LogOut, Monitor, Moon, Settings, Sun, UserCircle } from 'lucide-react';
-import { logout, setTheme, useCurrentUser, useTheme } from '@/store';
+import { ChevronDown, LogOut, Settings, UserCircle } from 'lucide-react';
+import { logout, useCurrentUser } from '@/store';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import { useDisclosure } from '@/hooks/useDisclosure';
 import { ROUTES } from '@/constants/navigation';
 import { Avatar } from '@/components/ui/Avatar';
 import { RoleBadge } from '@/components/ui/Badge';
-import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { useConfirm } from '@/components/feedback/ConfirmProvider';
 import type { ThemeMode } from '@/types';
 import {
@@ -19,15 +18,8 @@ import {
 } from '@/components/animate-ui/primitives/radix/collapsible';
 import styles from './ProfileMenu.module.css';
 
-const THEME_OPTIONS = [
-  { value: 'light' as ThemeMode, label: 'Light', icon: Sun },
-  { value: 'dark' as ThemeMode, label: 'Dark', icon: Moon },
-  { value: 'device' as ThemeMode, label: 'Auto', icon: Monitor },
-];
-
 export function ProfileMenu() {
   const user = useCurrentUser();
-  const theme = useTheme();
   const confirm = useConfirm();
   const { isOpen, toggle, close } = useDisclosure();
   const ref = useRef<HTMLDivElement>(null);
@@ -79,26 +71,39 @@ export function ProfileMenu() {
           </div>
 
           <div className={styles.section}>
-            <Link href={ROUTES.profile} className={styles.item} role="menuitem" onClick={close}>
-              <UserCircle size={16} />
-              My profile
-            </Link>
-            <Link href={ROUTES.settings} className={styles.item} role="menuitem" onClick={close}>
-              <Settings size={16} />
-              Settings
-            </Link>
+            <FilesHighlight
+              containerClassName={styles.itemGroup}
+              className={styles.highlightPill}
+              transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+            >
+              <FileHighlight id="profile" asChild>
+                <Link href={ROUTES.profile} className={styles.item} role="menuitem" onClick={close}>
+                  <UserCircle size={16} />
+                  My profile
+                </Link>
+              </FileHighlight>
+              <FileHighlight id="settings" asChild>
+                <Link href={ROUTES.settings} className={styles.item} role="menuitem" onClick={close}>
+                  <Settings size={16} />
+                  Settings
+                </Link>
+              </FileHighlight>
+            </FilesHighlight>
           </div>
 
           <div className={styles.section}>
-            <span className={styles.sectionLabel}>Theme</span>
-            <SegmentedControl label="Theme" size="sm" options={THEME_OPTIONS} value={theme} onChange={setTheme} />
-          </div>
-
-          <div className={styles.section}>
-            <button type="button" className={`${styles.item} ${styles.danger}`} role="menuitem" onClick={handleLogout}>
-              <LogOut size={16} />
-              Sign out
-            </button>
+            <FilesHighlight
+              containerClassName={styles.itemGroup}
+              className={styles.dangerHighlightPill}
+              transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+            >
+              <FileHighlight id="signout" asChild>
+                <button type="button" className={`${styles.item} ${styles.danger}`} role="menuitem" onClick={handleLogout}>
+                  <LogOut size={16} />
+                  Sign out
+                </button>
+              </FileHighlight>
+            </FilesHighlight>
           </div>
         </CollapsibleContent>
       </div>
