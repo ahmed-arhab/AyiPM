@@ -1,4 +1,7 @@
+'use client';
+
 import { useId } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import styles from './BrandLogo.module.css';
 
 const HEIGHTS = { sm: 26, md: 34, lg: 44 };
@@ -30,11 +33,24 @@ export function BrandLogo({ size = 'md', showWordmark = true, inverted }: BrandL
   return (
     <div className={inverted ? `${styles.brand} ${styles.inverted}` : styles.brand} data-size={size}>
       <BrandMark size={HEIGHTS[size]} />
-      {showWordmark && (
-        <span className={styles.name}>
-          Ayi<span className={styles.accent}>PM</span>
-        </span>
-      )}
+      <AnimatePresence initial={false}>
+        {showWordmark && (
+          <motion.span
+            className={styles.name}
+            initial={{ opacity: 0, width: 0, marginLeft: 0 }}
+            animate={{ opacity: 1, width: 'auto', marginLeft: 10 }}
+            exit={{ opacity: 0, width: 0, marginLeft: 0 }}
+            transition={{
+              width: { duration: 0.25, ease: [0.2, 0, 0, 1] },
+              marginLeft: { duration: 0.25, ease: [0.2, 0, 0, 1] },
+              opacity: { duration: 0.18, ease: 'easeInOut' },
+            }}
+            style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
+          >
+            Ayi<span className={styles.accent}>PM</span>
+          </motion.span>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
