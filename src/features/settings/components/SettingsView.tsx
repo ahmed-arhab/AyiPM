@@ -5,7 +5,6 @@ import { Settings } from 'lucide-react';
 import { PageHeader } from '@/components/ui';
 import { usePermission } from '@/store';
 import { SETTINGS_SECTIONS } from '../constants';
-import { AppearanceSection } from './AppearanceSection';
 import { NotificationSection } from './NotificationSection';
 import { ProfileLinkCard } from './ProfileLinkCard';
 import { RegionalSection } from './RegionalSection';
@@ -31,7 +30,6 @@ export function SettingsView() {
           <ProfileLinkCard />
         </aside>
         <div className={styles.sections}>
-          <AppearanceSection />
           <RegionalSection />
           <NotificationSection />
           {canManageWorkspace && <WorkspaceSection />}

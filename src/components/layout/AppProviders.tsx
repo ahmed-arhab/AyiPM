@@ -6,6 +6,7 @@ import { useHydrated, useTheme } from '@/store';
 import { applyTheme } from '@/lib/theme';
 import { ToastProvider } from '@/components/feedback/ToastProvider';
 import { ConfirmProvider } from '@/components/feedback/ConfirmProvider';
+import { GlobalRipple } from './GlobalRipple';
 
 function ThemeSync() {
   const theme = useTheme();
@@ -29,6 +30,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
     <ToastProvider>
       <ConfirmProvider>
         <ThemeSync />
+        <GlobalRipple />
         {children}
       </ConfirmProvider>
     </ToastProvider>

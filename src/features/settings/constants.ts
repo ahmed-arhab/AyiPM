@@ -13,18 +13,13 @@ export interface SettingsSectionMeta {
 }
 
 export const SETTINGS_SECTIONS: SettingsSectionMeta[] = [
-  { id: 'appearance', label: 'Appearance', icon: Palette },
   { id: 'regional', label: 'Language & region', icon: Globe },
   { id: 'notifications', label: 'Notifications', icon: Bell },
   { id: 'workspace', label: 'Workspace', icon: Building2, adminOnly: true },
   { id: 'reset', label: 'Reset preferences', icon: RotateCcw },
 ];
 
-export const THEME_OPTIONS: SegmentOption<ThemeMode>[] = [
-  { value: 'light', label: 'Light', icon: Sun },
-  { value: 'dark', label: 'Dark', icon: Moon },
-  { value: 'device', label: 'Device', icon: Monitor },
-];
+
 
 export const THEME_LABELS: Record<ThemeMode, string> = { light: 'Light', dark: 'Dark', device: 'Device' };
 

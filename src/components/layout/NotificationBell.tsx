@@ -48,9 +48,9 @@ export function NotificationBell() {
             aria-label={unread > 0 ? `Notifications, ${unread} unread` : 'Notifications'}
           >
             <Bell size={19} />
-            {unread > 0 && <span className={styles.count}>{unread > 99 ? '99+' : unread}</span>}
           </button>
         </CollapsibleTrigger>
+        {unread > 0 && <span className={styles.count}>{unread > 99 ? '99+' : unread}</span>}
 
         <CollapsibleContent
           className={styles.panel}

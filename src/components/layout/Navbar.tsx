@@ -6,6 +6,7 @@ import { CheckInButton } from './CheckInButton';
 import { GlobalSearch } from './GlobalSearch';
 import { NotificationBell } from './NotificationBell';
 import { ProfileMenu } from './ProfileMenu';
+import { ThemeTogglerButton } from '@/components/animate-ui/components/buttons/theme-toggler';
 import styles from './Navbar.module.css';
 
 export function Navbar({ onMenuClick }: { onMenuClick: () => void }) {
@@ -22,6 +23,10 @@ export function Navbar({ onMenuClick }: { onMenuClick: () => void }) {
         <GlobalSearch />
       </div>
       <div className={styles.right}>
+        <ThemeTogglerButton
+          modes={['light', 'dark']}
+          className="size-[42px] rounded-full cursor-pointer"
+        />
         <NotificationBell />
         <ProfileMenu />
       </div>

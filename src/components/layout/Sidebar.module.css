@@ -101,7 +101,22 @@
   height: 28px;
 }
 
+.navGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  position: relative;
+}
+
+.highlightPill {
+  background: var(--bg-hover);
+  border-radius: var(--radius-md);
+  pointer-events: none;
+}
+
 .link {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   height: 42px;
@@ -113,11 +128,10 @@
   font-size: 0.875rem;
   font-weight: 500;
   overflow: hidden;
-  transition: background var(--transition-fast), color var(--transition-fast);
+  transition: color var(--transition-fast);
 }
 
 .link:hover {
-  background: var(--bg-hover);
   color: var(--text-primary);
 }
 
