@@ -15,6 +15,17 @@
   gap: 0.4rem;
 }
 
+.idGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.idGroup .copyButton {
+  width: 28px;
+  height: 28px;
+}
+
 .badgeId {
   font-family: var(--font-mono);
   font-size: 0.75rem;
