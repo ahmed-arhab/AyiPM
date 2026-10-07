@@ -4,6 +4,7 @@ import { CalendarDays, CheckSquare } from 'lucide-react';
 import { AvatarGroup, ProgressBar, StatusBadge } from '@/components/ui';
 import { ROUTES } from '@/constants/navigation';
 import { cn } from '@/lib/cn';
+import { formatRelativeTime } from '@/lib/date';
 import type { ProjectProgress } from '@/store';
 import type { Employee, Project } from '@/types';
 import { resolveMembers } from '../utils';
@@ -46,6 +47,9 @@ export const ProjectCard = memo(function ProjectCard({ project, progress, employ
 
       <div className={styles.footer}>
         {members.length > 0 ? <AvatarGroup people={members} max={5} size={28} /> : <span className={styles.noTeam}>No team yet</span>}
+        <span className={styles.updated}>
+          Updated {formatRelativeTime(project.updatedAt)}
+        </span>
         <span className={styles.metaItem}>
           <CheckSquare size={13} />
           {total} {total === 1 ? 'task' : 'tasks'}
