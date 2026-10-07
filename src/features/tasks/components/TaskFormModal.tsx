@@ -12,6 +12,7 @@ import styles from './TaskFormModal.module.css';
 
 const PRIORITY_OPTIONS: SelectOption<TaskPriority>[] = TASK_PRIORITY_ORDER.map((p) => ({ value: p, label: TASK_PRIORITY[p].label }));
 const STATUS_OPTIONS: SelectOption<TaskStatus>[] = TASK_STATUS_ORDER.map((s) => ({ value: s, label: TASK_STATUS[s].label }));
+const DESCRIPTION_MAX_LENGTH = 2000;
 
 interface TaskFormModalProps {
   isOpen: boolean;
@@ -76,7 +77,16 @@ function TaskFormDialog({ task, defaultProjectId = '', onClose, onSaved }: Omit<
             onBlur={() => touch('title')}
           />
         </Field>
-        <Field label="Description" htmlFor={ids.description} hint="Acceptance criteria, links and notes.">
+        <Field
+          label="Description"
+          htmlFor={ids.description}
+          hint="Acceptance criteria, links and notes."
+          aside={
+            <span aria-live="polite">
+              {values.description.length}/{DESCRIPTION_MAX_LENGTH}
+            </span>
+          }
+        >
           <Textarea
             id={ids.description}
             rows={4}

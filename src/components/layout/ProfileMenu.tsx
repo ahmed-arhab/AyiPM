@@ -10,15 +10,12 @@ import { ROUTES } from '@/constants/navigation';
 import { Avatar } from '@/components/ui/Avatar';
 import { RoleBadge } from '@/components/ui/Badge';
 import { useConfirm } from '@/components/feedback/ConfirmProvider';
+import type { ThemeMode } from '@/types';
 import {
   Collapsible,
   CollapsibleTrigger,
   CollapsibleContent,
 } from '@/components/animate-ui/primitives/radix/collapsible';
-import {
-  FilesHighlight,
-  FileHighlight,
-} from '@/components/animate-ui/primitives/base/files';
 import styles from './ProfileMenu.module.css';
 
 export function ProfileMenu() {

@@ -128,7 +128,7 @@
   font-size: 0.875rem;
   font-weight: 500;
   overflow: hidden;
-  transition: color var(--transition-fast);
+  transition: background var(--transition-fast), color var(--transition-fast);
 }
 
 .link:hover {
