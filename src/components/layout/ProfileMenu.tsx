@@ -16,6 +16,10 @@ import {
   CollapsibleTrigger,
   CollapsibleContent,
 } from '@/components/animate-ui/primitives/radix/collapsible';
+import {
+  FilesHighlight,
+  FileHighlight,
+} from '@/components/animate-ui/primitives/base/files';
 import styles from './ProfileMenu.module.css';
 
 export function ProfileMenu() {
