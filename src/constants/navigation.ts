@@ -54,8 +54,8 @@ export const NAV_ITEMS: NavItem[] = [
 ];
 
 export const ACCOUNT_NAV_ITEMS: NavItem[] = [
-  { label: 'My Profile', href: ROUTES.profile, icon: UserCircle },
   { label: 'Settings', href: ROUTES.settings, icon: Settings },
+  { label: 'My Profile', href: ROUTES.profile, icon: UserCircle },
 ];
 
 export const AUTH_ROUTES: string[] = [ROUTES.login, ROUTES.forgotPassword, ROUTES.resetPassword, ROUTES.acceptInvite, ROUTES.setup];

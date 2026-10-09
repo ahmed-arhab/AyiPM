@@ -1,0 +1,36 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.scrollArea {
+  flex: 1;
+  min-height: 0;
+  max-height: 290px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 0.4rem;
+  margin-right: -0.4rem;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-default, rgba(120, 120, 120, 0.3)) transparent;
+}
+
+.scrollArea::-webkit-scrollbar {
+  width: 5px;
+}
+
+.scrollArea::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollArea::-webkit-scrollbar-thumb {
+  background: var(--border-default, rgba(120, 120, 120, 0.3));
+  border-radius: 9999px;
+}
+
+.scrollArea::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted, rgba(120, 120, 120, 0.6));
+}

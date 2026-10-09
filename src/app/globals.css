@@ -38,7 +38,7 @@
 
   --text-primary: var(--gray-900);
   --text-secondary: var(--gray-600);
-  --text-muted: var(--gray-400);
+  --text-muted: var(--gray-500);
 
   --primary: oklch(0.205 0 0);
   --primary-hover: var(--gray-700);
@@ -152,7 +152,7 @@
 
   --text-primary: var(--gray-25);
   --text-secondary: var(--gray-300);
-  --text-muted: var(--gray-500);
+  --text-muted: var(--gray-400);
 
   --primary: var(--gray-25);
   --primary-hover: var(--gray-200);

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import type { LucideIcon } from 'lucide-react';
+import { cn } from '@/lib/cn';
 import styles from './EmptyState.module.css';
 
 interface EmptyStateProps {
@@ -8,11 +9,12 @@ interface EmptyStateProps {
   description?: ReactNode;
   action?: ReactNode;
   compact?: boolean;
+  className?: string;
 }
 
-export function EmptyState({ icon: Icon, title, description, action, compact }: EmptyStateProps) {
+export function EmptyState({ icon: Icon, title, description, action, compact, className }: EmptyStateProps) {
   return (
-    <div className={compact ? `${styles.empty} ${styles.compact}` : styles.empty}>
+    <div className={cn(styles.empty, compact && styles.compact, className)}>
       <span className={styles.icon}>
         <Icon size={compact ? 20 : 26} />
       </span>
