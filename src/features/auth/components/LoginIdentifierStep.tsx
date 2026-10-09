@@ -1,4 +1,4 @@
-import { ArrowRight, AtSign } from 'lucide-react';
+import { AtSign } from 'lucide-react';
 import { Field, Input } from '@/components/ui';
 import { AuthSubmitButton } from './AuthSubmitButton';
 
@@ -9,6 +9,8 @@ interface LoginIdentifierStepProps {
 }
 
 export function LoginIdentifierStep({ value, error, onChange }: LoginIdentifierStepProps) {
+  const hasEnteredEmail = value.trim().length > 0;
+
   return (
     <>
       <Field label="Work email" htmlFor="login-identifier" error={error}>
@@ -28,10 +30,14 @@ export function LoginIdentifierStep({ value, error, onChange }: LoginIdentifierS
           autoFocus
         />
       </Field>
-      <AuthSubmitButton loading={false} loadingLabel="Continue">
+      <AuthSubmitButton
+        loading={false}
+        loadingLabel="Continue"
+        animateArrow={hasEnteredEmail}
+      >
         Continue
-        <ArrowRight size={16} />
       </AuthSubmitButton>
     </>
   );
 }
+

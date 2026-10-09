@@ -191,8 +191,10 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
                 <NavLink key={item.href} item={item} active={isActive(pathname, item.href)} collapsed={collapsed} badge={badgeFor(item)} />
               ))}
             </FilesHighlight>
+          </nav>
 
-            <div className={styles.sectionHead}>
+          <div className={styles.bottomSection}>
+            <div className={styles.accountHead}>
               <AnimatePresence initial={false}>
                 {!collapsed && (
                   <motion.span
@@ -220,7 +222,7 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
                 <NavLink key={item.href} item={item} active={isActive(pathname, item.href)} collapsed={collapsed} />
               ))}
             </FilesHighlight>
-          </nav>
+          </div>
         </aside>
       </Collapsible>
     </>

@@ -26,7 +26,7 @@ export function ProjectOverviewCard({ projects }: { projects: Project[] }) {
   );
 
   return (
-    <Card as="section">
+    <Card as="section" className={styles.card}>
       <CardHeader
         icon={FolderKanban}
         title="Project progress"
@@ -43,7 +43,7 @@ export function ProjectOverviewCard({ projects }: { projects: Project[] }) {
         ))}
       </ul>
       {top.length === 0 ? (
-        <EmptyState compact icon={FolderKanban} title="No active projects" description="Active projects and their progress will appear here." />
+        <EmptyState compact className={styles.empty} icon={FolderKanban} title="No active projects" description="Active projects and their progress will appear here." />
       ) : (
         <ul className={styles.list}>
           {top.map((p) => {

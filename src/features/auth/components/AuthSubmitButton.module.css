@@ -8,3 +8,35 @@
   cursor: not-allowed;
   transform: none;
 }
+
+.arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+  will-change: transform;
+}
+
+.submit:hover:not(:disabled) .arrow:not(.arrowAnimated) {
+  transform: translateX(3px);
+}
+
+.arrowAnimated {
+  animation: arrowNudge 1.2s ease-in-out infinite;
+}
+
+@keyframes arrowNudge {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  35% {
+    transform: translateX(4px);
+  }
+  70% {
+    transform: translateX(-1px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrowAnimated {
+    animation: none;
+  }
+}

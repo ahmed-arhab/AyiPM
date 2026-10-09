@@ -6,8 +6,9 @@ import { useActivityLog, useCurrentUser, useEmployeesById, usePermission } from 
 import type { ActivityLogItem } from '@/types';
 import { ActivityList } from '@/features/projects/components/ActivityList';
 import { CardLink } from './CardLink';
+import styles from './RecentActivityCard.module.css';
 
-const LIMIT = 8;
+const LIMIT = 20;
 
 export function RecentActivityCard() {
   const me = useCurrentUser();
@@ -25,7 +26,7 @@ export function RecentActivityCard() {
   }, [activityLog, seesAll, me.id]);
 
   return (
-    <Card as="section">
+    <Card as="section" className={styles.card}>
       <CardHeader
         icon={History}
         title="Recent activity"
@@ -35,7 +36,9 @@ export function RecentActivityCard() {
       {items.length === 0 ? (
         <EmptyState compact icon={History} title="No activity yet" description="Actions like creating projects, updating tasks and reviewing leave will show up here." />
       ) : (
-        <ActivityList items={items} employeesById={employeesById} />
+        <div className={styles.scrollArea}>
+          <ActivityList items={items} employeesById={employeesById} />
+        </div>
       )}
     </Card>
   );

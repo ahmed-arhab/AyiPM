@@ -25,7 +25,7 @@ export function TaskOverviewCard({ tasks, personal }: TaskOverviewCardProps) {
   const total = tasks.length;
 
   return (
-    <Card as="section">
+    <Card as="section" className={styles.card}>
       <CardHeader
         icon={CheckSquare}
         title={personal ? 'My task breakdown' : 'Task breakdown'}
@@ -33,7 +33,13 @@ export function TaskOverviewCard({ tasks, personal }: TaskOverviewCardProps) {
         actions={<CardLink href={ROUTES.tasks}>Board</CardLink>}
       />
       {total === 0 ? (
-        <EmptyState compact icon={CheckSquare} title="No tasks yet" description={personal ? 'Tasks assigned to you will appear here.' : 'Create tasks to see how work is distributed.'} />
+        <EmptyState
+          compact
+          className={styles.empty}
+          icon={CheckSquare}
+          title="No tasks yet"
+          description={personal ? 'Tasks assigned to you will appear here.' : 'Create tasks to see how work is distributed.'}
+        />
       ) : (
         <>
           <div className={styles.stack} aria-hidden>

@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr);
   gap: 1.5rem;
-  align-items: start;
+  align-items: stretch;
 }
 
 .column {
@@ -12,18 +12,23 @@
   min-width: 0;
 }
 
+.column > :last-child {
+  flex: 1;
+}
+
 .pair {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
-  align-items: start;
 }
 
 @media (max-width: 1180px) {
   .layout {
     grid-template-columns: 1fr;
+    align-items: start;
   }
 }
+
 
 @media (max-width: 400px) {
   .pair {

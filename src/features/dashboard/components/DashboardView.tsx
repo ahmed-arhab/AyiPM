@@ -21,7 +21,6 @@ export function DashboardView() {
   return (
     <div className="page-container">
       <DashboardHeader />
-      <GetStartedCard />
       <DashboardStats scope={scope} />
 
       <div className={styles.layout}>
