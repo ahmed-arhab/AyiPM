@@ -8,14 +8,16 @@ import {
   FilesHighlight,
   FileHighlight,
 } from '@/components/animate-ui/primitives/base/files';
+import { useT } from '@/translations';
 import styles from './SettingsNav.module.css';
 
 export function SettingsNav({ sections }: { sections: SettingsSectionMeta[] }) {
+  const { t } = useT();
   const ids = useMemo(() => sections.map((s) => s.id), [sections]);
   const active = useActiveSection(ids);
 
   return (
-    <nav className={styles.nav} aria-label="Settings sections">
+    <nav className={styles.nav} aria-label={t('Settings sections')}>
       <FilesHighlight
         containerClassName={styles.list}
         className={styles.highlightPill}
@@ -29,7 +31,7 @@ export function SettingsNav({ sections }: { sections: SettingsSectionMeta[] }) {
               aria-current={active === id ? 'true' : undefined}
             >
               <Icon size={16} />
-              <span>{label}</span>
+              <span>{t(label)}</span>
             </a>
           </FileHighlight>
         ))}

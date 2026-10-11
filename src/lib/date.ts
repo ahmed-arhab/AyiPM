@@ -26,18 +26,18 @@ export function formatDate(value: string | Date | undefined, format: DateFormat 
   return `${yyyy}-${mm}-${dd}`;
 }
 
-export function formatDateLong(value: string | Date | undefined): string {
+export function formatDateLong(value: string | Date | undefined, locale = 'en-US'): string {
   if (!value) return '—';
   const d = typeof value === 'string' ? (value.length === 10 ? parseDateKey(value) : new Date(value)) : value;
   if (Number.isNaN(d.getTime())) return '—';
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  return d.toLocaleDateString(locale, { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
-export function formatTime(value: string | Date | undefined, format: TimeFormat = '12h', withSeconds = false): string {
+export function formatTime(value: string | Date | undefined, format: TimeFormat = '12h', withSeconds = false, locale = 'en-US'): string {
   if (!value) return '—';
   const d = typeof value === 'string' ? new Date(value) : value;
   if (Number.isNaN(d.getTime())) return '—';
-  return d.toLocaleTimeString('en-US', {
+  return d.toLocaleTimeString(locale, {
     hour: '2-digit',
     minute: '2-digit',
     second: withSeconds ? '2-digit' : undefined,
@@ -45,12 +45,12 @@ export function formatTime(value: string | Date | undefined, format: TimeFormat 
   });
 }
 
-export function formatDateTime(value: string | undefined, dateFormat: DateFormat = 'YYYY-MM-DD', timeFormat: TimeFormat = '12h'): string {
+export function formatDateTime(value: string | undefined, dateFormat: DateFormat = 'YYYY-MM-DD', timeFormat: TimeFormat = '12h', locale = 'en-US'): string {
   if (!value) return '—';
-  return `${formatDate(value, dateFormat)} ${formatTime(value, timeFormat)}`;
+  return `${formatDate(value, dateFormat)} ${formatTime(value, timeFormat, false, locale)}`;
 }
 
-export function formatRelativeTime(iso: string, now: Date = new Date()): string {
+export function formatRelativeTime(iso: string, now: Date = new Date(), locale = 'en-US'): string {
   const past = new Date(iso);
   if (Number.isNaN(past.getTime())) return '—';
   const diffSec = Math.floor((now.getTime() - past.getTime()) / 1000);
@@ -62,7 +62,7 @@ export function formatRelativeTime(iso: string, now: Date = new Date()): string 
   const diffDays = Math.floor(diffHours / 24);
   if (diffDays === 1) return 'Yesterday';
   if (diffDays < 7) return `${diffDays}d ago`;
-  return past.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  return past.toLocaleDateString(locale, { month: 'short', day: 'numeric' });
 }
 
 export function hoursBetween(startIso: string, end: Date = new Date()): number {

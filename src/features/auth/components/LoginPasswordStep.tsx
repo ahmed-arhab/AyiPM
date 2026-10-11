@@ -3,6 +3,7 @@ import { Lock } from 'lucide-react';
 import { Field, PasswordInput } from '@/components/ui';
 import { ROUTES } from '@/constants/navigation';
 import { AuthSubmitButton } from './AuthSubmitButton';
+import { useT } from '@/translations';
 import styles from './LoginPasswordStep.module.css';
 
 interface LoginPasswordStepProps {
@@ -26,6 +27,8 @@ export function LoginPasswordStep({
   onRememberChange,
   onChangeIdentifier,
 }: LoginPasswordStepProps) {
+  const t = useT();
+
   return (
     <>
       <div className={styles.identity}>
@@ -33,17 +36,17 @@ export function LoginPasswordStep({
           {identifier}
         </span>
         <button type="button" className={styles.change} onClick={onChangeIdentifier} disabled={submitting}>
-          Change
+          {t('Change')}
         </button>
       </div>
       <input type="text" name="username" autoComplete="username" value={identifier} readOnly hidden />
-      <Field label="Password" htmlFor="login-password" error={error}>
+      <Field label={t('Password')} htmlFor="login-password" error={error}>
         <PasswordInput
           id="login-password"
           name="password"
           icon={Lock}
           autoComplete="current-password"
-          placeholder="Enter your password"
+          placeholder={t('Enter your password')}
           value={password}
           disabled={submitting}
           invalid={Boolean(error)}
@@ -54,14 +57,14 @@ export function LoginPasswordStep({
       <div className={styles.row}>
         <label className="auth-checkbox-wrap">
           <input type="checkbox" className="auth-checkbox" checked={remember} disabled={submitting} onChange={(e) => onRememberChange(e.target.checked)} />
-          <span className="auth-checkbox-label">Keep me signed in</span>
+          <span className="auth-checkbox-label">{t('Keep me signed in')}</span>
         </label>
         <Link href={ROUTES.forgotPassword} className="auth-link">
-          Can&apos;t log in?
+          {t("Can't log in?")}
         </Link>
       </div>
-      <AuthSubmitButton loading={submitting} loadingLabel="Signing in…">
-        Log in
+      <AuthSubmitButton loading={submitting} loadingLabel={t('Signing in…')}>
+        {t('Log in')}
       </AuthSubmitButton>
     </>
   );

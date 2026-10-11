@@ -12,8 +12,8 @@ export function greetingFor(date: Date = new Date()): string {
   return 'Good evening';
 }
 
-export function formatToday(date: Date = new Date()): string {
-  return date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+export function formatToday(date: Date = new Date(), locale: string = 'en-US'): string {
+  return date.toLocaleDateString(locale, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
 }
 
 export function firstName(name: string): string {

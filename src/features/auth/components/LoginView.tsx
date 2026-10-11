@@ -9,10 +9,12 @@ import { AuthCard } from './AuthCard';
 import { AuthSplitLayout } from './AuthSplitLayout';
 import { LoginIdentifierStep } from './LoginIdentifierStep';
 import { LoginPasswordStep } from './LoginPasswordStep';
+import { useT } from '@/translations';
 
 const INITIAL: LoginValues = { identifier: '', password: '', remember: false };
 
 export function LoginView() {
+  const t = useT();
   const [step, setStep] = useState<'identifier' | 'password'>('identifier');
   const { values, errors, formError, submitting, setField, submit, checkValid } = useAuthForm(
     INITIAL,
@@ -31,7 +33,7 @@ export function LoginView() {
 
   return (
     <AuthSplitLayout>
-      <AuthCard title="Log in to AyiPM" logoOnMobileOnly>
+      <AuthCard title={t('Log in to AyiPM')} logoOnMobileOnly>
         <FormError message={formError} />
         <form onSubmit={handleSubmit} className="auth-form" noValidate>
           {step === 'identifier' ? (

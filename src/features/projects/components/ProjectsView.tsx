@@ -8,6 +8,7 @@ import { useDisclosure } from '@/hooks/useDisclosure';
 import { ROUTES } from '@/constants/navigation';
 import { pluralize } from '@/lib/format';
 import { useEmployeesById, useFormatters, usePermission } from '@/store';
+import { useT } from '@/translations';
 import { useProjectList } from '../hooks/useProjectList';
 import { ProjectCard } from './ProjectCard';
 import { ProjectFormModal } from './ProjectFormModal';
@@ -28,6 +29,7 @@ function OpenFromQuery({ onOpen }: { onOpen: () => void }) {
 }
 
 export function ProjectsView() {
+  const { t, formatNumber } = useT();
   const canManage = usePermission('projects.manage');
   const employeesById = useEmployeesById();
   const { date } = useFormatters();
@@ -36,7 +38,7 @@ export function ProjectsView() {
 
   const newButton = canManage && (
     <Button icon={Plus} onClick={createModal.open}>
-      New project
+      {t('New project')}
     </Button>
   );
 
@@ -53,8 +55,13 @@ export function ProjectsView() {
         title="Projects"
         description={
           list.total > 0
-            ? `${pluralize(list.total, 'project')} · track delivery, deadlines and team assignments.`
-            : 'Track delivery, deadlines and team assignments across your workspace.'
+            ? t(
+                list.total === 1
+                  ? '{count} project · track delivery, deadlines and team assignments.'
+                  : '{count} projects · track delivery, deadlines and team assignments.',
+                { count: formatNumber(list.total) }
+              )
+            : t('Track delivery, deadlines and team assignments across your workspace.')
         }
         actions={newButton}
       />
@@ -63,11 +70,11 @@ export function ProjectsView() {
         <Card>
           <EmptyState
             icon={FolderKanban}
-            title="No projects yet"
+            title={t('No projects yet')}
             description={
               canManage
-                ? 'Create your first project to organise work, assign a team and track progress from its tasks.'
-                : 'Projects you are added to will appear here once an admin or project manager creates them.'
+                ? t('Create your first project to organise work, assign a team and track progress from its tasks.')
+                : t('Projects you are added to will appear here once an admin or project manager creates them.')
             }
             action={newButton}
           />
@@ -91,12 +98,12 @@ export function ProjectsView() {
             <Card>
               <EmptyState
                 icon={SearchX}
-                title="No matching projects"
-                description="Try a different search term or status filter."
+                title={t('No matching projects')}
+                description={t('Try a different search term or status filter.')}
                 action={
                   list.hasFilters && (
                     <Button variant="secondary" onClick={list.resetFilters}>
-                      Clear filters
+                      {t('Clear filters')}
                     </Button>
                   )
                 }

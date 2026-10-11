@@ -6,12 +6,14 @@ import { useActivityLog, useCurrentUser, useEmployeesById, usePermission } from 
 import type { ActivityLogItem } from '@/types';
 import { ActivityList } from '@/features/projects/components/ActivityList';
 import { CardLink } from './CardLink';
+import { useT } from '@/translations';
 import styles from './RecentActivityCard.module.css';
 
 const LIMIT = 20;
 
 export function RecentActivityCard() {
   const me = useCurrentUser();
+  const t = useT();
   const seesAll = usePermission('activity.viewAll');
   const activityLog = useActivityLog();
   const employeesById = useEmployeesById();
@@ -29,12 +31,12 @@ export function RecentActivityCard() {
     <Card as="section" className={styles.card}>
       <CardHeader
         icon={History}
-        title="Recent activity"
-        description={seesAll ? 'Across the workspace' : 'Your latest actions'}
-        actions={<CardLink href={ROUTES.activity}>View all</CardLink>}
+        title={t('Recent activity')}
+        description={seesAll ? t('Across the workspace') : t('Your latest actions')}
+        actions={<CardLink href={ROUTES.activity}>{t('View all')}</CardLink>}
       />
       {items.length === 0 ? (
-        <EmptyState compact icon={History} title="No activity yet" description="Actions like creating projects, updating tasks and reviewing leave will show up here." />
+        <EmptyState compact icon={History} title={t('No activity yet')} description={t('Actions like creating projects, updating tasks and reviewing leave will show up here.')} />
       ) : (
         <div className={styles.scrollArea}>
           <ActivityList items={items} employeesById={employeesById} />

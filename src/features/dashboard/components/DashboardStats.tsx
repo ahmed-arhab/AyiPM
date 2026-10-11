@@ -14,12 +14,14 @@ import {
   usePermission,
   useWorkspace,
 } from '@/store';
+import { useT } from '@/translations';
 import { usePendingApprovals } from '../hooks/usePendingApprovals';
 import type { DashboardScope } from '../hooks/useDashboardScope';
 import { isOpenTask, isTaskOverdue } from '../utils';
 
 function AttendanceStat() {
   const me = useCurrentUser();
+  const t = useT();
   const seesAll = usePermission('attendance.viewAll');
   const present = useAppStore(selectTodayAttendanceCount);
   const active = useAppStore((s) => selectActiveEmployees(s.employees).length);
@@ -31,56 +33,59 @@ function AttendanceStat() {
   if (seesAll) {
     return (
       <StatCard
-        label="Attendance today"
-        value={`${present}/${active}`}
+        label={t('Attendance today')}
+        value={`${t.formatNumber(present)}/${t.formatNumber(active)}`}
         icon={Clock}
         accent="var(--success)"
-        hint={active > 0 ? `${percent(present, active)}% of active members checked in` : 'No active members yet'}
+        hint={active > 0 ? t('{percent}% of active members checked in', { percent: t.formatNumber(percent(present, active)) }) : t('No active members yet')}
       />
     );
   }
   return (
     <StatCard
-      label="My attendance today"
-      value={myStatus ? ATTENDANCE_STATUS[myStatus].label : 'Not checked in'}
+      label={t('My attendance today')}
+      value={myStatus ? t(ATTENDANCE_STATUS[myStatus].label) : t('Not checked in')}
       icon={Clock}
       accent="var(--success)"
-      hint={myStatus ? 'Recorded for today' : 'Use Check In in the top bar to start your day'}
+      hint={myStatus ? t('Recorded for today') : t('Use Check In in the top bar to start your day')}
     />
   );
 }
 
 function PendingApprovalsStat() {
   const pending = usePendingApprovals();
+  const t = useT();
   return (
     <StatCard
-      label="Pending leave approvals"
-      value={pending.length}
+      label={t('Pending leave approvals')}
+      value={t.formatNumber(pending.length)}
       icon={PlaneTakeoff}
       accent="var(--warning)"
-      hint={pending.length > 0 ? 'Awaiting your review' : 'Nothing waiting on you'}
+      hint={pending.length > 0 ? t('Awaiting your review') : t('Nothing waiting on you')}
     />
   );
 }
 
 function LeaveBalanceStat() {
   const me = useCurrentUser();
+  const t = useT();
   const requests = useLeaveRequests();
   const { leaveAllowance } = useWorkspace();
   const balance = useMemo(() => computeLeaveBalance(requests, me.id, leaveAllowance), [requests, me.id, leaveAllowance]);
   const remaining = (b: { total: number; used: number }) => Math.max(0, b.total - b.used);
   return (
     <StatCard
-      label="Annual leave remaining"
-      value={`${remaining(balance.annual)} / ${balance.annual.total}`}
+      label={t('Annual leave remaining')}
+      value={`${t.formatNumber(remaining(balance.annual))} / ${t.formatNumber(balance.annual.total)}`}
       icon={PlaneTakeoff}
       accent="var(--accent-strong)"
-      hint={`${remaining(balance.sick)} sick · ${remaining(balance.casual)} casual days left`}
+      hint={t('{sick} sick · {casual} casual days left', { sick: t.formatNumber(remaining(balance.sick)), casual: t.formatNumber(remaining(balance.casual)) })}
     />
   );
 }
 
 export function DashboardStats({ scope }: { scope: DashboardScope }) {
+  const t = useT();
   const canReview = usePermission('leave.review');
   const { projects, tasks, seesAllProjects, seesAllTasks } = scope;
 
@@ -93,9 +98,9 @@ export function DashboardStats({ scope }: { scope: DashboardScope }) {
     const now = new Date();
     let open = 0;
     let overdue = 0;
-    tasks.forEach((t) => {
-      if (isOpenTask(t)) open += 1;
-      if (isTaskOverdue(t, now)) overdue += 1;
+    tasks.forEach((item) => {
+      if (isOpenTask(item)) open += 1;
+      if (isTaskOverdue(item, now)) overdue += 1;
     });
     return { open, overdue };
   }, [tasks]);
@@ -103,17 +108,27 @@ export function DashboardStats({ scope }: { scope: DashboardScope }) {
   return (
     <StatGrid>
       <StatCard
-        label={seesAllProjects ? 'Active projects' : 'My active projects'}
-        value={projectStats.active}
+        label={t(seesAllProjects ? 'Active projects' : 'My active projects')}
+        value={t.formatNumber(projectStats.active)}
         icon={FolderKanban}
-        hint={projects.length > 0 ? `${projectStats.completed} completed · ${pluralize(projects.length, 'project')} total` : 'No projects yet'}
+        hint={
+          projects.length > 0
+            ? `${t.formatNumber(projectStats.completed)} ${t('completed')} · ${t.formatNumber(projects.length)} ${t('projects total')}`
+            : t('No projects yet')
+        }
       />
       <StatCard
-        label={seesAllTasks ? 'Open tasks' : 'My open tasks'}
-        value={taskStats.open}
+        label={t(seesAllTasks ? 'Open tasks' : 'My open tasks')}
+        value={t.formatNumber(taskStats.open)}
         icon={CheckSquare}
         accent="var(--accent-soft)"
-        hint={taskStats.overdue > 0 ? <span className="text-danger">{taskStats.overdue} overdue</span> : 'Nothing overdue'}
+        hint={
+          taskStats.overdue > 0 ? (
+            <span className="text-danger">{t('{overdue} overdue', { overdue: t.formatNumber(taskStats.overdue) })}</span>
+          ) : (
+            t('Nothing overdue')
+          )
+        }
       />
       <AttendanceStat />
       {canReview ? <PendingApprovalsStat /> : <LeaveBalanceStat />}

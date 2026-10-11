@@ -1,8 +1,8 @@
 import { memo } from 'react';
 import { CheckSquare, FolderKanban, Mail, MapPin, UserCheck, UserX } from 'lucide-react';
 import { Button, Card, IconButton, RoleBadge } from '@/components/ui';
+import { useT } from '@/translations';
 import { cn } from '@/lib/cn';
-import { pluralize } from '@/lib/format';
 import type { Employee } from '@/types';
 import { MemberIdentity } from './MemberIdentity';
 import { MemberStatusBadge } from './MemberStatusBadge';
@@ -30,6 +30,7 @@ export const MemberCard = memo(function MemberCard({
   onAssign,
   onToggleStatus,
 }: MemberCardProps) {
+  const { t, formatNumber } = useT();
   const active = member.status === 'active';
   return (
     <Card as="article" className={cn(styles.card, !active && styles.inactive)}>
@@ -62,21 +63,21 @@ export const MemberCard = memo(function MemberCard({
       <div className={styles.metrics}>
         <span>
           <FolderKanban size={14} />
-          {pluralize(projectCount, 'project')}
+          {formatNumber(projectCount)} {t(projectCount === 1 ? 'project' : 'projects')}
         </span>
         <span>
           <CheckSquare size={14} />
-          {pluralize(openTasks, 'open task')}
+          {formatNumber(openTasks)} {t(openTasks === 1 ? 'task' : 'tasks')}
         </span>
       </div>
 
       <div className={styles.footer}>
         <Button variant="secondary" size="sm" className={styles.grow} onClick={() => onOpen(member.id)}>
-          View profile
+          {t('View profile')}
         </Button>
         {onAssign && (
           <Button variant="outline" size="sm" icon={FolderKanban} onClick={() => onAssign(member)}>
-            Projects
+            {t('Projects')}
           </Button>
         )}
         {onToggleStatus && !isSelf && (

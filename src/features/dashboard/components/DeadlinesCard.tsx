@@ -4,6 +4,7 @@ import { CalendarClock, CheckSquare, FolderKanban } from 'lucide-react';
 import { Card, CardHeader, EmptyState } from '@/components/ui';
 import { cn } from '@/lib/cn';
 import { useFormatters, useProjectsById } from '@/store';
+import { useT } from '@/translations';
 import type { Project, Task } from '@/types';
 import { DeadlineLabel } from '@/features/projects/components/DeadlineLabel';
 import { DEADLINE_HORIZON_DAYS, buildDeadlines } from '../utils';
@@ -18,6 +19,7 @@ interface DeadlinesCardProps {
 }
 
 export function DeadlinesCard({ projects, tasks, personal }: DeadlinesCardProps) {
+  const t = useT();
   const projectsById = useProjectsById();
   const { date } = useFormatters();
   const items = useMemo(() => buildDeadlines(projects, tasks), [projects, tasks]);
@@ -27,16 +29,21 @@ export function DeadlinesCard({ projects, tasks, personal }: DeadlinesCardProps)
     <Card as="section">
       <CardHeader
         icon={CalendarClock}
-        title="Deadlines"
-        description={`Overdue and due in the next ${DEADLINE_HORIZON_DAYS} days${personal ? ' · your work' : ''}`}
+        title={t('Deadlines')}
+        description={`${t('Overdue and due in the next {days} days', { days: t.formatNumber(DEADLINE_HORIZON_DAYS) })}${personal ? t('· your work') : ''}`}
       />
       {visible.length === 0 ? (
-        <EmptyState compact icon={CalendarClock} title="Nothing due soon" description={`No open tasks or projects are due in the next ${DEADLINE_HORIZON_DAYS} days.`} />
+        <EmptyState
+          compact
+          icon={CalendarClock}
+          title={t('Nothing due soon')}
+          description={t('No open tasks or projects are due in the next {days} days.', { days: t.formatNumber(DEADLINE_HORIZON_DAYS) })}
+        />
       ) : (
         <ul className={styles.list}>
           {visible.map((item) => {
             const Icon = item.kind === 'project' ? FolderKanban : CheckSquare;
-            const context = item.kind === 'project' ? 'Project deadline' : projectsById.get(item.projectId ?? '')?.name ?? 'Task';
+            const context = item.kind === 'project' ? t('Project deadline') : projectsById.get(item.projectId ?? '')?.name ?? t('Task');
             return (
               <li key={`${item.kind}-${item.id}`}>
                 <Link href={item.href} className={styles.row}>
@@ -56,7 +63,11 @@ export function DeadlinesCard({ projects, tasks, personal }: DeadlinesCardProps)
           })}
         </ul>
       )}
-      {items.length > LIMIT && <p className={styles.more}>+{items.length - LIMIT} more upcoming</p>}
+      {items.length > LIMIT && (
+        <p className={styles.more}>
+          {t('+{count} more upcoming', { count: t.formatNumber(items.length - LIMIT) })}
+        </p>
+      )}
     </Card>
   );
 }

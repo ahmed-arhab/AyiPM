@@ -1,8 +1,9 @@
 'use client';
 
-import { Suspense, useCallback, useState } from 'react';
+import { Suspense, useCallback, useMemo, useState } from 'react';
 import { CheckSquare, Columns3, List, Plus, SearchX } from 'lucide-react';
 import { Button, EmptyState, PageHeader, SegmentedControl, Spinner, type SegmentOption } from '@/components/ui';
+import { useT } from '@/translations';
 import { useAppStore, usePermission } from '@/store';
 import { useTaskFilters } from '../hooks/useTaskFilters';
 import { useTaskUrlGuards } from '../hooks/useTaskUrlGuards';
@@ -36,6 +37,7 @@ export function TasksView() {
 }
 
 function TasksPage() {
+  const { t } = useT();
   const url = useTaskUrlState();
   const { view, taskId, projectId, isCreating, setParams } = url;
   const canManage = usePermission('tasks.manage');
@@ -67,6 +69,14 @@ function TasksPage() {
 
   const canCreate = canManage && hasProjects;
 
+  const viewOptions = useMemo<SegmentOption<TaskView>[]>(
+    () => [
+      { value: 'board', label: t('Board'), icon: Columns3 },
+      { value: 'list', label: t('List'), icon: List },
+    ],
+    [t]
+  );
+
   return (
     <div className="page-container">
       <PageHeader
@@ -76,14 +86,14 @@ function TasksPage() {
         actions={
           <>
             <SegmentedControl
-              label="Task view"
-              options={VIEW_OPTIONS}
+              label={t('Task view')}
+              options={viewOptions}
               value={view}
               onChange={(v) => setParams({ view: v === 'list' ? 'list' : null })}
             />
             {canCreate && (
               <Button icon={Plus} onClick={openCreate}>
-                New task
+                {t('New task')}
               </Button>
             )}
           </>

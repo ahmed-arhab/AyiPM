@@ -1,6 +1,7 @@
 import { CalendarCheck, KanbanSquare, PlaneTakeoff, ShieldCheck, type LucideIcon } from 'lucide-react';
 import { BrandLogo } from '@/components/layout/BrandLogo';
 import { AuthIllustration } from './AuthIllustration';
+import { useT } from '@/translations';
 import styles from './AuthShowcase.module.css';
 
 const FEATURES: { icon: LucideIcon; text: string }[] = [
@@ -11,12 +12,14 @@ const FEATURES: { icon: LucideIcon; text: string }[] = [
 ];
 
 export function AuthShowcase() {
+  const t = useT();
+
   return (
-    <aside className={styles.showcase} aria-label="About AyiPM">
+    <aside className={styles.showcase} aria-label={t('About AyiPM')}>
       <BrandLogo size="lg" inverted />
       <div className={styles.copy}>
-        <h2 className={styles.headline}>Your team&apos;s projects, time and leave in one place.</h2>
-        <p className={styles.lead}>AyiPM replaces scattered spreadsheets and chat threads with one workspace for the whole team.</p>
+        <h2 className={styles.headline}>{t("Your team's projects, time and leave in one place.")}</h2>
+        <p className={styles.lead}>{t('AyiPM replaces scattered spreadsheets and chat threads with one workspace for the whole team.')}</p>
       </div>
       <AuthIllustration className={styles.illustration} />
       <ul className={styles.features}>
@@ -25,7 +28,7 @@ export function AuthShowcase() {
             <span className={styles.featureIcon}>
               <Icon size={16} />
             </span>
-            {text}
+            {t(text)}
           </li>
         ))}
       </ul>

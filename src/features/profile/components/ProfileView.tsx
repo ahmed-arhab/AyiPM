@@ -4,6 +4,7 @@ import { Settings, UserCircle } from 'lucide-react';
 import { ButtonLink, PageHeader } from '@/components/ui';
 import { useCurrentUser } from '@/store';
 import { ROUTES } from '@/constants/navigation';
+import { useT } from '@/translations';
 import { AccountInfoCard } from './AccountInfoCard';
 import { ChangePasswordForm } from './ChangePasswordForm';
 import { EditProfileForm } from './EditProfileForm';
@@ -12,6 +13,7 @@ import styles from './ProfileView.module.css';
 
 export function ProfileView() {
   const user = useCurrentUser();
+  const { t } = useT();
 
   return (
     <div className="page-container">
@@ -21,7 +23,7 @@ export function ProfileView() {
         description="Manage your personal details, profile photo and password."
         actions={
           <ButtonLink href={ROUTES.settings} variant="secondary" icon={Settings}>
-            Preferences
+            {t('Preferences')}
           </ButtonLink>
         }
       />

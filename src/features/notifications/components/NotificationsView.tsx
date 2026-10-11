@@ -12,9 +12,11 @@ import { NotificationFilterBar } from './NotificationFilterBar';
 import { NotificationList } from './NotificationList';
 import { NotificationPreferencesHint } from './NotificationPreferencesHint';
 import { NotificationStats } from './NotificationStats';
+import { useT } from '@/translations';
 import styles from './NotificationsView.module.css';
 
 export function NotificationsView() {
+  const { t, formatNumber } = useT();
   const notifications = useMyNotifications();
   const unread = useUnreadCount();
   const { filters, update, reset, filterKey, counts, filtered } = useNotificationFilters(notifications);
@@ -29,16 +31,18 @@ export function NotificationsView() {
         title="Notifications"
         description={
           unread > 0
-            ? `You have ${pluralize(unread, 'unread notification')}. Task handoffs, leave reviews, attendance and project updates land here.`
-            : "You're all caught up. Task handoffs, leave reviews, attendance and project updates land here."
+            ? t('You have {count} unread notifications. Task handoffs, leave reviews, attendance and project updates land here.', {
+                count: formatNumber(unread),
+              })
+            : t("You're all caught up. Task handoffs, leave reviews, attendance and project updates land here.")
         }
         actions={
           <>
             <Button variant="secondary" size="sm" icon={CheckCheck} onClick={markAllRead} disabled={unread === 0}>
-              Mark all read
+              {t('Mark all read')}
             </Button>
             <Button variant="ghost" size="sm" icon={Trash2} onClick={clearAll} disabled={!hasAny}>
-              Clear all
+              {t('Clear all')}
             </Button>
           </>
         }

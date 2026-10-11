@@ -1,5 +1,6 @@
 import { CheckSquare, FolderPlus, Plus } from 'lucide-react';
 import { Button, ButtonLink, EmptyState } from '@/components/ui';
+import { useT } from '@/translations';
 import { ROUTES } from '@/constants/navigation';
 
 interface TasksEmptyStateProps {
@@ -10,6 +11,8 @@ interface TasksEmptyStateProps {
 }
 
 export function TasksEmptyState({ hasProjects, canCreateTask, canCreateProject, onCreateTask }: TasksEmptyStateProps) {
+  const { t } = useT();
+
   if (!hasProjects) {
     return (
       <div className="card">
@@ -24,7 +27,7 @@ export function TasksEmptyState({ hasProjects, canCreateTask, canCreateProject, 
           action={
             canCreateProject && (
               <ButtonLink href={ROUTES.projects} icon={FolderPlus}>
-                Go to projects
+                {t('Go to projects')}
               </ButtonLink>
             )
           }
@@ -45,7 +48,7 @@ export function TasksEmptyState({ hasProjects, canCreateTask, canCreateProject, 
         action={
           canCreateTask && (
             <Button icon={Plus} onClick={onCreateTask}>
-              Create the first task
+              {t('Create the first task')}
             </Button>
           )
         }

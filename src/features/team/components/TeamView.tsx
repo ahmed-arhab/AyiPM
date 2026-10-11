@@ -3,6 +3,7 @@
 import { Suspense, useCallback, useMemo, useState } from 'react';
 import { UserPlus, Users } from 'lucide-react';
 import { useCurrentUser, usePermission, useProjects } from '@/store';
+import { useT } from '@/translations';
 import { Button, PageHeader } from '@/components/ui';
 import type { Employee } from '@/types';
 import { useMemberActions } from '../hooks/useMemberActions';
@@ -18,6 +19,7 @@ import { TeamStats } from './TeamStats';
 import { TeamToolbar } from './TeamToolbar';
 
 export function TeamView() {
+  const { t } = useT();
   const currentUser = useCurrentUser();
   const canManage = usePermission('employees.manage');
   const canAssign = usePermission('projects.manage');
@@ -53,7 +55,7 @@ export function TeamView() {
         actions={
           canManage && (
             <Button icon={UserPlus} onClick={openAdd}>
-              Add member
+              {t('Add member')}
             </Button>
           )
         }

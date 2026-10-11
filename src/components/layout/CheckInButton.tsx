@@ -5,9 +5,11 @@ import { toDateKey } from '@/lib/date';
 import { checkIn, checkOut, useAppStore } from '@/store';
 import { Button } from '@/components/ui/Button';
 import { useToast } from '@/components/feedback/ToastProvider';
+import { useT } from '@/translations';
 
 export function CheckInButton() {
   const toast = useToast();
+  const t = useT();
   const state = useAppStore((s) => {
     const userId = s.session?.userId;
     const today = toDateKey();
@@ -28,11 +30,11 @@ export function CheckInButton() {
         icon={LogOut}
         onClick={() => {
           const result = checkOut();
-          if (result.ok) toast.success('Checked out. Have a good evening!');
+          if (result.ok) toast.success(t('Checked out. Have a good evening!'));
           else toast.error(result.error);
         }}
       >
-        Check Out
+        {t('Check Out')}
       </Button>
     );
   }
@@ -43,11 +45,11 @@ export function CheckInButton() {
       icon={CheckCircle2}
       onClick={() => {
         const result = checkIn();
-        if (result.ok) toast.success(result.data.status === 'late' ? 'Checked in (after grace period).' : 'Checked in on time.');
+        if (result.ok) toast.success(result.data.status === 'late' ? t('Checked in (after grace period).') : t('Checked in on time.'));
         else toast.error(result.error);
       }}
     >
-      Check In
+      {t('Check In')}
     </Button>
   );
 }

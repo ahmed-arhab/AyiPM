@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { FolderKanban, UserCheck, UserX } from 'lucide-react';
 import { DataTable, IconButton, RoleBadge, type Column } from '@/components/ui';
+import { useT } from '@/translations';
 import type { Employee, Project } from '@/types';
 import type { MemberRowHandlers } from './MemberCard';
 import { MemberIdentity } from './MemberIdentity';
@@ -15,17 +16,19 @@ interface MemberTableProps extends MemberRowHandlers {
 }
 
 export function MemberTable({ members, currentUserId, projectsByMember, openTaskCounts, onOpen, onAssign, onToggleStatus }: MemberTableProps) {
+  const { t, formatNumber } = useT();
+
   const columns = useMemo<Column<Employee>[]>(() => {
     const base: Column<Employee>[] = [
       {
         key: 'member',
-        header: 'Member',
+        header: t('Member'),
         render: (m) => <MemberIdentity member={m} isSelf={m.id === currentUserId} size={36} subtitle={m.email} />,
       },
-      { key: 'employeeId', header: 'Employee ID', render: (m) => <span className={styles.mono}>{m.employeeId}</span> },
+      { key: 'employeeId', header: t('Employee ID'), render: (m) => <span className={styles.mono}>{m.employeeId}</span> },
       {
         key: 'designation',
-        header: 'Designation',
+        header: t('Designation'),
         render: (m) => (
           <span className={styles.stack}>
             <span>{m.designation}</span>
@@ -33,10 +36,10 @@ export function MemberTable({ members, currentUserId, projectsByMember, openTask
           </span>
         ),
       },
-      { key: 'role', header: 'Role', render: (m) => <RoleBadge role={m.role} /> },
-      { key: 'status', header: 'Status', render: (m) => <MemberStatusBadge member={m} /> },
-      { key: 'projects', header: 'Projects', align: 'center', render: (m) => projectsByMember.get(m.id)?.length ?? 0 },
-      { key: 'tasks', header: 'Open tasks', align: 'center', render: (m) => openTaskCounts.get(m.id) ?? 0 },
+      { key: 'role', header: t('Role'), render: (m) => <RoleBadge role={m.role} /> },
+      { key: 'status', header: t('Status'), render: (m) => <MemberStatusBadge member={m} /> },
+      { key: 'projects', header: t('Projects'), align: 'center', render: (m) => formatNumber(projectsByMember.get(m.id)?.length ?? 0) },
+      { key: 'tasks', header: t('Open tasks'), align: 'center', render: (m) => formatNumber(openTaskCounts.get(m.id) ?? 0) },
     ];
     if (!onAssign && !onToggleStatus) return base;
     return [
