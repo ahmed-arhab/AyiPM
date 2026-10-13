@@ -36,3 +36,25 @@
     grid-template-columns: 1fr;
   }
 }
+
+.tabContent {
+  width: 100%;
+  position: relative;
+}
+
+@keyframes tabSlideFromSidebar {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.tabFallback {
+  animation: tabSlideFromSidebar 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}

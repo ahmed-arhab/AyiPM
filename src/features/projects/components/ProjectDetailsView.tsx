@@ -22,6 +22,8 @@ import { ProjectProgressCard } from './ProjectProgressCard';
 import { ProjectTasksCard } from './ProjectTasksCard';
 import { ProjectTeamCard } from './ProjectTeamCard';
 import { ProjectTodoList } from './ProjectTodoList';
+import { startSlideTransition } from '@/components/animate-ui/primitives/effects/theme-toggler';
+import { cn } from '@/lib/cn';
 import styles from './ProjectDetailsView.module.css';
 
 type EditMode = 'closed' | 'details' | 'members';
@@ -61,6 +63,7 @@ function ProjectDetailsContent({ projectId }: { projectId?: string }) {
   const [activeTab, setActiveTab] = useState<ProjectTab>(
     initialTab === 'board' || initialTab === 'overview' ? initialTab : 'todo'
   );
+  const hasViewTransition = typeof document !== 'undefined' && 'startViewTransition' in document;
 
   const [editMode, setEditMode] = useState<EditMode>('closed');
   const [activeTaskId, setActiveTaskId] = useState<string | null>(searchParams.get('task') || null);
@@ -74,7 +77,15 @@ function ProjectDetailsContent({ projectId }: { projectId?: string }) {
 
   const handleTabChange = useCallback(
     (nextTab: ProjectTab) => {
-      setActiveTab(nextTab);
+      if (nextTab === activeTab) return;
+
+      startSlideTransition(
+        () => {
+          setActiveTab(nextTab);
+        },
+        { direction: 'ltr', duration: 650, easing: 'ease-in-out' }
+      );
+
       const params = new URLSearchParams(window.location.search);
       if (nextTab === 'todo') {
         params.delete('tab');
@@ -84,7 +95,7 @@ function ProjectDetailsContent({ projectId }: { projectId?: string }) {
       const query = params.toString();
       router.replace(`${window.location.pathname}${query ? `?${query}` : ''}`, { scroll: false });
     },
-    [router]
+    [activeTab, router]
   );
 
   const openTask = useCallback(
@@ -204,60 +215,62 @@ function ProjectDetailsContent({ projectId }: { projectId?: string }) {
         />
       </div>
 
-      {/* Tab: Things To Do (Organized by Due Date Timeline) */}
-      {activeTab === 'todo' && (
-        <div className={styles.todoLayout}>
-          <div className={styles.todoMain}>
-            <ProjectTodoList
-              projectId={project.id}
+      <div key={activeTab} className={cn(styles.tabContent, !hasViewTransition && styles.tabFallback)}>
+        {/* Tab: Things To Do (Organized by Due Date Timeline) */}
+        {activeTab === 'todo' && (
+          <div className={styles.todoLayout}>
+            <div className={styles.todoMain}>
+              <ProjectTodoList
+                projectId={project.id}
+                tasks={tasks}
+                canManage={canManageTasks}
+                onOpenTask={openTask}
+                onEditTask={startEditTask}
+                onCreateTask={openCreateTask}
+              />
+            </div>
+            <aside className={styles.todoSide}>
+              <ProjectProgressCard projectId={project.id} tasks={tasks} />
+              <ProjectDeadlineCard project={project} />
+              <ProjectTeamCard project={project} canManage={canManageProjects} onManage={() => setEditMode('members')} />
+            </aside>
+          </div>
+        )}
+
+        {/* Tab: Kanban Board */}
+        {activeTab === 'board' && (
+          <div className={styles.boardLayout}>
+            <ProjectKanbanTab
               tasks={tasks}
               canManage={canManageTasks}
               onOpenTask={openTask}
-              onEditTask={startEditTask}
               onCreateTask={openCreateTask}
             />
           </div>
-          <aside className={styles.todoSide}>
-            <ProjectProgressCard projectId={project.id} tasks={tasks} />
-            <ProjectDeadlineCard project={project} />
-            <ProjectTeamCard project={project} canManage={canManageProjects} onManage={() => setEditMode('members')} />
-          </aside>
-        </div>
-      )}
+        )}
 
-      {/* Tab: Kanban Board */}
-      {activeTab === 'board' && (
-        <div className={styles.boardLayout}>
-          <ProjectKanbanTab
-            tasks={tasks}
-            canManage={canManageTasks}
-            onOpenTask={openTask}
-            onCreateTask={openCreateTask}
-          />
-        </div>
-      )}
-
-      {/* Tab: Project Overview */}
-      {activeTab === 'overview' && (
-        <div className={styles.layout}>
-          <div className={styles.main}>
-            <ProjectInfoCard project={project} />
-            <ProjectProgressCard projectId={project.id} tasks={tasks} />
-            <ProjectTasksCard
-              projectId={project.id}
-              tasks={tasks}
-              onSwitchToTodo={() => handleTabChange('todo')}
-              onOpenTask={openTask}
-              onCreateTask={openCreateTask}
-            />
+        {/* Tab: Project Overview */}
+        {activeTab === 'overview' && (
+          <div className={styles.layout}>
+            <div className={styles.main}>
+              <ProjectInfoCard project={project} />
+              <ProjectProgressCard projectId={project.id} tasks={tasks} />
+              <ProjectTasksCard
+                projectId={project.id}
+                tasks={tasks}
+                onSwitchToTodo={() => handleTabChange('todo')}
+                onOpenTask={openTask}
+                onCreateTask={openCreateTask}
+              />
+            </div>
+            <aside className={styles.side}>
+              <ProjectDeadlineCard project={project} />
+              <ProjectTeamCard project={project} canManage={canManageProjects} onManage={() => setEditMode('members')} />
+              <ProjectActivityCard projectId={project.id} tasks={tasks} />
+            </aside>
           </div>
-          <aside className={styles.side}>
-            <ProjectDeadlineCard project={project} />
-            <ProjectTeamCard project={project} canManage={canManageProjects} onManage={() => setEditMode('members')} />
-            <ProjectActivityCard projectId={project.id} tasks={tasks} />
-          </aside>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Modals for Task and Project management */}
       <TaskDetailModal taskId={activeTaskId} onClose={closeTask} onEdit={startEditTask} />
