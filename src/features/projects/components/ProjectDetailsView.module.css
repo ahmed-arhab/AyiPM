@@ -1,12 +1,29 @@
-.layout {
+.tabBar {
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.layout,
+.todoLayout {
   display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+  grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr);
   gap: 1.5rem;
   align-items: start;
 }
 
 .main,
-.side {
+.todoMain,
+.side,
+.todoSide {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+.boardLayout {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -14,7 +31,8 @@
 }
 
 @media (max-width: 1080px) {
-  .layout {
+  .layout,
+  .todoLayout {
     grid-template-columns: 1fr;
   }
 }

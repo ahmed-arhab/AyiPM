@@ -3,6 +3,7 @@ import { ProjectDetailsView } from '@/features/projects/components/ProjectDetail
 
 export const metadata: Metadata = { title: 'Project details' };
 
-export default function ProjectDetailsPage({ params }: { params: { id: string } }) {
-  return <ProjectDetailsView projectId={decodeURIComponent(params.id)} />;
+export default async function ProjectDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
+  return <ProjectDetailsView projectId={decodeURIComponent(resolvedParams.id)} />;
 }
