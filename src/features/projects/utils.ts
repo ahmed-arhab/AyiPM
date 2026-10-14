@@ -119,3 +119,122 @@ export function describeDeadline(endDate: string | undefined, completed = false,
   if (days <= 7) return { label: `${pluralize(days, 'day')} left`, tone: 'warning', days };
   return { label: `${pluralize(days, 'day')} left`, tone: 'muted', days };
 }
+
+export type DueTimelineKey = 'overdue' | 'today' | 'tomorrow' | 'this_week' | 'later' | 'no_due_date' | 'completed';
+
+export interface DueTimelineGroup {
+  key: DueTimelineKey;
+  label: string;
+  description: string;
+  tone: 'danger' | 'warning' | 'info' | 'primary' | 'muted' | 'success';
+  tasks: Task[];
+}
+
+export function groupTasksByDueTimeline(tasks: Task[], now: Date = new Date()): DueTimelineGroup[] {
+  const overdue: Task[] = [];
+  const today: Task[] = [];
+  const tomorrow: Task[] = [];
+  const thisWeek: Task[] = [];
+  const later: Task[] = [];
+  const noDueDate: Task[] = [];
+  const completed: Task[] = [];
+
+  tasks.forEach((task) => {
+    if (task.status === 'done') {
+      completed.push(task);
+      return;
+    }
+    if (!task.dueDate) {
+      noDueDate.push(task);
+      return;
+    }
+    const days = daysUntil(task.dueDate, now);
+    if (days < 0) {
+      overdue.push(task);
+    } else if (days === 0) {
+      today.push(task);
+    } else if (days === 1) {
+      tomorrow.push(task);
+    } else if (days <= 7) {
+      thisWeek.push(task);
+    } else {
+      later.push(task);
+    }
+  });
+
+  const sortByDue = (a: Task, b: Task) =>
+    (a.dueDate || '9999').localeCompare(b.dueDate || '9999') ||
+    TASK_PRIORITY[a.priority].rank - TASK_PRIORITY[b.priority].rank;
+
+  overdue.sort(sortByDue);
+  today.sort(sortByDue);
+  tomorrow.sort(sortByDue);
+  thisWeek.sort(sortByDue);
+  later.sort(sortByDue);
+  noDueDate.sort((a, b) => TASK_PRIORITY[a.priority].rank - TASK_PRIORITY[b.priority].rank || a.title.localeCompare(b.title));
+  completed.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+
+  return [
+    {
+      key: 'overdue',
+      label: 'Overdue',
+      description: 'Past due date — needs immediate attention',
+      tone: 'danger',
+      tasks: overdue,
+    },
+    {
+      key: 'today',
+      label: 'Due Today',
+      description: 'Must be completed before end of day',
+      tone: 'warning',
+      tasks: today,
+    },
+    {
+      key: 'tomorrow',
+      label: 'Due Tomorrow',
+      description: 'Scheduled for tomorrow',
+      tone: 'info',
+      tasks: tomorrow,
+    },
+    {
+      key: 'this_week',
+      label: 'This Week',
+      description: 'Due in the next 7 days',
+      tone: 'primary',
+      tasks: thisWeek,
+    },
+    {
+      key: 'later',
+      label: 'Later / Upcoming',
+      description: 'Scheduled for upcoming dates',
+      tone: 'muted',
+      tasks: later,
+    },
+    {
+      key: 'no_due_date',
+      label: 'No Due Date',
+      description: 'Unscheduled tasks',
+      tone: 'muted',
+      tasks: noDueDate,
+    },
+    {
+      key: 'completed',
+      label: 'Completed',
+      description: 'Finished tasks',
+      tone: 'success',
+      tasks: completed,
+    },
+  ];
+}
+
+export function formatDueRelative(dueDate: string | undefined, completed = false, now: Date = new Date()): { label: string; overdue: boolean; isToday: boolean } {
+  if (completed) return { label: 'Completed', overdue: false, isToday: false };
+  if (!dueDate) return { label: 'No due date', overdue: false, isToday: false };
+  const days = daysUntil(dueDate, now);
+  if (days < 0) return { label: `${pluralize(-days, 'day')} overdue`, overdue: true, isToday: false };
+  if (days === 0) return { label: 'Due today', overdue: false, isToday: true };
+  if (days === 1) return { label: 'Tomorrow', overdue: false, isToday: false };
+  if (days <= 7) return { label: `In ${days} days`, overdue: false, isToday: false };
+  return { label: dueDate, overdue: false, isToday: false };
+}
+
