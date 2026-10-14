@@ -1,5 +1,6 @@
 import { daysUntil } from '@/lib/date';
 import { matchesQuery, pluralize } from '@/lib/format';
+import { toCsv } from '@/lib/csv';
 import { PROJECT_STATUS, TASK_PRIORITY, TASK_STATUS_ORDER } from '@/constants/status';
 import type { ProjectProgress } from '@/store';
 import type { Employee, Project, ProjectStatus, Task, TaskStatus } from '@/types';
@@ -52,6 +53,32 @@ export function resolveMembers(ids: string[], employeesById: Map<string, Employe
     if (employee) members.push(employee);
   });
   return members;
+}
+
+const PROJECTS_CSV_HEADER = ['Name', 'Client', 'Status', 'Manager', 'Members', 'Start Date', 'End Date', 'Progress', 'Budget'];
+
+export function buildProjectsCsv(
+  projects: Project[],
+  employeesById: Map<string, Employee>,
+  progress: Map<string, ProjectProgress>,
+  formatDate: (value?: string) => string
+): string {
+  return toCsv([
+    PROJECTS_CSV_HEADER,
+    ...projects.map((p) => [
+      p.name,
+      p.client,
+      PROJECT_STATUS[p.status].label,
+      (p.managerId && employeesById.get(p.managerId)?.name) ?? '',
+      resolveMembers(p.members, employeesById)
+        .map((m) => m.name)
+        .join('; '),
+      formatDate(p.startDate),
+      formatDate(p.endDate),
+      `${progress.get(p.id)?.progress ?? 0}%`,
+      p.budget ?? '',
+    ]),
+  ]);
 }
 
 export function isManagerRole(employee: Employee): boolean {

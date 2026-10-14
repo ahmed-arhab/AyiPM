@@ -1,8 +1,9 @@
-import { TASK_PRIORITY, TASK_STATUS_ORDER } from '@/constants/status';
+import { TASK_PRIORITY, TASK_STATUS, TASK_STATUS_ORDER } from '@/constants/status';
 import { daysUntil } from '@/lib/date';
 import { matchesQuery } from '@/lib/format';
+import { toCsv } from '@/lib/csv';
 import type { FieldErrors } from '@/lib/validation';
-import type { Project, Task, TaskInput, TaskPriority, TaskStatus, TaskUpdate } from '@/types';
+import type { Employee, Project, Task, TaskInput, TaskPriority, TaskStatus, TaskUpdate } from '@/types';
 
 export type TaskView = 'board' | 'list';
 export type TaskSort = 'due' | 'priority' | 'title' | 'updated';
@@ -68,6 +69,27 @@ const COMPARATORS: Record<TaskSort, (a: Task, b: Task) => number> = {
 
 export function sortTasks(tasks: Task[], sort: TaskSort): Task[] {
   return [...tasks].sort(COMPARATORS[sort]);
+}
+
+const TASKS_CSV_HEADER = ['Title', 'Project', 'Assignee', 'Priority', 'Status', 'Due Date'];
+
+export function buildTasksCsv(
+  tasks: Task[],
+  projectsById: Map<string, Project>,
+  employeesById: Map<string, Employee>,
+  formatDate: (value?: string) => string
+): string {
+  return toCsv([
+    TASKS_CSV_HEADER,
+    ...tasks.map((t) => [
+      t.title,
+      projectsById.get(t.projectId)?.name ?? '',
+      (t.assigneeId && employeesById.get(t.assigneeId)?.name) ?? 'Unassigned',
+      TASK_PRIORITY[t.priority].label,
+      TASK_STATUS[t.status].label,
+      formatDate(t.dueDate),
+    ]),
+  ]);
 }
 
 export function groupByStatus(tasks: Task[]): Record<TaskStatus, Task[]> {
