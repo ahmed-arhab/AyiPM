@@ -1,5 +1,6 @@
 import { SearchX } from 'lucide-react';
 import { Button, Card, EmptyState } from '@/components/ui';
+import { useT } from '@/translations';
 import type { Employee, Project } from '@/types';
 import type { TeamViewMode } from '../utils';
 import type { MemberRowHandlers } from './MemberCard';
@@ -16,6 +17,7 @@ interface TeamMembersProps extends MemberRowHandlers {
 }
 
 export function TeamMembers({ viewMode, onResetFilters, ...props }: TeamMembersProps) {
+  const { t } = useT();
   if (props.members.length === 0) {
     return (
       <Card>
@@ -25,7 +27,7 @@ export function TeamMembers({ viewMode, onResetFilters, ...props }: TeamMembersP
           description="Try a different search term or clear the filters to see the whole team."
           action={
             <Button variant="secondary" size="sm" onClick={onResetFilters}>
-              Clear filters
+              {t('Clear filters')}
             </Button>
           }
         />

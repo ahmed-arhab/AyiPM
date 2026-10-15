@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react';
 import { shallowEqual, useStoreSelector, type EqualityFn } from '@/lib/store';
-import { formatDate, formatDateTime, formatTime } from '@/lib/date';
+import { formatDate, formatDateLong, formatDateTime, formatTime } from '@/lib/date';
 import { hasPermission, type Permission } from '@/constants/roles';
 import type { Employee } from '@/types';
 import { appStore } from './appStore';
@@ -68,11 +68,16 @@ export const useUnreadCount = () => useAppStore(selectUnreadCount);
 export const useNavCounts = () => useShallowStore(selectNavCounts);
 export const usePreferences = () => useAppStore(selectMyPreferences);
 
+import { getLocale } from '@/translations';
+
 export function useFormatters() {
-  const { dateFormat, timeFormat } = usePreferences();
+  const { dateFormat, timeFormat, language } = usePreferences();
+  const locale = getLocale(language);
   return {
     date: useCallback((value?: string | Date) => formatDate(value, dateFormat), [dateFormat]),
-    time: useCallback((value?: string | Date, withSeconds = false) => formatTime(value, timeFormat, withSeconds), [timeFormat]),
-    dateTime: useCallback((value?: string) => formatDateTime(value, dateFormat, timeFormat), [dateFormat, timeFormat]),
+    dateLong: useCallback((value?: string | Date) => formatDateLong(value, locale), [locale]),
+    time: useCallback((value?: string | Date, withSeconds = false) => formatTime(value, timeFormat, withSeconds, locale), [timeFormat, locale]),
+    dateTime: useCallback((value?: string) => formatDateTime(value, dateFormat, timeFormat, locale), [dateFormat, timeFormat, locale]),
+    number: useCallback((value: number, options?: Intl.NumberFormatOptions) => new Intl.NumberFormat(locale, options).format(value), [locale]),
   };
 }

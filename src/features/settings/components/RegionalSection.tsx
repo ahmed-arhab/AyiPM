@@ -7,6 +7,7 @@ import { formatDate } from '@/lib/date';
 import type { DateFormat } from '@/types';
 import { DATE_FORMATS, LANGUAGE_OPTIONS, SECTION_BY_ID, TIME_FORMAT_OPTIONS, WEEK_START_OPTIONS } from '../constants';
 import { useSavePreferences } from '../hooks/useSavePreferences';
+import { useT } from '@/translations';
 import { SettingRow } from './SettingRow';
 import { SettingsSection } from './SettingsSection';
 import styles from './RegionalSection.module.css';
@@ -16,6 +17,7 @@ const SECTION = SECTION_BY_ID.regional;
 export function RegionalSection() {
   const preferences = usePreferences();
   const save = useSavePreferences();
+  const t = useT();
 
   const dateOptions = useMemo<SelectOption<DateFormat>[]>(() => {
     const today = new Date();
@@ -34,41 +36,41 @@ export function RegionalSection() {
     <SettingsSection
       id={SECTION.id}
       icon={SECTION.icon}
-      title={SECTION.label}
-      description="How dates, times and calendars are shown to you across the app."
+      title={t(SECTION.label)}
+      description={t('How dates, times and calendars are shown to you across the app.')}
     >
-      <SettingRow label="Language" hint="Interface language preference.">
+      <SettingRow label={t('Language')} hint={t('Interface language preference.')}>
         <Select
           className={styles.select}
-          aria-label="Language"
+          aria-label={t('Language')}
           options={languageOptions}
           value={preferences.language}
-          onChange={(language) => save({ language }, 'Language preference saved.')}
+          onChange={(language) => save({ language }, t('Language preference saved.'))}
         />
       </SettingRow>
-      <SettingRow label="Date format" hint="Used for dates in tables, cards and reports.">
+      <SettingRow label={t('Date format')} hint={t('Used for dates in tables, cards and reports.')}>
         <Select
           className={styles.select}
-          aria-label="Date format"
+          aria-label={t('Date format')}
           options={dateOptions}
           value={preferences.dateFormat}
-          onChange={(dateFormat) => save({ dateFormat }, 'Date format updated.')}
+          onChange={(dateFormat) => save({ dateFormat }, t('Date format updated.'))}
         />
       </SettingRow>
-      <SettingRow label="Time format" hint="Check-in times, timestamps and the live clock.">
+      <SettingRow label={t('Time format')} hint={t('Check-in times, timestamps and the live clock.')}>
         <SegmentedControl
-          label="Time format"
+          label={t('Time format')}
           options={TIME_FORMAT_OPTIONS}
           value={preferences.timeFormat}
-          onChange={(timeFormat) => timeFormat !== preferences.timeFormat && save({ timeFormat }, 'Time format updated.')}
+          onChange={(timeFormat) => timeFormat !== preferences.timeFormat && save({ timeFormat }, t('Time format updated.'))}
         />
       </SettingRow>
-      <SettingRow label="Week starts on" hint="First day shown in weekly and calendar views.">
+      <SettingRow label={t('Week starts on')} hint={t('First day shown in weekly and calendar views.')}>
         <SegmentedControl
-          label="Week starts on"
+          label={t('Week starts on')}
           options={WEEK_START_OPTIONS}
           value={preferences.weekStart}
-          onChange={(weekStart) => weekStart !== preferences.weekStart && save({ weekStart }, 'Week start updated.')}
+          onChange={(weekStart) => weekStart !== preferences.weekStart && save({ weekStart }, t('Week start updated.'))}
         />
       </SettingRow>
     </SettingsSection>

@@ -1,6 +1,7 @@
 import { AtSign } from 'lucide-react';
 import { Field, Input } from '@/components/ui';
 import { AuthSubmitButton } from './AuthSubmitButton';
+import { useT } from '@/translations';
 
 interface LoginIdentifierStepProps {
   value: string;
@@ -9,11 +10,12 @@ interface LoginIdentifierStepProps {
 }
 
 export function LoginIdentifierStep({ value, error, onChange }: LoginIdentifierStepProps) {
+  const t = useT();
   const hasEnteredEmail = value.trim().length > 0;
 
   return (
     <>
-      <Field label="Work email" htmlFor="login-identifier" error={error}>
+      <Field label={t('Work email')} htmlFor="login-identifier" error={error}>
         <Input
           id="login-identifier"
           name="username"
@@ -32,10 +34,10 @@ export function LoginIdentifierStep({ value, error, onChange }: LoginIdentifierS
       </Field>
       <AuthSubmitButton
         loading={false}
-        loadingLabel="Continue"
+        loadingLabel={t('Continue')}
         animateArrow={hasEnteredEmail}
       >
-        Continue
+        {t('Continue')}
       </AuthSubmitButton>
     </>
   );

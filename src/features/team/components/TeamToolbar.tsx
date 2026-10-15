@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { ArrowUpDown, LayoutGrid, List, RotateCcw } from 'lucide-react';
 import { Button, Card, SearchInput, SegmentedControl, Select, type SelectOption } from '@/components/ui';
 import { ROLE_OPTIONS } from '@/constants/roles';
+import { useT } from '@/translations';
 import type { EmployeeStatus, Project, UserRole } from '@/types';
 import { SORT_OPTIONS, type ProjectFilter, type TeamFilters, type TeamSort, type TeamViewMode } from '../utils';
 import styles from './TeamToolbar.module.css';
@@ -21,19 +22,6 @@ interface TeamToolbarProps {
   onReset: () => void;
 }
 
-const ROLE_FILTER_OPTIONS: SelectOption<'all' | UserRole>[] = [{ value: 'all', label: 'All roles' }, ...ROLE_OPTIONS];
-
-const STATUS_FILTER_OPTIONS: SelectOption<'all' | EmployeeStatus>[] = [
-  { value: 'all', label: 'All statuses' },
-  { value: 'active', label: 'Active' },
-  { value: 'inactive', label: 'Inactive' },
-];
-
-const VIEW_OPTIONS = [
-  { value: 'grid' as const, label: 'Grid', icon: LayoutGrid },
-  { value: 'table' as const, label: 'Table', icon: List },
-];
-
 export function TeamToolbar({
   query,
   onQueryChange,
@@ -48,17 +36,50 @@ export function TeamToolbar({
   hasActiveFilters,
   onReset,
 }: TeamToolbarProps) {
-  const departmentOptions = useMemo<SelectOption[]>(
-    () => [{ value: 'all', label: 'All departments' }, ...departments.map((d) => ({ value: d, label: d }))],
-    [departments]
+  const { t, formatNumber } = useT();
+
+  const roleFilterOptions = useMemo<SelectOption<'all' | UserRole>[]>(
+    () => [
+      { value: 'all', label: t('All roles') },
+      ...ROLE_OPTIONS.map((r) => ({ value: r.value, label: t(r.label) })),
+    ],
+    [t]
   );
+
+  const statusFilterOptions = useMemo<SelectOption<'all' | EmployeeStatus>[]>(
+    () => [
+      { value: 'all', label: t('All statuses') },
+      { value: 'active', label: t('Active') },
+      { value: 'inactive', label: t('Inactive') },
+    ],
+    [t]
+  );
+
+  const viewOptions = useMemo(
+    () => [
+      { value: 'grid' as const, label: t('Grid'), icon: LayoutGrid },
+      { value: 'table' as const, label: t('Table'), icon: List },
+    ],
+    [t]
+  );
+
+  const sortOptions = useMemo(
+    () => SORT_OPTIONS.map((s) => ({ value: s.value, label: t(s.label) })),
+    [t]
+  );
+
+  const departmentOptions = useMemo<SelectOption[]>(
+    () => [{ value: 'all', label: t('All departments') }, ...departments.map((d) => ({ value: d, label: d }))],
+    [departments, t]
+  );
+
   const projectOptions = useMemo<SelectOption<ProjectFilter>[]>(
     () => [
-      { value: 'all', label: 'All projects' },
-      { value: 'unassigned', label: 'Unassigned' },
+      { value: 'all', label: t('All projects') },
+      { value: 'unassigned', label: t('Unassigned') },
       ...projects.map((p) => ({ value: p.id, label: p.name })),
     ],
-    [projects]
+    [projects, t]
   );
 
   return (
@@ -68,28 +89,31 @@ export function TeamToolbar({
           className={styles.search}
           value={query}
           onChange={onQueryChange}
-          placeholder="Search name, email, Employee ID, designation, department, location…"
-          aria-label="Search team members"
+          placeholder={t('Search name, email, Employee ID, designation, department, location…')}
+          aria-label={t('Search team members')}
         />
-        <SegmentedControl label="Layout" size="sm" options={VIEW_OPTIONS} value={viewMode} onChange={onViewModeChange} />
+        <SegmentedControl label={t('Layout')} size="sm" options={viewOptions} value={viewMode} onChange={onViewModeChange} />
       </div>
       <div className="toolbar">
-        <Select aria-label="Department" options={departmentOptions} value={filters.department} onChange={(v) => onFilterChange('department', v)} />
-        <Select aria-label="Role" options={ROLE_FILTER_OPTIONS} value={filters.role} onChange={(v) => onFilterChange('role', v)} />
-        <Select aria-label="Status" options={STATUS_FILTER_OPTIONS} value={filters.status} onChange={(v) => onFilterChange('status', v)} />
-        <Select aria-label="Project" options={projectOptions} value={filters.project} onChange={(v) => onFilterChange('project', v)} />
+        <Select aria-label={t('Department')} options={departmentOptions} value={filters.department} onChange={(v) => onFilterChange('department', v)} />
+        <Select aria-label={t('Role')} options={roleFilterOptions} value={filters.role} onChange={(v) => onFilterChange('role', v)} />
+        <Select aria-label={t('Status')} options={statusFilterOptions} value={filters.status} onChange={(v) => onFilterChange('status', v)} />
+        <Select aria-label={t('Project')} options={projectOptions} value={filters.project} onChange={(v) => onFilterChange('project', v)} />
         <span className={styles.sort}>
           <ArrowUpDown size={14} aria-hidden />
-          <Select<TeamSort> aria-label="Sort by" options={SORT_OPTIONS} value={filters.sort} onChange={(v) => onFilterChange('sort', v)} />
+          <Select<TeamSort> aria-label={t('Sort by')} options={sortOptions} value={filters.sort} onChange={(v) => onFilterChange('sort', v)} />
         </span>
       </div>
       <div className={styles.summary}>
         <span>
-          Showing <strong>{resultCount}</strong> of {total} members
+          {t('Showing <strong>{count}</strong> of {total} members', {
+            count: formatNumber(resultCount),
+            total: formatNumber(total),
+          })}
         </span>
         {hasActiveFilters && (
           <Button variant="ghost" size="sm" icon={RotateCcw} onClick={onReset}>
-            Reset filters
+            {t('Reset filters')}
           </Button>
         )}
       </div>

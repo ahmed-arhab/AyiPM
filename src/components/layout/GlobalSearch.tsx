@@ -8,6 +8,7 @@ import { matchesQuery } from '@/lib/format';
 import { ROUTES } from '@/constants/navigation';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { useT } from '@/translations';
 import styles from './GlobalSearch.module.css';
 
 const LIMIT = 4;
@@ -20,6 +21,7 @@ interface ResultGroup {
 
 export function GlobalSearch() {
   const router = useRouter();
+  const t = useT();
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -51,15 +53,15 @@ export function GlobalSearch() {
     const projectNames = new Map(projects.map((p) => [p.id, p.name]));
     return [
       {
-        label: 'Tasks',
+        label: t('Tasks'),
         icon: CheckSquare,
         items: tasks
-          .filter((t) => matchesQuery(deferredQuery, t.title, projectNames.get(t.projectId)))
+          .filter((task) => matchesQuery(deferredQuery, task.title, projectNames.get(task.projectId)))
           .slice(0, LIMIT)
-          .map((t) => ({ id: t.id, title: t.title, subtitle: projectNames.get(t.projectId) ?? '', href: `${ROUTES.tasks}?task=${t.id}` })),
+          .map((task) => ({ id: task.id, title: task.title, subtitle: projectNames.get(task.projectId) ?? '', href: `${ROUTES.tasks}?task=${task.id}` })),
       },
       {
-        label: 'Projects',
+        label: t('Projects'),
         icon: FolderKanban,
         items: projects
           .filter((p) => matchesQuery(deferredQuery, p.name, p.client))
@@ -67,7 +69,7 @@ export function GlobalSearch() {
           .map((p) => ({ id: p.id, title: p.name, subtitle: p.client, href: ROUTES.project(p.id) })),
       },
       {
-        label: 'People',
+        label: t('People'),
         icon: Users,
         items: employees
           .filter((e) => matchesQuery(deferredQuery, e.name, e.designation, e.employeeId, e.email))
@@ -75,7 +77,7 @@ export function GlobalSearch() {
           .map((e) => ({ id: e.id, title: e.name, subtitle: `${e.designation} · ${e.employeeId}`, href: `${ROUTES.team}?member=${e.id}` })),
       },
     ].filter((g) => g.items.length > 0);
-  }, [deferredQuery, employees, projects, tasks]);
+  }, [deferredQuery, employees, projects, tasks, t]);
 
   const go = (href: string) => {
     setOpen(false);
@@ -99,11 +101,11 @@ export function GlobalSearch() {
           onKeyDown={(e) => {
             if (e.key === 'Enter' && groups[0]?.items[0]) go(groups[0].items[0].href);
           }}
-          placeholder="Search tasks, projects, people…"
-          aria-label="Global search"
+          placeholder={t('Search tasks, projects, people…')}
+          aria-label={t('Global search')}
         />
         {query ? (
-          <button type="button" className="search-clear-btn" onClick={() => setQuery('')} aria-label="Clear search">
+          <button type="button" className="search-clear-btn" onClick={() => setQuery('')} aria-label={t('Clear search')}>
             <X size={13} />
           </button>
         ) : (
@@ -114,7 +116,7 @@ export function GlobalSearch() {
       {open && deferredQuery && (
         <div className={styles.panel} role="listbox">
           {groups.length === 0 ? (
-            <EmptyState compact icon={Search} title="No matches" description={`Nothing found for “${deferredQuery}”.`} />
+            <EmptyState compact icon={Search} title={t('No matches')} description={t('Nothing found for “{query}”.', { query: deferredQuery })} />
           ) : (
             groups.map(({ label, icon: Icon, items }) => (
               <div key={label} className={styles.group}>

@@ -9,6 +9,7 @@ import { percent } from '@/lib/format';
 import { cn } from '@/lib/cn';
 import type { Task, TaskStatus } from '@/types';
 import { countTasksByStatus } from '@/features/projects/utils';
+import { useT } from '@/translations';
 import { isTaskOverdue } from '../utils';
 import { CardLink } from './CardLink';
 import styles from './TaskOverviewCard.module.css';
@@ -21,10 +22,11 @@ interface TaskOverviewCardProps {
 const STACK_STATUS_ORDER: TaskStatus[] = ['done', 'review', 'in_progress', 'backlog'];
 
 export function TaskOverviewCard({ tasks, personal }: TaskOverviewCardProps) {
+  const t = useT();
   const counts = useMemo(() => countTasksByStatus(tasks), [tasks]);
   const overdue = useMemo(() => {
     const now = new Date();
-    return tasks.filter((t) => isTaskOverdue(t, now)).length;
+    return tasks.filter((task) => isTaskOverdue(task, now)).length;
   }, [tasks]);
   const total = tasks.length;
 
@@ -32,17 +34,28 @@ export function TaskOverviewCard({ tasks, personal }: TaskOverviewCardProps) {
     <Card as="section" className={styles.card}>
       <CardHeader
         icon={CheckSquare}
-        title={personal ? 'My task breakdown' : 'Task breakdown'}
-        description={total > 0 ? `${percent(counts.done, total)}% of ${total} tasks completed` : 'Tasks by status'}
-        actions={<CardLink href={ROUTES.tasks}>Board</CardLink>}
+        title={t(personal ? 'My task breakdown' : 'Task breakdown')}
+        description={
+          total > 0
+            ? t('{percent}% of {total} tasks completed', {
+                percent: t.formatNumber(percent(counts.done, total)),
+                total: t.formatNumber(total),
+              })
+            : t('Tasks by status')
+        }
+        actions={<CardLink href={ROUTES.tasks}>{t('Board')}</CardLink>}
       />
       {total === 0 ? (
         <EmptyState
           compact
           className={styles.empty}
           icon={CheckSquare}
-          title="No tasks yet"
-          description={personal ? 'Tasks assigned to you will appear here.' : 'Create tasks to see how work is distributed.'}
+          title={t('No tasks yet')}
+          description={t(
+            personal
+              ? 'Tasks assigned to you will appear here.'
+              : 'Create tasks to see how work is distributed.'
+          )}
         />
       ) : (
         <>
@@ -64,20 +77,27 @@ export function TaskOverviewCard({ tasks, personal }: TaskOverviewCardProps) {
               <li key={s} className={styles.row}>
                 <span className={styles.label}>
                   <span className={styles.dot} style={{ background: TASK_STATUS[s].color }} aria-hidden />
-                  {TASK_STATUS[s].label}
+                  {t(TASK_STATUS[s].label)}
                 </span>
                 <Progress
                   value={percent(counts[s], total)}
                   indicatorColor={TASK_STATUS[s].color}
                   className={styles.track}
                 />
-                <strong className={styles.value}>{counts[s]}</strong>
+                <strong className={styles.value}>{t.formatNumber(counts[s])}</strong>
               </li>
             ))}
           </ul>
           <div className={cn(styles.overdue, overdue > 0 && styles.overdueActive)}>
             <AlertTriangle size={16} />
-            <span>{overdue > 0 ? `${overdue} overdue ${overdue === 1 ? 'task' : 'tasks'} need attention` : 'No overdue tasks'}</span>
+            <span>
+              {overdue > 0
+                ? t('{overdue} overdue {unit} need attention', {
+                    overdue: t.formatNumber(overdue),
+                    unit: t(overdue === 1 ? 'task' : 'tasks'),
+                  })
+                : t('No overdue tasks')}
+            </span>
           </div>
         </>
       )}

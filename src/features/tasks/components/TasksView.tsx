@@ -1,12 +1,13 @@
 'use client';
 
-import { Suspense, useCallback, useState } from 'react';
+import { Suspense, useCallback, useMemo, useState } from 'react';
 import { CheckSquare, Columns3, Download, List, Plus, SearchX } from 'lucide-react';
 import { Button, EmptyState, PageHeader, SegmentedControl, Spinner, type SegmentOption } from '@/components/ui';
 import { toDateKey } from '@/lib/date';
 import { downloadFile } from '@/lib/csv';
 import { pluralize } from '@/lib/format';
 import { useToast } from '@/components/feedback/ToastProvider';
+import { useT } from '@/translations';
 import { useAppStore, useEmployeesById, useFormatters, usePermission, useProjectsById } from '@/store';
 import { useTaskFilters } from '../hooks/useTaskFilters';
 import { useTaskUrlGuards } from '../hooks/useTaskUrlGuards';
@@ -19,11 +20,6 @@ import { TaskFormModal } from './TaskFormModal';
 import { TaskList } from './TaskList';
 import { TasksEmptyState } from './TasksEmptyState';
 import styles from './TasksView.module.css';
-
-const VIEW_OPTIONS: SegmentOption<TaskView>[] = [
-  { value: 'board', label: 'Board', icon: Columns3 },
-  { value: 'list', label: 'List', icon: List },
-];
 
 export function TasksView() {
   return (
@@ -40,6 +36,7 @@ export function TasksView() {
 }
 
 function TasksPage() {
+  const { t } = useT();
   const url = useTaskUrlState();
   const { view, taskId, projectId, isCreating, setParams } = url;
   const canManage = usePermission('tasks.manage');
@@ -80,6 +77,14 @@ function TasksPage() {
 
   const canCreate = canManage && hasProjects;
 
+  const viewOptions = useMemo<SegmentOption<TaskView>[]>(
+    () => [
+      { value: 'board', label: t('Board'), icon: Columns3 },
+      { value: 'list', label: t('List'), icon: List },
+    ],
+    [t]
+  );
+
   return (
     <div className="page-container">
       <PageHeader
@@ -89,19 +94,19 @@ function TasksPage() {
         actions={
           <>
             <SegmentedControl
-              label="Task view"
-              options={VIEW_OPTIONS}
+              label={t('Task view')}
+              options={viewOptions}
               value={view}
               onChange={(v) => setParams({ view: v === 'list' ? 'list' : null })}
             />
             {filters.sortedTasks.length > 0 && (
               <Button variant="secondary" icon={Download} onClick={exportCsv}>
-                Export CSV
+                {t('Export CSV')}
               </Button>
             )}
             {canCreate && (
               <Button icon={Plus} onClick={openCreate}>
-                New task
+                {t('New task')}
               </Button>
             )}
           </>

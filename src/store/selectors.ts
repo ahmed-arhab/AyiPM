@@ -1,7 +1,8 @@
 import { memoizeOne } from '@/lib/store';
 import { isSameYear, toDateKey } from '@/lib/date';
 import { percent } from '@/lib/format';
-import { DEFAULT_PREFERENCES } from '@/constants/defaults';
+import { DEFAULT_PREFERENCES, LANGUAGE_STORAGE_KEY } from '@/constants/defaults';
+import { storage } from '@/lib/storage';
 import type {
   Employee,
   LeaveAllowance,
@@ -84,8 +85,21 @@ export const selectMyNotifications = (s: AppState): NotificationItem[] =>
 
 export const selectUnreadCount = (s: AppState): number => selectMyNotifications(s).filter((n) => !n.read).length;
 
-export const selectMyPreferences = (s: AppState): UserPreferences =>
-  (s.session && s.preferences[s.session.userId]) || DEFAULT_PREFERENCES;
+export const selectMyPreferences = (s: AppState): UserPreferences => {
+  const storedLang = storage.readRaw(LANGUAGE_STORAGE_KEY) || DEFAULT_PREFERENCES.language;
+  if (s.session && s.preferences[s.session.userId]) {
+    const userPref = s.preferences[s.session.userId];
+    return {
+      ...DEFAULT_PREFERENCES,
+      ...userPref,
+      language: userPref.language || storedLang,
+    };
+  }
+  return {
+    ...DEFAULT_PREFERENCES,
+    language: storedLang,
+  };
+};
 
 export function computeLeaveBalance(
   requests: LeaveRequest[],

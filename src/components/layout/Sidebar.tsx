@@ -19,6 +19,7 @@ import {
   FileHighlight,
 } from '@/components/animate-ui/primitives/base/files';
 import { BrandMark } from './BrandLogo';
+import { useT } from '@/translations';
 import styles from './Sidebar.module.css';
 
 const COLLAPSE_KEY = 'ayipm:v2:sidebar-collapsed';
@@ -38,14 +39,16 @@ const NavLink = memo(function NavLink({
   collapsed: boolean;
   badge?: number | string;
 }) {
+  const t = useT();
   const Icon = item.icon;
+  const label = t(item.label);
   const showBadge = badge !== undefined && badge !== 0 && !collapsed;
   return (
     <FileHighlight asChild id={item.href}>
       <Link
         href={item.href}
         className={cn(styles.link, active && styles.active)}
-        title={collapsed ? item.label : undefined}
+        title={collapsed ? label : undefined}
         aria-current={active ? 'page' : undefined}
       >
         <span className={styles.iconSlot}>
@@ -64,7 +67,7 @@ const NavLink = memo(function NavLink({
               }}
               style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
             >
-              {item.label}
+              {label}
             </motion.span>
           )}
         </AnimatePresence>
@@ -92,6 +95,7 @@ interface SidebarProps {
 }
 
 export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
+  const t = useT();
   const pathname = usePathname() ?? '';
   const counts = useNavCounts();
   const [collapsedPref, setCollapsed] = useState(false);
@@ -115,7 +119,7 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
       <Collapsible open={!collapsed} onOpenChange={toggleCollapsed} asChild>
         <aside
           className={cn(styles.sidebar, collapsed && styles.collapsed, mobileOpen && styles.mobileOpen)}
-          aria-label="Main navigation"
+          aria-label={t('Workspace')}
         >
           <div className={styles.brand}>
             <div className={styles.brandMarkSlot}>
@@ -138,7 +142,7 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
                 </motion.span>
               )}
             </AnimatePresence>
-            <button type="button" className={cn('icon-btn', styles.mobileClose)} onClick={onMobileClose} aria-label="Close navigation">
+            <button type="button" className={cn('icon-btn', styles.mobileClose)} onClick={onMobileClose} aria-label={t('Close navigation')}>
               <X size={18} />
             </button>
           </div>
@@ -158,7 +162,7 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
                     style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
                     className={styles.sectionLabel}
                   >
-                    Workspace
+                    {t('Workspace')}
                   </motion.span>
                 )}
               </AnimatePresence>
@@ -168,8 +172,8 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
                     type="button"
                     className={cn('icon-btn', styles.collapseBtn)}
                     onClick={toggleCollapsed}
-                    aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-                    title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+                    aria-label={collapsed ? t('Expand sidebar') : t('Collapse sidebar')}
+                    title={collapsed ? t('Expand sidebar') : t('Collapse sidebar')}
                   >
                     <motion.span
                       animate={{ rotate: collapsed ? 180 : 0 }}
@@ -208,7 +212,7 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
                     style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
                     className={styles.sectionLabel}
                   >
-                    Account
+                    {t('Account')}
                   </motion.span>
                 )}
               </AnimatePresence>

@@ -1,5 +1,8 @@
+'use client';
+
 import type { ReactNode } from 'react';
 import type { LucideIcon } from 'lucide-react';
+import { useT } from '@/translations';
 import styles from './StatCard.module.css';
 
 interface StatCardProps {
@@ -11,14 +14,19 @@ interface StatCardProps {
 }
 
 export function StatCard({ label, value, icon: Icon, hint, accent = 'var(--primary)' }: StatCardProps) {
+  const { t, formatNumber } = useT();
+  const displayLabel = typeof label === 'string' ? t(label) : label;
+  const displayHint = typeof hint === 'string' ? t(hint) : hint;
+  const displayValue = typeof value === 'number' ? formatNumber(value) : typeof value === 'string' ? t(value) : value;
+
   return (
     <div className={`card ${styles.stat}`} style={{ borderTopColor: accent }}>
       <div className={styles.top}>
-        <span className="heading-sm">{label}</span>
+        <span className="heading-sm">{displayLabel}</span>
         <Icon size={18} color={accent} />
       </div>
-      <div className={styles.value}>{value}</div>
-      {hint && <div className="subtext">{hint}</div>}
+      <div className={styles.value}>{displayValue}</div>
+      {hint && <div className="subtext">{displayHint}</div>}
     </div>
   );
 }

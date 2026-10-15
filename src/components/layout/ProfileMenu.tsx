@@ -10,6 +10,7 @@ import { ROUTES } from '@/constants/navigation';
 import { Avatar } from '@/components/ui/Avatar';
 import { RoleBadge } from '@/components/ui/Badge';
 import { useConfirm } from '@/components/feedback/ConfirmProvider';
+import { useT } from '@/translations';
 import type { ThemeMode } from '@/types';
 import {
   Collapsible,
@@ -25,13 +26,19 @@ import styles from './ProfileMenu.module.css';
 export function ProfileMenu() {
   const user = useCurrentUser();
   const confirm = useConfirm();
+  const t = useT();
   const { isOpen, toggle, close } = useDisclosure();
   const ref = useRef<HTMLDivElement>(null);
   useClickOutside(ref, close, isOpen);
 
   const handleLogout = async () => {
     close();
-    const ok = await confirm({ title: 'Sign out?', message: 'You will need your Employee ID and password to sign back in.', confirmLabel: 'Sign out', tone: 'danger' });
+    const ok = await confirm({
+      title: t('Sign out?'),
+      message: t('You will need your Employee ID and password to sign back in.'),
+      confirmLabel: t('Sign out'),
+      tone: 'danger',
+    });
     if (ok) logout();
   };
 
@@ -83,13 +90,13 @@ export function ProfileMenu() {
               <FileHighlight id="profile" asChild>
                 <Link href={ROUTES.profile} className={styles.item} role="menuitem" onClick={close}>
                   <UserCircle size={16} />
-                  My profile
+                  {t('My profile')}
                 </Link>
               </FileHighlight>
               <FileHighlight id="settings" asChild>
                 <Link href={ROUTES.settings} className={styles.item} role="menuitem" onClick={close}>
                   <Settings size={16} />
-                  Settings
+                  {t('Settings')}
                 </Link>
               </FileHighlight>
             </FilesHighlight>
@@ -104,7 +111,7 @@ export function ProfileMenu() {
               <FileHighlight id="signout" asChild>
                 <button type="button" className={`${styles.item} ${styles.danger}`} role="menuitem" onClick={handleLogout}>
                   <LogOut size={16} />
-                  Sign out
+                  {t('Sign out')}
                 </button>
               </FileHighlight>
             </FilesHighlight>

@@ -13,12 +13,14 @@ import { downloadFile } from '@/lib/csv';
 import { ACTIVITY_PAGE_SIZE, activityToCsv } from '../utils';
 import { ActivityFilterBar } from './ActivityFilterBar';
 import { ActivityTimeline } from './ActivityTimeline';
+import { useT } from '@/translations';
 import styles from './ActivityView.module.css';
 
 const ALL_DESCRIPTION = 'Audit trail of every change across the workspace — onboarding, tasks, projects, attendance, leave and settings.';
 const OWN_DESCRIPTION = 'Showing only actions you performed. The workspace-wide audit trail is available to admins and project managers.';
 
 export function ActivityView() {
+  const { t } = useT();
   const user = useCurrentUser();
   const canViewAll = usePermission('activity.viewAll');
   const log = useActivityLog();
@@ -40,7 +42,7 @@ export function ActivityView() {
         actions={
           canViewAll && (
             <Button variant="secondary" size="sm" icon={Download} onClick={exportCsv} disabled={filtered.length === 0}>
-              Export CSV
+              {t('Export CSV')}
             </Button>
           )
         }
@@ -76,7 +78,7 @@ export function ActivityView() {
             description="Try a different search term, entity type or date range."
             action={
               <Button variant="secondary" size="sm" icon={RotateCcw} onClick={reset}>
-                Reset filters
+                {t('Reset filters')}
               </Button>
             }
           />

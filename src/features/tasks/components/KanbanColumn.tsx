@@ -1,6 +1,7 @@
 import { Fragment, memo, useRef, type DragEvent } from 'react';
 import { canMoveTask } from '@/store';
 import { TASK_STATUS } from '@/constants/status';
+import { useT } from '@/translations';
 import { cn } from '@/lib/cn';
 import type { Employee, Project, Task, TaskStatus } from '@/types';
 import { TASK_DRAG_TYPE } from '../hooks/useKanbanDnd';
@@ -37,6 +38,7 @@ function pointerIndex(list: HTMLElement | null, clientY: number, draggingId: str
 const isTaskDrag = (e: DragEvent) => e.dataTransfer.types.includes(TASK_DRAG_TYPE);
 
 export const KanbanColumn = memo(function KanbanColumn(props: KanbanColumnProps) {
+  const { t, formatNumber } = useT();
   const { status, tasks, user, projectsById, employeesById, draggingId, dropIndex, formatDate, onOpenTask, onDragStart, onDragEnd } = props;
   const listRef = useRef<HTMLDivElement>(null);
   const meta = TASK_STATUS[status];
@@ -64,15 +66,15 @@ export const KanbanColumn = memo(function KanbanColumn(props: KanbanColumnProps)
   return (
     <section
       className={cn(styles.column, dropIndex !== null && styles.over)}
-      aria-label={`${meta.label} column`}
+      aria-label={`${t(meta.label)}`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
       <header className={styles.header}>
         <span className={styles.dot} style={{ background: meta.color }} aria-hidden />
-        <h2 className={styles.label}>{meta.label}</h2>
-        <span className={styles.count}>{tasks.length}</span>
+        <h2 className={styles.label}>{t(meta.label)}</h2>
+        <span className={styles.count}>{formatNumber(tasks.length)}</span>
       </header>
       <div ref={listRef} className={styles.list}>
         {tasks.map((task) => {
@@ -97,7 +99,7 @@ export const KanbanColumn = memo(function KanbanColumn(props: KanbanColumnProps)
           );
         })}
         {dropIndex !== null && dropIndex >= visibleIndex && indicator}
-        {tasks.length === 0 && dropIndex === null && <p className={styles.empty}>No tasks in {meta.label.toLowerCase()}</p>}
+        {tasks.length === 0 && dropIndex === null && <p className={styles.empty}>{t('No tasks yet')}</p>}
       </div>
     </section>
   );

@@ -1,6 +1,9 @@
+'use client';
+
 import type { ReactNode } from 'react';
 import { Briefcase, Shield, User } from 'lucide-react';
 import { cn } from '@/lib/cn';
+import { useT } from '@/translations';
 import {
   ATTENDANCE_STATUS,
   BADGE_TONE_CLASS,
@@ -56,19 +59,21 @@ const STATUS_MAPS: Record<StatusBadgeProps['kind'], Record<string, StatusMeta>> 
 };
 
 export function StatusBadge(props: StatusBadgeProps) {
+  const { t } = useT();
   const meta = STATUS_MAPS[props.kind][props.value];
   if (!meta) return null;
-  return <Badge tone={meta.tone}>{meta.label}</Badge>;
+  return <Badge tone={meta.tone}>{t(meta.label)}</Badge>;
 }
 
 const ROLE_ICONS = { admin: Shield, project_manager: Briefcase, employee: User };
 
 export function RoleBadge({ role }: { role: UserRole }) {
+  const { t } = useT();
   const Icon = ROLE_ICONS[role];
   return (
     <span className={cn('badge', ROLE_BADGE_CLASS[role])}>
       <Icon size={12} />
-      {ROLE_LABELS[role]}
+      {t(ROLE_LABELS[role])}
     </span>
   );
 }
