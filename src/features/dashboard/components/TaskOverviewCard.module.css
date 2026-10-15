@@ -17,12 +17,13 @@
   border-radius: var(--radius-full);
   overflow: hidden;
   background: var(--bg-subtle);
-  gap: 2px;
+  gap: 3px;
   margin-bottom: 1.25rem;
 }
 
 .stack span {
   height: 100%;
+  border-radius: var(--radius-full);
 }
 
 .rows {

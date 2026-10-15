@@ -1,11 +1,13 @@
 import { useMemo } from 'react';
+import { motion } from 'motion/react';
 import { AlertTriangle, CheckSquare } from 'lucide-react';
 import { Card, CardHeader, EmptyState } from '@/components/ui';
+import { Progress } from '@/components/animate-ui/components/radix/progress';
 import { ROUTES } from '@/constants/navigation';
 import { TASK_STATUS, TASK_STATUS_ORDER } from '@/constants/status';
 import { percent } from '@/lib/format';
 import { cn } from '@/lib/cn';
-import type { Task } from '@/types';
+import type { Task, TaskStatus } from '@/types';
 import { countTasksByStatus } from '@/features/projects/utils';
 import { useT } from '@/translations';
 import { isTaskOverdue } from '../utils';
@@ -16,6 +18,8 @@ interface TaskOverviewCardProps {
   tasks: Task[];
   personal: boolean;
 }
+
+const STACK_STATUS_ORDER: TaskStatus[] = ['done', 'review', 'in_progress', 'backlog'];
 
 export function TaskOverviewCard({ tasks, personal }: TaskOverviewCardProps) {
   const t = useT();
@@ -56,8 +60,16 @@ export function TaskOverviewCard({ tasks, personal }: TaskOverviewCardProps) {
       ) : (
         <>
           <div className={styles.stack} aria-hidden>
-            {TASK_STATUS_ORDER.map((s) =>
-              counts[s] > 0 ? <span key={s} style={{ width: `${(counts[s] / total) * 100}%`, background: TASK_STATUS[s].color }} /> : null
+            {STACK_STATUS_ORDER.map((s) =>
+              counts[s] > 0 ? (
+                <motion.span
+                  key={s}
+                  initial={{ width: 0 }}
+                  animate={{ width: `${(counts[s] / total) * 100}%` }}
+                  transition={{ type: 'spring', stiffness: 90, damping: 22, mass: 0.8 }}
+                  style={{ background: TASK_STATUS[s].color }}
+                />
+              ) : null
             )}
           </div>
           <ul className={styles.rows}>
@@ -67,9 +79,11 @@ export function TaskOverviewCard({ tasks, personal }: TaskOverviewCardProps) {
                   <span className={styles.dot} style={{ background: TASK_STATUS[s].color }} aria-hidden />
                   {t(TASK_STATUS[s].label)}
                 </span>
-                <span className={styles.track}>
-                  <span className={styles.fill} style={{ width: `${percent(counts[s], total)}%`, background: TASK_STATUS[s].color }} />
-                </span>
+                <Progress
+                  value={percent(counts[s], total)}
+                  indicatorColor={TASK_STATUS[s].color}
+                  className={styles.track}
+                />
                 <strong className={styles.value}>{t.formatNumber(counts[s])}</strong>
               </li>
             ))}

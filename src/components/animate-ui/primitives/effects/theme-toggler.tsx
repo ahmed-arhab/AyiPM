@@ -37,6 +37,49 @@ function getClipKeyframes(direction: Direction): [string, string] {
   }
 }
 
+function startSlideTransition(
+  updateFn: () => void,
+  options?: {
+    direction?: Direction;
+    duration?: number;
+    easing?: string;
+  }
+) {
+  const { direction = 'ltr', duration = 650, easing = 'ease-in-out' } = options || {};
+
+  if (typeof document === 'undefined' || !('startViewTransition' in document)) {
+    updateFn();
+    return;
+  }
+
+  const [fromClip, toClip] = getClipKeyframes(direction);
+
+  try {
+    const transition = (document as any).startViewTransition(() => {
+      flushSync(() => {
+        updateFn();
+      });
+    });
+
+    transition.ready
+      .then(() => {
+        document.documentElement.animate(
+          { clipPath: [fromClip, toClip] },
+          {
+            duration,
+            easing,
+            pseudoElement: '::view-transition-new(root)',
+          }
+        );
+      })
+      .catch(() => {});
+
+    return transition;
+  } catch {
+    updateFn();
+  }
+}
+
 type ThemeTogglerProps = {
   theme: ThemeSelection;
   resolvedTheme: Resolved;
@@ -147,6 +190,8 @@ function ThemeToggler({
 
 export {
   ThemeToggler,
+  startSlideTransition,
+  getClipKeyframes,
   type ThemeTogglerProps,
   type ThemeSelection,
   type Resolved,

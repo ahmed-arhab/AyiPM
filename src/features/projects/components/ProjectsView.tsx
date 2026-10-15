@@ -1,15 +1,19 @@
 'use client';
 
-import { Suspense, useEffect } from 'react';
+import { Suspense, useCallback, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { FolderKanban, Plus, SearchX } from 'lucide-react';
+import { Download, FolderKanban, Plus, SearchX } from 'lucide-react';
 import { Button, Card, EmptyState, PageHeader } from '@/components/ui';
 import { useDisclosure } from '@/hooks/useDisclosure';
 import { ROUTES } from '@/constants/navigation';
+import { toDateKey } from '@/lib/date';
+import { downloadFile } from '@/lib/csv';
 import { pluralize } from '@/lib/format';
+import { useToast } from '@/components/feedback/ToastProvider';
 import { useEmployeesById, useFormatters, usePermission } from '@/store';
 import { useT } from '@/translations';
 import { useProjectList } from '../hooks/useProjectList';
+import { buildProjectsCsv } from '../utils';
 import { ProjectCard } from './ProjectCard';
 import { ProjectFormModal } from './ProjectFormModal';
 import { ProjectTable } from './ProjectTable';
@@ -35,6 +39,12 @@ export function ProjectsView() {
   const { date } = useFormatters();
   const createModal = useDisclosure();
   const list = useProjectList();
+  const toast = useToast();
+
+  const exportCsv = useCallback(() => {
+    downloadFile(`projects-${toDateKey()}.csv`, buildProjectsCsv(list.visible, employeesById, list.progress, date));
+    toast.success(`Exported ${pluralize(list.visible.length, 'project')}.`);
+  }, [list.visible, list.progress, employeesById, date, toast]);
 
   const newButton = canManage && (
     <Button icon={Plus} onClick={createModal.open}>
@@ -63,7 +73,16 @@ export function ProjectsView() {
               )
             : t('Track delivery, deadlines and team assignments across your workspace.')
         }
-        actions={newButton}
+        actions={
+          <>
+            {list.visible.length > 0 && (
+              <Button variant="secondary" icon={Download} onClick={exportCsv}>
+                {t('Export CSV')}
+              </Button>
+            )}
+            {newButton}
+          </>
+        }
       />
 
       {list.total === 0 ? (

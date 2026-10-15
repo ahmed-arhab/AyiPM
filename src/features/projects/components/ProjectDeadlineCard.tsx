@@ -1,5 +1,6 @@
 import { CalendarClock } from 'lucide-react';
 import { Card, CardHeader } from '@/components/ui';
+import { Progress } from '@/components/animate-ui/components/radix/progress';
 import { daysBetweenInclusive, toDateKey } from '@/lib/date';
 import { percent } from '@/lib/format';
 import { cn } from '@/lib/cn';
@@ -27,9 +28,11 @@ export function ProjectDeadlineCard({ project }: { project: Project }) {
       </div>
       {totalDays > 0 && (
         <div className={styles.timeline}>
-          <div className={styles.track}>
-            <div className={cn(styles.fill, styles[`fill_${info.tone}`])} style={{ width: `${timeline}%` }} />
-          </div>
+          <Progress
+            value={timeline}
+            className={styles.track}
+            indicatorClassName={cn(styles.fill, styles[`fill_${info.tone}`])}
+          />
           <div className={styles.range}>
             <span>{date(project.startDate)}</span>
             <span>{timeline}% of timeline elapsed</span>
