@@ -7,6 +7,7 @@ export function useHotkey(key: string, handler: (event: KeyboardEvent) => void, 
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
+      if (!event?.key || typeof key !== 'string') return;
       if (event.key.toLowerCase() !== key.toLowerCase()) return;
       if (meta && !(event.metaKey || event.ctrlKey)) return;
       handlerRef.current(event);

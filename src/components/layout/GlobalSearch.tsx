@@ -1,13 +1,12 @@
 'use client';
 
-import { useCallback, useDeferredValue, useMemo, useRef, useState } from 'react';
+import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CheckSquare, FolderKanban, Search, Users, X, type LucideIcon } from 'lucide-react';
 import { useAppStore } from '@/store';
 import { matchesQuery } from '@/lib/format';
 import { ROUTES } from '@/constants/navigation';
 import { useClickOutside } from '@/hooks/useClickOutside';
-import { useHotkey } from '@/hooks/useHotkey';
 import { EmptyState } from '@/components/ui/EmptyState';
 import styles from './GlobalSearch.module.css';
 
@@ -34,15 +33,18 @@ export function GlobalSearch() {
 
   const close = useCallback(() => setOpen(false), []);
   useClickOutside(containerRef, close, open);
-  useHotkey(
-    'k',
-    (event) => {
-      event.preventDefault();
-      inputRef.current?.focus();
-      setOpen(true);
-    },
-    { meta: true }
-  );
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (!event?.key) return;
+      if (event.key.toLowerCase() === 'k' && (event.metaKey || event.ctrlKey)) {
+        event.preventDefault();
+        inputRef.current?.focus();
+        setOpen(true);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
 
   const groups = useMemo<ResultGroup[]>(() => {
     if (!deferredQuery) return [];
