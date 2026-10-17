@@ -18,6 +18,6 @@ export const POST = handle(async (request: Request) => {
   const actor = await requireUser('employees.manage');
   const body = await readJson<EmployeeInput>(request);
   const user = await createEmployee(body as EmployeeInput);
-  const invite = await issueInvite(user.id, actor.id);
+  const invite = user.passwordHash ? null : await issueInvite(user.id, actor.id);
   return ok({ employee: toEmployee(user), invite }, { status: 201 });
 });

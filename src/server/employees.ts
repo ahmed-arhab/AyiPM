@@ -5,6 +5,7 @@ import { toDateKey } from '@/lib/date';
 import type { EmployeeInput, EmployeeStatus, EmployeeUpdate, UserRole } from '@/types';
 import { db } from './db';
 import { HttpError } from './http';
+import { hashPassword } from './crypto';
 import { getEmployeeIdPrefix } from './workspace';
 import { revokeSessions } from './session';
 
@@ -53,6 +54,17 @@ export async function createEmployee(input: EmployeeInput): Promise<User> {
   assertRole(input.role);
   await assertUniqueIdentity(email ?? '', requestedId);
 
+  let passwordHash: string | null = null;
+  if (input.password) {
+    if (input.password.length < 8) {
+      throw new HttpError(400, 'Password must be at least 8 characters.');
+    }
+    if (input.password.length > 200) {
+      throw new HttpError(400, 'Password is too long.');
+    }
+    passwordHash = await hashPassword(input.password);
+  }
+
   return db.user.create({
     data: {
       name,
@@ -64,6 +76,8 @@ export async function createEmployee(input: EmployeeInput): Promise<User> {
       joinDate: input.joinDate || toDateKey(),
       phone: input.phone?.trim() || null,
       location: input.location?.trim() || null,
+      passwordHash,
+      passwordUpdatedAt: passwordHash ? new Date() : null,
     },
   });
 }
