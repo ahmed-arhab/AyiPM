@@ -7,9 +7,13 @@ import { AnimatePresence, motion, type HTMLMotionProps } from 'motion/react';
 import { getStrictContext } from '@/lib/get-strict-context';
 import { useControlledState } from '@/hooks/use-controlled-state';
 
+type AccordionProps = React.ComponentProps<typeof AccordionPrimitive.Root>;
+type AccordionValue = NonNullable<AccordionProps['value']>;
+type AccordionChangeDetails = Parameters<NonNullable<AccordionProps['onValueChange']>>[1];
+
 type AccordionContextType = {
-  value: string | string[] | undefined;
-  setValue: (value: string | string[] | undefined) => void;
+  value: AccordionValue | undefined;
+  setValue: (value: AccordionValue, eventDetails: AccordionChangeDetails) => void;
 };
 
 type AccordionItemContextType = {
@@ -23,15 +27,11 @@ const [AccordionProvider, useAccordion] =
 const [AccordionItemProvider, useAccordionItem] =
   getStrictContext<AccordionItemContextType>('AccordionItemContext');
 
-type AccordionProps = React.ComponentProps<typeof AccordionPrimitive.Root>;
-
 function Accordion(props: AccordionProps) {
-  const [value, setValue] = useControlledState<string | string[] | undefined>({
+  const [value, setValue] = useControlledState<AccordionValue, [AccordionChangeDetails]>({
     value: props?.value,
     defaultValue: props?.defaultValue,
-    onChange: props?.onValueChange as (
-      value: string | string[] | undefined,
-    ) => void,
+    onChange: props?.onValueChange,
   });
 
   return (
