@@ -8,7 +8,7 @@ AyiPM is an open-source, self-hostable workspace for small teams. It keeps peopl
 
 It started as an internal tool and is now developed in the open. Contributions of every size are welcome, from fixing a colour to building backend features.
 
-The app is built with Next.js 14 and TypeScript. Accounts, sign-in and workspace settings are stored in a database (SQLite locally, through Prisma) and served by the app's own API routes. Projects, tasks, attendance and leave are still kept in the browser while they are moved to the database one area at a time.
+The app is built with Next.js 16 and TypeScript. Accounts, sign-in and workspace settings are stored in a database (SQLite locally, through Prisma) and served by the app's own API routes. Projects, tasks, attendance and leave are still kept in the browser while they are moved to the database one area at a time.
 
 ## Features
 
@@ -39,7 +39,7 @@ Permissions are defined once in `src/constants/roles.ts`. The UI and the store a
 
 ## Getting started
 
-You need Node.js 18.18 or newer. If you use [nvm](https://github.com/nvm-sh/nvm), run `nvm use` to select the supported version.
+You need Node.js 20.9 or newer (Next.js 16 does not run on older versions). If you use [nvm](https://github.com/nvm-sh/nvm), run `nvm use` to select the supported version.
 
 ```bash
 git clone https://github.com/mahfoos/AyiPM.git
@@ -48,10 +48,25 @@ nvm use
 npm install
 cp .env.example .env
 npm run db:migrate
+npm run db:seed   # optional: creates the demo accounts below
 npm run dev
 ```
 
-Then open http://localhost:3000. On a new database you are taken to **/setup**, where you create the workspace and its owner account. The setup page locks itself as soon as that first account exists.
+Then open http://localhost:3000. If you ran `npm run db:seed`, sign in with one of the demo accounts. Otherwise you are taken to **/setup**, where you create the workspace and its owner account. The setup page locks itself as soon as that first account exists.
+
+### Demo accounts for local development
+
+`npm run db:seed` creates one account for each role, all with the temporary password **`ChangeMe@123`**:
+
+| Role | Email |
+| --- | --- |
+| Admin | `admin@example.com` |
+| Project Manager | `pm@example.com` |
+| Employee | `employee@example.com` |
+
+Use them to check that a change works for every role. The seed only runs on an empty database and refuses to run when `NODE_ENV=production`, so it can't add a known password to a real workspace. If your database already has accounts, run `npm run db:reset` and then `npm run db:seed`. Never use these accounts on a shared or public server.
+
+### Commands
 
 | Command | What it does |
 | --- | --- |
@@ -60,10 +75,20 @@ Then open http://localhost:3000. On a new database you are taken to **/setup**, 
 | `npm run start` | Serve the production build |
 | `npx tsc --noEmit` | Type-check without building |
 | `npm run db:migrate` | Apply database migrations (and create the database the first time) |
+| `npm run db:seed` | Create the demo accounts on an empty database |
 | `npm run db:studio` | Browse and edit the database in Prisma Studio |
 | `npm run db:reset` | Delete all data and re-run every migration |
 
-`npm run lint` is defined, but ESLint has not been configured yet, so it will ask to set it up the first time.
+No linter is set up yet. Next.js 16 removed `next lint`, so ESLint needs its own configuration when it is added.
+
+Both `package-lock.json` and `pnpm-lock.yaml` are kept in the repository. If you change dependencies, update both: run `npm install`, then `pnpm install --lockfile-only`.
+
+### If you can't sign in locally
+
+- **Each developer has their own database.** `prisma/dev.db` is not committed, so accounts created on someone else's machine don't exist on yours. Run `npm run db:seed` or go through `/setup`.
+- **The account may be locked.** After 5 failed attempts the account is locked for 15 minutes, and even the correct password is refused until then. To unlock it straight away, open `npm run db:studio` and delete the account's row in `LoginAttempt`.
+- **Invited members need to accept their invitation first.** Until they set a password through the invite link, their login is refused. Invite links expire after 7 days; an admin can send a new one from the member's profile.
+- **`npm run db:reset` deletes every account.** Run `npm run db:seed` or go through `/setup` again afterwards.
 
 ## Accounts and sign-in
 
@@ -94,7 +119,7 @@ To use Postgres instead, change `provider` to `"postgresql"` in `prisma/schema.p
 ## Project structure
 
 ```text
-prisma/                  Database schema and migrations
+prisma/                  Database schema, migrations and the demo-account seed
 src/
 ├── app/                 Route files; each page renders one feature view
 │   └── api/             API routes (setup, auth, employees, workspace)
@@ -102,6 +127,7 @@ src/
 ├── features/<feature>/  Feature code: components/, hooks/, utils.ts, CSS modules
 ├── components/
 │   ├── ui/              Shared building blocks (Button, Modal, Field, DataTable, ...)
+│   ├── animate-ui/      Animated primitives from the animate-ui registry (Tailwind-based)
 │   ├── layout/          App shell, sidebar, navbar, route guarding
 │   └── feedback/        Toasts and confirmation dialogs
 ├── store/               State, actions (one file per domain), selectors, hooks, persistence
@@ -116,7 +142,7 @@ A few rules keep the code consistent:
 - Pages in `src/app` stay thin; the UI lives in `src/features`.
 - Components read state through narrow selectors (`useAppStore(s => s.tasks)`, `useEmployeesById()`) and change it only through store actions. Actions validate input, check permissions and return `{ ok, data }` or `{ ok, error }`.
 - Records refer to each other by id. A task stores `assigneeId`, not a copy of the assignee's name.
-- Styles use a CSS module per component plus the design tokens in `src/app/globals.css`. Colours come from the grey palette defined there.
+- Styles use a CSS module per component plus the design tokens in `src/app/globals.css`. Colours come from the grey palette defined there. Tailwind is loaded for the `animate-ui` components; feature code still uses CSS modules.
 
 ## Contributing
 

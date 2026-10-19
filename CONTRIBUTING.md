@@ -121,7 +121,7 @@ Open the PR as a draft if you'd like early feedback. Mark it ready for review wh
 - [ ] `npx tsc --noEmit` passes.
 - [ ] `npm run build` succeeds.
 - [ ] The change works in light and dark mode, and at phone width.
-- [ ] Permissions are respected: try it as an admin, a project manager and an employee where it matters.
+- [ ] Permissions are respected: try it as an admin, a project manager and an employee where it matters (`npm run db:seed` creates one of each; see the README).
 - [ ] Nothing in the code relies on placeholder data, test accounts or hardcoded people.
 - [ ] No stray `console.log`, commented-out code or unused files.
 
