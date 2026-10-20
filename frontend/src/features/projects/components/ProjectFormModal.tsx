@@ -73,9 +73,9 @@ function ProjectForm({ id, project, focusMembers, onClose, onSaved }: ProjectFor
     return () => cancelAnimationFrame(frame);
   }, [focusMembers]);
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    const result = submit();
+    const result = await submit();
     if (!result || !result.ok) return;
     toast.success(project ? 'Project updated' : `Project “${result.data.name}” created`);
     onSaved?.(result.data);

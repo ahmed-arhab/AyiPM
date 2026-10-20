@@ -21,9 +21,9 @@ export function TaskComments({ taskId, comments }: TaskCommentsProps) {
   const now = useNow(60_000);
   const [text, setText] = useState('');
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const result = addTaskComment(taskId, text);
+    const result = await addTaskComment(taskId, text);
     if (!result.ok) {
       toast.error(result.error);
       return;

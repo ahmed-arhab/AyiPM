@@ -16,10 +16,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ayitrix.ayipm.activity.ActivityService;
 import com.ayitrix.ayipm.auth.PasswordHasher;
 import com.ayitrix.ayipm.auth.SessionService;
 import com.ayitrix.ayipm.common.ApiException;
 import com.ayitrix.ayipm.common.Text;
+import com.ayitrix.ayipm.notification.NotificationMessage;
+import com.ayitrix.ayipm.notification.NotificationService;
 import com.ayitrix.ayipm.workspace.WorkspaceService;
 
 @Service
@@ -35,12 +38,17 @@ public class EmployeeService {
 	private final WorkspaceService workspace;
 	private final SessionService sessions;
 	private final PasswordHasher hasher;
+	private final ActivityService activity;
+	private final NotificationService notifications;
 
-	public EmployeeService(UserRepository users, WorkspaceService workspace, SessionService sessions, PasswordHasher hasher) {
+	public EmployeeService(UserRepository users, WorkspaceService workspace, SessionService sessions, PasswordHasher hasher, ActivityService activity,
+			NotificationService notifications) {
 		this.users = users;
 		this.workspace = workspace;
 		this.sessions = sessions;
 		this.hasher = hasher;
+		this.activity = activity;
+		this.notifications = notifications;
 	}
 
 	@Transactional(readOnly = true)
@@ -54,7 +62,7 @@ public class EmployeeService {
 	}
 
 	@Transactional
-	public User create(CreateEmployeeRequest input) {
+	public User create(User actor, CreateEmployeeRequest input) {
 		String name = Text.trimToNull(input.name());
 		String designation = Text.trimToNull(input.designation());
 		String email = Text.normalizeEmail(input.email());
@@ -79,7 +87,10 @@ public class EmployeeService {
 		user.setJoinDate(input.joinDate() == null || input.joinDate().isBlank() ? LocalDate.now() : parseDate(input.joinDate()));
 		user.setPhone(Text.trimToNull(input.phone()));
 		user.setLocation(Text.trimToNull(input.location()));
-		return users.saveAndFlush(user);
+		users.saveAndFlush(user);
+		activity.record(actor, hasPassword ? "Added Employee" : "Invited Employee", ActivityService.EMPLOYEE, user.getId(), user.getName(),
+				user.getDesignation() + " · " + user.getEmployeeId());
+		return user;
 	}
 
 	/** Applies the fields present in {@code update}. Admins can edit more fields, and anyone's profile. */
@@ -125,7 +136,10 @@ public class EmployeeService {
 				default -> throw new IllegalStateException("Unhandled field " + key);
 			}
 		});
-		return users.saveAndFlush(target);
+		users.saveAndFlush(target);
+		activity.record(actor, actor.getId().equals(target.getId()) ? "Updated Own Profile" : "Updated Employee Profile", ActivityService.EMPLOYEE,
+				target.getId(), target.getName());
+		return target;
 	}
 
 	@Transactional
@@ -137,8 +151,13 @@ public class EmployeeService {
 			throw ApiException.badRequest("The workspace needs at least one active admin.");
 		}
 		if (actor.getId().equals(target.getId())) throw ApiException.badRequest("You cannot change your own role.");
+		Role previous = target.getRole();
 		target.setRole(role);
-		return users.saveAndFlush(target);
+		users.saveAndFlush(target);
+		activity.record(actor, "Updated Employee Role", ActivityService.EMPLOYEE, target.getId(), target.getName(), previous.label() + " → " + role.label());
+		notifications.notify(List.of(target.getId()), new NotificationMessage("Your role was updated",
+				actor.getName() + " changed your role to " + role.label() + ".", "system", "high", null, actor.getId()));
+		return target;
 	}
 
 	@Transactional
@@ -153,6 +172,8 @@ public class EmployeeService {
 		target.setStatus(status);
 		User updated = users.saveAndFlush(target);
 		if (status == EmployeeStatus.INACTIVE) sessions.revokeAll(target.getId());
+		activity.record(actor, status == EmployeeStatus.ACTIVE ? "Reactivated Employee" : "Deactivated Employee", ActivityService.EMPLOYEE,
+				target.getId(), target.getName());
 		return updated;
 	}
 

@@ -33,8 +33,8 @@ export function ProjectAssignModal({ member, onClose }: ProjectAssignModalProps)
       return next;
     });
 
-  const save = () => {
-    const result = setEmployeeProjects(member.id, Array.from(selected));
+  const save = async () => {
+    const result = await setEmployeeProjects(member.id, Array.from(selected));
     if (!result.ok) {
       toast.error(result.error);
       return;

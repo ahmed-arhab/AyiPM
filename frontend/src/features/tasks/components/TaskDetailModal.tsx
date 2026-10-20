@@ -49,7 +49,7 @@ function TaskDetailDialog({ task, onClose, onEdit }: { task: Task } & Omit<TaskD
       tone: 'danger',
     });
     if (!confirmed) return;
-    const result = deleteTask(task.id);
+    const result = await deleteTask(task.id);
     if (!result.ok) {
       toast.error(result.error);
       return;

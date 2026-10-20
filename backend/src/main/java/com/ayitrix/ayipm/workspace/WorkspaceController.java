@@ -11,6 +11,7 @@ import com.ayitrix.ayipm.auth.Permission;
 import com.ayitrix.ayipm.auth.SessionService;
 import com.ayitrix.ayipm.common.ApiException;
 import com.ayitrix.ayipm.common.ApiResponse;
+import com.ayitrix.ayipm.employee.User;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -35,8 +36,8 @@ public class WorkspaceController {
 
 	@PatchMapping
 	public ResponseEntity<ApiResponse<WorkspaceSettings>> update(HttpServletRequest request, @RequestBody WorkspaceSettings body) {
-		sessions.requireUser(request, Permission.WORKSPACE_MANAGE);
-		return ApiResponse.ok(workspace.update(body));
+		User actor = sessions.requireUser(request, Permission.WORKSPACE_MANAGE);
+		return ApiResponse.ok(workspace.update(actor, body));
 	}
 
 }

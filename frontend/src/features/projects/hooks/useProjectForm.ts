@@ -63,12 +63,12 @@ export function useProjectForm(project?: Project) {
     setErrors((e) => (e[key] ? { ...e, [key]: undefined } : e));
   }, []);
 
-  const submit = useCallback((): ActionResult<Project> | null => {
+  const submit = useCallback(async (): Promise<ActionResult<Project> | null> => {
     const nextErrors = validate(values);
     setErrors(nextErrors);
     if (hasErrors(nextErrors)) return null;
     const input = toInput(values);
-    const result = project ? updateProject(project.id, input) : createProject(input);
+    const result = await (project ? updateProject(project.id, input) : createProject(input));
     setFormError(result.ok ? null : result.error);
     return result;
   }, [values, project]);

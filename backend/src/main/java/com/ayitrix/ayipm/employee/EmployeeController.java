@@ -53,7 +53,7 @@ public class EmployeeController {
 	@PostMapping
 	public ResponseEntity<ApiResponse<CreatedEmployee>> create(HttpServletRequest request, @RequestBody CreateEmployeeRequest body) {
 		User actor = sessions.requireUser(request, Permission.EMPLOYEES_MANAGE);
-		User user = employees.create(body);
+		User user = employees.create(actor, body);
 		AccessLink invite = user.hasJoined() ? null : auth.issueInvite(user, actor);
 		return ApiResponse.created(new CreatedEmployee(EmployeeResponse.from(user), invite));
 	}
@@ -86,8 +86,8 @@ public class EmployeeController {
 	/** Issues a one-time password reset link; the admin shares it with the person. */
 	@PostMapping("/{id}/reset-link")
 	public ResponseEntity<ApiResponse<AccessLink>> resetLink(HttpServletRequest request, @PathVariable String id) {
-		sessions.requireUser(request, Permission.EMPLOYEES_MANAGE);
-		return ApiResponse.ok(auth.issuePasswordReset(employees.get(id)));
+		User actor = sessions.requireUser(request, Permission.EMPLOYEES_MANAGE);
+		return ApiResponse.ok(auth.issuePasswordReset(actor, employees.get(id)));
 	}
 
 }

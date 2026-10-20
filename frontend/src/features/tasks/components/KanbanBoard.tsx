@@ -27,9 +27,9 @@ export function KanbanBoard({ tasks, onOpenTask }: KanbanBoardProps) {
   const toast = useToast();
 
   const handleMove = useCallback(
-    (taskId: string, status: TaskStatus, visibleIndex: number) => {
+    async (taskId: string, status: TaskStatus, visibleIndex: number) => {
       const index = toColumnIndex(getState().tasks, columnsRef.current[status], status, taskId, visibleIndex);
-      const result = moveTask(taskId, status, index);
+      const result = await moveTask(taskId, status, index);
       if (!result.ok) toast.error(result.error);
     },
     [toast]

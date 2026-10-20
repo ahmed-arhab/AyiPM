@@ -74,6 +74,7 @@ public class AuthController {
 
 	@PostMapping("/api/auth/logout")
 	public ResponseEntity<ApiResponse<Void>> logout(HttpServletRequest request, HttpServletResponse response) {
+		sessions.current(request).ifPresent(s -> auth.signedOut(s.user()));
 		sessions.end(request, response);
 		return ApiResponse.ok(null);
 	}

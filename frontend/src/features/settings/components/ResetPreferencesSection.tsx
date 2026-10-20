@@ -25,7 +25,7 @@ export function ResetPreferencesSection() {
       tone: 'danger',
     });
     if (!confirmed) return;
-    const result = resetPreferences();
+    const result = await resetPreferences();
     if (!result.ok) {
       toast.error(result.error);
       return;

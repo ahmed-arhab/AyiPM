@@ -35,7 +35,7 @@ public abstract class IntegrationTest {
 	private int port;
 
 	@Autowired
-	private JdbcTemplate jdbc;
+	protected JdbcTemplate jdbc;
 
 	@DynamicPropertySource
 	static void database(DynamicPropertyRegistry registry) {
@@ -46,7 +46,7 @@ public abstract class IntegrationTest {
 
 	@BeforeEach
 	void cleanDatabase() {
-		jdbc.execute("truncate table sessions, invites, password_resets, login_attempts, users, workspace cascade");
+		jdbc.execute("truncate table login_attempts, users, workspace cascade");
 	}
 
 	/** A browser-like client with its own cookies. */
@@ -71,6 +71,18 @@ public abstract class IntegrationTest {
 		member.post("/api/auth/invite", Map.of("token", created.data().path("invite").path("token").asString(), "password", "MemberPass1!"))
 				.expectStatus(200);
 		return member;
+	}
+
+	/** The signed-in user's id. */
+	protected static String idOf(Client client) {
+		return client.get("/api/auth/session").data().path("user").path("id").asString();
+	}
+
+	/** The titles of the signed-in user's notifications, newest first. */
+	protected static java.util.List<String> notificationTitles(Client client) {
+		java.util.List<String> titles = new java.util.ArrayList<>();
+		client.get("/api/notifications").expectStatus(200).data().forEach(n -> titles.add(n.path("title").asString()));
+		return titles;
 	}
 
 	private static EmbeddedPostgres startPostgres() {
@@ -110,6 +122,10 @@ public abstract class IntegrationTest {
 
 		public Response get(String path) {
 			return send(HttpRequest.newBuilder(URI.create(baseUrl + path)).GET());
+		}
+
+		public Response delete(String path) {
+			return send(HttpRequest.newBuilder(URI.create(baseUrl + path)).DELETE());
 		}
 
 		public Response post(String path, Object body) {

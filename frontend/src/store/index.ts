@@ -10,5 +10,4 @@ export * from './actions/projects';
 export * from './actions/tasks';
 export * from './actions/notifications';
 export * from './actions/settings';
-export { logActivity } from './actions/activity';
-export { refreshSession } from './actions/session';
+export { loadWorkspaceData, refreshActivity, refreshNotifications, refreshSession } from './actions/session';

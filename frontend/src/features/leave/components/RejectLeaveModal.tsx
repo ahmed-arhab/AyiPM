@@ -21,10 +21,10 @@ export function RejectLeaveModal({ request, employeeName, onClose }: RejectLeave
   const [reason, setReason] = useState('');
   const [error, setError] = useState<string | null>(null);
 
-  const submit = (e: FormEvent) => {
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
     if (!reason.trim()) return setError('Please give a reason so they know what to change.');
-    const result = reviewLeaveRequest(request.id, 'rejected', reason);
+    const result = await reviewLeaveRequest(request.id, 'rejected', reason);
     if (!result.ok) return setError(result.error);
     toast.success(`Rejected ${employeeName}'s leave request.`);
     onClose();

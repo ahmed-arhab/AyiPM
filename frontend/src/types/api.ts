@@ -1,5 +1,5 @@
 import type { Employee } from './employee';
-import type { WorkspaceSettings } from './settings';
+import type { UserPreferences, WorkspaceSettings } from './settings';
 
 export interface BootstrapPayload {
   needsSetup: boolean;
@@ -7,6 +7,7 @@ export interface BootstrapPayload {
   expiresAt: string | null;
   workspace: WorkspaceSettings | null;
   employees: Employee[];
+  preferences: UserPreferences | null;
 }
 
 export interface InviteDetails {

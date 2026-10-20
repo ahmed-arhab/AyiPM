@@ -9,7 +9,9 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @RestControllerAdvice
@@ -30,6 +32,13 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(NoResourceFoundException.class)
 	ResponseEntity<ApiResponse.Error> handleNotFound(NoResourceFoundException e) {
 		return error(HttpStatus.NOT_FOUND, "Not found.");
+	}
+
+	// A malformed id in the path means the thing doesn't exist; a malformed query parameter is a bad request.
+	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+	ResponseEntity<ApiResponse.Error> handleTypeMismatch(MethodArgumentTypeMismatchException e) {
+		if (e.getParameter().hasParameterAnnotation(PathVariable.class)) return error(HttpStatus.NOT_FOUND, "Not found.");
+		return error(HttpStatus.BAD_REQUEST, "Invalid value for " + e.getName() + ".");
 	}
 
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)

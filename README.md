@@ -13,7 +13,7 @@ AyiPM has two parts:
 - **`frontend/`**: the web app, built with Next.js 16, React and TypeScript.
 - **`backend/`**: the API, built with Java 21, Spring Boot 4 and PostgreSQL.
 
-Accounts, sign-in and workspace settings are stored in Postgres and served by the backend. Projects, tasks, attendance and leave are still kept in the browser while they are moved to the backend one area at a time.
+Everything the team shares is stored in Postgres and served by the backend: accounts, projects, tasks, leave, notifications, the activity log and each person's preferences. Attendance check-ins are the one thing still kept in the browser until the attendance API (#103) is finished.
 
 ## Features
 
@@ -133,7 +133,9 @@ The `demo` profile creates one account for each role, all with the temporary pas
 | Project Manager | `pm@example.com` |
 | Employee | `employee@example.com` |
 
-Use them to check that a change works for every role. The accounts are only created when the database has no accounts yet, and the backend refuses to start if `demo` is combined with the `prod` profile, so it can't add a known password to a real workspace. Never use these accounts on a shared or public server.
+It also adds sample data so the app isn't empty: three projects, eight tasks with comments, two weeks of attendance, and two leave requests (one approved, one waiting for review).
+
+Use them to check that a change works for every role. The accounts and sample data are only created when the database has no accounts yet, and the backend refuses to start if `demo` is combined with the `prod` profile, so it can't add a known password to a real workspace. Never use these accounts on a shared or public server.
 
 ### Commands
 
@@ -202,7 +204,8 @@ To change the schema, add a new file such as `V2__add_projects.sql` next to the 
 
 ## Known limitations
 
-- **Partly local data.** Projects, tasks, attendance, leave, notifications and the activity log are still stored in the browser, so they are not yet shared between devices.
+- **Attendance is still per browser.** Check-ins and check-outs are saved in the browser until the attendance API (#103) lands, so managers don't see them yet. Approved leave is already written to the server.
+- **No live updates.** Changes made by other people appear when you reload or switch back to the tab; notifications are checked every minute.
 - **No email delivery.** Invitation and reset links are shown to the admin, who shares them manually.
 - **No single sign-on.** Google and Microsoft sign-in are not available yet.
 
@@ -233,7 +236,14 @@ backend/                     Spring Boot API
     │   ├── auth/            Setup, sign-in, sessions, invites, password resets
     │   ├── employee/        Users, roles and the /api/employees endpoints
     │   ├── workspace/       Workspace settings and /api/workspace
-    │   ├── seed/            Demo accounts for the `demo` profile
+    │   ├── project/         Projects and their members
+    │   ├── task/            Tasks, comments, history and Kanban order
+    │   ├── leave/           Leave requests, reviews and balances
+    │   ├── attendance/      Attendance records (approved leave for now; check-in comes with #103)
+    │   ├── preferences/     Each person's language, formats and notification settings
+    │   ├── activity/        The activity log, written by the other services
+    │   ├── notification/    Notifications, created by the other services
+    │   ├── seed/            Demo accounts and sample data for the `demo` profile
     │   └── common/          Response format, error handling, shared helpers
     ├── main/resources/
     │   ├── application.yml  Configuration

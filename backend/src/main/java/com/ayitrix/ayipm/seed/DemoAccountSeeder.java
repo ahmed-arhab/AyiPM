@@ -1,7 +1,9 @@
 package com.ayitrix.ayipm.seed;
 
 import java.time.LocalDate;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,12 +45,14 @@ public class DemoAccountSeeder implements ApplicationRunner {
 	private final WorkspaceRepository workspaces;
 	private final PasswordHasher hasher;
 	private final Environment environment;
+	private final DemoData sampleData;
 
-	public DemoAccountSeeder(UserRepository users, WorkspaceRepository workspaces, PasswordHasher hasher, Environment environment) {
+	public DemoAccountSeeder(UserRepository users, WorkspaceRepository workspaces, PasswordHasher hasher, Environment environment, DemoData sampleData) {
 		this.users = users;
 		this.workspaces = workspaces;
 		this.hasher = hasher;
 		this.environment = environment;
+		this.sampleData = sampleData;
 	}
 
 	@Override
@@ -64,6 +68,7 @@ public class DemoAccountSeeder implements ApplicationRunner {
 
 		if (!workspaces.existsById(Workspace.DEFAULT_ID)) workspaces.save(new Workspace("Demo Workspace"));
 		String passwordHash = hasher.hash(PASSWORD);
+		Map<Role, User> byRole = new EnumMap<>(Role.class);
 		for (Account account : ACCOUNTS) {
 			User user = new User();
 			user.setEmployeeId(account.employeeId());
@@ -74,9 +79,11 @@ public class DemoAccountSeeder implements ApplicationRunner {
 			user.setDesignation(account.designation());
 			user.setJoinDate(LocalDate.now());
 			user.setPasswordHash(passwordHash);
-			users.save(user);
+			byRole.put(account.role(), users.saveAndFlush(user));
 		}
-		log.info("Created {} demo accounts (admin@example.com, pm@example.com, employee@example.com). Password: {}", ACCOUNTS.size(), PASSWORD);
+		sampleData.create(byRole.get(Role.ADMIN), byRole.get(Role.PROJECT_MANAGER), byRole.get(Role.EMPLOYEE));
+		log.info("Created {} demo accounts (admin@example.com, pm@example.com, employee@example.com) with sample data. Password: {}",
+				ACCOUNTS.size(), PASSWORD);
 	}
 
 }

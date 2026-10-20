@@ -25,6 +25,13 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# leftovers from the old single-app layout; the frontend's lockfiles live in frontend/
+/package-lock.json
+/pnpm-lock.yaml
+/prisma/
+*.db
+*.db-journal
+
 # local env files
 .env
 .env*.local

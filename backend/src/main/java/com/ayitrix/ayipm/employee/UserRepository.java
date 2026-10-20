@@ -6,8 +6,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+
+import jakarta.persistence.LockModeType;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
 
@@ -20,6 +23,11 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 	List<User> findAllByEmailOrEmployeeId(String email, String employeeId);
 
 	long countByRoleAndStatusAndIdNot(Role role, EmployeeStatus status, UUID excludedId);
+
+	/** Locks one person's row until the transaction ends, to serialise checks such as the leave balance. */
+	@Lock(LockModeType.PESSIMISTIC_WRITE)
+	@Query("select u from User u where u.id = :id")
+	Optional<User> lockById(UUID id);
 
 	@Modifying
 	@Query("update User u set u.passwordResetRequestedAt = :at where u.email = :email and u.status = :status")

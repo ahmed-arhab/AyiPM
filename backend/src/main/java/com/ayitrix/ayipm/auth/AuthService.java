@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ayitrix.ayipm.activity.ActivityService;
 import com.ayitrix.ayipm.common.ApiException;
 import com.ayitrix.ayipm.common.Text;
 import com.ayitrix.ayipm.employee.EmployeeStatus;
@@ -35,9 +36,10 @@ public class AuthService {
 	private final LoginAttemptRepository attempts;
 	private final SessionService sessions;
 	private final PasswordHasher hasher;
+	private final ActivityService activity;
 
 	public AuthService(UserRepository users, WorkspaceRepository workspaces, InviteRepository invites, PasswordResetRepository resets,
-			LoginAttemptRepository attempts, SessionService sessions, PasswordHasher hasher) {
+			LoginAttemptRepository attempts, SessionService sessions, PasswordHasher hasher, ActivityService activity) {
 		this.users = users;
 		this.workspaces = workspaces;
 		this.invites = invites;
@@ -45,6 +47,7 @@ public class AuthService {
 		this.attempts = attempts;
 		this.sessions = sessions;
 		this.hasher = hasher;
+		this.activity = activity;
 	}
 
 	/** Creates the workspace and its owner. Only allowed while there are no accounts. */
@@ -72,7 +75,9 @@ public class AuthService {
 		owner.setRole(Role.ADMIN);
 		owner.setJoinDate(LocalDate.now());
 		owner.setPasswordHash(hasher.hash(password));
-		return users.saveAndFlush(owner);
+		users.saveAndFlush(owner);
+		recordAuth(owner, "Created Workspace");
+		return owner;
 	}
 
 	/**
@@ -101,7 +106,13 @@ public class AuthService {
 		if (!user.get().isActive()) throw new ApiException(HttpStatus.FORBIDDEN, "This account has been deactivated. Contact your administrator.");
 
 		attempt.ifPresent(attempts::delete);
+		recordAuth(user.get(), "Signed In");
 		return user.get();
+	}
+
+	@Transactional
+	public void signedOut(User user) {
+		recordAuth(user, "Signed Out");
 	}
 
 	@Transactional
@@ -117,11 +128,13 @@ public class AuthService {
 	public AccessLink resendInvite(User user, User createdBy) {
 		if (user.hasJoined()) throw ApiException.conflict("This person has already joined. Send a password reset link instead.");
 		if (!user.isActive()) throw ApiException.badRequest("Reactivate this account before sending an invitation.");
-		return issueInvite(user, createdBy);
+		AccessLink link = issueInvite(user, createdBy);
+		activity.record(createdBy, "Issued Invitation Link", ActivityService.EMPLOYEE, user.getId(), user.getName());
+		return link;
 	}
 
 	@Transactional
-	public AccessLink issuePasswordReset(User user) {
+	public AccessLink issuePasswordReset(User actor, User user) {
 		if (!user.isActive()) throw ApiException.badRequest("Reactivate this account before sending a reset link.");
 		if (!user.hasJoined()) throw ApiException.conflict("This person has not accepted their invitation yet. Share a new invite link instead.");
 		String token = Tokens.create();
@@ -130,6 +143,7 @@ public class AuthService {
 		resets.save(new PasswordReset(Tokens.hash(token), user, expiresAt));
 		user.setPasswordResetRequestedAt(null);
 		users.save(user);
+		activity.record(actor, "Issued Password Reset Link", ActivityService.AUTH, user.getId(), user.getName());
 		return new AccessLink(token, expiresAt);
 	}
 
@@ -149,6 +163,7 @@ public class AuthService {
 		user.setPasswordHash(hasher.hash(password));
 		users.save(user);
 		invites.deleteAllForUser(user.getId());
+		recordAuth(user, "Accepted Invitation");
 		return user;
 	}
 
@@ -180,6 +195,11 @@ public class AuthService {
 		if (newPassword.equals(currentPassword)) throw ApiException.badRequest("New password must be different from the current one.");
 		user.setPasswordHash(hasher.hash(newPassword));
 		users.save(user);
+		recordAuth(user, "Changed Password");
+	}
+
+	private void recordAuth(User user, String action) {
+		activity.record(user, action, ActivityService.AUTH, user.getId(), user.getName());
 	}
 
 	/** Flags the account for admins. Never reveals whether the account exists. */
