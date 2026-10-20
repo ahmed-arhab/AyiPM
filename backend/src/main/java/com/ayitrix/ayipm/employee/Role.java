@@ -12,22 +12,29 @@ import jakarta.persistence.Converter;
 
 /** Keep the permissions in sync with src/constants/roles.ts in the frontend. */
 public enum Role {
-	ADMIN("admin", EnumSet.allOf(Permission.class)),
-	PROJECT_MANAGER("project_manager", EnumSet.of(
+	ADMIN("admin", "Admin", EnumSet.allOf(Permission.class)),
+	PROJECT_MANAGER("project_manager", "Project Manager", EnumSet.of(
 			Permission.ATTENDANCE_VIEW_ALL,
 			Permission.ATTENDANCE_EXPORT,
 			Permission.LEAVE_REVIEW,
 			Permission.PROJECTS_MANAGE,
 			Permission.TASKS_MANAGE,
 			Permission.ACTIVITY_VIEW_ALL)),
-	EMPLOYEE("employee", EnumSet.noneOf(Permission.class));
+	EMPLOYEE("employee", "Employee", EnumSet.noneOf(Permission.class));
 
 	private final String value;
+	private final String label;
 	private final Set<Permission> permissions;
 
-	Role(String value, Set<Permission> permissions) {
+	Role(String value, String label, Set<Permission> permissions) {
 		this.value = value;
+		this.label = label;
 		this.permissions = permissions;
+	}
+
+	/** Display name, as in ROLE_LABELS in the frontend. */
+	public String label() {
+		return label;
 	}
 
 	/** The name used in the API and the database, e.g. "project_manager". */

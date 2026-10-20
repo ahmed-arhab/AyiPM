@@ -1,5 +1,10 @@
 package com.ayitrix.ayipm.workspace;
 
+import java.time.Clock;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Optional;
 import java.util.function.IntConsumer;
 import java.util.regex.Pattern;
@@ -7,7 +12,9 @@ import java.util.regex.Pattern;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ayitrix.ayipm.activity.ActivityService;
 import com.ayitrix.ayipm.common.ApiException;
+import com.ayitrix.ayipm.employee.User;
 import com.ayitrix.ayipm.employee.UserRepository;
 
 @Service
@@ -18,10 +25,36 @@ public class WorkspaceService {
 
 	private final WorkspaceRepository workspaces;
 	private final UserRepository users;
+	private final Clock clock;
+	private final ActivityService activity;
 
-	public WorkspaceService(WorkspaceRepository workspaces, UserRepository users) {
+	public WorkspaceService(WorkspaceRepository workspaces, UserRepository users, Clock clock, ActivityService activity) {
 		this.workspaces = workspaces;
 		this.users = users;
+		this.clock = clock;
+		this.activity = activity;
+	}
+
+	/** The workspace's time zone, or UTC if it isn't set up or the stored value isn't a valid zone. */
+	@Transactional(readOnly = true)
+	public ZoneId zone() {
+		try {
+			return workspaces.findById(Workspace.DEFAULT_ID).map(w -> ZoneId.of(w.getTimezone())).orElse(ZoneOffset.UTC);
+		} catch (DateTimeException e) {
+			return ZoneOffset.UTC;
+		}
+	}
+
+	/** Today's date in the workspace's time zone. */
+	public LocalDate today() {
+		return LocalDate.now(clock.withZone(zone()));
+	}
+
+	@Transactional(readOnly = true)
+	public WorkspaceSettings.LeaveAllowance leaveAllowance() {
+		return workspaces.findById(Workspace.DEFAULT_ID)
+				.map(w -> new WorkspaceSettings.LeaveAllowance(w.getAnnualLeaveDays(), w.getSickLeaveDays(), w.getCasualLeaveDays()))
+				.orElse(new WorkspaceSettings.LeaveAllowance(20, 10, 7));
 	}
 
 	@Transactional(readOnly = true)
@@ -40,7 +73,7 @@ public class WorkspaceService {
 	}
 
 	@Transactional
-	public WorkspaceSettings update(WorkspaceSettings update) {
+	public WorkspaceSettings update(User actor, WorkspaceSettings update) {
 		Workspace workspace = workspaces.findById(Workspace.DEFAULT_ID)
 				.orElseThrow(() -> ApiException.notFound("Workspace has not been set up."));
 
@@ -79,7 +112,9 @@ public class WorkspaceService {
 			setLeaveDays(allowance.sick(), workspace::setSickLeaveDays);
 			setLeaveDays(allowance.casual(), workspace::setCasualLeaveDays);
 		}
-		return WorkspaceSettings.from(workspaces.saveAndFlush(workspace));
+		WorkspaceSettings saved = WorkspaceSettings.from(workspaces.saveAndFlush(workspace));
+		activity.record(actor, "Updated Workspace Settings", ActivityService.SETTINGS, null, "Workspace");
+		return saved;
 	}
 
 	private static void setLeaveDays(Integer days, IntConsumer setter) {
