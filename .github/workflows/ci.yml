@@ -36,3 +36,10 @@ jobs:
           cache: maven
       # Tests start their own embedded Postgres, so no database service is needed.
       - run: ./mvnw -B verify
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the backend and frontend images
+        run: docker compose --profile app build

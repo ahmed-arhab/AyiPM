@@ -42,7 +42,37 @@ Accounts, sign-in and workspace settings are stored in Postgres and served by th
 
 Permissions are defined in `frontend/src/constants/roles.ts` for the UI and in `backend/.../employee/Role.java` for the API. Keep the two in sync: the UI hides what you can't do, and the API refuses it.
 
+## Run with Docker
+
+To try AyiPM or run it for your team, you only need [Docker](https://docs.docker.com/get-docker/). From the repository root:
+
+```bash
+docker compose --profile app up --build
+```
+
+This builds and starts Postgres, the backend and the frontend. Open http://localhost:3000 and create your workspace on the **/setup** page. The first build downloads dependencies and takes a few minutes; later starts are quick.
+
+To try it with the demo accounts instead of an empty workspace:
+
+```bash
+SPRING_PROFILES_ACTIVE=demo docker compose --profile app up --build
+```
+
+Other useful commands:
+
+| Command | What it does |
+| --- | --- |
+| `docker compose --profile app up -d --build` | Start everything in the background |
+| `docker compose --profile app logs -f backend` | Follow the backend's logs |
+| `docker compose --profile app down` | Stop everything; your data is kept |
+| `docker compose --profile app down -v` | Stop everything and delete the database |
+| `FRONTEND_PORT=3005 docker compose --profile app up` | Use another port if 3000 is taken |
+
+Data is stored in the `postgres-data` Docker volume, so it survives restarts and rebuilds. Only the frontend is published on your machine; the backend is reachable only from the frontend inside Docker. Before running it for real users, change the database password in `compose.yaml` and put it behind HTTPS.
+
 ## Getting started
+
+This section is for working on the code. You run the backend and frontend yourself, so changes reload straight away; only Postgres runs in Docker.
 
 You need:
 
@@ -179,8 +209,9 @@ To change the schema, add a new file such as `V2__add_projects.sql` next to the 
 ## Project structure
 
 ```text
-compose.yaml                 Local Postgres for development
+compose.yaml                 Postgres for development; the full app with --profile app
 frontend/                    Next.js web app
+├── Dockerfile               Production image (standalone Next.js server)
 ├── public/                  Static files (logo, icons)
 └── src/
     ├── app/                 Route files; each page renders one feature view
@@ -196,6 +227,7 @@ frontend/                    Next.js web app
     ├── constants/           Roles and permissions, status labels, navigation, defaults
     └── types/               Domain types, one file per domain
 backend/                     Spring Boot API
+├── Dockerfile               Production image (builds and runs the jar)
 └── src/
     ├── main/java/com/ayitrix/ayipm/
     │   ├── auth/            Setup, sign-in, sessions, invites, password resets
