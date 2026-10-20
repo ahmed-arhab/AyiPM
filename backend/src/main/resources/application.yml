@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: ayipm-backend
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/ayipm}
+    username: ${DATABASE_USERNAME:ayipm}
+    password: ${DATABASE_PASSWORD:ayipm}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+
+server:
+  port: ${PORT:8080}
+  # Trust X-Forwarded-* from the Next.js proxy so the session cookie is marked Secure behind HTTPS.
+  forward-headers-strategy: framework
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health

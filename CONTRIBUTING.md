@@ -9,7 +9,7 @@ Open issues are labelled by difficulty, so you can pick one that fits your exper
 | Label | What to expect |
 | --- | --- |
 | `level: beginner` | Small, self-contained changes, usually in one or two files. Also labelled `good first issue`. |
-| `level: intermediate` | Features or tooling across a few files. You should be comfortable with React state and the store in `src/store`. |
+| `level: intermediate` | Features or tooling across a few files. You should be comfortable with React state and the store in `frontend/src/store`, or with Spring Boot for backend work. |
 | `level: advanced` | Backend, architecture or security work. Comment with your plan before you start. |
 
 Unassigned issues by level:
@@ -118,10 +118,10 @@ Open the PR as a draft if you'd like early feedback. Mark it ready for review wh
 
 ## Before you ask for review
 
-- [ ] `npx tsc --noEmit` passes.
-- [ ] `npm run build` succeeds.
+- [ ] Frontend changes: `npx tsc --noEmit` passes and `npm run build` succeeds (in `frontend/`).
+- [ ] Backend changes: `./mvnw verify` passes (in `backend/`), with tests for new endpoints.
 - [ ] The change works in light and dark mode, and at phone width.
-- [ ] Permissions are respected: try it as an admin, a project manager and an employee where it matters (`npm run db:seed` creates one of each; see the README).
+- [ ] Permissions are respected: try it as an admin, a project manager and an employee where it matters (start the backend with the `demo` profile to get one account of each; see the README).
 - [ ] Nothing in the code relies on placeholder data, test accounts or hardcoded people.
 - [ ] No stray `console.log`, commented-out code or unused files.
 
@@ -129,17 +129,28 @@ Open the PR as a draft if you'd like early feedback. Mark it ready for review wh
 
 The README describes the project structure. In practice:
 
+### Frontend (`frontend/`)
+
 - **Where code goes.** Route files in `src/app` only render a feature view. Feature UI lives in `src/features/<feature>/components`, feature hooks in `hooks/`, and pure helpers in `utils.ts`. Anything used by more than one feature belongs in `src/components/ui`, `src/hooks` or `src/lib`.
 - **Reuse the UI kit.** Before writing a new button, modal, form field, table or empty state, check `src/components/ui`.
 - **State.** Read state with narrow selectors (`useAppStore(s => s.projects)`, `useEmployeesById()`). Change it only through the actions in `src/store/actions`. Never read or write `localStorage` from a component.
-- **Server code.** Code that touches the database lives in `src/server` (it imports `server-only`, so it can never end up in the browser bundle). API routes in `src/app/api` stay thin: read the request, call a service in `src/server`, return the result. Never send password hashes or tokens to the client.
-- **Database changes.** Edit `prisma/schema.prisma`, then run `npm run db:migrate -- --name <short-description>` and commit the generated migration with your change.
-- **Permissions.** Check permissions with `usePermission(...)` in the UI and with `requireUser(permission)` in API routes. Store actions also call `authorize(...)`. Hiding a button is not enough on its own.
+- **Talking to the backend.** Call the API only through `api()` in `src/lib/api.ts`, from store actions. Use relative `/api/...` URLs; the dev server forwards them to the backend.
+- **Permissions.** Check permissions with `usePermission(...)` in the UI. Store actions also call `authorize(...)`. Hiding a button is not enough on its own: the backend must refuse the action too.
 - **Data.** Store ids, not copies. Resolve names and avatars through the id maps (`useEmployeesById`, `useProjectsById`).
 - **Styling.** Use a CSS module next to the component, and the tokens in `globals.css` (`var(--text-primary)`, `var(--border-subtle)`, the `--gray-*` scale). Avoid large inline style objects and hardcoded colours.
 - **Performance.** Memoise derived lists with `useMemo`, avoid `.find` or `.filter` inside loops over large lists, and keep per-second timers (`useNow`) inside small leaf components.
 - **Comments.** Prefer clear names over comments. When a comment is needed, keep it to one line that explains *why*, not *what*.
 - **Size.** If a component grows past roughly 200 lines, it is usually doing more than one job. Split it.
+
+### Backend (`backend/`)
+
+- **Where code goes.** Group code by feature under `com.ayitrix.ayipm` (`auth`, `employee`, `workspace`, ...). A feature has its JPA entities, Spring Data repositories, a service with the rules, and a controller. Shared helpers go in `common`.
+- **Controllers stay thin.** Read the request, check the session with `SessionService.requireUser(request, permission)`, call a service, and return `ApiResponse.ok(...)`. Business rules and validation belong in the service.
+- **Errors.** Throw `ApiException` with the status and a message the user can read. Anything else is logged and returned as a generic 500, so never put user-facing text in other exceptions.
+- **API shape.** Responses are `{ "data": ... }` or `{ "error": "..." }`. Return records (like `EmployeeResponse`), never entities, and keep them in sync with the TypeScript types in `frontend/src/types`. Never send password hashes or tokens to the client, apart from the one-time invite or reset link an admin shares.
+- **Permissions.** Every endpoint that needs a role checks it in the controller with `requireUser(request, Permission.X)`. Role permissions live in `employee/Role.java` and must match `frontend/src/constants/roles.ts`.
+- **Database changes.** Add a new Flyway migration in `src/main/resources/db/migration` (for example `V2__add_projects.sql`) and update the entities to match. Never edit a migration that has been merged. Startup fails if the entities and tables disagree.
+- **Tests.** Add integration tests next to the feature in `src/test/java`, extending `IntegrationTest`. They call the real API over HTTP against a temporary Postgres, so test behaviour, not internals.
 
 ## Reporting bugs
 

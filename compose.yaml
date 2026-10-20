@@ -1,0 +1,45 @@
+# Development: `docker compose up -d` starts only Postgres; run the backend and frontend yourself.
+# Everything in Docker: `docker compose --profile app up --build`, then open http://localhost:3000.
+# The database credentials match the defaults in backend/src/main/resources/application.yml.
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: ayipm
+      POSTGRES_USER: ayipm
+      POSTGRES_PASSWORD: ayipm
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ayipm -d ayipm"]
+      interval: 5s
+      retries: 10
+
+  backend:
+    profiles: [app]
+    build: ./backend
+    environment:
+      DATABASE_URL: jdbc:postgresql://postgres:5432/ayipm
+      DATABASE_USERNAME: ayipm
+      DATABASE_PASSWORD: ayipm
+      # Set to "demo" to create the demo accounts on an empty database.
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    profiles: [app]
+    build:
+      context: ./frontend
+      args:
+        BACKEND_URL: http://backend:8080
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    depends_on:
+      - backend
+
+volumes:
+  postgres-data:
