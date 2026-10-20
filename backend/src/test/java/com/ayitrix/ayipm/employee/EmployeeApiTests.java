@@ -30,6 +30,24 @@ class EmployeeApiTests extends IntegrationTest {
 	}
 
 	@Test
+	void adminsCanSetAPasswordInsteadOfSendingAnInvite() {
+		Client owner = signedInOwner();
+		Response created = owner.post("/api/employees", Map.of(
+				"name", "Ready Member", "email", "ready@test.com", "password", "ReadyPass123",
+				"department", "Engineering", "designation", "Dev", "role", "employee"))
+				.expectStatus(201);
+		assertThat(created.data().path("invite").isNull()).isTrue();
+		assertThat(created.data().path("employee").path("invited").asBoolean()).isFalse();
+		client().post("/api/auth/login", Map.of("email", "ready@test.com", "password", "ReadyPass123")).expectStatus(200);
+
+		Response tooShort = owner.post("/api/employees", Map.of(
+				"name", "X", "email", "short@test.com", "password", "short",
+				"department", "Engineering", "designation", "Dev", "role", "employee"));
+		assertThat(tooShort.status()).isEqualTo(400);
+		assertThat(tooShort.error()).isEqualTo("Password must be at least 8 characters.");
+	}
+
+	@Test
 	void duplicateEmailsAndEmployeeIdsAreRejected() {
 		Client owner = signedInOwner();
 		Response email = owner.post("/api/employees", Map.of(

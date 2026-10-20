@@ -75,12 +75,15 @@ public class AuthService {
 		return users.saveAndFlush(owner);
 	}
 
-	/** Checks the credentials. Failed attempts are recorded even though the request fails. */
+	/**
+	 * Checks the credentials. The identifier is a work email or an employee ID. Failed attempts are recorded even
+	 * though the request fails.
+	 */
 	@Transactional(noRollbackFor = ApiException.class)
-	public User authenticate(String rawEmail, String password) {
-		String email = Text.normalizeEmail(rawEmail);
+	public User authenticate(String rawIdentifier, String password) {
+		String email = Text.normalizeEmail(rawIdentifier);
 		if (email.isEmpty() || password.isEmpty()) throw ApiException.badRequest("Enter your email and password.");
-		Optional<User> user = users.findByEmail(email);
+		Optional<User> user = users.findFirstByEmailOrEmployeeId(email, Text.trim(rawIdentifier).toUpperCase());
 		String key = user.map(u -> "user:" + u.getId()).orElse("email:" + email);
 
 		Optional<LoginAttempt> attempt = attempts.findById(key);

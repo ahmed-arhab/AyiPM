@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
 
-	Optional<User> findByEmail(String email);
+	Optional<User> findFirstByEmailOrEmployeeId(String email, String employeeId);
 
 	List<User> findAllByOrderByCreatedAtAsc();
 

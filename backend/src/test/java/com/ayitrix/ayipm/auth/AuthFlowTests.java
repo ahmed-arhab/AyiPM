@@ -43,6 +43,14 @@ class AuthFlowTests extends IntegrationTest {
 	}
 
 	@Test
+	void membersCanSignInWithTheirEmployeeId() {
+		signedInOwner();
+		Response login = client().post("/api/auth/login", Map.of("email", " ax001 ", "password", "Secret123!")).expectStatus(200);
+		assertThat(login.data().path("user").path("email").asString()).isEqualTo("owner@test.com");
+		assertThat(client().post("/api/auth/login", Map.of("email", "AX001", "password", "wrong")).status()).isEqualTo(401);
+	}
+
+	@Test
 	void wrongPasswordsLockTheAccountAfterFiveAttempts() {
 		signedInOwner();
 		Client browser = client();

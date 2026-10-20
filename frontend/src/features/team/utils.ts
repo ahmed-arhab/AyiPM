@@ -113,6 +113,7 @@ export function computeTeamStats(employees: Employee[], projectsByMember: Map<st
 export interface MemberFormValues {
   name: string;
   email: string;
+  password?: string;
   employeeId: string;
   department: string;
   designation: string;
@@ -126,6 +127,7 @@ export function emptyMemberForm(): MemberFormValues {
   return {
     name: '',
     email: '',
+    password: '',
     employeeId: '',
     department: DEPARTMENTS[0],
     designation: '',
@@ -140,6 +142,7 @@ export function memberFormFromEmployee(e: Employee): MemberFormValues {
   return {
     name: e.name,
     email: e.email,
+    password: '',
     employeeId: e.employeeId,
     department: e.department,
     designation: e.designation,
@@ -150,11 +153,29 @@ export function memberFormFromEmployee(e: Employee): MemberFormValues {
   };
 }
 
-export function validateMemberForm(values: MemberFormValues, requireEmployeeId = false): FieldErrors<MemberFormValues> {
+export interface ValidateMemberFormOptions {
+  requireEmployeeId?: boolean;
+  requirePassword?: boolean;
+}
+
+export function validateMemberForm(
+  values: MemberFormValues,
+  options?: ValidateMemberFormOptions | boolean
+): FieldErrors<MemberFormValues> {
+  const requireEmployeeId = typeof options === 'boolean' ? options : !!options?.requireEmployeeId;
+  const requirePassword = typeof options === 'object' ? !!options?.requirePassword : false;
+
   const errors: FieldErrors<MemberFormValues> = {};
   if (!values.name.trim()) errors.name = 'Name is required.';
   if (!values.email.trim()) errors.email = 'Email is required.';
   else if (!isValidEmail(values.email)) errors.email = 'Enter a valid email address.';
+  if (requirePassword) {
+    if (!values.password?.trim()) {
+      errors.password = 'Password is required.';
+    } else if (values.password.length < 8) {
+      errors.password = 'Password must be at least 8 characters.';
+    }
+  }
   if (requireEmployeeId && !values.employeeId.trim()) errors.employeeId = 'Employee ID is required.';
   if (!values.department) errors.department = 'Choose a department.';
   if (!values.designation.trim()) errors.designation = 'Designation is required.';
@@ -165,6 +186,7 @@ export function toEmployeeInput(values: MemberFormValues): EmployeeInput {
   return {
     name: values.name,
     email: values.email,
+    password: values.password?.trim() ? values.password : undefined,
     employeeId: values.employeeId.trim() || undefined,
     department: values.department,
     designation: values.designation,

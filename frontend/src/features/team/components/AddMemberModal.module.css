@@ -3,3 +3,85 @@
   flex-direction: column;
   gap: 1.25rem;
 }
+
+.successCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.successHead {
+  display: flex;
+  gap: 0.85rem;
+  align-items: flex-start;
+}
+
+.successIcon {
+  color: var(--success, #10b981);
+  background: color-mix(in srgb, var(--success, #10b981) 12%, transparent);
+  border-radius: var(--radius-full, 9999px);
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.successTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.successDesc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.detailsList {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md, 8px);
+  background: var(--bg-subtle);
+  overflow: hidden;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.65rem 0.9rem;
+  font-size: 0.85rem;
+}
+
+.detailRow + .detailRow {
+  border-top: 1px solid var(--border-subtle);
+}
+
+.detailRow dt {
+  color: var(--text-secondary);
+}
+
+.detailRow dd {
+  margin: 0;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: right;
+  word-break: break-all;
+}
+
+.readyNotice {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.825rem;
+  color: var(--text-secondary);
+  background: color-mix(in srgb, var(--primary, #3b82f6) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary, #3b82f6) 20%, transparent);
+  border-radius: var(--radius-sm, 6px);
+  padding: 0.6rem 0.85rem;
+}

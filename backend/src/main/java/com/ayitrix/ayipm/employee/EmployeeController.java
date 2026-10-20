@@ -54,7 +54,7 @@ public class EmployeeController {
 	public ResponseEntity<ApiResponse<CreatedEmployee>> create(HttpServletRequest request, @RequestBody CreateEmployeeRequest body) {
 		User actor = sessions.requireUser(request, Permission.EMPLOYEES_MANAGE);
 		User user = employees.create(body);
-		AccessLink invite = auth.issueInvite(user, actor);
+		AccessLink invite = user.hasJoined() ? null : auth.issueInvite(user, actor);
 		return ApiResponse.created(new CreatedEmployee(EmployeeResponse.from(user), invite));
 	}
 

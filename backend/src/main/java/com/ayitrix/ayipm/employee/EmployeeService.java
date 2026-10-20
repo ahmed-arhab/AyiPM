@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ayitrix.ayipm.auth.PasswordHasher;
 import com.ayitrix.ayipm.auth.SessionService;
 import com.ayitrix.ayipm.common.ApiException;
 import com.ayitrix.ayipm.common.Text;
@@ -33,11 +34,13 @@ public class EmployeeService {
 	private final UserRepository users;
 	private final WorkspaceService workspace;
 	private final SessionService sessions;
+	private final PasswordHasher hasher;
 
-	public EmployeeService(UserRepository users, WorkspaceService workspace, SessionService sessions) {
+	public EmployeeService(UserRepository users, WorkspaceService workspace, SessionService sessions, PasswordHasher hasher) {
 		this.users = users;
 		this.workspace = workspace;
 		this.sessions = sessions;
+		this.hasher = hasher;
 	}
 
 	@Transactional(readOnly = true)
@@ -62,8 +65,11 @@ public class EmployeeService {
 		if (Text.trimToNull(input.department()) == null) throw ApiException.badRequest("Department is required.");
 		Role role = parseRole(input.role());
 		assertUniqueIdentity(email, requestedId, null);
+		boolean hasPassword = input.password() != null && !input.password().isEmpty();
+		if (hasPassword) PasswordHasher.assertAcceptable(input.password());
 
 		User user = new User();
+		if (hasPassword) user.setPasswordHash(hasher.hash(input.password()));
 		user.setName(name);
 		user.setEmail(email);
 		user.setEmployeeId(requestedId != null ? requestedId : nextEmployeeId());
