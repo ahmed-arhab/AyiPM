@@ -14,8 +14,8 @@ Closes #
 
 ## Checklist
 
-- [ ] `npx tsc --noEmit` passes
-- [ ] `npm run build` succeeds
+- [ ] Frontend: `npx tsc --noEmit` and `npm run build` pass (or no frontend changes)
+- [ ] Backend: `./mvnw verify` passes (or no backend changes)
 - [ ] Works in light and dark mode, and at phone width
 - [ ] Permissions checked for the roles affected
 - [ ] No placeholder data, stray logs or commented-out code

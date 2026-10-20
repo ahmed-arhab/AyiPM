@@ -16,9 +16,9 @@ You'll get an acknowledgement within a few days. Once the issue is confirmed, we
 
 The areas we most care about are:
 
-- Sign-in, sessions and password handling (`src/server/auth.ts`, `src/server/session.ts`, `src/app/api/auth`)
+- Sign-in, sessions and password handling (`backend/src/main/java/com/ayitrix/ayipm/auth`)
 - Invitation and password reset links
-- Permission checks in the API routes (`src/app/api`)
+- Permission checks in the backend controllers
 - Anything that could expose one user's data to another
 
 ## Supported versions
