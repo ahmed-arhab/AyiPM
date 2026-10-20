@@ -2,6 +2,7 @@ package com.ayitrix.ayipm.auth;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.time.Instant;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -15,5 +16,9 @@ interface InviteRepository extends JpaRepository<Invite, UUID> {
 	@Modifying
 	@Query("delete from Invite i where i.user.id = :userId")
 	void deleteAllForUser(UUID userId);
+
+	@Modifying
+	@Query("delete from Invite i where i.expiresAt < :now")
+	void deleteExpired(Instant now);
 
 }

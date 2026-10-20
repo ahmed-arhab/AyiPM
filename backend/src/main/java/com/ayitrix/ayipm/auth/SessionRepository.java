@@ -2,6 +2,7 @@ package com.ayitrix.ayipm.auth;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.time.Instant;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,5 +20,9 @@ interface SessionRepository extends JpaRepository<Session, UUID> {
 	@Modifying
 	@Query("delete from Session s where s.user.id = :userId")
 	void deleteAllForUser(UUID userId);
+
+	@Modifying
+	@Query("delete from Session s where s.expiresAt < :now")
+	void deleteExpired(Instant now);
 
 }
