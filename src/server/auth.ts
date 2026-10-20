@@ -70,9 +70,15 @@ export async function setupWorkspace(input: SetupInput): Promise<User> {
 
 export { needsSetup };
 
-async function attemptKey(email: string): Promise<{ key: string; user: User | null }> {
-  const user = await db.user.findUnique({ where: { email } });
-  return { key: user ? `user:${user.id}` : `email:${email}`, user };
+async function attemptKey(rawIdentifier: string): Promise<{ key: string; user: User | null }> {
+  const normalizedEmail = rawIdentifier.trim().toLowerCase();
+  const normalizedId = rawIdentifier.trim().toUpperCase();
+  const user = await db.user.findFirst({
+    where: {
+      OR: [{ email: normalizedEmail }, { employeeId: normalizedId }],
+    },
+  });
+  return { key: user ? `user:${user.id}` : `email:${normalizedEmail}`, user };
 }
 
 async function recordFailure(key: string): Promise<boolean> {

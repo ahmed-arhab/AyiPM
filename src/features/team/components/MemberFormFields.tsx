@@ -1,5 +1,5 @@
 import { useId, useMemo } from 'react';
-import { Field, FormGrid, Input, Select, type SelectOption } from '@/components/ui';
+import { Field, FormGrid, Input, PasswordInput, Select, type SelectOption } from '@/components/ui';
 import { ROLE_OPTIONS } from '@/constants/roles';
 import type { FieldErrors } from '@/lib/validation';
 import type { UserRole } from '@/types';
@@ -13,6 +13,7 @@ interface MemberFormFieldsProps {
   employeeIdPlaceholder?: string;
   employeeIdRequired?: boolean;
   roleLocked?: boolean;
+  showPassword?: boolean;
 }
 
 export function MemberFormFields({
@@ -23,6 +24,7 @@ export function MemberFormFields({
   employeeIdPlaceholder,
   employeeIdRequired,
   roleLocked,
+  showPassword,
 }: MemberFormFieldsProps) {
   const id = useId();
   const departmentOptions = useMemo<SelectOption[]>(() => departments.map((d) => ({ value: d, label: d })), [departments]);
@@ -42,6 +44,24 @@ export function MemberFormFields({
           autoComplete="off"
         />
       </Field>
+      {showPassword && (
+        <Field
+          label="Login password"
+          htmlFor={`${id}-password`}
+          required
+          error={errors.password}
+          hint="Minimum 8 characters. Member will use this to sign in."
+        >
+          <PasswordInput
+            id={`${id}-password`}
+            value={values.password || ''}
+            placeholder="Set login password"
+            invalid={!!errors.password}
+            onChange={(e) => onChange('password', e.target.value)}
+            autoComplete="new-password"
+          />
+        </Field>
+      )}
       <Field
         label="Employee ID"
         htmlFor={`${id}-badge`}

@@ -18,17 +18,17 @@ export function generateEmployeeId(): string {
   return `${prefix}${String(max + 1).padStart(3, '0')}`;
 }
 
-export async function addEmployee(input: EmployeeInput): Promise<ActionResult<{ employee: Employee; invite: AccessLink }>> {
+export async function addEmployee(input: EmployeeInput): Promise<ActionResult<{ employee: Employee; invite?: AccessLink | null }>> {
   const auth = authorize('employees.manage');
   if (!auth.ok) return auth;
-  const result = handleUnauthorized(await api<{ employee: Employee; invite: AccessLink }>('POST', '/api/employees', input));
+  const result = handleUnauthorized(await api<{ employee: Employee; invite?: AccessLink | null }>('POST', '/api/employees', input));
   if (!result.ok) return result;
 
   const { employee } = result.data;
   upsertEmployee(employee);
   logActivity({
     actor: auth.data,
-    action: 'Invited Employee',
+    action: employee.invited ? 'Invited Employee' : 'Added Employee',
     entityType: 'employee',
     entityId: employee.id,
     entityName: employee.name,
