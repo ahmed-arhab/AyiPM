@@ -2,10 +2,13 @@ import { storage } from '@/lib/storage';
 import { LEGACY_STORAGE_KEYS, LEGACY_STORAGE_PREFIX, STORAGE_KEY, THEME_STORAGE_KEY } from '@/constants/defaults';
 import type { ThemeMode } from '@/types';
 import { appStore, getState, setState } from './appStore';
-import { refreshSession } from './actions/session';
+import { loadWorkspaceData, refreshNotifications, refreshSession } from './actions/session';
 import { createInitialState, PERSISTED_KEYS, type AppState, type PersistedState } from './state';
 
 const SAVE_DELAY_MS = 250;
+// Shared data is re-read when the tab regains focus (at most this often), and notifications every minute.
+const FOCUS_REFRESH_MS = 30_000;
+const NOTIFICATION_POLL_MS = 60_000;
 
 let started = false;
 let lastSerialized: string | null = null;
@@ -93,15 +96,27 @@ export function startPersistence(): () => void {
     }
   };
   const onHide = () => flush();
+  let lastFocusRefresh = Date.now();
+  const onFocus = () => {
+    if (Date.now() - lastFocusRefresh < FOCUS_REFRESH_MS) return;
+    lastFocusRefresh = Date.now();
+    void loadWorkspaceData();
+  };
+  const poll = setInterval(() => {
+    if (document.visibilityState === 'visible') void refreshNotifications();
+  }, NOTIFICATION_POLL_MS);
 
   window.addEventListener('storage', onStorage);
   window.addEventListener('pagehide', onHide);
+  window.addEventListener('focus', onFocus);
 
   return () => {
     flush();
     unsubscribe();
+    clearInterval(poll);
     window.removeEventListener('storage', onStorage);
     window.removeEventListener('pagehide', onHide);
+    window.removeEventListener('focus', onFocus);
     started = false;
   };
 }

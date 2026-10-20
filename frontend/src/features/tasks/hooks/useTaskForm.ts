@@ -41,12 +41,12 @@ export function useTaskForm({ task, defaultProjectId, onSaved }: Options) {
 
   const touch = useCallback((key: Field) => setTouched((prev) => (prev[key] ? prev : { ...prev, [key]: true })), []);
 
-  const submit = (event: FormEvent) => {
+  const submit = async (event: FormEvent) => {
     event.preventDefault();
     setTouched({ title: true, projectId: true, dueDate: true });
     if (!canSubmit) return;
     setSaving(true);
-    const result = task ? updateTask(task.id, diffTaskUpdate(task, values)) : createTask(toTaskInput(values));
+    const result = await (task ? updateTask(task.id, diffTaskUpdate(task, values)) : createTask(toTaskInput(values)));
     setSaving(false);
     if (!result.ok) {
       setServerError(result.error);

@@ -10,8 +10,8 @@ export function useLeaveActions() {
   const confirm = useConfirm();
 
   const approve = useCallback(
-    (request: LeaveRequest, employeeName: string) => {
-      const result = reviewLeaveRequest(request.id, 'approved');
+    async (request: LeaveRequest, employeeName: string) => {
+      const result = await reviewLeaveRequest(request.id, 'approved');
       if (result.ok) toast.success(`Approved ${pluralize(request.days, 'day')} of leave for ${employeeName}.`);
       else toast.error(result.error);
     },
@@ -28,7 +28,7 @@ export function useLeaveActions() {
         tone: 'danger',
       });
       if (!confirmed) return;
-      const result = cancelLeaveRequest(request.id);
+      const result = await cancelLeaveRequest(request.id);
       if (result.ok) toast.success('Leave request cancelled.');
       else toast.error(result.error);
     },

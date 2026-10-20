@@ -1,5 +1,6 @@
 import { Fragment, memo, useRef, type DragEvent } from 'react';
 import { canMoveTask, moveTask } from '@/store';
+import { useToast } from '@/components/feedback/ToastProvider';
 import { TASK_STATUS } from '@/constants/status';
 import { useT } from '@/translations';
 import { cn } from '@/lib/cn';
@@ -40,6 +41,7 @@ const isTaskDrag = (e: DragEvent) => e.dataTransfer.types.includes(TASK_DRAG_TYP
 export const KanbanColumn = memo(function KanbanColumn(props: KanbanColumnProps) {
   const { t, formatNumber } = useT();
   const { status, tasks, user, projectsById, employeesById, draggingId, dropIndex, formatDate, onOpenTask, onDragStart, onDragEnd } = props;
+  const toast = useToast();
   const listRef = useRef<HTMLDivElement>(null);
   const meta = TASK_STATUS[status];
 
@@ -65,9 +67,10 @@ export const KanbanColumn = memo(function KanbanColumn(props: KanbanColumnProps)
 
   const isTaskDrag = (e: DragEvent) => e.dataTransfer.types.includes(TASK_DRAG_TYPE);
 
-const moveToStatus = (taskId: string, status: TaskStatus) => {
-  moveTask(taskId, status);
-};
+  const moveToStatus = async (taskId: string, nextStatus: TaskStatus) => {
+    const result = await moveTask(taskId, nextStatus);
+    if (!result.ok) toast.error(result.error);
+  };
 
   return (
     <section

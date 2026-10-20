@@ -35,12 +35,12 @@ export function RequestLeaveModal({ onClose }: { onClose: () => void }) {
     return Math.max(0, bucket.total - bucket.used - pendingDaysByType(requests, user.id)[leaveType]);
   }, [leaveType, requests, user.id, leaveAllowance]);
 
-  const submit = (e: FormEvent) => {
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
     if (!startDate || !endDate) return setError('Choose a start and end date.');
     if (days <= 0) return setError('The end date must be on or after the start date.');
     if (!reason.trim()) return setError('Add a short reason for your reviewer.');
-    const result = submitLeaveRequest({ employeeId: user.id, leaveType, startDate, endDate, reason });
+    const result = await submitLeaveRequest({ employeeId: user.id, leaveType, startDate, endDate, reason });
     if (!result.ok) return setError(result.error);
     toast.success(`Leave request for ${pluralize(result.data.days, 'day')} submitted for review.`);
     onClose();

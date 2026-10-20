@@ -17,9 +17,9 @@ interface TaskStatusSelectProps {
 export function TaskStatusSelect({ task, disabled, id }: TaskStatusSelectProps) {
   const toast = useToast();
 
-  const handleChange = (status: TaskStatus) => {
+  const handleChange = async (status: TaskStatus) => {
     if (status === task.status) return;
-    const result = updateTask(task.id, { status });
+    const result = await updateTask(task.id, { status });
     if (result.ok) toast.success(`Moved to ${TASK_STATUS[status].label}.`);
     else toast.error(result.error);
   };

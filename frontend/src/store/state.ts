@@ -13,21 +13,24 @@ import type {
 } from '@/types';
 import { DEFAULT_WORKSPACE } from '@/constants/defaults';
 
+// Attendance is the last thing still saved in the browser, until the attendance API (#103) lands.
 export interface PersistedState {
-  projects: Project[];
-  tasks: Task[];
   attendance: AttendanceRecord[];
-  leaveRequests: LeaveRequest[];
-  activityLog: ActivityLogItem[];
-  notifications: NotificationItem[];
-  preferences: Record<string, UserPreferences>;
 }
 
+// Loaded from the backend after sign-in and cleared on sign-out.
 export interface ServerState {
   session: Session | null;
   employees: Employee[];
   workspace: WorkspaceSettings;
   needsSetup: boolean;
+  projects: Project[];
+  tasks: Task[];
+  leaveRequests: LeaveRequest[];
+  activityLog: ActivityLogItem[];
+  notifications: NotificationItem[];
+  // Only the signed-in person's entry is filled in.
+  preferences: Record<string, UserPreferences>;
 }
 
 export interface AppState extends PersistedState, ServerState {
@@ -35,15 +38,7 @@ export interface AppState extends PersistedState, ServerState {
   theme: ThemeMode;
 }
 
-export const PERSISTED_KEYS: (keyof PersistedState)[] = [
-  'projects',
-  'tasks',
-  'attendance',
-  'leaveRequests',
-  'activityLog',
-  'notifications',
-  'preferences',
-];
+export const PERSISTED_KEYS: (keyof PersistedState)[] = ['attendance'];
 
 export function createInitialState(): AppState {
   return {

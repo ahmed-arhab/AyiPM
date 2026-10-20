@@ -126,9 +126,9 @@ export function ProjectTodoList({
   }, [filteredTasks]);
 
   const handleToggleTaskStatus = useCallback(
-    (task: Task) => {
+    async (task: Task) => {
       const nextStatus: TaskStatus = task.status === 'done' ? 'backlog' : 'done';
-      const result = updateTask(task.id, { status: nextStatus });
+      const result = await updateTask(task.id, { status: nextStatus });
       if (result.ok) {
         if (nextStatus === 'done') {
           toast.success(`Completed "${task.title}"`);

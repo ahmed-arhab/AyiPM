@@ -147,7 +147,7 @@ function ProjectDetailsContent({ projectId }: { projectId?: string }) {
     });
     if (!confirmed) return;
     leavingRef.current = true;
-    const result = deleteProject(project.id);
+    const result = await deleteProject(project.id);
     if (!result.ok) {
       leavingRef.current = false;
       toast.error(result.error);

@@ -20,8 +20,8 @@ interface ProjectDetailsHeaderProps {
 export function ProjectDetailsHeader({ project, canManage, onEdit, onDelete }: ProjectDetailsHeaderProps) {
   const toast = useToast();
 
-  const changeStatus = (status: ProjectStatus) => {
-    const result = updateProjectStatus(project.id, status);
+  const changeStatus = async (status: ProjectStatus) => {
+    const result = await updateProjectStatus(project.id, status);
     if (result.ok) toast.success('Project status updated');
     else toast.error(result.error);
   };

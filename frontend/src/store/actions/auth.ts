@@ -1,8 +1,7 @@
 import { api } from '@/lib/api';
 import type { ActionResult, BootstrapPayload, Employee, InviteDetails } from '@/types';
 import { authorize, fail, ok } from '../appStore';
-import { logActivity } from './activity';
-import { applyBootstrap, clearSession, handleUnauthorized } from './session';
+import { applyBootstrap, clearSession, handleUnauthorized, loadWorkspaceData, refreshActivity } from './session';
 
 export interface SetupInput {
   companyName: string;
@@ -11,33 +10,30 @@ export interface SetupInput {
   password: string;
 }
 
-async function signIn(request: Promise<ActionResult<BootstrapPayload>>, action: string): Promise<ActionResult<Employee>> {
+// The server records the sign-in in the activity log.
+async function signIn(request: Promise<ActionResult<BootstrapPayload>>): Promise<ActionResult<Employee>> {
   const result = await request;
   if (!result.ok) return result;
   applyBootstrap(result.data);
   const user = result.data.user;
   if (!user) return fail('Sign-in failed. Please try again.');
-  logActivity({ actor: user, action, entityType: 'auth', entityId: user.id, entityName: user.name });
+  await loadWorkspaceData();
   return ok(user);
 }
 
 export function setupWorkspace(input: SetupInput): Promise<ActionResult<Employee>> {
-  return signIn(api<BootstrapPayload>('POST', '/api/setup', input), 'Created Workspace');
+  return signIn(api<BootstrapPayload>('POST', '/api/setup', input));
 }
 
 export function login(email: string, password: string, remember = false): Promise<ActionResult<Employee>> {
-  return signIn(api<BootstrapPayload>('POST', '/api/auth/login', { email, password, remember }), 'Signed In');
+  return signIn(api<BootstrapPayload>('POST', '/api/auth/login', { email, password, remember }));
 }
 
 export function acceptInvite(token: string, password: string): Promise<ActionResult<Employee>> {
-  return signIn(api<BootstrapPayload>('POST', '/api/auth/invite', { token, password }), 'Accepted Invitation');
+  return signIn(api<BootstrapPayload>('POST', '/api/auth/invite', { token, password }));
 }
 
 export async function logout(): Promise<void> {
-  const auth = authorize();
-  if (auth.ok) {
-    logActivity({ actor: auth.data, action: 'Signed Out', entityType: 'auth', entityId: auth.data.id, entityName: auth.data.name });
-  }
   await api('POST', '/api/auth/logout');
   clearSession();
 }
@@ -65,6 +61,6 @@ export async function changePassword(currentPassword: string, newPassword: strin
   if (!auth.ok) return auth;
   const result = handleUnauthorized(await api<null>('POST', '/api/auth/password', { currentPassword, newPassword }));
   if (!result.ok) return result;
-  logActivity({ actor: auth.data, action: 'Changed Password', entityType: 'auth', entityId: auth.data.id, entityName: auth.data.name });
+  void refreshActivity();
   return ok();
 }
