@@ -116,3 +116,55 @@
   font-size: 0.75rem;
   color: var(--text-muted);
 }
+
+.menuWrap {
+  position: relative;
+  margin-left: auto;
+}
+
+.menuButton {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.menuButton:hover,
+.menuButton:focus-visible {
+  background: rgb(0 0 0 / 8%);
+}
+
+.menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 10;
+  min-width: 140px;
+  padding: 4px;
+  border: 1px solid rgb(0 0 0 / 12%);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 15%);
+}
+
+.menuItem {
+  display: block;
+  width: 100%;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.menuItem:hover,
+.menuItem:focus-visible {
+  background: rgb(0 0 0 / 8%);
+}

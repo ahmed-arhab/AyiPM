@@ -1,5 +1,5 @@
 import { Fragment, memo, useRef, type DragEvent } from 'react';
-import { canMoveTask } from '@/store';
+import { canMoveTask, moveTask } from '@/store';
 import { TASK_STATUS } from '@/constants/status';
 import { useT } from '@/translations';
 import { cn } from '@/lib/cn';
@@ -63,6 +63,12 @@ export const KanbanColumn = memo(function KanbanColumn(props: KanbanColumnProps)
   let visibleIndex = 0;
   const indicator = <div className={styles.indicator} aria-hidden />;
 
+  const isTaskDrag = (e: DragEvent) => e.dataTransfer.types.includes(TASK_DRAG_TYPE);
+
+const moveToStatus = (taskId: string, status: TaskStatus) => {
+  moveTask(taskId, status);
+};
+
   return (
     <section
       className={cn(styles.column, dropIndex !== null && styles.over)}
@@ -94,6 +100,7 @@ export const KanbanColumn = memo(function KanbanColumn(props: KanbanColumnProps)
                 onOpen={onOpenTask}
                 onDragStart={onDragStart}
                 onDragEnd={onDragEnd}
+                onMove={moveToStatus}
               />
             </Fragment>
           );

@@ -1,8 +1,10 @@
-import { memo, type DragEvent, type KeyboardEvent } from 'react';
-import { GripVertical, MessageSquare } from 'lucide-react';
+import { memo, useEffect, useRef, useState, type DragEvent, type KeyboardEvent } from 'react';
+import { GripVertical, MessageSquare, MoreHorizontal } from 'lucide-react';
 import { StatusBadge } from '@/components/ui';
+import { TASK_STATUS } from '@/constants/status';
+import { useT } from '@/translations';
 import { cn } from '@/lib/cn';
-import type { Employee, Task } from '@/types';
+import type { Employee, Task, TaskStatus } from '@/types';
 import { TASK_DRAG_TYPE } from '../hooks/useKanbanDnd';
 import { TaskAssignee } from './TaskAssignee';
 import { TaskDueDate } from './TaskDueDate';
@@ -12,12 +14,13 @@ interface TaskCardProps {
   task: Task;
   projectName?: string;
   assignee?: Employee;
-  canDrag: boolean;
+  canDrag: boolean; // same check as canMoveTask(user, task), so it also gates the menu
   isDragging: boolean;
   formatDate: (value: string) => string;
   onOpen: (taskId: string) => void;
   onDragStart: (taskId: string) => void;
   onDragEnd: () => void;
+  onMove: (taskId: string, status: TaskStatus) => void;
 }
 
 export const TaskCard = memo(function TaskCard({
@@ -30,7 +33,18 @@ export const TaskCard = memo(function TaskCard({
   onOpen,
   onDragStart,
   onDragEnd,
+  onMove,
 }: TaskCardProps) {
+  const { t } = useT();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Focus the first option when the menu opens
+  useEffect(() => {
+    if (menuOpen) menuRef.current?.querySelector<HTMLElement>('[role="menuitem"]')?.focus();
+  }, [menuOpen]);
+
   const handleDragStart = (e: DragEvent<HTMLElement>) => {
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData(TASK_DRAG_TYPE, task.id);
@@ -45,7 +59,26 @@ export const TaskCard = memo(function TaskCard({
     }
   };
 
+  // Runs for the menu button and the menu items, so the card never sees these keys
+  const handleMenuKeyDown = (e: KeyboardEvent<HTMLElement>) => {
+    e.stopPropagation();
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      setMenuOpen(false);
+      buttonRef.current?.focus();
+      return;
+    }
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+    e.preventDefault();
+    const items = Array.from(menuRef.current?.querySelectorAll<HTMLElement>('[role="menuitem"]') ?? []);
+    if (items.length === 0) return;
+    const current = items.indexOf(document.activeElement as HTMLElement);
+    const step = e.key === 'ArrowDown' ? 1 : -1;
+    items[(current + step + items.length) % items.length].focus();
+  };
+
   const comments = task.comments.length;
+  const otherStatuses = (Object.keys(TASK_STATUS) as TaskStatus[]).filter((s) => s !== task.status);
 
   return (
     <article
@@ -64,6 +97,50 @@ export const TaskCard = memo(function TaskCard({
         <span className={styles.project}>{projectName ?? 'Unknown project'}</span>
         <StatusBadge kind="priority" value={task.priority} />
         {canDrag && <GripVertical size={14} className={styles.grip} aria-hidden />}
+        {canDrag && (
+          <div
+            className={styles.menuWrap}
+            onClick={(e) => e.stopPropagation()}
+            onKeyDown={handleMenuKeyDown}
+            onDragStart={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+            onBlur={(e) => {
+              if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setMenuOpen(false);
+            }}
+          >
+            <button
+              ref={buttonRef}
+              type="button"
+              className={styles.menuButton}
+              aria-haspopup="menu"
+              aria-expanded={menuOpen}
+              aria-label={`Move "${task.title}" to another column`}
+              onClick={() => setMenuOpen((open) => !open)}
+            >
+              <MoreHorizontal size={14} aria-hidden />
+            </button>
+            {menuOpen && (
+              <div ref={menuRef} className={styles.menu} role="menu" aria-label="Move to">
+                {otherStatuses.map((status) => (
+                  <button
+                    key={status}
+                    type="button"
+                    role="menuitem"
+                    className={styles.menuItem}
+                    onClick={() => {
+                      setMenuOpen(false);
+                      onMove(task.id, status);
+                    }}
+                  >
+                    {t(TASK_STATUS[status].label)}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
       <h3 className={styles.title}>{task.title}</h3>
       {task.description && <p className={styles.description}>{task.description}</p>}
