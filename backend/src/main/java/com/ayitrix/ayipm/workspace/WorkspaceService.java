@@ -69,7 +69,7 @@ public class WorkspaceService {
 
 	@Transactional(readOnly = true)
 	public String getEmployeeIdPrefix() {
-		return workspaces.findById(Workspace.DEFAULT_ID).map(Workspace::getEmployeeIdPrefix).orElse("AX");
+		return workspaces.findById(Workspace.DEFAULT_ID).map(w -> w.getEmployeeIdPrefix()).orElse("AX");
 	}
 
 	@Transactional

@@ -106,8 +106,8 @@ public class EmployeeService {
 			if (!update.containsKey(key)) continue;
 			String value = stringValue(key, update.get(key));
 			if (value == null && REQUIRED.contains(key)) throw ApiException.badRequest(requiredMessage(key));
-			if (key.equals("email")) value = value.toLowerCase();
-			if (key.equals("employeeId")) value = value.toUpperCase();
+			if (key.equals("email") && value != null) value = value.toLowerCase();
+			if (key.equals("employeeId") && value != null) value = value.toUpperCase();
 			if (key.equals("avatar") && value != null && value.length() > MAX_AVATAR_LENGTH) {
 				throw new ApiException(HttpStatus.CONTENT_TOO_LARGE, "Profile photo is too large.");
 			}

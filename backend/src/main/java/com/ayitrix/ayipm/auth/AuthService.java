@@ -92,12 +92,12 @@ public class AuthService {
 		String key = user.map(u -> "user:" + u.getId()).orElse("email:" + email);
 
 		Optional<LoginAttempt> attempt = attempts.findById(key);
-		Instant lockedUntil = attempt.map(LoginAttempt::getLockedUntil).orElse(null);
+		Instant lockedUntil = attempt.map(a -> a.getLockedUntil()).orElse(null);
 		if (lockedUntil != null && lockedUntil.isAfter(Instant.now())) {
 			throw new ApiException(HttpStatus.TOO_MANY_REQUESTS, lockedMessage(Duration.between(Instant.now(), lockedUntil)));
 		}
 
-		boolean valid = hasher.matches(password, user.map(User::getPasswordHash).orElse(null));
+		boolean valid = hasher.matches(password, user.map(u -> u.getPasswordHash()).orElse(null));
 		if (!valid || user.isEmpty()) {
 			boolean locked = recordFailure(key, attempt);
 			if (locked) throw new ApiException(HttpStatus.TOO_MANY_REQUESTS, lockedMessage(LOCKOUT));
