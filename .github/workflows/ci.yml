@@ -22,6 +22,7 @@ jobs:
       # Fails when src/types/api.generated.ts doesn't match backend/openapi.json. See "API types" in CONTRIBUTING.md.
       - run: npm run generate:api && git diff --exit-code -- src/types/api.generated.ts
       - run: npx tsc --noEmit
+      - run: npm test
       - run: npm run build
 
   backend:

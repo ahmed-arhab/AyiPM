@@ -152,6 +152,10 @@ Frontend (run in `frontend/`):
 | `npm run start` | Serve the production build |
 | `npx tsc --noEmit` | Type-check without building |
 | `npm run generate:api` | Regenerate `src/types/api.generated.ts` from the backend's OpenAPI spec (`backend/openapi.json`) |
+| `npm test` | Run the unit tests once |
+| `npm run test:watch` | Re-run the unit tests as you change files |
+
+The frontend unit tests use [Vitest](https://vitest.dev) and sit next to the code they cover, for example `src/lib/date.test.ts`. They test pure helpers, so they don't need the backend.
 
 Backend (run in `backend/`):
 
