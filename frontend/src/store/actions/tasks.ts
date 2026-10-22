@@ -1,4 +1,5 @@
 import { api } from '@/lib/api';
+import { mapWithConcurrency } from '@/lib/async';
 import { hasPermission } from '@/constants/roles';
 import type { ActionResult, Employee, Task, TaskInput, TaskStatus, TaskUpdate } from '@/types';
 import { authorize, fail, getState, ok, setState } from '../appStore';
@@ -48,12 +49,17 @@ export async function createTask(input: TaskInput): Promise<ActionResult<Task>> 
 export async function updateTask(id: string, update: TaskUpdate): Promise<ActionResult<Task>> {
   const auth = authorize();
   if (!auth.ok) return auth;
+  const result = await sendUpdate(id, update);
+  if (result.ok) void refreshActivity();
+  return result;
+}
+
+async function sendUpdate(id: string, update: TaskUpdate): Promise<ActionResult<Task>> {
   // An empty assigneeId unassigns the task, as diffTaskUpdate sends it.
   const result = handleUnauthorized(await api<Task>('PATCH', `/api/tasks/${id}`, update));
   if (!result.ok) return result;
   upsertTasks([result.data]);
   addAssigneeToProject(result.data);
-  void refreshActivity();
   return ok(result.data);
 }
 
@@ -71,8 +77,7 @@ export async function moveTask(id: string, status: TaskStatus, targetIndex?: num
   moveLocally(id, status, targetIndex);
   const result = handleUnauthorized(await api<Task[]>('POST', `/api/tasks/${id}/move`, { status, index: targetIndex }));
   if (!result.ok) {
-    const reload = handleUnauthorized(await api<Task[]>('GET', '/api/tasks'));
-    if (reload.ok) setState({ tasks: reload.data });
+    await reloadTasks();
     return result;
   }
   upsertTasks(result.data);
@@ -100,11 +105,86 @@ function moveLocally(id: string, status: TaskStatus, targetIndex?: number) {
 export async function deleteTask(id: string): Promise<ActionResult> {
   const auth = authorize('tasks.manage');
   if (!auth.ok) return auth;
+  const result = await sendDelete(id);
+  if (result.ok) void refreshActivity();
+  return result;
+}
+
+async function sendDelete(id: string): Promise<ActionResult> {
   const result = handleUnauthorized(await api<null>('DELETE', `/api/tasks/${id}`));
   if (!result.ok) return result;
   setState((s) => ({ tasks: s.tasks.filter((t) => t.id !== id) }));
-  void refreshActivity();
   return ok();
+}
+
+async function reloadTasks(): Promise<void> {
+  const result = handleUnauthorized(await api<Task[]>('GET', '/api/tasks'));
+  if (result.ok) setState({ tasks: result.data });
+}
+
+export interface BulkTaskResult {
+  succeeded: string[];
+  failed: { id: string; error: string }[];
+}
+
+// The API has no bulk endpoint, so bulk actions send one request per task, a few at a time. Each task then gets its
+// own history entry, activity entry and notifications, exactly as if it had been changed on its own.
+const BULK_CONCURRENCY = 4;
+
+async function runBulk(ids: string[], run: (id: string) => Promise<ActionResult<unknown>>, concurrency = BULK_CONCURRENCY): Promise<BulkTaskResult> {
+  const results = await mapWithConcurrency(ids, concurrency, async (id) => {
+    // A 401 ends the session part way through; don't keep sending requests that will all fail.
+    if (!getState().session) return fail('You must be signed in to do that.');
+    return run(id);
+  });
+  const outcome: BulkTaskResult = { succeeded: [], failed: [] };
+  results.forEach((result, i) => {
+    if (result.ok) outcome.succeeded.push(ids[i]);
+    else outcome.failed.push({ id: ids[i], error: result.error });
+  });
+  // Re-read the tasks so the list reflects what the server now has, including changes other people made meanwhile.
+  await reloadTasks();
+  if (outcome.succeeded.length > 0) void refreshActivity();
+  return outcome;
+}
+
+/** Only the fields of `update` that would change `task`, so tasks that already match aren't sent at all. */
+function changedFields(task: Task, update: TaskUpdate): TaskUpdate {
+  const patch: TaskUpdate = {};
+  if (update.status !== undefined && update.status !== task.status) patch.status = update.status;
+  if (update.priority !== undefined && update.priority !== task.priority) patch.priority = update.priority;
+  if (update.assigneeId !== undefined && update.assigneeId !== (task.assigneeId ?? '')) patch.assigneeId = update.assigneeId;
+  return patch;
+}
+
+/**
+ * Sets the status, priority or assignee (an empty assigneeId unassigns) of several tasks. Tasks that fail don't stop
+ * the others; the result says which ones succeeded and why the rest failed.
+ */
+export async function updateTasks(ids: string[], update: Pick<TaskUpdate, 'status' | 'priority' | 'assigneeId'>): Promise<ActionResult<BulkTaskResult>> {
+  const auth = authorize();
+  if (!auth.ok) return auth;
+  // A status change puts the task at the end of its new column. The server works that position out per request, so
+  // concurrent moves into the same column can land on the same position; send those one at a time.
+  const concurrency = update.status ? 1 : BULK_CONCURRENCY;
+  return ok(
+    await runBulk(
+      ids,
+      async (id) => {
+        const task = getState().tasks.find((t) => t.id === id);
+        if (!task) return fail('Task not found.');
+        const patch = changedFields(task, update);
+        return Object.keys(patch).length === 0 ? ok(task) : sendUpdate(id, patch);
+      },
+      concurrency
+    )
+  );
+}
+
+export async function deleteTasks(ids: string[]): Promise<ActionResult<BulkTaskResult>> {
+  const auth = authorize('tasks.manage');
+  if (!auth.ok) return auth;
+  return ok(await runBulk(ids, sendDelete));
 }
 
 export async function addTaskComment(id: string, text: string): Promise<ActionResult> {

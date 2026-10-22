@@ -521,6 +521,34 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Task details': 'பணி விவரங்கள்',
   'Activity history': 'செயல்பாட்டு வரலாறு',
 
+  // Task list bulk actions
+  'Select all tasks on this page': 'இந்தப் பக்கத்திலுள்ள எல்லாப் பணிகளையும் தேர்ந்தெடுக்கவும்',
+  'Select all your tasks on this page': 'இந்தப் பக்கத்திலுள்ள உங்கள் எல்லாப் பணிகளையும் தேர்ந்தெடுக்கவும்',
+  'Select “{title}”': '“{title}” ஐத் தேர்ந்தெடுக்கவும்',
+  'You can only change tasks assigned to you.': 'உங்களுக்கு ஒதுக்கப்பட்ட பணிகளை மட்டுமே நீங்கள் மாற்ற முடியும்.',
+  'Actions for selected tasks': 'தேர்ந்தெடுக்கப்பட்ட பணிகளுக்கான செயல்கள்',
+  '{count} selected': '{count} தேர்ந்தெடுக்கப்பட்டன',
+  'Change status': 'நிலையை மாற்றவும்',
+  'Change priority': 'முன்னுரிமையை மாற்றவும்',
+  'Change assignee': 'ஒதுக்கப்பட்டவரை மாற்றவும்',
+  'Apply': 'பயன்படுத்து',
+  'Clear selection': 'தேர்வை அழிக்கவும்',
+  'Delete {count} task?': 'பணியை நீக்கவா?',
+  'Delete {count} tasks?': '{count} பணிகளை நீக்கவா?',
+  '“{title}” and its comments will be permanently removed.':
+    '“{title}” மற்றும் அதன் கருத்துக்கள் நிரந்தரமாக நீக்கப்படும்.',
+  '{count} tasks and their comments will be permanently removed.':
+    '{count} பணிகளும் அவற்றின் கருத்துக்களும் நிரந்தரமாக நீக்கப்படும்.',
+  'Delete {count} task': 'பணியை நீக்கு',
+  'Delete {count} tasks': '{count} பணிகளை நீக்கு',
+  '{count} task updated.': '{count} பணி புதுப்பிக்கப்பட்டது.',
+  '{count} tasks updated.': '{count} பணிகள் புதுப்பிக்கப்பட்டன.',
+  '{count} task deleted.': '{count} பணி நீக்கப்பட்டது.',
+  '{count} tasks deleted.': '{count} பணிகள் நீக்கப்பட்டன.',
+  '{updated} updated, {failed} failed.': '{updated} புதுப்பிக்கப்பட்டன, {failed} தோல்வியடைந்தன.',
+  '{deleted} deleted, {failed} failed.': '{deleted} நீக்கப்பட்டன, {failed} தோல்வியடைந்தன.',
+  'The tasks that failed are still selected.': 'தோல்வியடைந்த பணிகள் இன்னும் தேர்ந்தெடுக்கப்பட்டே உள்ளன.',
+
   // Notifications & Activity
   'Stay updated with your tasks, mentions and workspace events.':
     'உங்கள் பணிகள், குறிப்புகள் மற்றும் பணியிட நிகழ்வுகள் குறித்து புதுப்பித்த நிலையில் இருங்கள்.',

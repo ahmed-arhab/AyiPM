@@ -521,6 +521,33 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Task details': 'කාර්ය විස්තර',
   'Activity history': 'ක්‍රියාකාරකම් ඉතිහාසය',
 
+  // Task list bulk actions
+  'Select all tasks on this page': 'මෙම පිටුවේ සියලුම කාර්යයන් තෝරන්න',
+  'Select all your tasks on this page': 'මෙම පිටුවේ ඔබගේ සියලුම කාර්යයන් තෝරන්න',
+  'Select “{title}”': '“{title}” තෝරන්න',
+  'You can only change tasks assigned to you.': 'ඔබට වෙනස් කළ හැක්කේ ඔබට පවරා ඇති කාර්යයන් පමණි.',
+  'Actions for selected tasks': 'තෝරාගත් කාර්යයන් සඳහා ක්‍රියා',
+  '{count} selected': '{count} ක් තෝරා ඇත',
+  'Change status': 'තත්ත්වය වෙනස් කරන්න',
+  'Change priority': 'ප්‍රමුඛතාවය වෙනස් කරන්න',
+  'Change assignee': 'පවරන ලද පුද්ගලයා වෙනස් කරන්න',
+  'Apply': 'යොදන්න',
+  'Clear selection': 'තේරීම ඉවත් කරන්න',
+  'Delete {count} task?': 'කාර්යය මකන්නද?',
+  'Delete {count} tasks?': 'කාර්යයන් {count} ක් මකන්නද?',
+  '“{title}” and its comments will be permanently removed.': '“{title}” සහ එහි අදහස් ස්ථිරවම ඉවත් කෙරේ.',
+  '{count} tasks and their comments will be permanently removed.':
+    'කාර්යයන් {count} ක් සහ ඒවායේ අදහස් ස්ථිරවම ඉවත් කෙරේ.',
+  'Delete {count} task': 'කාර්යය මකන්න',
+  'Delete {count} tasks': 'කාර්යයන් {count} ක් මකන්න',
+  '{count} task updated.': 'කාර්යය යාවත්කාලීන කරන ලදී.',
+  '{count} tasks updated.': 'කාර්යයන් {count} ක් යාවත්කාලීන කරන ලදී.',
+  '{count} task deleted.': 'කාර්යය මකා දමන ලදී.',
+  '{count} tasks deleted.': 'කාර්යයන් {count} ක් මකා දමන ලදී.',
+  '{updated} updated, {failed} failed.': '{updated} ක් යාවත්කාලීන කරන ලදී, {failed} ක් අසාර්ථක විය.',
+  '{deleted} deleted, {failed} failed.': '{deleted} ක් මකා දමන ලදී, {failed} ක් අසාර්ථක විය.',
+  'The tasks that failed are still selected.': 'අසාර්ථක වූ කාර්යයන් තවමත් තෝරාගෙන ඇත.',
+
   // Notifications & Activity
   'Stay updated with your tasks, mentions and workspace events.':
     'ඔබගේ කාර්යයන්, සඳහන් කිරීම් සහ වැඩබිම් සිදුවීම් පිළිබඳ යාවත්කාලීනව සිටින්න.',

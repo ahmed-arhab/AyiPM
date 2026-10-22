@@ -10,7 +10,7 @@ export { StatCard, StatGrid } from './StatCard';
 export { ProgressBar } from './ProgressBar';
 export { SegmentedControl, type SegmentOption } from './SegmentedControl';
 export { SearchInput } from './SearchInput';
-export { DataTable, type Column } from './DataTable';
+export { DataTable, type Column, type RowSelection } from './DataTable';
 export { Pagination } from './Pagination';
 export { Spinner, FullPageLoader } from './Spinner';
 export { Toolbar } from './Toolbar';
