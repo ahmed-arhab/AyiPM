@@ -70,7 +70,7 @@ Other useful commands:
 
 Data is stored in the `postgres-data` Docker volume, so it survives restarts and rebuilds. Only the frontend is published on your machine; the backend is reachable only from the frontend inside Docker.
 
-These defaults are for trying AyiPM out: the database password is `ayipm` and there is no HTTPS. To run it on a server for real users, follow the [self-hosting guide](docs/self-hosting.md). It sets your own database password in a `.env` file, turns on the backend's `prod` profile, puts AyiPM behind HTTPS with Caddy or nginx, and covers backups and upgrades.
+These defaults are for trying AyiPM out: the database password is `ayipm` and there is no HTTPS. To run it on a server for real users, follow the [self-hosting guide](docs/self-hosting.md). It sets your own database password in a `.env` file, turns on the backend's `prod` profile, puts AyiPM behind HTTPS with Caddy or nginx, and covers backups and upgrades. The HTTPS proxy should pass on the original `Host` and set `X-Forwarded-Proto`; if it can't, set `ALLOWED_ORIGINS=https://your-domain`, or saving anything fails with "Requests from other sites are not allowed."
 
 ## Getting started
 
@@ -175,6 +175,7 @@ The frontend keeps both `package-lock.json` and `pnpm-lock.yaml`. If you change 
 | `DATABASE_USERNAME` | backend | `ayipm` (none with the `prod` profile) | Database user |
 | `DATABASE_PASSWORD` | backend | `ayipm` (none with the `prod` profile) | Database password |
 | `PORT` | backend | `8080` | Port the API listens on |
+| `ALLOWED_ORIGINS` | backend | `http://localhost:3000` | Comma-separated sites, such as `https://pm.example.com`, that may send requests that change data (the `ayipm.allowed-origins` property). The address the frontend is opened at is recognised through its proxy, so you only need this when a proxy in front of AyiPM doesn't pass on the original `Host` and `X-Forwarded-Proto` headers. |
 | `SPRINGDOC_APIDOCS_ENABLED` | backend | `true` | Whether the OpenAPI spec is served at `/v3/api-docs` (`springdoc.api-docs.enabled`). Set to `false` in production. |
 | `SPRINGDOC_SWAGGERUI_ENABLED` | backend | `true` | Whether Swagger UI is served at `/swagger-ui.html` (`springdoc.swagger-ui.enabled`). Set to `false` in production. |
 | `TWO_FACTOR_ENCRYPTION_KEY` | backend | empty | Sets `ayipm.two-factor.encryption-key`: 32 random bytes in base64 that encrypt the authenticator secrets of two-factor authentication. Generate one with `openssl rand -base64 32` and keep it secret, like a database password. While it is empty, two-factor authentication can't be turned on and everything else works as usual; if it is set but isn't a valid key, the backend refuses to start. Don't change or remove it once people use two-factor authentication: their authenticator codes stop working and they can only sign in with a recovery code. |
@@ -203,6 +204,8 @@ If someone can't sign in, they use **Can't log in?** on the login page. Their pr
 After 5 failed attempts within 15 minutes, an account is locked for 15 minutes. Login errors never say whether an account exists.
 
 Passwords are hashed with Argon2. Sessions are random tokens kept in an `httpOnly` cookie and stored hashed in the database, so signing out or deactivating someone ends their session everywhere.
+
+So that a page on another site can't use someone's session cookie, the backend refuses `POST`, `PUT`, `PATCH` and `DELETE` requests with `403` when they come from another site. It compares the `Origin` header (or `Referer`, if there is no `Origin`) with its own address and with `ALLOWED_ORIGINS`. Behind the frontend's proxy, its own address is the one in the browser's address bar, because the proxy passes it on in `X-Forwarded-Host`. `Origin: null`, which sandboxed pages and local files send, is refused. Requests with neither header, such as from `curl` or another server, are allowed: browsers always send `Origin` with these methods, and a client outside the browser only has the cookies it signed in for itself.
 
 ### Two-factor authentication
 

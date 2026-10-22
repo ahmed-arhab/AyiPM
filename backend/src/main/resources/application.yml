@@ -24,6 +24,8 @@ management:
         include: health
 
 ayipm:
+  # Sites, besides the backend's own address, that may send requests that change data. Comma-separated.
+  allowed-origins: ${ALLOWED_ORIGINS:http://localhost:3000}
   two-factor:
     # Base64 of 32 random bytes (openssl rand -base64 32). It encrypts the authenticator secrets, so keep it secret and
     # don't change it once people use two-factor authentication. While it is empty, two-factor authentication is off.
