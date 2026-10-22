@@ -82,6 +82,8 @@ public class WorkspaceService {
 			workspace.setCompanyName(update.companyName().trim());
 		}
 		if (update.timezone() != null) {
+			// Region ids only, like Europe/London. ZoneId.of also takes fixed offsets like +05:30, but those ignore daylight saving.
+			if (!ZoneId.getAvailableZoneIds().contains(update.timezone())) throw ApiException.badRequest("Choose a valid time zone.");
 			workspace.setTimezone(update.timezone());
 		}
 		if (update.workDayStart() != null) {
