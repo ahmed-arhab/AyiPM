@@ -172,6 +172,20 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Create tasks to see how work is distributed.': 'வேலை எவ்வாறு விநியோகிக்கப்படுகிறது என்பதைப் பார்க்க பணிகளை உருவாக்கவும்.',
   '{overdue} overdue {unit} need attention': '{overdue} காலாவதியான {unit} கவனம் தேவை',
   'No overdue tasks': 'காலாவதியான பணிகள் இல்லை',
+  'Completion trend': 'நிறைவு போக்கு',
+  'My completion trend': 'எனது நிறைவு போக்கு',
+  'Tasks completed per week': 'வாரந்தோறும் முடிக்கப்பட்ட பணிகள்',
+  '{count} {unit} completed in the last {weeks} weeks': 'கடந்த {weeks} வாரங்களில் {count} {unit} முடிக்கப்பட்டன',
+  '{count} {unit} completed in the last {weeks} weeks, most in the week of {week} ({max})':
+    'கடந்த {weeks} வாரங்களில் {count} {unit} முடிக்கப்பட்டன, அதிகபட்சமாக {week} அன்று தொடங்கிய வாரத்தில் ({max})',
+  '{count} completed in the week of {week}': '{week} அன்று தொடங்கிய வாரத்தில் {count} முடிக்கப்பட்டன',
+  'Week of': 'வாரம் தொடங்கும் நாள்',
+  'This week': 'இந்த வாரம்',
+  'Nothing completed in the last {weeks} weeks': 'கடந்த {weeks} வாரங்களில் எதுவும் முடிக்கப்படவில்லை',
+  'Tasks you move to Completed will appear here, week by week.':
+    '“முடிவடைந்தது” நிலைக்கு நீங்கள் நகர்த்தும் பணிகள் வாரம் வாரமாக இங்கே தோன்றும்.',
+  'Tasks moved to Completed will appear here, week by week.':
+    '“முடிவடைந்தது” நிலைக்கு நகர்த்தப்படும் பணிகள் வாரம் வாரமாக இங்கே தோன்றும்.',
   'My tasks': 'எனது பணிகள்',
   '{count} open {unit} assigned to you': 'உங்களுக்கு ஒதுக்கப்பட்ட {count} திறந்த {unit}',
   'Assigned to you': 'உங்களுக்கு ஒதுக்கப்பட்டது',
@@ -320,6 +334,7 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Annual Leave': 'ஆண்டு விடுமுறை',
   'Sick Leave': 'மருத்துவ விடுமுறை',
   'Casual Leave': 'தற்செயல் விடுமுறை',
+  'Unpaid Leave': 'சம்பளமில்லா விடுமுறை',
   'Leave Balances': 'விடுமுறை இருப்பு',
   'Available': 'கிடைக்கக்கூடியவை',
   'Used': 'பயன்படுத்தப்பட்டது',
@@ -444,6 +459,8 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
     'வேறு தேதி அல்லது நிலையை முயற்சிக்கவும், அல்லது வடிகட்டிகளை மீட்டமைக்கவும்.',
   'Check in from the station above to start your attendance history.':
     'உங்கள் வருகை வரலாற்றைத் தொடங்க மேலே உள்ள நிலையத்திலிருந்து வருகை பதிவு செய்யுங்கள்.',
+  'Showing records from {date}': '{date} முதல் உள்ள பதிவுகள் காட்டப்படுகின்றன',
+  'Show earlier records': 'முந்தைய பதிவுகளைக் காட்டு',
   'Filter by date': 'தேதி மூலம் வடிகட்டு',
   'Filter by status': 'நிலை மூலம் வடிகட்டு',
   'Filter by employee': 'ஊழியர் மூலம் வடிகட்டு',
@@ -491,6 +508,25 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Pending': 'நிலுவையில்',
   'Approved': 'அங்கீகரிக்கப்பட்டது',
   'Rejected': 'நிராகரிக்கப்பட்டது',
+  'Pending Review': 'மதிப்பாய்வுக்கு நிலுவையில்',
+  'Leave view': 'விடுமுறைக் காட்சி',
+  'Requests': 'கோரிக்கைகள்',
+  'Calendar': 'நாட்காட்டி',
+  'Team leave calendar': 'குழு விடுமுறை நாட்காட்டி',
+  'My leave calendar': 'எனது விடுமுறை நாட்காட்டி',
+  'Approved and pending leave for everyone in the workspace. Rejected requests are not shown.':
+    'பணியிடத்தில் உள்ள அனைவரின் அங்கீகரிக்கப்பட்ட மற்றும் நிலுவையில் உள்ள விடுமுறைகள். நிராகரிக்கப்பட்ட கோரிக்கைகள் காட்டப்படாது.',
+  'Your approved and pending leave. Only leave reviewers can see the whole team.':
+    'உங்கள் அங்கீகரிக்கப்பட்ட மற்றும் நிலுவையில் உள்ள விடுமுறைகள். முழுக் குழுவின் விடுமுறைகளையும் விடுமுறை மதிப்பாய்வாளர்கள் மட்டுமே பார்க்க முடியும்.',
+  'Previous month': 'முந்தைய மாதம்',
+  'Next month': 'அடுத்த மாதம்',
+  '+{count} more': 'மேலும் {count}',
+  '{count} person on leave': '{count} நபர் விடுமுறையில்',
+  '{count} people on leave': '{count} நபர்கள் விடுமுறையில்',
+  'Leave details': 'விடுமுறை விவரங்கள்',
+  'No leave this month': 'இந்த மாதம் விடுமுறை இல்லை',
+  'Approved and pending leave for this month will be listed here.':
+    'இந்த மாதத்திற்கான அங்கீகரிக்கப்பட்ட மற்றும் நிலுவையில் உள்ள விடுமுறைகள் இங்கு பட்டியலிடப்படும்.',
   'Leave type': 'விடுமுறை வகை',
   'Dates': 'தேதிகள்',
   'Submitted': 'சமர்ப்பிக்கப்பட்டது',
@@ -541,6 +577,34 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Task view': 'பணி பார்வை',
   'Task details': 'பணி விவரங்கள்',
   'Activity history': 'செயல்பாட்டு வரலாறு',
+
+  // Task list bulk actions
+  'Select all tasks on this page': 'இந்தப் பக்கத்திலுள்ள எல்லாப் பணிகளையும் தேர்ந்தெடுக்கவும்',
+  'Select all your tasks on this page': 'இந்தப் பக்கத்திலுள்ள உங்கள் எல்லாப் பணிகளையும் தேர்ந்தெடுக்கவும்',
+  'Select “{title}”': '“{title}” ஐத் தேர்ந்தெடுக்கவும்',
+  'You can only change tasks assigned to you.': 'உங்களுக்கு ஒதுக்கப்பட்ட பணிகளை மட்டுமே நீங்கள் மாற்ற முடியும்.',
+  'Actions for selected tasks': 'தேர்ந்தெடுக்கப்பட்ட பணிகளுக்கான செயல்கள்',
+  '{count} selected': '{count} தேர்ந்தெடுக்கப்பட்டன',
+  'Change status': 'நிலையை மாற்றவும்',
+  'Change priority': 'முன்னுரிமையை மாற்றவும்',
+  'Change assignee': 'ஒதுக்கப்பட்டவரை மாற்றவும்',
+  'Apply': 'பயன்படுத்து',
+  'Clear selection': 'தேர்வை அழிக்கவும்',
+  'Delete {count} task?': 'பணியை நீக்கவா?',
+  'Delete {count} tasks?': '{count} பணிகளை நீக்கவா?',
+  '“{title}” and its comments will be permanently removed.':
+    '“{title}” மற்றும் அதன் கருத்துக்கள் நிரந்தரமாக நீக்கப்படும்.',
+  '{count} tasks and their comments will be permanently removed.':
+    '{count} பணிகளும் அவற்றின் கருத்துக்களும் நிரந்தரமாக நீக்கப்படும்.',
+  'Delete {count} task': 'பணியை நீக்கு',
+  'Delete {count} tasks': '{count} பணிகளை நீக்கு',
+  '{count} task updated.': '{count} பணி புதுப்பிக்கப்பட்டது.',
+  '{count} tasks updated.': '{count} பணிகள் புதுப்பிக்கப்பட்டன.',
+  '{count} task deleted.': '{count} பணி நீக்கப்பட்டது.',
+  '{count} tasks deleted.': '{count} பணிகள் நீக்கப்பட்டன.',
+  '{updated} updated, {failed} failed.': '{updated} புதுப்பிக்கப்பட்டன, {failed} தோல்வியடைந்தன.',
+  '{deleted} deleted, {failed} failed.': '{deleted} நீக்கப்பட்டன, {failed} தோல்வியடைந்தன.',
+  'The tasks that failed are still selected.': 'தோல்வியடைந்த பணிகள் இன்னும் தேர்ந்தெடுக்கப்பட்டே உள்ளன.',
 
   // Notifications & Activity
   'Stay updated with your tasks, mentions and workspace events.':

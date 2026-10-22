@@ -13,7 +13,7 @@ AyiPM has two parts:
 - **`frontend/`**: the web app, built with Next.js 16, React and TypeScript.
 - **`backend/`**: the API, built with Java 21, Spring Boot 4 and PostgreSQL.
 
-Everything the team shares is stored in Postgres and served by the backend: accounts, projects, tasks, leave, notifications, the activity log and each person's preferences. Attendance check-ins are the one thing the frontend still keeps in the browser: the backend's attendance API is ready, and the frontend switches to it in #105.
+Everything the team shares is stored in Postgres and served by the backend: accounts, projects, tasks, attendance, leave, notifications, the activity log and each person's preferences.
 
 ## Features
 
@@ -280,7 +280,6 @@ To change the schema, add a new file such as `V2__add_projects.sql` next to the 
 
 ## Known limitations
 
-- **Attendance is still per browser.** Check-ins and check-outs are saved in the browser until the frontend uses the attendance API (#105), so managers don't see them yet. Approved leave is already written to the server.
 - **Sign-in rate limits are kept per backend instance.** The counts live in memory, so they start over when the backend restarts and aren't shared if you run several backends.
 - **No live updates.** Changes made by other people appear when you reload or switch back to the tab; notifications are checked every minute.
 - **Password resets go through an admin.** **Can't log in?** flags the account for an admin, who sends the reset link; it doesn't email a link by itself.
