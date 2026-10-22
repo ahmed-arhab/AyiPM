@@ -13,7 +13,17 @@ spring:
 server:
   port: ${PORT:8080}
   # Trust X-Forwarded-* from the Next.js proxy so the session cookie is marked Secure behind HTTPS.
+  # This also makes request.getRemoteAddr() return an address the client can set; use ClientAddressResolver instead.
   forward-headers-strategy: framework
+
+ayipm:
+  # How often each client address may call each sign-in endpoint (setup, login, forgot, invite and reset).
+  rate-limit:
+    max-requests: ${RATE_LIMIT_MAX_REQUESTS:10}
+    window: ${RATE_LIMIT_WINDOW:1m}
+  # Proxies whose X-Forwarded-For is believed: comma-separated IP addresses, CIDR ranges or hostnames. When empty, the
+  # address of the connection is the client. See "Client addresses behind a proxy" in the README before setting it.
+  trusted-proxies: ${TRUSTED_PROXIES:}
 
 management:
   endpoints:

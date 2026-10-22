@@ -68,7 +68,7 @@ Other useful commands:
 | `docker compose --profile app down -v` | Stop everything and delete the database |
 | `FRONTEND_PORT=3005 docker compose --profile app up` | Use another port if 3000 is taken |
 
-Data is stored in the `postgres-data` Docker volume, so it survives restarts and rebuilds. Only the frontend is published on your machine; the backend is reachable only from the frontend inside Docker. Before running it for real users, change the database password in `compose.yaml` and put it behind HTTPS.
+Data is stored in the `postgres-data` Docker volume, so it survives restarts and rebuilds. Only the frontend is published on your machine; the backend is reachable only from the frontend inside Docker. Before running it for real users, change the database password in `compose.yaml` and put it behind HTTPS. If that HTTPS proxy sits in front of the frontend, also read [Client addresses behind a proxy](#client-addresses-behind-a-proxy), so the sign-in limits still apply to each client separately.
 
 ## Getting started
 
@@ -171,6 +171,9 @@ The frontend keeps both `package-lock.json` and `pnpm-lock.yaml`. If you change 
 | `DATABASE_USERNAME` | backend | `ayipm` | Database user |
 | `DATABASE_PASSWORD` | backend | `ayipm` | Database password |
 | `PORT` | backend | `8080` | Port the API listens on |
+| `RATE_LIMIT_MAX_REQUESTS` | backend | `10` | Requests one client address may make to each sign-in endpoint per window (`ayipm.rate-limit.max-requests`). After that it gets `429 Too Many Requests` with a `Retry-After` header. |
+| `RATE_LIMIT_WINDOW` | backend | `1m` | Length of that window, such as `30s`, `1m` or `15m` (`ayipm.rate-limit.window`) |
+| `TRUSTED_PROXIES` | backend | empty (`frontend` in Docker Compose) | Proxies whose `X-Forwarded-For` header is believed, as comma-separated IP addresses, CIDR ranges or hostnames (`ayipm.trusted-proxies`). Read [Client addresses behind a proxy](#client-addresses-behind-a-proxy) before changing it. |
 | `BACKEND_URL` | frontend | `http://localhost:8080` | Where `/api` requests are forwarded. Read when the frontend is built, so set it before `npm run build`. |
 
 ### If you can't sign in locally
@@ -178,6 +181,7 @@ The frontend keeps both `package-lock.json` and `pnpm-lock.yaml`. If you change 
 - **Each developer has their own database.** Accounts created on someone else's machine don't exist on yours. Start the backend with the `demo` profile or go through `/setup`.
 - **The backend isn't running.** The login page loads from the frontend, but signing in needs the backend on port 8080. Check the backend terminal for errors, such as Postgres not running.
 - **The account may be locked.** After 5 failed attempts the account is locked for 15 minutes, and even the correct password is refused until then. To unlock it straight away, run `psql ayipm -c "delete from login_attempts"`.
+- **Your address may be rate limited.** "Too many attempts. Try again in ..." means 10 sign-in requests from your address within a minute. Wait for the time in the message, or restart the backend to clear the counts.
 - **Invited members need to accept their invitation first.** Until they set a password through the invite link, their login is refused. Invite links expire after 7 days; an admin can send a new one from the member's profile.
 
 To start over with an empty database, run `docker compose down -v` and `docker compose up -d` (Docker), or `dropdb ayipm && createdb -O ayipm ayipm` (Homebrew).
@@ -194,7 +198,21 @@ If someone can't sign in, they use **Can't log in?** on the login page. Their pr
 
 After 5 failed attempts within 15 minutes, an account is locked for 15 minutes. Login errors never say whether an account exists.
 
+Separately, each client address can make 10 requests a minute to each sign-in endpoint (`/api/setup`, `/api/auth/login`, `/api/auth/forgot`, `/api/auth/invite` and `/api/auth/reset`), so one address can't work through many accounts. Further requests get `429 Too Many Requests` with a `Retry-After` header. The counts are kept in memory, so they start over when the backend restarts. IPv6 clients are counted per /64 network, because one subscriber usually gets a whole /64.
+
 Passwords are hashed with Argon2. Sessions are random tokens kept in an `httpOnly` cookie and stored hashed in the database, so signing out or deactivating someone ends their session everywhere.
+
+### Client addresses behind a proxy
+
+The backend only sees connections from the frontend. So that it can still tell clients apart, the frontend's production server (the Docker image and `npm start`) adds the address each request came from to the end of the `X-Forwarded-For` header (`frontend/scripts/client-address.cjs`). The backend reads that header from right to left, skips the proxies listed in `TRUSTED_PROXIES`, and counts the request against the first other address. Anything further left was written by the client, so it is never used.
+
+Docker Compose sets `TRUSTED_PROXIES=frontend`, so each client gets its own limit without any setup. Outside Docker the setting is empty: the backend ignores `X-Forwarded-For`, and every request counts against the frontend's address. To trust a frontend on the same machine, set `TRUSTED_PROXIES=127.0.0.1,::1`, but only with `npm start`: `next dev` doesn't add the address, so a client could choose its own.
+
+If a reverse proxy such as Caddy or nginx sits in front of the frontend, the frontend sees the proxy's address instead of the client's. Then:
+
+1. Make sure the proxy sets `X-Forwarded-For`. Caddy does by default; with nginx, add `proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;`.
+2. Add the proxy to `TRUSTED_PROXIES`, as the frontend sees it. With Docker and the proxy on the same machine, that is the Docker network's gateway, for example `TRUSTED_PROXIES=frontend,172.16.0.0/12`. Add any proxies in front of yours, such as a CDN, too.
+3. Make the frontend reachable only through the proxy, for example with `FRONTEND_PORT=127.0.0.1:3000`. A client that connects from a trusted address can name any address it likes.
 
 ## Database
 
@@ -205,6 +223,7 @@ To change the schema, add a new file such as `V2__add_projects.sql` next to the 
 ## Known limitations
 
 - **Attendance is still per browser.** Check-ins and check-outs are saved in the browser until the attendance API (#103) lands, so managers don't see them yet. Approved leave is already written to the server.
+- **Sign-in rate limits are kept per backend instance.** The counts live in memory, so they start over when the backend restarts and aren't shared if you run several backends.
 - **No live updates.** Changes made by other people appear when you reload or switch back to the tab; notifications are checked every minute.
 - **No email delivery.** Invitation and reset links are shown to the admin, who shares them manually.
 - **No single sign-on.** Google and Microsoft sign-in are not available yet.

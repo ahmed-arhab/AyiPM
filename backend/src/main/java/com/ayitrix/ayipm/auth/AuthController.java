@@ -27,12 +27,15 @@ public class AuthController {
 	private final SessionService sessions;
 	private final BootstrapService bootstrap;
 	private final WorkspaceService workspace;
+	private final SignInRateLimit rateLimit;
 
-	public AuthController(AuthService auth, SessionService sessions, BootstrapService bootstrap, WorkspaceService workspace) {
+	public AuthController(AuthService auth, SessionService sessions, BootstrapService bootstrap, WorkspaceService workspace,
+			SignInRateLimit rateLimit) {
 		this.auth = auth;
 		this.sessions = sessions;
 		this.bootstrap = bootstrap;
 		this.workspace = workspace;
+		this.rateLimit = rateLimit;
 	}
 
 	public record SetupRequest(String companyName, String name, String email, String password) {
@@ -60,6 +63,7 @@ public class AuthController {
 
 	@PostMapping("/api/setup")
 	public ResponseEntity<ApiResponse<BootstrapPayload>> setup(@RequestBody SetupRequest body, HttpServletRequest request, HttpServletResponse response) {
+		rateLimit.check("setup", request);
 		User owner = auth.setupWorkspace(body.companyName(), body.name(), body.email(), orEmpty(body.password()));
 		Instant expiresAt = sessions.start(owner, false, request, response);
 		return ApiResponse.created(bootstrap.signedIn(owner, expiresAt));
@@ -67,6 +71,7 @@ public class AuthController {
 
 	@PostMapping("/api/auth/login")
 	public ResponseEntity<ApiResponse<BootstrapPayload>> login(@RequestBody LoginRequest body, HttpServletRequest request, HttpServletResponse response) {
+		rateLimit.check("login", request);
 		User user = auth.authenticate(body.email(), orEmpty(body.password()));
 		Instant expiresAt = sessions.start(user, Boolean.TRUE.equals(body.remember()), request, response);
 		return ApiResponse.ok(bootstrap.signedIn(user, expiresAt));
@@ -96,6 +101,7 @@ public class AuthController {
 
 	@PostMapping("/api/auth/invite")
 	public ResponseEntity<ApiResponse<BootstrapPayload>> acceptInvite(@RequestBody TokenPasswordRequest body, HttpServletRequest request, HttpServletResponse response) {
+		rateLimit.check("invite", request);
 		User user = auth.acceptInvite(orEmpty(body.token()).trim(), orEmpty(body.password()));
 		Instant expiresAt = sessions.start(user, false, request, response);
 		return ApiResponse.ok(bootstrap.signedIn(user, expiresAt));
@@ -108,13 +114,15 @@ public class AuthController {
 	}
 
 	@PostMapping("/api/auth/reset")
-	public ResponseEntity<ApiResponse<Void>> resetPassword(@RequestBody TokenPasswordRequest body) {
+	public ResponseEntity<ApiResponse<Void>> resetPassword(@RequestBody TokenPasswordRequest body, HttpServletRequest request) {
+		rateLimit.check("reset", request);
 		auth.resetPassword(orEmpty(body.token()).trim(), orEmpty(body.password()));
 		return ApiResponse.ok(null);
 	}
 
 	@PostMapping("/api/auth/forgot")
-	public ResponseEntity<ApiResponse<Void>> forgotPassword(@RequestBody ForgotRequest body) {
+	public ResponseEntity<ApiResponse<Void>> forgotPassword(@RequestBody ForgotRequest body, HttpServletRequest request) {
+		rateLimit.check("forgot", request);
 		auth.requestPasswordReset(body.email());
 		return ApiResponse.ok(null);
 	}
