@@ -47,6 +47,27 @@ class WorkspaceApiTests extends IntegrationTest {
 	}
 
 	@Test
+	void googleSignInCanBeLimitedToOneDomain() {
+		Client owner = signedInOwner();
+		assertThat(owner.get("/api/workspace").data().path("allowedGoogleDomain").asString()).isEmpty();
+		Response saved = owner.patch("/api/workspace", Map.of("allowedGoogleDomain", " @Example.COM ")).expectStatus(200);
+		assertThat(saved.data().path("allowedGoogleDomain").asString()).isEqualTo("example.com");
+
+		for (String invalid : List.of("example", "not a domain", "https://example.com", "-bad.example.com", "name@example.com", "example..com")) {
+			Response rejected = owner.patch("/api/workspace", Map.of("allowedGoogleDomain", invalid));
+			assertThat(rejected.status()).as(invalid).isEqualTo(400);
+			assertThat(rejected.error()).as(invalid).isEqualTo("Enter a domain like example.com, or leave it empty to allow any Google account.");
+		}
+
+		// Null leaves it unchanged, and an empty value allows any domain again.
+		Map<String, Object> unchanged = new HashMap<>();
+		unchanged.put("allowedGoogleDomain", null);
+		assertThat(owner.patch("/api/workspace", unchanged).expectStatus(200).data().path("allowedGoogleDomain").asString()).isEqualTo("example.com");
+		assertThat(owner.patch("/api/workspace", Map.of("allowedGoogleDomain", "")).expectStatus(200).data().path("allowedGoogleDomain").asString())
+				.isEmpty();
+	}
+
+	@Test
 	void newEmployeeIdsUseTheCurrentPrefix() {
 		Client owner = signedInOwner();
 		owner.patch("/api/workspace", Map.of("employeeIdPrefix", "AC")).expectStatus(200);

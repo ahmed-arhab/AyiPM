@@ -120,6 +120,7 @@ Open the PR as a draft if you'd like early feedback. Mark it ready for review wh
 
 - [ ] Frontend changes: `npx tsc --noEmit` passes and `npm run build` succeeds (in `frontend/`).
 - [ ] Backend changes: `./mvnw verify` passes (in `backend/`), with tests for new endpoints.
+- [ ] API changes: `backend/openapi.json` and `frontend/src/types/api.generated.ts` are regenerated and committed (see [API types](#api-types)).
 - [ ] The change works in light and dark mode, and at phone width.
 - [ ] Permissions are respected: try it as an admin, a project manager and an employee where it matters (start the backend with the `demo` profile to get one account of each; see the README).
 - [ ] Nothing in the code relies on placeholder data, test accounts or hardcoded people.
@@ -148,11 +149,29 @@ The README describes the project structure. In practice:
 - **Where code goes.** Group code by feature under `com.ayitrix.ayipm` (`auth`, `employee`, `workspace`, ...). A feature has its JPA entities, Spring Data repositories, a service with the rules, and a controller. Shared helpers go in `common`.
 - **Controllers stay thin.** Read the request, check the session with `SessionService.requireUser(request, permission)`, call a service, and return `ApiResponse.ok(...)`. Business rules and validation belong in the service.
 - **Errors.** Throw `ApiException` with the status and a message the user can read. Anything else is logged and returned as a generic 500, so never put user-facing text in other exceptions.
-- **API shape.** Responses are `{ "data": ... }` or `{ "error": "..." }`. Return records (like `EmployeeResponse`), never entities, and keep them in sync with the TypeScript types in `frontend/src/types`. Never send password hashes or tokens to the client, apart from the one-time invite or reset link an admin shares.
+- **API shape.** Responses are `{ "data": ... }` or `{ "error": "..." }`. Return records (like `EmployeeResponse`), never entities; the frontend's types are generated from them (see [API types](#api-types)). Never send password hashes or tokens to the client, apart from the one-time invite or reset link an admin shares.
 - **Activity and notifications.** When a change should appear in the activity log or notify someone, call `ActivityService.record(...)` and `NotificationService.notify(...)` from the service, inside the same transaction as the change. Never create them in the browser.
 - **Permissions.** Every endpoint that needs a role checks it in the controller with `requireUser(request, Permission.X)`. Role permissions live in `employee/Role.java` and must match `frontend/src/constants/roles.ts`.
 - **Database changes.** Add a new Flyway migration in `src/main/resources/db/migration` (for example `V2__add_projects.sql`) and update the entities to match. Never edit a migration that has been merged. Startup fails if the entities and tables disagree.
 - **Tests.** Add integration tests next to the feature in `src/test/java`, extending `IntegrationTest`. They call the real API over HTTP against a temporary Postgres, so test behaviour, not internals.
+
+### API types
+
+The frontend's API types are generated from the backend, so the two can't drift apart:
+
+1. `OpenApiTests` saves the backend's OpenAPI spec to `backend/openapi.json` whenever the backend tests run.
+2. `npm run generate:api` (in `frontend/`) turns it into `frontend/src/types/api.generated.ts` with openapi-typescript.
+3. The types in `frontend/src/types` are derived from the generated ones, for example `type Employee = ApiSchema<'EmployeeResponse'>`, so the rest of the frontend imports them from `@/types` as before.
+
+**After changing a response record or an endpoint**, run `./mvnw verify` in `backend/` (or just `./mvnw test -Dtest=OpenApiTests`), then `npm run generate:api` in `frontend/`. Commit `openapi.json` and `api.generated.ts` with your change, and fix whatever `npx tsc --noEmit` reports. CI fails when either file is out of date. Don't edit them by hand.
+
+How response records turn into types:
+
+- **Required and optional fields.** Every field is required unless it's marked `@Nullable` (`org.jspecify.annotations.Nullable`). In a record with `@JsonInclude(NON_NULL)`, a `@Nullable` field is left out when it's null, so it becomes optional (`avatar?: string`). In other records it's sent as `null` (`user: Employee | null`).
+- **Fixed values.** Use the enum (`Role`, `TaskStatus`, ...) rather than a `String`. Enums implement `ApiValue`, so they're sent as their `value()` and become string unions such as `'admin' | 'project_manager' | 'employee'`.
+- **Status codes.** An endpoint that returns `ApiResponse.created(...)` also needs `@ResponseStatus(HttpStatus.CREATED)`, so the spec says 201.
+- **Request bodies** don't get required fields, because the services check them and PATCH bodies leave fields out. The frontend's input types (`EmployeeInput`, `TaskInput`, ...) stay hand-written.
+- **Strings the frontend narrows.** A few fields are plain strings in the backend but unions in the frontend, such as notification categories and date formats. `Narrowed<...>` in `frontend/src/types` handles them, and stops compiling if the backend renames the field.
 
 ## Reporting bugs
 

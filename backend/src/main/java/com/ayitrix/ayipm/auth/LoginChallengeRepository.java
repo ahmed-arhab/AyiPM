@@ -13,6 +13,9 @@ import jakarta.persistence.LockModeType;
 
 interface LoginChallengeRepository extends JpaRepository<LoginChallenge, UUID> {
 
+	@Query("select c from LoginChallenge c join fetch c.user where c.tokenHash = :tokenHash")
+	Optional<LoginChallenge> findWithUser(String tokenHash);
+
 	/** Locks the challenge until the transaction ends, so two requests can't both complete it. */
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	@Query("select c from LoginChallenge c join fetch c.user where c.tokenHash = :tokenHash")

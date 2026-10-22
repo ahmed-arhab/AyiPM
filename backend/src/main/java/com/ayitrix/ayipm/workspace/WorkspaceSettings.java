@@ -2,7 +2,7 @@ package com.ayitrix.ayipm.workspace;
 
 /**
  * Matches WorkspaceSettings in the frontend's src/types/settings.ts. Also used as the PATCH body, where a
- * null field means "leave unchanged".
+ * null field means "leave unchanged". An empty {@code allowedGoogleDomain} allows Google accounts of any domain.
  */
 public record WorkspaceSettings(
 		String companyName,
@@ -12,7 +12,8 @@ public record WorkspaceSettings(
 		Double halfDayThresholdHours,
 		LeaveAllowance leaveAllowance,
 		String employeeIdPrefix,
-		Boolean requireAdminTwoFactor) {
+		Boolean requireAdminTwoFactor,
+		String allowedGoogleDomain) {
 
 	public record LeaveAllowance(Integer annual, Integer sick, Integer casual) {
 	}
@@ -26,7 +27,8 @@ public record WorkspaceSettings(
 				w.getHalfDayThresholdHours(),
 				new LeaveAllowance(w.getAnnualLeaveDays(), w.getSickLeaveDays(), w.getCasualLeaveDays()),
 				w.getEmployeeIdPrefix(),
-				w.isRequireAdminTwoFactor());
+				w.isRequireAdminTwoFactor(),
+				w.getAllowedGoogleDomain() == null ? "" : w.getAllowedGoogleDomain());
 	}
 
 }

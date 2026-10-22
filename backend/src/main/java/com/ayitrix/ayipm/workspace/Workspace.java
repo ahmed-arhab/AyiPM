@@ -50,6 +50,9 @@ public class Workspace {
 	@Column(nullable = false)
 	private boolean requireAdminTwoFactor;
 
+	/** Lower case. Null allows Google accounts of any domain. */
+	private String allowedGoogleDomain;
+
 	@CreationTimestamp
 	@Column(nullable = false, updatable = false)
 	private Instant createdAt;
@@ -147,6 +150,14 @@ public class Workspace {
 
 	public void setRequireAdminTwoFactor(boolean requireAdminTwoFactor) {
 		this.requireAdminTwoFactor = requireAdminTwoFactor;
+	}
+
+	public String getAllowedGoogleDomain() {
+		return allowedGoogleDomain;
+	}
+
+	public void setAllowedGoogleDomain(String allowedGoogleDomain) {
+		this.allowedGoogleDomain = allowedGoogleDomain;
 	}
 
 	public Instant getCreatedAt() {

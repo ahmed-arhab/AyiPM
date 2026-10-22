@@ -1,17 +1,12 @@
+import type { ApiSchema, Narrowed } from './api-schema';
+
+// The backend sends these as strings; its database only allows these values.
 export type NotificationCategory = 'task' | 'leave' | 'attendance' | 'project' | 'system';
 export type NotificationPriority = 'urgent' | 'high' | 'normal' | 'low';
 
-export interface NotificationItem {
-  id: string;
-  recipientId: string;
-  title: string;
-  message: string;
-  category: NotificationCategory;
-  priority: NotificationPriority;
-  read: boolean;
-  link?: string;
-  senderId?: string;
-  createdAt: string;
-}
+export type NotificationItem = Narrowed<
+  ApiSchema<'NotificationResponse'>,
+  { category: NotificationCategory; priority: NotificationPriority }
+>;
 
 export type NotificationInput = Omit<NotificationItem, 'id' | 'recipientId' | 'read' | 'createdAt'>;

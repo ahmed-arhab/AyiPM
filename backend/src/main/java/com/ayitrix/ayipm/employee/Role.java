@@ -6,12 +6,13 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.ayitrix.ayipm.auth.Permission;
+import com.ayitrix.ayipm.common.ApiValue;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
 /** Keep the permissions in sync with src/constants/roles.ts in the frontend. */
-public enum Role {
+public enum Role implements ApiValue {
 	ADMIN("admin", "Admin", EnumSet.allOf(Permission.class)),
 	PROJECT_MANAGER("project_manager", "Project Manager", EnumSet.of(
 			Permission.ATTENDANCE_VIEW_ALL,
@@ -38,6 +39,7 @@ public enum Role {
 	}
 
 	/** The name used in the API and the database, e.g. "project_manager". */
+	@Override
 	public String value() {
 		return value;
 	}

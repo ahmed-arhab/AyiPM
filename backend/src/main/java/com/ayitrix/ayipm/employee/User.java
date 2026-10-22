@@ -53,7 +53,7 @@ public class User {
 	private String location;
 	private String bio;
 
-	/** Null until the person accepts their invitation. */
+	/** Null until the person chooses a password. Someone who joined with Google may never have one. */
 	private String passwordHash;
 	private Instant passwordUpdatedAt;
 	private Instant passwordResetRequestedAt;
@@ -65,6 +65,9 @@ public class User {
 	private Instant twoFactorEnabledAt;
 	/** The last TOTP time step accepted, so a code can't be used twice. */
 	private Long twoFactorLastStep;
+
+	/** Google's id for the account linked by signing in with Google ("sub"), or null. */
+	private String googleSubject;
 
 	@CreationTimestamp
 	@Column(nullable = false, updatable = false)
@@ -78,8 +81,9 @@ public class User {
 		return status == EmployeeStatus.ACTIVE;
 	}
 
+	/** Whether the person has accepted their invitation, by choosing a password or by signing in with Google. */
 	public boolean hasJoined() {
-		return passwordHash != null;
+		return passwordHash != null || googleSubject != null;
 	}
 
 	public boolean hasTwoFactor() {
@@ -237,6 +241,14 @@ public class User {
 
 	public void setTwoFactorLastStep(Long twoFactorLastStep) {
 		this.twoFactorLastStep = twoFactorLastStep;
+	}
+
+	public String getGoogleSubject() {
+		return googleSubject;
+	}
+
+	public void setGoogleSubject(String googleSubject) {
+		this.googleSubject = googleSubject;
 	}
 
 	public Instant getCreatedAt() {

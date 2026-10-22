@@ -1,16 +1,8 @@
+import type { ApiSchema, Narrowed } from './api-schema';
 import type { UserRole } from './employee';
 
+// The backend sends the entity type as a string; its database only allows these values.
 export type ActivityEntityType = 'employee' | 'project' | 'task' | 'attendance' | 'leave' | 'auth' | 'settings';
 
-export interface ActivityLogItem {
-  id: string;
-  actorId: string;
-  actorName: string;
-  actorRole: UserRole;
-  action: string;
-  entityType: ActivityEntityType;
-  entityId?: string;
-  entityName: string;
-  details?: string;
-  createdAt: string;
-}
+/** `actorRole` is the actor's role when they acted, stored as a string. */
+export type ActivityLogItem = Narrowed<ApiSchema<'ActivityResponse'>, { actorRole: UserRole; entityType: ActivityEntityType }>;
