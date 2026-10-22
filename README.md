@@ -107,6 +107,8 @@ cd backend
 
 The API runs on http://localhost:8080. It creates and updates the database tables itself on startup. The `demo` profile adds the demo accounts below; leave out `-Dspring-boot.run.profiles=demo` to start with an empty workspace instead.
 
+To see every endpoint and try them in the browser, open Swagger UI at http://localhost:8080/swagger-ui.html. The OpenAPI spec it reads is at http://localhost:8080/v3/api-docs. Most endpoints need a session, so first run `POST /api/auth/login` with **Try it out**: the backend sets the session cookie and your browser sends it with the requests that follow, so there is nothing to enter under **Authorize**. Swagger UI is served by the backend, so it isn't reachable through the frontend on port 3000 or with Docker Compose.
+
 ### 3. Start the frontend
 
 In a second terminal:
@@ -171,6 +173,8 @@ The frontend keeps both `package-lock.json` and `pnpm-lock.yaml`. If you change 
 | `DATABASE_USERNAME` | backend | `ayipm` | Database user |
 | `DATABASE_PASSWORD` | backend | `ayipm` | Database password |
 | `PORT` | backend | `8080` | Port the API listens on |
+| `SPRINGDOC_APIDOCS_ENABLED` | backend | `true` | Whether the OpenAPI spec is served at `/v3/api-docs` (`springdoc.api-docs.enabled`). Set to `false` in production. |
+| `SPRINGDOC_SWAGGERUI_ENABLED` | backend | `true` | Whether Swagger UI is served at `/swagger-ui.html` (`springdoc.swagger-ui.enabled`). Set to `false` in production. |
 | `BACKEND_URL` | frontend | `http://localhost:8080` | Where `/api` requests are forwarded. Read when the frontend is built, so set it before `npm run build`. |
 
 ### If you can't sign in locally
@@ -264,6 +268,7 @@ Backend:
 
 - Code is grouped by feature (`auth`, `employee`, `workspace`), not by layer. Each feature has its entities, repositories, a service and a controller.
 - Controllers stay thin: check the session with `SessionService.requireUser(request, permission)`, call a service, and return `ApiResponse.ok(...)`.
+- If an endpoint's method name and path don't say what it does, add `@Operation(summary = "...")`. Swagger UI shows it next to the endpoint.
 - Every response is `{ "data": ... }` on success or `{ "error": "message" }` on failure. Throw `ApiException` for errors the user should see; anything else becomes a generic 500.
 - Response records must match the TypeScript types in `frontend/src/types`. Never return entities directly, and never send password hashes or tokens other than the one-time invite or reset link.
 
