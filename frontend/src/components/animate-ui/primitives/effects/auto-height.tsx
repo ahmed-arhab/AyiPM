@@ -1,13 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import {
-  motion,
-  type HTMLMotionProps,
-  type LegacyAnimationControls,
-  type TargetAndTransition,
-  type Transition,
-} from 'motion/react';
+import { motion, type HTMLMotionProps, type LegacyAnimationControls, type TargetAndTransition, type Transition } from 'motion/react';
 
 import { useAutoHeight } from '@/hooks/use-auto-height';
 import { Slot, WithAsChild } from '@/components/animate-ui/primitives/animate/slot';
@@ -41,12 +35,7 @@ function AutoHeight({
   const Comp = (asChild ? Slot : motion.div) as React.ElementType;
 
   return (
-    <Comp
-      style={{ overflow: 'hidden', ...style }}
-      animate={{ height, ...animate }}
-      transition={transition}
-      {...props}
-    >
+    <Comp style={{ overflow: 'hidden', ...style }} animate={{ height, ...animate }} transition={transition} {...props}>
       <div ref={ref}>{children}</div>
     </Comp>
   );

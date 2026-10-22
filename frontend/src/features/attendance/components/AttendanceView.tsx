@@ -39,7 +39,9 @@ export function AttendanceView() {
         icon={CalendarCheck}
         title="Attendance"
         description={
-          canViewAll ? 'Daily check-ins, working hours and punctuality across the team.' : 'Your daily check-ins, working hours and punctuality.'
+          canViewAll
+            ? 'Daily check-ins, working hours and punctuality across the team.'
+            : 'Your daily check-ins, working hours and punctuality.'
         }
         actions={
           canExport && (
@@ -73,7 +75,9 @@ export function AttendanceView() {
             showEmployee={canViewAll}
             emptyTitle={hasActiveFilters ? t('No records match these filters') : t('No attendance records yet')}
             emptyDescription={
-              hasActiveFilters ? t('Try another date or status, or reset the filters.') : t('Check in from the station above to start your attendance history.')
+              hasActiveFilters
+                ? t('Try another date or status, or reset the filters.')
+                : t('Check in from the station above to start your attendance history.')
             }
           />
           {since && !filters.date && (

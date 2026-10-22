@@ -104,7 +104,9 @@ export function CompletionTrendCard({ tasks, personal }: CompletionTrendCardProp
                   width={`${100 / weeks.length}%`}
                   overflow="visible"
                 >
-                  <title>{t('{count} completed in the week of {week}', { count: t.formatNumber(week.count), week: date(week.weekStart) })}</title>
+                  <title>
+                    {t('{count} completed in the week of {week}', { count: t.formatNumber(week.count), week: date(week.weekStart) })}
+                  </title>
                   <rect className={styles.hit} x="6%" width="88%" y="0" height={CHART_HEIGHT} rx="8" />
                   <svg x="50%" overflow="visible">
                     {height > 0 && (

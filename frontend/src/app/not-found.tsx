@@ -19,9 +19,7 @@ export default function NotFound() {
         <div className={styles.copy}>
           <p className={styles.eyebrow}>Wrong turn?</p>
           <h1 id="not-found-title">This page slipped off the board.</h1>
-          <p className={styles.description}>
-            The link may be outdated, or the page may have moved somewhere else in your workspace.
-          </p>
+          <p className={styles.description}>The link may be outdated, or the page may have moved somewhere else in your workspace.</p>
           <div className={styles.actions}>
             <Link href={ROUTES.dashboard} className="btn btn-primary">
               <LayoutDashboard size={16} />

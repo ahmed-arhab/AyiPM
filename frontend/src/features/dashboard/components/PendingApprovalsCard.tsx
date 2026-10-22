@@ -32,7 +32,12 @@ export function PendingApprovalsCard() {
         actions={<CardLink href={ROUTES.leave}>{t('Review')}</CardLink>}
       />
       {pending.length === 0 ? (
-        <EmptyState compact icon={PlaneTakeoff} title={t('All clear')} description={t('There are no leave requests waiting for your review.')} />
+        <EmptyState
+          compact
+          icon={PlaneTakeoff}
+          title={t('All clear')}
+          description={t('There are no leave requests waiting for your review.')}
+        />
       ) : (
         <ul className={styles.list}>
           {pending.slice(0, LIMIT).map((r) => {
@@ -56,9 +61,7 @@ export function PendingApprovalsCard() {
         </ul>
       )}
       {pending.length > LIMIT && (
-        <p className={styles.more}>
-          {t('+{count} more pending', { count: t.formatNumber(pending.length - LIMIT) })}
-        </p>
+        <p className={styles.more}>{t('+{count} more pending', { count: t.formatNumber(pending.length - LIMIT) })}</p>
       )}
     </Card>
   );

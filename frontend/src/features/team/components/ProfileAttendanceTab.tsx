@@ -55,7 +55,14 @@ export function ProfileAttendanceTab({ memberId }: { memberId: string }) {
       rows={recent}
       rowKey={(r) => r.id}
       minWidth={520}
-      empty={<EmptyState compact icon={CalendarCheck} title="No attendance yet" description="Check-ins from the attendance page will appear here." />}
+      empty={
+        <EmptyState
+          compact
+          icon={CalendarCheck}
+          title="No attendance yet"
+          description="Check-ins from the attendance page will appear here."
+        />
+      }
     />
   );
 }

@@ -1,6 +1,6 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-@import "./shadcn-tailwind.css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import './shadcn-tailwind.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -8,17 +8,17 @@
   --font-sans: var(--font-jakarta), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 
-  --gray-0: #FFFFFF;
-  --gray-25: #F7F9FC;
-  --gray-50: #F1F4F9;
-  --gray-100: #E6EBF2;
-  --gray-200: #D5DCE6;
-  --gray-300: #B4BECC;
-  --gray-400: #8C97A8;
+  --gray-0: #ffffff;
+  --gray-25: #f7f9fc;
+  --gray-50: #f1f4f9;
+  --gray-100: #e6ebf2;
+  --gray-200: #d5dce6;
+  --gray-300: #b4becc;
+  --gray-400: #8c97a8;
   --gray-500: #677386;
-  --gray-600: #4B5567;
-  --gray-700: #353E4E;
-  --gray-800: #1F2633;
+  --gray-600: #4b5567;
+  --gray-700: #353e4e;
+  --gray-800: #1f2633;
   --gray-900: #111827;
 
   --bg-main: var(--gray-25);
@@ -116,7 +116,7 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   --bg-main: var(--gray-900);
   --bg-sidebar: var(--gray-900);
   --bg-card: var(--gray-800);
@@ -172,7 +172,8 @@
   padding: 0;
 }
 
-html, body {
+html,
+body {
   font-family: var(--font-sans);
   background-color: var(--bg-main);
   color: var(--text-primary);
@@ -209,9 +210,9 @@ html, body {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  background: radial-gradient(circle at 50% 0%, rgba(103, 115, 134, 0.04) 0%, transparent 60%),
-              radial-gradient(circle at 100% 50%, rgba(103, 115, 134, 0.03) 0%, transparent 50%),
-              var(--bg-main);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(103, 115, 134, 0.04) 0%, transparent 60%),
+    radial-gradient(circle at 100% 50%, rgba(103, 115, 134, 0.03) 0%, transparent 50%), var(--bg-main);
 }
 
 .page-container {
@@ -265,7 +266,10 @@ html, body {
   border-radius: var(--radius-lg);
   padding: 1.5rem;
   box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    transform var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .card:hover,
@@ -287,7 +291,7 @@ html, body {
 button,
 .btn,
 .icon-btn,
-[role="button"] {
+[role='button'] {
   position: relative;
   overflow: hidden;
 }
@@ -412,7 +416,9 @@ button,
   color: var(--text-primary);
 }
 
-.form-input, .form-select, .form-textarea {
+.form-input,
+.form-select,
+.form-textarea {
   width: 100%;
   font-family: inherit;
   font-size: 0.875rem;
@@ -421,16 +427,21 @@ button,
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   padding: 0.625rem 0.875rem;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
   outline: none;
 }
 
-.form-input:focus, .form-select:focus, .form-textarea:focus {
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
   border-color: var(--border-focus);
   box-shadow: 0 0 0 3px var(--primary-glow);
 }
 
-.form-input::placeholder, .form-textarea::placeholder {
+.form-input::placeholder,
+.form-textarea::placeholder {
   color: var(--text-muted);
 }
 
@@ -455,13 +466,17 @@ button,
 
 .search-bar-bended:focus-within {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3.5px var(--primary-glow), 0 3px 10px rgba(103, 115, 134, 0.12);
+  box-shadow:
+    0 0 0 3.5px var(--primary-glow),
+    0 3px 10px rgba(103, 115, 134, 0.12);
 }
 
 .search-bar-bended .search-icon {
   color: var(--primary);
   flex-shrink: 0;
-  transition: transform var(--transition-fast), color var(--transition-fast);
+  transition:
+    transform var(--transition-fast),
+    color var(--transition-fast);
 }
 
 .search-bar-bended:focus-within .search-icon {
@@ -660,7 +675,7 @@ button,
   cursor: not-allowed;
 }
 
-[data-theme="dark"] .table-checkbox {
+[data-theme='dark'] .table-checkbox {
   color-scheme: dark;
 }
 
@@ -786,7 +801,7 @@ button,
   justify-content: center;
   padding: 2rem 1.25rem;
   background-color: var(--bg-main);
-  background-image: 
+  background-image:
     radial-gradient(at 0% 0%, rgba(103, 115, 134, 0.08) 0px, transparent 50%),
     radial-gradient(at 100% 100%, rgba(103, 115, 134, 0.06) 0px, transparent 50%),
     radial-gradient(at 50% 50%, rgba(140, 151, 168, 0.04) 0px, transparent 50%);
@@ -794,8 +809,8 @@ button,
   overflow-x: hidden;
 }
 
-[data-theme="dark"] .auth-container-root {
-  background-image: 
+[data-theme='dark'] .auth-container-root {
+  background-image:
     radial-gradient(at 0% 0%, rgba(180, 190, 204, 0.12) 0px, transparent 50%),
     radial-gradient(at 100% 100%, rgba(103, 115, 134, 0.1) 0px, transparent 50%),
     radial-gradient(at 50% 50%, rgba(140, 151, 168, 0.05) 0px, transparent 50%);
@@ -816,15 +831,19 @@ button,
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-xl);
-  box-shadow: 0 20px 45px -10px rgba(17, 24, 39, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+  box-shadow:
+    0 20px 45px -10px rgba(17, 24, 39, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.5) inset;
   padding: 2.5rem 2.25rem;
   position: relative;
   z-index: 1;
   animation: authCardEnter 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-[data-theme="dark"] .auth-card {
-  box-shadow: 0 24px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+[data-theme='dark'] .auth-card {
+  box-shadow:
+    0 24px 50px -12px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
 }
 
 .auth-card-wide {
@@ -938,7 +957,9 @@ button,
   background: var(--bg-input);
   border: 1px solid var(--border-medium);
   border-radius: var(--radius-md);
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
   outline: none;
 }
 
@@ -1003,9 +1024,16 @@ button,
 }
 
 @keyframes authShake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-4px); }
-  75% { transform: translateX(4px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
 }
 
 .auth-banner-error {
@@ -1063,7 +1091,10 @@ button,
   justify-content: center;
   gap: 0.5rem;
   box-shadow: var(--shadow-md);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast), filter var(--transition-fast);
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast),
+    filter var(--transition-fast);
 }
 
 .auth-btn-primary:hover:not(:disabled) {
@@ -1087,8 +1118,12 @@ button,
 }
 
 @keyframes authSpin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .auth-checkbox-wrap {
@@ -1186,10 +1221,18 @@ button,
   text-transform: uppercase;
 }
 
-.strength-label.weak { color: var(--text-muted); }
-.strength-label.fair { color: var(--text-muted); }
-.strength-label.good { color: var(--text-secondary); }
-.strength-label.strong { color: var(--text-primary); }
+.strength-label.weak {
+  color: var(--text-muted);
+}
+.strength-label.fair {
+  color: var(--text-muted);
+}
+.strength-label.good {
+  color: var(--text-secondary);
+}
+.strength-label.strong {
+  color: var(--text-primary);
+}
 
 /* Password Rules Checklist */
 .password-rules-list {
@@ -1299,7 +1342,7 @@ button,
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
 }
 
-[data-theme="dark"] .employee-id-profile-preview {
+[data-theme='dark'] .employee-id-profile-preview {
   background: var(--bg-elevated);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
@@ -1327,7 +1370,10 @@ button,
   color: var(--text-secondary);
   cursor: pointer;
   flex-shrink: 0;
-  transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast);
 }
 
 .icon-btn:hover:not(:disabled) {

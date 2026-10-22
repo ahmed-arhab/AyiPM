@@ -4,10 +4,7 @@ import Link from 'next/link';
 import { forwardRef, type ButtonHTMLAttributes, type ComponentProps } from 'react';
 import { Loader2, type LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/cn';
-import {
-  RippleButton as RippleButtonPrimitive,
-  RippleButtonRipples,
-} from '@/components/animate-ui/primitives/buttons/ripple';
+import { RippleButton as RippleButtonPrimitive, RippleButtonRipples } from '@/components/animate-ui/primitives/buttons/ripple';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'success';
 export type ButtonSize = 'sm' | 'md';
@@ -23,10 +20,7 @@ function buttonClass({ variant = 'primary', size = 'md', fullWidth }: StyleProps
   return cn('btn', `btn-${variant}`, size === 'sm' && 'btn-sm', fullWidth && 'btn-block', className);
 }
 
-type NativeButtonProps = Omit<
-  ButtonHTMLAttributes<HTMLButtonElement>,
-  'onAnimationStart' | 'onDrag' | 'onDragStart' | 'onDragEnd'
->;
+type NativeButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onAnimationStart' | 'onDrag' | 'onDragStart' | 'onDragEnd'>;
 
 export interface ButtonProps extends NativeButtonProps, StyleProps {
   loading?: boolean;
@@ -53,11 +47,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       {children}
       {ripple && !disabled && !loading && (
         <RippleButtonRipples
-          color={
-            variant === 'primary' || variant === 'danger' || variant === 'success'
-              ? 'rgba(255, 255, 255, 0.35)'
-              : 'currentColor'
-          }
+          color={variant === 'primary' || variant === 'danger' || variant === 'success' ? 'rgba(255, 255, 255, 0.35)' : 'currentColor'}
         />
       )}
     </RippleButtonPrimitive>

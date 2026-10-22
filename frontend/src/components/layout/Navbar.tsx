@@ -23,10 +23,7 @@ export function Navbar({ onMenuClick }: { onMenuClick: () => void }) {
         <GlobalSearch />
       </div>
       <div className={styles.right}>
-        <ThemeTogglerButton
-          modes={['light', 'dark']}
-          className="size-[42px] rounded-full cursor-pointer"
-        />
+        <ThemeTogglerButton modes={['light', 'dark']} className="size-[42px] rounded-full cursor-pointer" />
         <NotificationBell />
         <ProfileMenu />
       </div>

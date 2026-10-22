@@ -17,7 +17,14 @@ export function BrandMark({ size = 34 }: { size?: number }) {
         </linearGradient>
       </defs>
       <rect width="48" height="48" rx="12" fill={`url(#${gradientId})`} />
-      <path d="M13.5 35 24 12.5 34.5 35" fill="none" style={{ stroke: 'var(--brand-mark-fg)' }} strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M13.5 35 24 12.5 34.5 35"
+        fill="none"
+        style={{ stroke: 'var(--brand-mark-fg)' }}
+        strokeWidth="5.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
       <circle cx="24" cy="30" r="3" style={{ fill: 'var(--brand-mark-fg)' }} />
     </svg>
   );

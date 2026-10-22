@@ -37,11 +37,7 @@ function findCaseInsensitive(dict: Record<string, string>, target: string): stri
   return undefined;
 }
 
-export function translate(
-  key: string,
-  language?: string,
-  params?: Record<string, string | number>
-): string {
+export function translate(key: string, language?: string, params?: Record<string, string | number>): string {
   if (!key) return '';
   const langCode = getLanguageCode(language);
   const trimmed = key.trim();
@@ -49,21 +45,15 @@ export function translate(
   let translation: string | undefined;
 
   if (langCode === 'si') {
-    translation =
-      SI_DICTIONARY[trimmed as TranslationKey] ??
-      findCaseInsensitive(SI_DICTIONARY as Record<string, string>, trimmed);
+    translation = SI_DICTIONARY[trimmed as TranslationKey] ?? findCaseInsensitive(SI_DICTIONARY as Record<string, string>, trimmed);
   } else if (langCode === 'ta') {
-    translation =
-      TA_DICTIONARY[trimmed as TranslationKey] ??
-      findCaseInsensitive(TA_DICTIONARY as Record<string, string>, trimmed);
+    translation = TA_DICTIONARY[trimmed as TranslationKey] ?? findCaseInsensitive(TA_DICTIONARY as Record<string, string>, trimmed);
   }
 
   // Untranslated keys fall back to English dictionary, then original key
   if (!translation) {
     translation =
-      EN_DICTIONARY[trimmed as TranslationKey] ??
-      findCaseInsensitive(EN_DICTIONARY as Record<string, string>, trimmed) ??
-      trimmed;
+      EN_DICTIONARY[trimmed as TranslationKey] ?? findCaseInsensitive(EN_DICTIONARY as Record<string, string>, trimmed) ?? trimmed;
   }
 
   // Preserve leading and trailing whitespace
@@ -80,11 +70,7 @@ export function translate(
   return finalResult;
 }
 
-export function formatNumber(
-  value: number,
-  language?: string,
-  options?: Intl.NumberFormatOptions
-): string {
+export function formatNumber(value: number, language?: string, options?: Intl.NumberFormatOptions): string {
   if (typeof value !== 'number' || Number.isNaN(value)) return '0';
   const locale = getLocale(language);
   return new Intl.NumberFormat(locale, options).format(value);
@@ -134,10 +120,8 @@ export function useT(): TranslationHook {
     return Object.assign(t, {
       t,
       formatNumber: (value: number, options?: Intl.NumberFormatOptions) => formatNumber(value, language, options),
-      formatDate: (value: Date | string | undefined, options?: Intl.DateTimeFormatOptions) =>
-        formatDate(value, language, options),
-      formatTime: (value: Date | string | undefined, options?: Intl.DateTimeFormatOptions) =>
-        formatTime(value, language, options),
+      formatDate: (value: Date | string | undefined, options?: Intl.DateTimeFormatOptions) => formatDate(value, language, options),
+      formatTime: (value: Date | string | undefined, options?: Intl.DateTimeFormatOptions) => formatTime(value, language, options),
       language,
       locale: getLocale(language),
     });

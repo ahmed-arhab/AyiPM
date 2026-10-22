@@ -21,7 +21,9 @@ export function ProjectProgressCard({ projectId, tasks }: ProjectProgressCardPro
       <CardHeader
         icon={TrendingUp}
         title="Progress"
-        description={tasks.length > 0 ? `${progress?.done ?? 0} of ${tasks.length} tasks completed` : 'Progress is calculated from completed tasks'}
+        description={
+          tasks.length > 0 ? `${progress?.done ?? 0} of ${tasks.length} tasks completed` : 'Progress is calculated from completed tasks'
+        }
       />
       <ProgressBar value={progress?.progress ?? 0} label="Overall completion" showValue />
       <ul className={styles.counts}>

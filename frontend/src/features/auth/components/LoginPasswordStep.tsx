@@ -56,7 +56,13 @@ export function LoginPasswordStep({
       </Field>
       <div className={styles.row}>
         <label className="auth-checkbox-wrap">
-          <input type="checkbox" className="auth-checkbox" checked={remember} disabled={submitting} onChange={(e) => onRememberChange(e.target.checked)} />
+          <input
+            type="checkbox"
+            className="auth-checkbox"
+            checked={remember}
+            disabled={submitting}
+            onChange={(e) => onRememberChange(e.target.checked)}
+          />
           <span className="auth-checkbox-label">{t('Keep me signed in')}</span>
         </label>
         <Link href={ROUTES.forgotPassword} className="auth-link">

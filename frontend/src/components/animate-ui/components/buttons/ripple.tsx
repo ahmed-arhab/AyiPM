@@ -28,19 +28,10 @@ type RippleButtonProps = Omit<RippleButtonPrimitiveProps, 'children' | 'asChild'
     asChild?: false;
   };
 
-function RippleButton({
-  className,
-  variant,
-  size,
-  children,
-  ...props
-}: RippleButtonProps) {
+function RippleButton({ className, variant, size, children, ...props }: RippleButtonProps) {
   return (
     <RippleButtonPrimitive
-      className={cn(
-        buttonVariants({ variant, size, className }),
-        rippleButtonVariants[variant as keyof typeof rippleButtonVariants],
-      )}
+      className={cn(buttonVariants({ variant, size, className }), rippleButtonVariants[variant as keyof typeof rippleButtonVariants])}
       {...props}
     >
       {children}
@@ -55,9 +46,4 @@ function RippleButtonRipples(props: RippleButtonRipplesProps) {
   return <RippleButtonRipplesPrimitive {...props} />;
 }
 
-export {
-  RippleButton,
-  RippleButtonRipples,
-  type RippleButtonProps,
-  type RippleButtonRipplesProps,
-};
+export { RippleButton, RippleButtonRipples, type RippleButtonProps, type RippleButtonRipplesProps };

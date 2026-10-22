@@ -52,14 +52,22 @@ export function AccessLinkCard({ title, description, path, link, details = [] }:
         </div>
       </dl>
       <div className={styles.linkRow}>
-        <input className={`form-input ${styles.link}`} value={url} readOnly aria-label={t('Link')} onFocus={(e) => e.currentTarget.select()} />
+        <input
+          className={`form-input ${styles.link}`}
+          value={url}
+          readOnly
+          aria-label={t('Link')}
+          onFocus={(e) => e.currentTarget.select()}
+        />
         <Button variant="secondary" icon={Copy} onClick={copy}>
           {t('Copy')}
         </Button>
       </div>
       <p className={styles.note}>
         {link.emailed
-          ? t("We've emailed this link to them. If it doesn't arrive, copy it and share it privately. Generating a new link cancels this one.")
+          ? t(
+              "We've emailed this link to them. If it doesn't arrive, copy it and share it privately. Generating a new link cancels this one."
+            )
           : t("Email delivery isn't set up, so share this link privately. Generating a new link cancels this one.")}
       </p>
     </div>

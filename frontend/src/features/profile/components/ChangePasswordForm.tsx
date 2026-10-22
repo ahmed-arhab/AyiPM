@@ -19,7 +19,16 @@ export function ChangePasswordForm({ username }: { username: string }) {
         description="Use a strong password you don't use anywhere else."
       />
       <form className={styles.form} onSubmit={submit} noValidate>
-        <input type="text" name="username" autoComplete="username" value={username} readOnly className="sr-only" tabIndex={-1} aria-hidden />
+        <input
+          type="text"
+          name="username"
+          autoComplete="username"
+          value={username}
+          readOnly
+          className="sr-only"
+          tabIndex={-1}
+          aria-hidden
+        />
         <Field label="Current password" htmlFor={`${id}-current`} required error={errors.current}>
           <PasswordInput
             id={`${id}-current`}

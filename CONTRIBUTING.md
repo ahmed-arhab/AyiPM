@@ -118,7 +118,7 @@ Open the PR as a draft if you'd like early feedback. Mark it ready for review wh
 
 ## Before you ask for review
 
-- [ ] Frontend changes: `npm run lint`, `npx tsc --noEmit` and `npm test` pass, and `npm run build` succeeds (in `frontend/`).
+- [ ] Frontend changes: `npm run format:check`, `npm run lint`, `npx tsc --noEmit` and `npm test` pass, and `npm run build` succeeds (in `frontend/`). Run `npm run format` to fix formatting.
 - [ ] Backend changes: `./mvnw verify` passes (in `backend/`), with tests for new endpoints.
 - [ ] API changes: `backend/openapi.json` and `frontend/src/types/api.generated.ts` are regenerated and committed (see [API types](#api-types)).
 - [ ] The change works in light and dark mode, and at phone width.
@@ -141,6 +141,7 @@ The README describes the project structure. In practice:
 - **Data.** Store ids, not copies. Resolve names and avatars through the id maps (`useEmployeesById`, `useProjectsById`).
 - **Styling.** Use a CSS module next to the component, and the tokens in `globals.css` (`var(--text-primary)`, `var(--border-subtle)`, the `--gray-*` scale). Avoid large inline style objects and hardcoded colours.
 - **Performance.** Memoise derived lists with `useMemo`, avoid `.find` or `.filter` inside loops over large lists, and keep per-second timers (`useNow`) inside small leaf components.
+- **Formatting.** [Prettier](https://prettier.io) formats the frontend: single quotes, semicolons, 2-space indent and lines up to 140 characters (`frontend/.prettierrc`). Run `npm run format` before you commit, or let your editor format on save with Prettier. CI runs `npm run format:check`. Generated and copied files, like `src/types/api.generated.ts` and `src/app/shadcn-tailwind.css`, are listed in `.prettierignore`.
 - **Comments.** Prefer clear names over comments. When a comment is needed, keep it to one line that explains *why*, not *what*.
 - **Size.** If a component grows past roughly 200 lines, it is usually doing more than one job. Split it.
 - **Tests.** Cover pure helpers (filters, sorting, dates, CSV) with [Vitest](https://vitest.dev) in a `*.test.ts` file next to the code, for example `src/features/tasks/utils.test.ts`. Run `npm test` once, or `npm run test:watch` while you work. Tests run in the `America/New_York` time zone (set in `vitest.config.mts`), so date tests give the same result on every machine and can check daylight saving changes. Pass fixed dates instead of relying on the current time, and test what a helper returns, not how it works.

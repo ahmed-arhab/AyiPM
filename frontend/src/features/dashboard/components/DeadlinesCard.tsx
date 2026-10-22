@@ -43,7 +43,7 @@ export function DeadlinesCard({ projects, tasks, personal }: DeadlinesCardProps)
         <ul className={styles.list}>
           {visible.map((item) => {
             const Icon = item.kind === 'project' ? FolderKanban : CheckSquare;
-            const context = item.kind === 'project' ? t('Project deadline') : projectsById.get(item.projectId ?? '')?.name ?? t('Task');
+            const context = item.kind === 'project' ? t('Project deadline') : (projectsById.get(item.projectId ?? '')?.name ?? t('Task'));
             return (
               <li key={`${item.kind}-${item.id}`}>
                 <Link href={item.href} className={styles.row}>
@@ -64,9 +64,7 @@ export function DeadlinesCard({ projects, tasks, personal }: DeadlinesCardProps)
         </ul>
       )}
       {items.length > LIMIT && (
-        <p className={styles.more}>
-          {t('+{count} more upcoming', { count: t.formatNumber(items.length - LIMIT) })}
-        </p>
+        <p className={styles.more}>{t('+{count} more upcoming', { count: t.formatNumber(items.length - LIMIT) })}</p>
       )}
     </Card>
   );

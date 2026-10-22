@@ -12,7 +12,13 @@ interface CardProps extends HTMLAttributes<HTMLElement> {
 export function Card({ as: Tag = 'div', padding = 'md', interactive, className, ...rest }: CardProps) {
   return (
     <Tag
-      className={cn('card', padding === 'none' && styles.flush, padding === 'sm' && styles.compact, interactive && styles.interactive, className)}
+      className={cn(
+        'card',
+        padding === 'none' && styles.flush,
+        padding === 'sm' && styles.compact,
+        interactive && styles.interactive,
+        className
+      )}
       {...rest}
     />
   );

@@ -80,7 +80,12 @@ export function formatTime(value: string | Date | undefined, format: TimeFormat 
   });
 }
 
-export function formatDateTime(value: string | undefined, dateFormat: DateFormat = 'YYYY-MM-DD', timeFormat: TimeFormat = '12h', locale = 'en-US'): string {
+export function formatDateTime(
+  value: string | undefined,
+  dateFormat: DateFormat = 'YYYY-MM-DD',
+  timeFormat: TimeFormat = '12h',
+  locale = 'en-US'
+): string {
   if (!value) return '—';
   return `${formatDate(value, dateFormat)} ${formatTime(value, timeFormat, false, locale)}`;
 }

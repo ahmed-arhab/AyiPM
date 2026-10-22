@@ -26,7 +26,13 @@ const ids = (tasks: Task[]) => tasks.map((t) => t.id);
 
 describe('filterTasks', () => {
   const tasks = [
-    makeTask('design', { title: 'Design login page', description: 'Use the new brand colours', assigneeId: 'u1', priority: 'high', status: 'in_progress' }),
+    makeTask('design', {
+      title: 'Design login page',
+      description: 'Use the new brand colours',
+      assigneeId: 'u1',
+      priority: 'high',
+      status: 'in_progress',
+    }),
     makeTask('notes', { projectId: 'p2', title: 'Write release notes', assigneeId: 'u2', priority: 'low' }),
     makeTask('bug', { title: 'Fix checkout bug', description: 'Payments fail on Safari', priority: 'urgent', status: 'review' }),
     makeTask('ship', { projectId: 'p2', title: 'Ship v2', assigneeId: 'u1', priority: 'high', status: 'done' }),

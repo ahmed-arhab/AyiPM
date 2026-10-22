@@ -10,14 +10,8 @@ import { ACCOUNT_NAV_ITEMS, NAV_ITEMS, type NavItem } from '@/constants/navigati
 import { storage } from '@/lib/storage';
 import { cn } from '@/lib/cn';
 import type { NavCounts } from '@/store/selectors';
-import {
-  Collapsible,
-  CollapsibleTrigger,
-} from '@/components/animate-ui/primitives/radix/collapsible';
-import {
-  FilesHighlight,
-  FileHighlight,
-} from '@/components/animate-ui/primitives/base/files';
+import { Collapsible, CollapsibleTrigger } from '@/components/animate-ui/primitives/radix/collapsible';
+import { FilesHighlight, FileHighlight } from '@/components/animate-ui/primitives/base/files';
 import { BrandMark } from './BrandLogo';
 import { useT } from '@/translations';
 import styles from './Sidebar.module.css';
@@ -118,10 +112,7 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
     <>
       <div className={cn(styles.scrim, mobileOpen && styles.scrimVisible)} onClick={onMobileClose} aria-hidden />
       <Collapsible open={!collapsed} onOpenChange={toggleCollapsed} asChild>
-        <aside
-          className={cn(styles.sidebar, collapsed && styles.collapsed, mobileOpen && styles.mobileOpen)}
-          aria-label={t('Workspace')}
-        >
+        <aside className={cn(styles.sidebar, collapsed && styles.collapsed, mobileOpen && styles.mobileOpen)} aria-label={t('Workspace')}>
           <div className={styles.brand}>
             <div className={styles.brandMarkSlot}>
               <BrandMark size={34} />

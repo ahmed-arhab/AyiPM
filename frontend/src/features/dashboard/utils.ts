@@ -41,7 +41,12 @@ export interface DeadlineItem {
   projectId?: string;
 }
 
-export function buildDeadlines(projects: Project[], tasks: Task[], horizonDays = DEADLINE_HORIZON_DAYS, now: Date = new Date()): DeadlineItem[] {
+export function buildDeadlines(
+  projects: Project[],
+  tasks: Task[],
+  horizonDays = DEADLINE_HORIZON_DAYS,
+  now: Date = new Date()
+): DeadlineItem[] {
   const items: DeadlineItem[] = [];
   projects.forEach((p) => {
     if (p.status === 'completed' || !p.endDate || daysUntil(p.endDate, now) > horizonDays) return;

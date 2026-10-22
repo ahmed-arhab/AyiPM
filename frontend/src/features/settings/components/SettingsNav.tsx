@@ -4,10 +4,7 @@ import { useMemo } from 'react';
 import { cn } from '@/lib/cn';
 import type { SettingsSectionMeta } from '../constants';
 import { useActiveSection } from '../hooks/useActiveSection';
-import {
-  FilesHighlight,
-  FileHighlight,
-} from '@/components/animate-ui/primitives/base/files';
+import { FilesHighlight, FileHighlight } from '@/components/animate-ui/primitives/base/files';
 import { useT } from '@/translations';
 import styles from './SettingsNav.module.css';
 

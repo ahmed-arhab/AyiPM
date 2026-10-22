@@ -4,13 +4,7 @@ import { IconButton, SearchInput, SegmentedControl, Select, type SegmentOption }
 import { useT } from '@/translations';
 import { PROJECT_STATUS } from '@/constants/status';
 import type { ProjectStatus } from '@/types';
-import {
-  PROJECT_SORT_OPTIONS,
-  PROJECT_STATUS_KEYS,
-  type ProjectSortKey,
-  type ProjectStatusFilter,
-  type ProjectViewMode,
-} from '../utils';
+import { PROJECT_SORT_OPTIONS, PROJECT_STATUS_KEYS, type ProjectSortKey, type ProjectStatusFilter, type ProjectViewMode } from '../utils';
 import styles from './ProjectsToolbar.module.css';
 
 interface ProjectsToolbarProps {
@@ -38,10 +32,7 @@ export function ProjectsToolbar(props: ProjectsToolbarProps) {
     [counts, total, t]
   );
 
-  const sortOptions = useMemo(
-    () => PROJECT_SORT_OPTIONS.map((opt) => ({ value: opt.value, label: t(opt.label) })),
-    [t]
-  );
+  const sortOptions = useMemo(() => PROJECT_SORT_OPTIONS.map((opt) => ({ value: opt.value, label: t(opt.label) })), [t]);
 
   return (
     <div className={styles.toolbar}>
@@ -56,8 +47,20 @@ export function ProjectsToolbar(props: ProjectsToolbarProps) {
         <div className={styles.controls}>
           <Select aria-label={t('Sort by')} className={styles.sort} options={sortOptions} value={sort} onChange={onSortChange} />
           <div className={styles.viewToggle} role="group" aria-label={t('Layout')}>
-            <IconButton icon={LayoutGrid} label={t('Grid')} active={view === 'grid'} onClick={() => onViewChange('grid')} aria-pressed={view === 'grid'} />
-            <IconButton icon={List} label={t('Table')} active={view === 'table'} onClick={() => onViewChange('table')} aria-pressed={view === 'table'} />
+            <IconButton
+              icon={LayoutGrid}
+              label={t('Grid')}
+              active={view === 'grid'}
+              onClick={() => onViewChange('grid')}
+              aria-pressed={view === 'grid'}
+            />
+            <IconButton
+              icon={List}
+              label={t('Table')}
+              active={view === 'table'}
+              onClick={() => onViewChange('table')}
+              aria-pressed={view === 'table'}
+            />
           </div>
         </div>
       </div>

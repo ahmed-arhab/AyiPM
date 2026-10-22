@@ -66,7 +66,10 @@ export function leaveByDay(
 
   const result = new Map<string, LeaveRequest[]>();
   days.forEach((people, key) => {
-    result.set(key, [...people.values()].sort((a, b) => rank(a) - rank(b) || nameOf(a.employeeId).localeCompare(nameOf(b.employeeId))));
+    result.set(
+      key,
+      [...people.values()].sort((a, b) => rank(a) - rank(b) || nameOf(a.employeeId).localeCompare(nameOf(b.employeeId)))
+    );
   });
   return result;
 }

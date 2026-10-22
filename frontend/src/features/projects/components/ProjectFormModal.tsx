@@ -87,29 +87,68 @@ function ProjectForm({ id, project, focusMembers, onClose, onSaved }: ProjectFor
       <FormError message={formError} />
       <FormGrid columns={2}>
         <Field label="Project name" htmlFor={`${id}-name`} required error={errors.name}>
-          <Input id={`${id}-name`} value={values.name} onChange={(e) => setField('name', e.target.value)} invalid={Boolean(errors.name)} placeholder="e.g. Customer portal revamp" />
+          <Input
+            id={`${id}-name`}
+            value={values.name}
+            onChange={(e) => setField('name', e.target.value)}
+            invalid={Boolean(errors.name)}
+            placeholder="e.g. Customer portal revamp"
+          />
         </Field>
         <Field label="Client" htmlFor={`${id}-client`} hint="Leave empty for internal projects">
-          <Input id={`${id}-client`} value={values.client} onChange={(e) => setField('client', e.target.value)} placeholder="Client or department" />
+          <Input
+            id={`${id}-client`}
+            value={values.client}
+            onChange={(e) => setField('client', e.target.value)}
+            placeholder="Client or department"
+          />
         </Field>
       </FormGrid>
       <Field label="Description" htmlFor={`${id}-description`}>
-        <Textarea id={`${id}-description`} value={values.description} onChange={(e) => setField('description', e.target.value)} placeholder="Goals, scope and key deliverables" />
+        <Textarea
+          id={`${id}-description`}
+          value={values.description}
+          onChange={(e) => setField('description', e.target.value)}
+          placeholder="Goals, scope and key deliverables"
+        />
       </Field>
       <FormGrid columns={3}>
         <Field label="Start date" htmlFor={`${id}-start`} required error={errors.startDate}>
-          <Input id={`${id}-start`} type="date" value={values.startDate} onChange={(e) => setField('startDate', e.target.value)} invalid={Boolean(errors.startDate)} />
+          <Input
+            id={`${id}-start`}
+            type="date"
+            value={values.startDate}
+            onChange={(e) => setField('startDate', e.target.value)}
+            invalid={Boolean(errors.startDate)}
+          />
         </Field>
         <Field label="Deadline" htmlFor={`${id}-end`} required error={errors.endDate}>
-          <Input id={`${id}-end`} type="date" min={values.startDate || undefined} value={values.endDate} onChange={(e) => setField('endDate', e.target.value)} invalid={Boolean(errors.endDate)} />
+          <Input
+            id={`${id}-end`}
+            type="date"
+            min={values.startDate || undefined}
+            value={values.endDate}
+            onChange={(e) => setField('endDate', e.target.value)}
+            invalid={Boolean(errors.endDate)}
+          />
         </Field>
         <Field label="Status" htmlFor={`${id}-status`}>
           <Select id={`${id}-status`} options={PROJECT_STATUS_OPTIONS} value={values.status} onChange={(v) => setField('status', v)} />
         </Field>
       </FormGrid>
       <FormGrid columns={2}>
-        <Field label="Project manager" htmlFor={`${id}-manager`} hint={managerOptions.length === 0 ? 'No active admins or project managers yet' : undefined}>
-          <Select id={`${id}-manager`} options={managerOptions} value={values.managerId} onChange={(v) => setField('managerId', v)} placeholder="Unassigned" />
+        <Field
+          label="Project manager"
+          htmlFor={`${id}-manager`}
+          hint={managerOptions.length === 0 ? 'No active admins or project managers yet' : undefined}
+        >
+          <Select
+            id={`${id}-manager`}
+            options={managerOptions}
+            value={values.managerId}
+            onChange={(v) => setField('managerId', v)}
+            placeholder="Unassigned"
+          />
         </Field>
         <Field label="Budget" htmlFor={`${id}-budget`} hint="Optional, e.g. $25,000">
           <Input id={`${id}-budget`} value={values.budget} onChange={(e) => setField('budget', e.target.value)} placeholder="Optional" />
@@ -117,7 +156,12 @@ function ProjectForm({ id, project, focusMembers, onClose, onSaved }: ProjectFor
       </FormGrid>
       <div ref={membersRef}>
         <Field label="Team members">
-          <MemberPicker ref={memberSearchRef} employees={activeEmployees} selected={values.members} onChange={(ids) => setField('members', ids)} />
+          <MemberPicker
+            ref={memberSearchRef}
+            employees={activeEmployees}
+            selected={values.members}
+            onChange={(ids) => setField('members', ids)}
+          />
         </Field>
       </div>
     </form>

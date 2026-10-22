@@ -32,11 +32,9 @@ type FolderContextType = {
   isOpen: boolean;
 };
 
-const [FilesProvider, useFiles] =
-  getStrictContext<FilesContextType>('FilesContext');
+const [FilesProvider, useFiles] = getStrictContext<FilesContextType>('FilesContext');
 
-const [FolderProvider, useFolder] =
-  getStrictContext<FolderContextType>('FolderContext');
+const [FolderProvider, useFolder] = getStrictContext<FolderContextType>('FolderContext');
 
 type FilesProps = {
   children: React.ReactNode;
@@ -45,14 +43,7 @@ type FilesProps = {
   onOpenChange?: (open: string[]) => void;
 } & Omit<AccordionProps, 'type' | 'defaultValue' | 'value' | 'onValueChange'>;
 
-function Files({
-  children,
-  defaultOpen,
-  open,
-  onOpenChange,
-  style,
-  ...props
-}: FilesProps) {
+function Files({ children, defaultOpen, open, onOpenChange, style, ...props }: FilesProps) {
   const [openValue, setOpenValue] = useControlledState({
     value: open,
     defaultValue: defaultOpen,
@@ -168,12 +159,7 @@ type FolderIconProps = HTMLMotionProps<'span'> & {
   openIcon: React.ReactNode;
 };
 
-function FolderIcon({
-  closeIcon,
-  openIcon,
-  transition = { duration: 0.15 },
-  ...props
-}: FolderIconProps) {
+function FolderIcon({ closeIcon, openIcon, transition = { duration: 0.15 }, ...props }: FolderIconProps) {
   const { isOpen } = useFolder();
 
   return (

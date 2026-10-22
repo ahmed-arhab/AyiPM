@@ -159,7 +159,9 @@ function EnabledDetails({ status, onAction }: { status: TwoFactorStatus; onActio
         <div className={styles.text}>
           <span className={styles.label}>{t('Turn off two-factor authentication')}</span>
           <span className={styles.hint}>
-            {status.required ? t('Your workspace requires two-factor authentication for admins.') : t('Your password alone will sign you in.')}
+            {status.required
+              ? t('Your workspace requires two-factor authentication for admins.')
+              : t('Your password alone will sign you in.')}
           </span>
         </div>
         <Button variant="danger" icon={ShieldOff} onClick={() => onAction('disable')} disabled={status.required}>

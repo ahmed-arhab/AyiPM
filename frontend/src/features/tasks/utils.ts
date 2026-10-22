@@ -123,13 +123,7 @@ export function dueLabel(dueDate: string, now: Date = new Date()): string {
 }
 
 // Converts a drop position among the visible (filtered) cards into an index within the full column.
-export function toColumnIndex(
-  allTasks: Task[],
-  visible: Task[],
-  status: TaskStatus,
-  draggedId: string,
-  visibleIndex: number
-): number {
+export function toColumnIndex(allTasks: Task[], visible: Task[], status: TaskStatus, draggedId: string, visibleIndex: number): number {
   const full = allTasks.filter((t) => t.status === status && t.id !== draggedId).sort((a, b) => a.order - b.order);
   const shown = visible.filter((t) => t.id !== draggedId);
   if (visibleIndex < shown.length) {
@@ -171,7 +165,11 @@ export function initialFormValues(task: Task | undefined, defaultProjectId: stri
 export function validateTaskForm(values: TaskFormValues, isNew: boolean, today: string): FieldErrors<TaskFormValues> {
   const title = values.title.trim();
   return {
-    title: !title ? 'Title is required' : title.length > TITLE_MAX_LENGTH ? `Keep the title under ${TITLE_MAX_LENGTH} characters` : undefined,
+    title: !title
+      ? 'Title is required'
+      : title.length > TITLE_MAX_LENGTH
+        ? `Keep the title under ${TITLE_MAX_LENGTH} characters`
+        : undefined,
     projectId: values.projectId ? undefined : 'Select a project',
     dueDate: !values.dueDate ? 'Due date is required' : isNew && values.dueDate < today ? 'Due date cannot be in the past' : undefined,
   };

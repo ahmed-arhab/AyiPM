@@ -1,0 +1,17 @@
+# Build and test output
+.next
+out
+build
+coverage
+
+# Lock files are written by npm and pnpm
+package-lock.json
+pnpm-lock.yaml
+
+# Generated files: next-env.d.ts and AGENTS.md by Next.js, the API types by `npm run generate:api` (CI diffs them)
+next-env.d.ts
+AGENTS.md
+src/types/api.generated.ts
+
+# Copied unchanged from the shadcn package; see "Adding shadcn components" in CONTRIBUTING.md
+src/app/shadcn-tailwind.css

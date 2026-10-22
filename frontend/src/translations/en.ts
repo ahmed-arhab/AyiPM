@@ -28,8 +28,7 @@ export const EN_DICTIONARY = {
   'Account': 'Account',
   'Close navigation': 'Close navigation',
   'Open navigation': 'Open navigation',
-  'You will need your Employee ID and password to sign back in.':
-    'You will need your Employee ID and password to sign back in.',
+  'You will need your Employee ID and password to sign back in.': 'You will need your Employee ID and password to sign back in.',
 
   // Common Header & Search
   'Check In': 'Check In',
@@ -81,22 +80,16 @@ export const EN_DICTIONARY = {
   'Keep me signed in': 'Keep me signed in',
   "Can't log in?": "Can't log in?",
   'Change': 'Change',
-  "Your team's projects, time and leave in one place.":
-    "Your team's projects, time and leave in one place.",
+  "Your team's projects, time and leave in one place.": "Your team's projects, time and leave in one place.",
   'AyiPM replaces scattered spreadsheets and chat threads with one workspace for the whole team.':
     'AyiPM replaces scattered spreadsheets and chat threads with one workspace for the whole team.',
-  'Plan projects and move tasks on a Kanban board':
-    'Plan projects and move tasks on a Kanban board',
-  'Check in and out with automatic late and half-day tracking':
-    'Check in and out with automatic late and half-day tracking',
-  'Request leave and get approvals without the email chains':
-    'Request leave and get approvals without the email chains',
-  'Role-based access for admins, project managers and employees':
-    'Role-based access for admins, project managers and employees',
+  'Plan projects and move tasks on a Kanban board': 'Plan projects and move tasks on a Kanban board',
+  'Check in and out with automatic late and half-day tracking': 'Check in and out with automatic late and half-day tracking',
+  'Request leave and get approvals without the email chains': 'Request leave and get approvals without the email chains',
+  'Role-based access for admins, project managers and employees': 'Role-based access for admins, project managers and employees',
   'About AyiPM': 'About AyiPM',
   'Forgot password': 'Forgot password',
-  "Enter your work email and we'll send you a reset link.":
-    "Enter your work email and we'll send you a reset link.",
+  "Enter your work email and we'll send you a reset link.": "Enter your work email and we'll send you a reset link.",
   'Send reset link': 'Send reset link',
   'Back to sign in': 'Back to sign in',
   'Set new password': 'Set new password',
@@ -115,10 +108,8 @@ export const EN_DICTIONARY = {
     "There's no account for this Google account's email address. Ask your admin for an invitation.",
   'This workspace only accepts Google accounts from its own domain. Use your work Google account.':
     'This workspace only accepts Google accounts from its own domain. Use your work Google account.',
-  'This account has been deactivated. Contact your administrator.':
-    'This account has been deactivated. Contact your administrator.',
-  'Your invitation has expired. Ask your admin for a new one.':
-    'Your invitation has expired. Ask your admin for a new one.',
+  'This account has been deactivated. Contact your administrator.': 'This account has been deactivated. Contact your administrator.',
+  'Your invitation has expired. Ask your admin for a new one.': 'Your invitation has expired. Ask your admin for a new one.',
   'This invitation is for another email address. Continue with the Google account it was sent to.':
     'This invitation is for another email address. Continue with the Google account it was sent to.',
   "This Google account doesn't match the one linked to your account. Sign in with your password, or ask your admin.":
@@ -157,8 +148,7 @@ export const EN_DICTIONARY = {
   'Active projects by nearest deadline': 'Active projects by nearest deadline',
   'View all': 'View all',
   'No active projects': 'No active projects',
-  'Active projects and their progress will appear here.':
-    'Active projects and their progress will appear here.',
+  'Active projects and their progress will appear here.': 'Active projects and their progress will appear here.',
   'Task breakdown': 'Task breakdown',
   'My task breakdown': 'My task breakdown',
   '{percent}% of {total} tasks completed': '{percent}% of {total} tasks completed',
@@ -179,17 +169,14 @@ export const EN_DICTIONARY = {
   'Week of': 'Week of',
   'This week': 'This week',
   'Nothing completed in the last {weeks} weeks': 'Nothing completed in the last {weeks} weeks',
-  'Tasks you move to Completed will appear here, week by week.':
-    'Tasks you move to Completed will appear here, week by week.',
-  'Tasks moved to Completed will appear here, week by week.':
-    'Tasks moved to Completed will appear here, week by week.',
+  'Tasks you move to Completed will appear here, week by week.': 'Tasks you move to Completed will appear here, week by week.',
+  'Tasks moved to Completed will appear here, week by week.': 'Tasks moved to Completed will appear here, week by week.',
   'My tasks': 'My tasks',
   '{count} open {unit} assigned to you': '{count} open {unit} assigned to you',
   'Assigned to you': 'Assigned to you',
   'Open board': 'Open board',
   "You're all caught up": "You're all caught up",
-  'Tasks assigned to you will appear here, soonest due first.':
-    'Tasks assigned to you will appear here, soonest due first.',
+  'Tasks assigned to you will appear here, soonest due first.': 'Tasks assigned to you will appear here, soonest due first.',
   '+{count} more on the board': '+{count} more on the board',
   'Recent projects': 'Recent projects',
   'Latest updated': 'Latest updated',
@@ -198,8 +185,7 @@ export const EN_DICTIONARY = {
   'Deadlines': 'Deadlines',
   'Upcoming deadlines': 'Upcoming deadlines',
   'Nothing due soon': 'Nothing due soon',
-  'No open tasks or projects are due in the next {days} days.':
-    'No open tasks or projects are due in the next {days} days.',
+  'No open tasks or projects are due in the next {days} days.': 'No open tasks or projects are due in the next {days} days.',
   'Overdue and due in the next {days} days': 'Overdue and due in the next {days} days',
   '· your work': '· your work',
   '+{count} more upcoming': '+{count} more upcoming',
@@ -208,8 +194,7 @@ export const EN_DICTIONARY = {
   '{count} {unit} awaiting review': '{count} {unit} awaiting review',
   'Review': 'Review',
   'All clear': 'All clear',
-  'There are no leave requests waiting for your review.':
-    'There are no leave requests waiting for your review.',
+  'There are no leave requests waiting for your review.': 'There are no leave requests waiting for your review.',
   '+{count} more pending': '+{count} more pending',
   'Recent activity': 'Recent activity',
   'Across the workspace': 'Across the workspace',
@@ -361,8 +346,7 @@ export const EN_DICTIONARY = {
   'Details': 'Details',
 
   // Toasts
-  'All settings and account preferences saved successfully.':
-    'All settings and account preferences saved successfully.',
+  'All settings and account preferences saved successfully.': 'All settings and account preferences saved successfully.',
   'Profile picture updated successfully!': 'Profile picture updated successfully!',
 
   // Team & Directory
@@ -400,8 +384,7 @@ export const EN_DICTIONARY = {
   'Reset filters': 'Reset filters',
   'Clear filters': 'Clear filters',
   'No members match these filters': 'No members match these filters',
-  'Try clearing the search or filters to see everyone.':
-    'Try clearing the search or filters to see everyone.',
+  'Try clearing the search or filters to see everyone.': 'Try clearing the search or filters to see everyone.',
   'Assign to project': 'Assign to project',
   'Assign projects': 'Assign projects',
   'Invited': 'Invited',
@@ -422,18 +405,15 @@ export const EN_DICTIONARY = {
   'Copy': 'Copy',
   'Link': 'Link',
   'Link copied.': 'Link copied.',
-  'Could not access the clipboard. Copy the link manually.':
-    'Could not access the clipboard. Copy the link manually.',
+  'Could not access the clipboard. Copy the link manually.': 'Could not access the clipboard. Copy the link manually.',
   "We've emailed this link to them. If it doesn't arrive, copy it and share it privately. Generating a new link cancels this one.":
     "We've emailed this link to them. If it doesn't arrive, copy it and share it privately. Generating a new link cancels this one.",
   "Email delivery isn't set up, so share this link privately. Generating a new link cancels this one.":
     "Email delivery isn't set up, so share this link privately. Generating a new link cancels this one.",
 
   // Attendance
-  'Daily check-ins, working hours and punctuality across the team.':
-    'Daily check-ins, working hours and punctuality across the team.',
-  'Your daily check-ins, working hours and punctuality.':
-    'Your daily check-ins, working hours and punctuality.',
+  'Daily check-ins, working hours and punctuality across the team.': 'Daily check-ins, working hours and punctuality across the team.',
+  'Your daily check-ins, working hours and punctuality.': 'Your daily check-ins, working hours and punctuality.',
   'Export CSV': 'Export CSV',
   'Daily log': 'Daily log',
   'Monthly summary': 'Monthly summary',
@@ -450,10 +430,8 @@ export const EN_DICTIONARY = {
   'Attendance records': 'Attendance records',
   'No records match these filters': 'No records match these filters',
   'No attendance records yet': 'No attendance records yet',
-  'Try another date or status, or reset the filters.':
-    'Try another date or status, or reset the filters.',
-  'Check in from the station above to start your attendance history.':
-    'Check in from the station above to start your attendance history.',
+  'Try another date or status, or reset the filters.': 'Try another date or status, or reset the filters.',
+  'Check in from the station above to start your attendance history.': 'Check in from the station above to start your attendance history.',
   'Showing records from {date}': 'Showing records from {date}',
   'Show earlier records': 'Show earlier records',
   'Filter by date': 'Filter by date',
@@ -471,8 +449,7 @@ export const EN_DICTIONARY = {
   'NOTES': 'NOTES',
 
   // Leave
-  'Your leave balance, time-off requests and the team review queue.':
-    'Your leave balance, time-off requests and the team review queue.',
+  'Your leave balance, time-off requests and the team review queue.': 'Your leave balance, time-off requests and the team review queue.',
   'Annual leave used': 'Annual leave used',
   'Sick leave used': 'Sick leave used',
   'Casual leave used': 'Casual leave used',
@@ -489,16 +466,14 @@ export const EN_DICTIONARY = {
   'Team requests': 'Team requests',
   'Team leave requests': 'Team leave requests',
   'Track the status of your time-off requests.': 'Track the status of your time-off requests.',
-  'Approve or reject pending requests from your team.':
-    'Approve or reject pending requests from your team.',
+  'Approve or reject pending requests from your team.': 'Approve or reject pending requests from your team.',
   'No leave requests yet': 'No leave requests yet',
   'Use “Request leave” to plan time off. Your requests and their status will appear here.':
     'Use “Request leave” to plan time off. Your requests and their status will appear here.',
   'Nothing here': 'Nothing here',
   'You have no requests with this status.': 'You have no requests with this status.',
   'No team requests': 'No team requests',
-  'Leave requests from your teammates will appear here for review.':
-    'Leave requests from your teammates will appear here for review.',
+  'Leave requests from your teammates will appear here for review.': 'Leave requests from your teammates will appear here for review.',
   'Request scope': 'Request scope',
   'Pending': 'Pending',
   'Approved': 'Approved',
@@ -520,8 +495,7 @@ export const EN_DICTIONARY = {
   '{count} people on leave': '{count} people on leave',
   'Leave details': 'Leave details',
   'No leave this month': 'No leave this month',
-  'Approved and pending leave for this month will be listed here.':
-    'Approved and pending leave for this month will be listed here.',
+  'Approved and pending leave for this month will be listed here.': 'Approved and pending leave for this month will be listed here.',
   'Leave type': 'Leave type',
   'Dates': 'Dates',
   'Submitted': 'Submitted',
@@ -534,8 +508,7 @@ export const EN_DICTIONARY = {
     'Track delivery, deadlines and team assignments across your workspace.',
   '{count} projects · track delivery, deadlines and team assignments.':
     '{count} projects · track delivery, deadlines and team assignments.',
-  '{count} project · track delivery, deadlines and team assignments.':
-    '{count} project · track delivery, deadlines and team assignments.',
+  '{count} project · track delivery, deadlines and team assignments.': '{count} project · track delivery, deadlines and team assignments.',
   'Create your first project to organise work, assign a team and track progress from its tasks.':
     'Create your first project to organise work, assign a team and track progress from its tasks.',
   'Projects you are added to will appear here once an admin or project manager creates them.':
@@ -553,8 +526,7 @@ export const EN_DICTIONARY = {
   'Delete project': 'Delete project',
 
   // Tasks
-  'Plan, assign and track delivery across every project.':
-    'Plan, assign and track delivery across every project.',
+  'Plan, assign and track delivery across every project.': 'Plan, assign and track delivery across every project.',
   'Create a project first': 'Create a project first',
   'Every task belongs to a project. Set up your first project, then come back to plan its work.':
     'Every task belongs to a project. Set up your first project, then come back to plan its work.',
@@ -588,8 +560,7 @@ export const EN_DICTIONARY = {
   'Delete {count} task?': 'Delete {count} task?',
   'Delete {count} tasks?': 'Delete {count} tasks?',
   '“{title}” and its comments will be permanently removed.': '“{title}” and its comments will be permanently removed.',
-  '{count} tasks and their comments will be permanently removed.':
-    '{count} tasks and their comments will be permanently removed.',
+  '{count} tasks and their comments will be permanently removed.': '{count} tasks and their comments will be permanently removed.',
   'Delete {count} task': 'Delete {count} task',
   'Delete {count} tasks': 'Delete {count} tasks',
   '{count} task updated.': '{count} task updated.',
@@ -601,22 +572,19 @@ export const EN_DICTIONARY = {
   'The tasks that failed are still selected.': 'The tasks that failed are still selected.',
 
   // Notifications & Activity
-  'Stay updated with your tasks, mentions and workspace events.':
-    'Stay updated with your tasks, mentions and workspace events.',
+  'Stay updated with your tasks, mentions and workspace events.': 'Stay updated with your tasks, mentions and workspace events.',
   'Mark all as read': 'Mark all as read',
   'All notifications': 'All notifications',
   'Unread': 'Unread',
   'No notifications yet': 'No notifications yet',
-  "You're all caught up! New notifications will appear here.":
-    "You're all caught up! New notifications will appear here.",
+  "You're all caught up! New notifications will appear here.": "You're all caught up! New notifications will appear here.",
   'Audit log of actions across your workspace.': 'Audit log of actions across your workspace.',
   'All events': 'All events',
   'All entities': 'All entities',
   'All actors': 'All actors',
 
   // Profile & Settings
-  'Personal information, contact details and password.':
-    'Personal information, contact details and password.',
+  'Personal information, contact details and password.': 'Personal information, contact details and password.',
   'Account information': 'Account information',
   'Work information': 'Work information',
   'Change password': 'Change password',
@@ -633,13 +601,11 @@ export const EN_DICTIONARY = {
   'Manage how and when you receive updates.': 'Manage how and when you receive updates.',
   'Workspace & account settings': 'Workspace & account settings',
   'Personal details & password': 'Personal details & password',
-  'Edit your profile, photo and password on My Profile.':
-    'Edit your profile, photo and password on My Profile.',
+  'Edit your profile, photo and password on My Profile.': 'Edit your profile, photo and password on My Profile.',
   'Preferences': 'Preferences',
   'Mark all read': 'Mark all read',
   'Clear all': 'Clear all',
-  'Manage your personal details, profile photo and password.':
-    'Manage your personal details, profile photo and password.',
+  'Manage your personal details, profile photo and password.': 'Manage your personal details, profile photo and password.',
   'Audit trail of every change across the workspace — onboarding, tasks, projects, attendance, leave and settings.':
     'Audit trail of every change across the workspace — onboarding, tasks, projects, attendance, leave and settings.',
   'Showing only actions you performed. The workspace-wide audit trail is available to admins and project managers.':
@@ -654,8 +620,7 @@ export const EN_DICTIONARY = {
   'Set up two-factor authentication': 'Set up two-factor authentication',
   'Sign-in asks for a code from an authenticator app on your phone as well as your password.':
     'Sign-in asks for a code from an authenticator app on your phone as well as your password.',
-  'Protect your account even if someone learns your password.':
-    'Protect your account even if someone learns your password.',
+  'Protect your account even if someone learns your password.': 'Protect your account even if someone learns your password.',
   'On': 'On',
   'Off': 'Off',
   'Turn on': 'Turn on',
@@ -665,8 +630,7 @@ export const EN_DICTIONARY = {
   'Two-factor authentication is on.': 'Two-factor authentication is on.',
   'Two-factor authentication is off.': 'Two-factor authentication is off.',
   'Two-factor authentication is required': 'Two-factor authentication is required',
-  "Two-factor authentication isn't set up on this server yet.":
-    "Two-factor authentication isn't set up on this server yet.",
+  "Two-factor authentication isn't set up on this server yet.": "Two-factor authentication isn't set up on this server yet.",
   "Two-factor authentication isn't set up on this server yet. Ask the person who runs AyiPM to turn it on.":
     "Two-factor authentication isn't set up on this server yet. Ask the person who runs AyiPM to turn it on.",
   'Open an authenticator app, such as Google Authenticator, Microsoft Authenticator or 1Password.':
@@ -676,8 +640,7 @@ export const EN_DICTIONARY = {
   'QR code for your authenticator app': 'QR code for your authenticator app',
   "Can't scan it? Enter this key in the app instead:": "Can't scan it? Enter this key in the app instead:",
   'Key copied.': 'Key copied.',
-  'Could not access the clipboard. Copy the key manually.':
-    'Could not access the clipboard. Copy the key manually.',
+  'Could not access the clipboard. Copy the key manually.': 'Could not access the clipboard. Copy the key manually.',
   'Code from your app': 'Code from your app',
   'Authentication code': 'Authentication code',
   'Authentication or recovery code': 'Authentication or recovery code',
@@ -687,11 +650,9 @@ export const EN_DICTIONARY = {
   'Create new recovery codes': 'Create new recovery codes',
   'Create new codes': 'Create new codes',
   '{count} left': '{count} left',
-  'Create new ones so you can still sign in without your phone.':
-    'Create new ones so you can still sign in without your phone.',
+  'Create new ones so you can still sign in without your phone.': 'Create new ones so you can still sign in without your phone.',
   'Your password alone will sign you in.': 'Your password alone will sign you in.',
-  'Your workspace requires two-factor authentication for admins.':
-    'Your workspace requires two-factor authentication for admins.',
+  'Your workspace requires two-factor authentication for admins.': 'Your workspace requires two-factor authentication for admins.',
   'Enter a code from your authenticator app, or a recovery code, to confirm. Your password alone will then sign you in.':
     'Enter a code from your authenticator app, or a recovery code, to confirm. Your password alone will then sign you in.',
   'Enter a code from your authenticator app, or a recovery code. Your current recovery codes stop working.':
@@ -702,8 +663,7 @@ export const EN_DICTIONARY = {
   "I've saved my codes": "I've saved my codes",
   'Copy codes': 'Copy codes',
   'Recovery codes copied.': 'Recovery codes copied.',
-  'Could not access the clipboard. Copy the codes manually.':
-    'Could not access the clipboard. Copy the codes manually.',
+  'Could not access the clipboard. Copy the codes manually.': 'Could not access the clipboard. Copy the codes manually.',
   'Open your authenticator app and enter the 6-digit code for this account.':
     'Open your authenticator app and enter the 6-digit code for this account.',
   'Enter one of the recovery codes you saved when you turned on two-factor authentication. Each code works once.':
@@ -720,8 +680,7 @@ export const EN_DICTIONARY = {
   'Require two-factor authentication for admins': 'Require two-factor authentication for admins',
   'Admins without it are signed out, and set it up the next time they sign in.':
     'Admins without it are signed out, and set it up the next time they sign in.',
-  'Turn on two-factor authentication for your own account first.':
-    'Turn on two-factor authentication for your own account first.',
+  'Turn on two-factor authentication for your own account first.': 'Turn on two-factor authentication for your own account first.',
   'Go to My Profile': 'Go to My Profile',
   'Google sign-in domain': 'Google sign-in domain',
   'Only Google Workspace accounts from this domain can sign in with Google.':
@@ -730,19 +689,15 @@ export const EN_DICTIONARY = {
     "Leave it empty to accept any Google account with a member's email address.",
   'Enter a domain like example.com, or leave it empty to allow any Google account.':
     'Enter a domain like example.com, or leave it empty to allow any Google account.',
-  'Enter the 6-digit code from your authenticator app.':
-    'Enter the 6-digit code from your authenticator app.',
+  'Enter the 6-digit code from your authenticator app.': 'Enter the 6-digit code from your authenticator app.',
   'Enter one of your recovery codes.': 'Enter one of your recovery codes.',
-  'Enter the code from your authenticator app, or a recovery code.':
-    'Enter the code from your authenticator app, or a recovery code.',
+  'Enter the code from your authenticator app, or a recovery code.': 'Enter the code from your authenticator app, or a recovery code.',
   "That code didn't work. Enter the newest code from your authenticator app.":
     "That code didn't work. Enter the newest code from your authenticator app.",
   'That code has already been used. Wait for the next one in your authenticator app.':
     'That code has already been used. Wait for the next one in your authenticator app.',
-  "That recovery code didn't work. Each code works only once.":
-    "That recovery code didn't work. Each code works only once.",
-  'This sign-in has expired. Enter your password again.':
-    'This sign-in has expired. Enter your password again.',
+  "That recovery code didn't work. Each code works only once.": "That recovery code didn't work. Each code works only once.",
+  'This sign-in has expired. Enter your password again.': 'This sign-in has expired. Enter your password again.',
   'This sign-in has expired. Continue with Google again.': 'This sign-in has expired. Continue with Google again.',
   "Codes from authenticator apps can't be checked on this server right now. Use a recovery code, or ask your admin.":
     "Codes from authenticator apps can't be checked on this server right now. Use a recovery code, or ask your admin.",

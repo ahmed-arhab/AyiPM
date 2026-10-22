@@ -20,8 +20,8 @@ function RequestSent() {
       }
     >
       <p>
-        If that account exists, your workspace admins will see your request on the Team page and can send you a secure link to choose
-        a new password, valid for 30 minutes.
+        If that account exists, your workspace admins will see your request on the Team page and can send you a secure link to choose a new
+        password, valid for 30 minutes.
       </p>
     </AuthStatus>
   );

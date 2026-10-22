@@ -15,7 +15,15 @@ interface MemberTableProps extends MemberRowHandlers {
   openTaskCounts: Map<string, number>;
 }
 
-export function MemberTable({ members, currentUserId, projectsByMember, openTaskCounts, onOpen, onAssign, onToggleStatus }: MemberTableProps) {
+export function MemberTable({
+  members,
+  currentUserId,
+  projectsByMember,
+  openTaskCounts,
+  onOpen,
+  onAssign,
+  onToggleStatus,
+}: MemberTableProps) {
   const { t, formatNumber } = useT();
 
   const columns = useMemo<Column<Employee>[]>(() => {

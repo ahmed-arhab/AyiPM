@@ -12,8 +12,7 @@ type CollapsibleContextType = {
   setIsOpen: (isOpen: boolean) => void;
 };
 
-const [CollapsibleProvider, useCollapsible] =
-  getStrictContext<CollapsibleContextType>('CollapsibleContext');
+const [CollapsibleProvider, useCollapsible] = getStrictContext<CollapsibleContextType>('CollapsibleContext');
 
 type CollapsibleProps = React.ComponentProps<typeof CollapsiblePrimitive.Root>;
 
@@ -26,29 +25,18 @@ function Collapsible(props: CollapsibleProps) {
 
   return (
     <CollapsibleProvider value={{ isOpen, setIsOpen }}>
-      <CollapsiblePrimitive.Root
-        data-slot="collapsible"
-        {...props}
-        onOpenChange={setIsOpen}
-      />
+      <CollapsiblePrimitive.Root data-slot="collapsible" {...props} onOpenChange={setIsOpen} />
     </CollapsibleProvider>
   );
 }
 
-type CollapsibleTriggerProps = React.ComponentProps<
-  typeof CollapsiblePrimitive.Trigger
->;
+type CollapsibleTriggerProps = React.ComponentProps<typeof CollapsiblePrimitive.Trigger>;
 
 function CollapsibleTrigger(props: CollapsibleTriggerProps) {
-  return (
-    <CollapsiblePrimitive.Trigger data-slot="collapsible-trigger" {...props} />
-  );
+  return <CollapsiblePrimitive.Trigger data-slot="collapsible-trigger" {...props} />;
 }
 
-type CollapsibleContentProps = Omit<
-  React.ComponentProps<typeof CollapsiblePrimitive.Content>,
-  'asChild' | 'forceMount'
-> &
+type CollapsibleContentProps = Omit<React.ComponentProps<typeof CollapsiblePrimitive.Content>, 'asChild' | 'forceMount'> &
   HTMLMotionProps<'div'> & {
     keepRendered?: boolean;
   };
@@ -65,9 +53,7 @@ function CollapsibleContent({
   const { isOpen } = useCollapsible();
 
   const defaultInitial = initial ?? { opacity: 0, height: 0 };
-  const defaultAnimate = animate ?? (isOpen
-    ? { opacity: 1, height: 'auto' }
-    : { opacity: 0, height: 0 });
+  const defaultAnimate = animate ?? (isOpen ? { opacity: 1, height: 'auto' } : { opacity: 0, height: 0 });
   const defaultExit = exit ?? { opacity: 0, height: 0 };
 
   const defaultTransition = transition ?? {

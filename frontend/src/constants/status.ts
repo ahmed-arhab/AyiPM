@@ -1,12 +1,4 @@
-import type {
-  AttendanceStatus,
-  LeaveStatus,
-  LeaveType,
-  NotificationCategory,
-  ProjectStatus,
-  TaskPriority,
-  TaskStatus,
-} from '@/types';
+import type { AttendanceStatus, LeaveStatus, LeaveType, NotificationCategory, ProjectStatus, TaskPriority, TaskStatus } from '@/types';
 
 export type BadgeTone = 'success' | 'warning' | 'danger' | 'info' | 'neutral' | 'purple';
 

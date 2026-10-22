@@ -4,10 +4,7 @@ import * as React from 'react';
 import { motion, AnimatePresence, type HTMLMotionProps } from 'motion/react';
 
 import { Slot, type WithAsChild } from '@/components/animate-ui/primitives/animate/slot';
-import {
-  useIsInView,
-  type UseIsInViewOptions,
-} from '@/hooks/use-is-in-view';
+import { useIsInView, type UseIsInViewOptions } from '@/hooks/use-is-in-view';
 import { getStrictContext } from '@/lib/get-strict-context';
 
 type Side = 'top' | 'bottom' | 'left' | 'right';
@@ -18,8 +15,7 @@ type ParticlesContextType = {
   isInView: boolean;
 };
 
-const [ParticlesProvider, useParticles] =
-  getStrictContext<ParticlesContextType>('ParticlesContext');
+const [ParticlesProvider, useParticles] = getStrictContext<ParticlesContextType>('ParticlesContext');
 
 type ParticlesProps = WithAsChild<
   Omit<HTMLMotionProps<'div'>, 'children'> & {
@@ -39,20 +35,13 @@ function Particles({
   style,
   ...props
 }: ParticlesProps) {
-  const { ref: localRef, isInView } = useIsInView(
-    ref as React.Ref<HTMLDivElement>,
-    { inView, inViewOnce, inViewMargin },
-  );
+  const { ref: localRef, isInView } = useIsInView(ref as React.Ref<HTMLDivElement>, { inView, inViewOnce, inViewMargin });
 
   const Component = asChild ? Slot : motion.div;
 
   return (
     <ParticlesProvider value={{ animate, isInView }}>
-      <Component
-        ref={localRef}
-        style={{ position: 'relative', ...style }}
-        {...props}
-      >
+      <Component ref={localRef} style={{ position: 'relative', ...style }} {...props}>
         {children}
       </Component>
     </ParticlesProvider>
@@ -147,9 +136,4 @@ function ParticlesEffect({
   );
 }
 
-export {
-  Particles,
-  ParticlesEffect,
-  type ParticlesProps,
-  type ParticlesEffectProps,
-};
+export { Particles, ParticlesEffect, type ParticlesProps, type ParticlesEffectProps };

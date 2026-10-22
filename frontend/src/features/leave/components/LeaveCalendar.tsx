@@ -198,7 +198,12 @@ export function LeaveCalendar() {
 
       {!monthHasLeave && (
         <div className={styles.mobileEmpty}>
-          <EmptyState compact icon={CalendarDays} title="No leave this month" description="Approved and pending leave for this month will be listed here." />
+          <EmptyState
+            compact
+            icon={CalendarDays}
+            title="No leave this month"
+            description="Approved and pending leave for this month will be listed here."
+          />
         </div>
       )}
 

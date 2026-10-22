@@ -26,7 +26,13 @@ export function NotificationStats({ items, unread }: NotificationStatsProps) {
   return (
     <StatGrid>
       <StatCard label="Total" value={items.length} icon={Bell} hint="In your inbox" />
-      <StatCard label="Unread" value={unread} icon={AlertCircle} accent="var(--danger)" hint={unread > 0 ? 'Waiting for you' : 'All caught up'} />
+      <StatCard
+        label="Unread"
+        value={unread}
+        icon={AlertCircle}
+        accent="var(--danger)"
+        hint={unread > 0 ? 'Waiting for you' : 'All caught up'}
+      />
       <StatCard label="Urgent & high" value={important} icon={Flame} accent="var(--warning)" hint="Unread, high priority" />
       <StatCard label="Today" value={today} icon={CalendarClock} accent="var(--success)" hint="Received today" />
     </StatGrid>

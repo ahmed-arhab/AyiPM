@@ -20,7 +20,12 @@ export function RecentProjectsCard({ projects }: { projects: Project[] }) {
 
   return (
     <Card as="section">
-      <CardHeader icon={Layers} title={t('Recent projects')} description={t('Latest updated')} actions={<CardLink href={ROUTES.projects}>{t('All projects')}</CardLink>} />
+      <CardHeader
+        icon={Layers}
+        title={t('Recent projects')}
+        description={t('Latest updated')}
+        actions={<CardLink href={ROUTES.projects}>{t('All projects')}</CardLink>}
+      />
       {recent.length === 0 ? (
         <EmptyState compact icon={Layers} title={t('No projects yet')} description={t('Recently updated projects will be listed here.')} />
       ) : (

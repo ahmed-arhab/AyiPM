@@ -18,12 +18,7 @@ interface ProjectTasksCardProps {
   onCreateTask?: () => void;
 }
 
-export function ProjectTasksCard({
-  tasks,
-  onSwitchToTodo,
-  onOpenTask,
-  onCreateTask,
-}: ProjectTasksCardProps) {
+export function ProjectTasksCard({ tasks, onSwitchToTodo, onOpenTask, onCreateTask }: ProjectTasksCardProps) {
   const canManageTasks = usePermission('tasks.manage');
   const employeesById = useEmployeesById();
   const { date } = useFormatters();
@@ -65,9 +60,14 @@ export function ProjectTasksCard({
           compact
           icon={CheckSquare}
           title="No tasks yet"
-          description={canManageTasks ? 'Break the project down into tasks to start tracking progress.' : 'Tasks will appear here once they are created.'}
+          description={
+            canManageTasks
+              ? 'Break the project down into tasks to start tracking progress.'
+              : 'Tasks will appear here once they are created.'
+          }
           action={
-            canManageTasks && onCreateTask && (
+            canManageTasks &&
+            onCreateTask && (
               <Button size="sm" icon={Plus} onClick={onCreateTask}>
                 Add task
               </Button>
@@ -91,11 +91,7 @@ export function ProjectTasksCard({
                       onClick={onOpenTask ? () => onOpenTask(task.id) : undefined}
                       style={{ cursor: onOpenTask ? 'pointer' : 'default' }}
                     >
-                      <TaskRow
-                        task={task}
-                        assignee={task.assigneeId ? employeesById.get(task.assigneeId) : undefined}
-                        formatDate={date}
-                      />
+                      <TaskRow task={task} assignee={task.assigneeId ? employeesById.get(task.assigneeId) : undefined} formatDate={date} />
                     </div>
                   ))}
                 </div>

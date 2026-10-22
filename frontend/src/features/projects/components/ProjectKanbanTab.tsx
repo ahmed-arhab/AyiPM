@@ -13,12 +13,7 @@ interface ProjectKanbanTabProps {
   onCreateTask: () => void;
 }
 
-export function ProjectKanbanTab({
-  tasks,
-  canManage,
-  onOpenTask,
-  onCreateTask,
-}: ProjectKanbanTabProps) {
+export function ProjectKanbanTab({ tasks, canManage, onOpenTask, onCreateTask }: ProjectKanbanTabProps) {
   if (tasks.length === 0) {
     return (
       <div className="card" style={{ padding: '2rem' }}>

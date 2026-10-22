@@ -32,8 +32,27 @@ export const DEFAULT_PREFERENCES: UserPreferences = {
   },
 };
 
-export const DEPARTMENTS = ['Engineering', 'Product', 'Design', 'Quality Assurance', 'Operations', 'Human Resources', 'Finance', 'Sales', 'Marketing'];
+export const DEPARTMENTS = [
+  'Engineering',
+  'Product',
+  'Design',
+  'Quality Assurance',
+  'Operations',
+  'Human Resources',
+  'Finance',
+  'Sales',
+  'Marketing',
+];
 
 export const LANGUAGES = ['English (US)', 'English (UK)', 'Sinhala', 'Tamil'];
 
-export const TIMEZONES = ['Asia/Colombo', 'Asia/Kolkata', 'Asia/Dubai', 'Asia/Singapore', 'Europe/London', 'America/New_York', 'America/Los_Angeles', 'UTC'];
+export const TIMEZONES = [
+  'Asia/Colombo',
+  'Asia/Kolkata',
+  'Asia/Dubai',
+  'Asia/Singapore',
+  'Europe/London',
+  'America/New_York',
+  'America/Los_Angeles',
+  'UTC',
+];

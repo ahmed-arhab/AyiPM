@@ -39,12 +39,29 @@ export function GeneralFields({ values, errors, setField }: FieldsProps) {
     <FieldGroup title="Company">
       <FormGrid columns={3}>
         <Field label="Company name" htmlFor={`${id}-company`} required error={errors.companyName}>
-          <Input id={`${id}-company`} value={values.companyName} onChange={(e) => setField('companyName', e.target.value)} invalid={Boolean(errors.companyName)} />
+          <Input
+            id={`${id}-company`}
+            value={values.companyName}
+            onChange={(e) => setField('companyName', e.target.value)}
+            invalid={Boolean(errors.companyName)}
+          />
         </Field>
         <Field label="Timezone" htmlFor={`${id}-tz`} required error={errors.timezone}>
-          <Select id={`${id}-tz`} options={timezoneOptions} value={values.timezone} onChange={(v) => setField('timezone', v)} invalid={Boolean(errors.timezone)} />
+          <Select
+            id={`${id}-tz`}
+            options={timezoneOptions}
+            value={values.timezone}
+            onChange={(v) => setField('timezone', v)}
+            invalid={Boolean(errors.timezone)}
+          />
         </Field>
-        <Field label="Employee ID prefix" htmlFor={`${id}-prefix`} required error={errors.employeeIdPrefix} hint="New IDs look like PREFIX001.">
+        <Field
+          label="Employee ID prefix"
+          htmlFor={`${id}-prefix`}
+          required
+          error={errors.employeeIdPrefix}
+          hint="New IDs look like PREFIX001."
+        >
           <Input
             id={`${id}-prefix`}
             value={values.employeeIdPrefix}
@@ -62,13 +79,21 @@ export function AttendanceFields({ values, errors, setField }: FieldsProps) {
   const id = useId();
   const grace = Number(values.gracePeriodMinutes);
   const lateAfter =
-    /^\d{2}:\d{2}$/.test(values.workDayStart) && Number.isInteger(grace) && grace >= 0 ? graceDeadlineLabel(values.workDayStart, grace) : null;
+    /^\d{2}:\d{2}$/.test(values.workDayStart) && Number.isInteger(grace) && grace >= 0
+      ? graceDeadlineLabel(values.workDayStart, grace)
+      : null;
 
   return (
     <FieldGroup title="Attendance">
       <FormGrid columns={3}>
         <Field label="Work day starts" htmlFor={`${id}-start`} required error={errors.workDayStart}>
-          <Input id={`${id}-start`} type="time" value={values.workDayStart} onChange={(e) => setField('workDayStart', e.target.value)} invalid={Boolean(errors.workDayStart)} />
+          <Input
+            id={`${id}-start`}
+            type="time"
+            value={values.workDayStart}
+            onChange={(e) => setField('workDayStart', e.target.value)}
+            invalid={Boolean(errors.workDayStart)}
+          />
         </Field>
         <Field label="Grace period (minutes)" htmlFor={`${id}-grace`} required error={errors.gracePeriodMinutes}>
           <Input
@@ -82,7 +107,13 @@ export function AttendanceFields({ values, errors, setField }: FieldsProps) {
             invalid={Boolean(errors.gracePeriodMinutes)}
           />
         </Field>
-        <Field label="Half-day threshold (hours)" htmlFor={`${id}-half`} required error={errors.halfDayThresholdHours} hint="Shorter days count as half days.">
+        <Field
+          label="Half-day threshold (hours)"
+          htmlFor={`${id}-half`}
+          required
+          error={errors.halfDayThresholdHours}
+          hint="Shorter days count as half days."
+        >
           <Input
             id={`${id}-half`}
             type="number"

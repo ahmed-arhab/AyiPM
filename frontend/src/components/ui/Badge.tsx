@@ -16,15 +16,7 @@ import {
   type StatusMeta,
 } from '@/constants/status';
 import { ROLE_BADGE_CLASS, ROLE_LABELS } from '@/constants/roles';
-import type {
-  AttendanceStatus,
-  LeaveStatus,
-  NotificationCategory,
-  ProjectStatus,
-  TaskPriority,
-  TaskStatus,
-  UserRole,
-} from '@/types';
+import type { AttendanceStatus, LeaveStatus, NotificationCategory, ProjectStatus, TaskPriority, TaskStatus, UserRole } from '@/types';
 
 interface BadgeProps {
   tone?: BadgeTone;

@@ -68,7 +68,11 @@ export function RequestLeaveModal({ onClose }: { onClose: () => void }) {
         <Field
           label="Leave type"
           htmlFor={`${id}-type`}
-          hint={available === null ? 'Unpaid leave does not use your balance.' : `${pluralize(available, 'day')} available after pending requests.`}
+          hint={
+            available === null
+              ? 'Unpaid leave does not use your balance.'
+              : `${pluralize(available, 'day')} available after pending requests.`
+          }
         >
           <Select<LeaveType> id={`${id}-type`} options={TYPE_OPTIONS} value={leaveType} onChange={setLeaveType} />
         </Field>

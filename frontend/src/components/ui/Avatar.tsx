@@ -33,13 +33,7 @@ export const Avatar = memo(function Avatar({ name, src, size = 32, className }: 
   }
   const tone = toneFor(name);
   return (
-    <span
-      className={cn(styles.avatar, styles.initials, className)}
-      style={{ ...style, ...tone }}
-      title={name}
-      aria-label={name}
-      role="img"
-    >
+    <span className={cn(styles.avatar, styles.initials, className)} style={{ ...style, ...tone }} title={name} aria-label={name} role="img">
       {initials(name)}
     </span>
   );

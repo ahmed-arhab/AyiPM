@@ -5,12 +5,7 @@ import { Inbox } from 'lucide-react';
 import { Card, SearchInput, SegmentedControl, Select, Switch, type SegmentOption } from '@/components/ui';
 import { NOTIFICATION_CATEGORY } from '@/constants/status';
 import type { UpdateNotificationFilter } from '../hooks/useNotificationFilters';
-import {
-  NOTIFICATION_CATEGORIES,
-  PRIORITY_OPTIONS,
-  type CategoryFilter,
-  type NotificationFilterState,
-} from '../utils';
+import { NOTIFICATION_CATEGORIES, PRIORITY_OPTIONS, type CategoryFilter, type NotificationFilterState } from '../utils';
 import { CATEGORY_ICONS } from './NotificationRow';
 import styles from './NotificationFilterBar.module.css';
 
@@ -46,11 +41,7 @@ export function NotificationFilterBar({ filters, counts, unread, onChange }: Not
           onChange={(value) => onChange('category', value)}
         />
         <div className={styles.unreadToggle}>
-          <Switch
-            label={`Unread only (${unread})`}
-            checked={filters.unreadOnly}
-            onChange={(checked) => onChange('unreadOnly', checked)}
-          />
+          <Switch label={`Unread only (${unread})`} checked={filters.unreadOnly} onChange={(checked) => onChange('unreadOnly', checked)} />
         </div>
       </div>
       <div className={styles.searchRow}>

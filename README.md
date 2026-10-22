@@ -162,6 +162,8 @@ Frontend (run in `frontend/`):
 | `npm run build` | Create a production build (also type-checks) |
 | `npm run start` | Serve the production build |
 | `npm run lint` | Check the code with ESLint |
+| `npm run format` | Format the code with Prettier |
+| `npm run format:check` | Check the formatting without changing files; this is what CI runs |
 | `npx tsc --noEmit` | Type-check without building |
 | `npm run generate:api` | Regenerate `src/types/api.generated.ts` from the backend's OpenAPI spec (`backend/openapi.json`) |
 | `npm test` | Run the unit tests once |

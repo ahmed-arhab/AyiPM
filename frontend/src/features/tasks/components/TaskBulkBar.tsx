@@ -130,9 +130,7 @@ export function TaskBulkBar({ tasks, canManage, onClear, onFinished }: TaskBulkB
   const failureGroups = useMemo(() => {
     const selectedIds = new Set(tasks.map((task) => task.id));
     const groups = new Map<string, string[]>();
-    lastRun?.failures
-      .filter((f) => selectedIds.has(f.id))
-      .forEach((f) => groups.set(f.error, [...(groups.get(f.error) ?? []), f.title]));
+    lastRun?.failures.filter((f) => selectedIds.has(f.id)).forEach((f) => groups.set(f.error, [...(groups.get(f.error) ?? []), f.title]));
     return [...groups].map(([error, titles]) => ({ error, titles }));
   }, [lastRun, tasks]);
 

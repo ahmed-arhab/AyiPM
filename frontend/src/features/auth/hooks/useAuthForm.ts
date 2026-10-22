@@ -27,7 +27,7 @@ export function useAuthForm<T extends object>(initial: T, validate: (values: T) 
   }, [validate, values]);
 
   const submit = useCallback(
-    async <R,>(action: (values: T) => Promise<ActionResult<R>> | ActionResult<R>, options: SubmitOptions<R> = {}) => {
+    async <R>(action: (values: T) => Promise<ActionResult<R>> | ActionResult<R>, options: SubmitOptions<R> = {}) => {
       const nextErrors = validate(values);
       setErrors(nextErrors);
       setFormError(null);

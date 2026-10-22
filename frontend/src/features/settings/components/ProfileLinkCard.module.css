@@ -34,7 +34,9 @@
 .chevron {
   color: var(--text-muted);
   flex-shrink: 0;
-  transition: transform var(--transition-fast), color var(--transition-fast);
+  transition:
+    transform var(--transition-fast),
+    color var(--transition-fast);
 }
 
 .card:hover .chevron {

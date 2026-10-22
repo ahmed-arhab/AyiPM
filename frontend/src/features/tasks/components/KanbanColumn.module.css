@@ -7,7 +7,9 @@
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
   scroll-snap-align: start;
-  transition: border-color var(--transition-fast), background var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast);
 }
 
 .over {

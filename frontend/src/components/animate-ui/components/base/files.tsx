@@ -30,9 +30,7 @@ type FilesProps = FilesPrimitiveProps;
 function Files({ className, children, ...props }: FilesProps) {
   return (
     <FilesPrimitive className={cn('p-2 w-full', className)} {...props}>
-      <FilesHighlightPrimitive className="bg-accent rounded-lg pointer-events-none">
-        {children}
-      </FilesHighlightPrimitive>
+      <FilesHighlightPrimitive className="bg-accent rounded-lg pointer-events-none">{children}</FilesHighlightPrimitive>
     </FilesPrimitive>
   );
 }
@@ -53,12 +51,7 @@ type FolderTriggerProps = FileLabelPrimitiveProps & {
   gitStatus?: GitStatus;
 };
 
-function FolderTrigger({
-  children,
-  className,
-  gitStatus,
-  ...props
-}: FolderTriggerProps) {
+function FolderTrigger({ children, className, gitStatus, ...props }: FolderTriggerProps) {
   return (
     <FolderHeaderPrimitive>
       <FolderTriggerPrimitive className="w-full text-start">
@@ -69,17 +62,11 @@ function FolderTrigger({
                 'flex items-center gap-2',
                 gitStatus === 'untracked' && 'text-green-400',
                 gitStatus === 'modified' && 'text-amber-400',
-                gitStatus === 'deleted' && 'text-red-400',
+                gitStatus === 'deleted' && 'text-red-400'
               )}
             >
-              <FolderIconPrimitive
-                closeIcon={<FolderIcon className="size-4.5" />}
-                openIcon={<FolderOpenIcon className="size-4.5" />}
-              />
-              <FileLabelPrimitive
-                className={cn('text-sm', className)}
-                {...props}
-              >
+              <FolderIconPrimitive closeIcon={<FolderIcon className="size-4.5" />} openIcon={<FolderOpenIcon className="size-4.5" />} />
+              <FileLabelPrimitive className={cn('text-sm', className)} {...props}>
                 {children}
               </FileLabelPrimitive>
             </div>
@@ -90,7 +77,7 @@ function FolderTrigger({
                   'rounded-full size-2',
                   gitStatus === 'untracked' && 'bg-green-400',
                   gitStatus === 'modified' && 'bg-amber-400',
-                  gitStatus === 'deleted' && 'bg-red-400',
+                  gitStatus === 'deleted' && 'bg-red-400'
                 )}
               />
             )}
@@ -116,13 +103,7 @@ type FileItemProps = FilePrimitiveProps & {
   gitStatus?: GitStatus;
 };
 
-function FileItem({
-  icon: Icon = FileIcon,
-  className,
-  children,
-  gitStatus,
-  ...props
-}: FileItemProps) {
+function FileItem({ icon: Icon = FileIcon, className, children, gitStatus, ...props }: FileItemProps) {
   return (
     <FileHighlightPrimitive>
       <FilePrimitive
@@ -130,7 +111,7 @@ function FileItem({
           'flex items-center justify-between gap-2 p-2 pointer-events-none',
           gitStatus === 'untracked' && 'text-green-400',
           gitStatus === 'modified' && 'text-amber-400',
-          gitStatus === 'deleted' && 'text-red-400',
+          gitStatus === 'deleted' && 'text-red-400'
         )}
       >
         <div className="flex items-center gap-2">

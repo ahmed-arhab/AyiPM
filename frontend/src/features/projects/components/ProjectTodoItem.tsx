@@ -90,19 +90,11 @@ export const ProjectTodoItem = memo(function ProjectTodoItem({
           </span>
         )}
 
-        {assignee ? (
-          <Avatar name={assignee.name} src={assignee.avatar} size={24} />
-        ) : null}
+        {assignee ? <Avatar name={assignee.name} src={assignee.avatar} size={24} /> : null}
 
         {canManage && onEdit && (
           <div className={styles.actions}>
-            <button
-              type="button"
-              className={styles.editBtn}
-              onClick={handleEditClick}
-              title="Edit task"
-              aria-label={`Edit ${task.title}`}
-            >
+            <button type="button" className={styles.editBtn} onClick={handleEditClick} title="Edit task" aria-label={`Edit ${task.title}`}>
               <Pencil size={13} />
             </button>
           </div>

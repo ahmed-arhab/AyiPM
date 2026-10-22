@@ -73,7 +73,9 @@
   color: var(--text-secondary);
   min-width: 18px;
   text-align: center;
-  transition: background var(--transition-fast), color var(--transition-fast);
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
 }
 
 .active .count {
