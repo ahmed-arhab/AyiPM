@@ -106,6 +106,26 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Reset password': 'මුරපදය නැවත සකසන්න',
   'Accept invitation': 'ආරාධනය පිළිගන්න',
   'Welcome to AyiPM': 'AyiPM වෙත සාදරයෙන් පිළිගනිමු',
+  'Continue with Google': 'Google සමඟ ඉදිරියට යන්න',
+  'Join with Google': 'Google සමඟ එක්වන්න',
+  'or': 'හෝ',
+  "Sign-in with Google isn't set up on this server.": 'මෙම සේවාදායකයේ Google සමඟ පුරනය වීම සකසා නැත.',
+  'This sign-in with Google expired, or it was started in another browser. Try again.':
+    'Google සමඟ මෙම පුරනය වීමේ කාලය ඉකුත් වී ඇත, නැතහොත් එය වෙනත් බ්‍රවුසරයකින් ආරම්භ කර ඇත. නැවත උත්සාහ කරන්න.',
+  "Signing in with Google didn't work. Try again.": 'Google සමඟ පුරනය වීම සාර්ථක නොවීය. නැවත උත්සාහ කරන්න.',
+  "There's no account for this Google account's email address. Ask your admin for an invitation.":
+    'මෙම Google ගිණුමේ විද්‍යුත් තැපැල් ලිපිනය සඳහා ගිණුමක් නොමැත. ආරාධනයක් සඳහා ඔබගේ පරිපාලකයාගෙන් ඉල්ලන්න.',
+  'This workspace only accepts Google accounts from its own domain. Use your work Google account.':
+    'මෙම වැඩබිම පිළිගන්නේ තම වසමේ Google ගිණුම් පමණි. ඔබගේ කාර්යාල Google ගිණුම භාවිත කරන්න.',
+  'This account has been deactivated. Contact your administrator.': 'මෙම ගිණුම අක්‍රිය කර ඇත. ඔබගේ පරිපාලකයා අමතන්න.',
+  'Your invitation has expired. Ask your admin for a new one.':
+    'ඔබගේ ආරාධනයේ කාලය ඉකුත් වී ඇත. නව එකක් සඳහා ඔබගේ පරිපාලකයාගෙන් ඉල්ලන්න.',
+  'This invitation is for another email address. Continue with the Google account it was sent to.':
+    'මෙම ආරාධනය වෙනත් විද්‍යුත් තැපැල් ලිපිනයක් සඳහා ය. එය යවන ලද Google ගිණුම සමඟ ඉදිරියට යන්න.',
+  "This Google account doesn't match the one linked to your account. Sign in with your password, or ask your admin.":
+    'මෙම Google ගිණුම ඔබගේ ගිණුමට සම්බන්ධ කර ඇති Google ගිණුමට නොගැළපේ. ඔබගේ මුරපදය සමඟ පුරනය වන්න, නැතහොත් ඔබගේ පරිපාලකයාගෙන් විමසන්න.',
+  'Too many attempts. Wait a minute and try again.':
+    'උත්සාහයන් ඕනෑවට වඩා වැඩිය. මිනිත්තුවක් රැඳී සිට නැවත උත්සාහ කරන්න.',
 
   // Dashboard
   'Good morning': 'සුබ උදෑසනක්',
@@ -151,6 +171,20 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Create tasks to see how work is distributed.': 'වැඩ බෙදී ඇති ආකාරය බැලීමට කාර්යයන් සාදන්න.',
   '{overdue} overdue {unit} need attention': 'කල් ඉකුත් වූ {unit} {overdue} සඳහා අවධානය අවශ්‍යයි',
   'No overdue tasks': 'කල් ඉකුත් වූ කාර්යයන් නොමැත',
+  'Completion trend': 'නිම කිරීමේ ප්‍රවණතාව',
+  'My completion trend': 'මගේ නිම කිරීමේ ප්‍රවණතාව',
+  'Tasks completed per week': 'සතියකට නිම කළ කාර්යයන්',
+  '{count} {unit} completed in the last {weeks} weeks': 'පසුගිය සති {weeks} තුළ {unit} {count} ක් නිම කර ඇත',
+  '{count} {unit} completed in the last {weeks} weeks, most in the week of {week} ({max})':
+    'පසුගිය සති {weeks} තුළ {unit} {count} ක් නිම කර ඇත, වැඩිම ගණන {week} න් ඇරඹෙන සතියේ ({max})',
+  '{count} completed in the week of {week}': '{week} න් ඇරඹෙන සතියේ නිම කළ ගණන {count}',
+  'Week of': 'සතිය ඇරඹෙන දිනය',
+  'This week': 'මෙම සතිය',
+  'Nothing completed in the last {weeks} weeks': 'පසුගිය සති {weeks} තුළ කිසිවක් නිම කර නැත',
+  'Tasks you move to Completed will appear here, week by week.':
+    'ඔබ “සම්පූර්ණයි” වෙත ගෙන යන කාර්යයන් සතියෙන් සතිය මෙහි දිස්වනු ඇත.',
+  'Tasks moved to Completed will appear here, week by week.':
+    '“සම්පූර්ණයි” වෙත ගෙන යන කාර්යයන් සතියෙන් සතිය මෙහි දිස්වනු ඇත.',
   'My tasks': 'මගේ කාර්යයන්',
   '{count} open {unit} assigned to you': 'ඔබට පවරන ලද විවෘත {unit} {count}',
   'Assigned to you': 'ඔබට පවරන ලදි',
@@ -299,6 +333,7 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Annual Leave': 'වාර්ෂික නිවාඩු',
   'Sick Leave': 'අසනීප නිවාඩු',
   'Casual Leave': 'හදිසි නිවාඩු',
+  'Unpaid Leave': 'වැටුප් රහිත නිවාඩු',
   'Leave Balances': 'නිවාඩු ශේෂයන්',
   'Available': 'ඉතිරිව ඇති',
   'Used': 'භාවිතා කළ',
@@ -423,6 +458,8 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
     'වෙනත් දිනයක් හෝ තත්ත්වයක් උත්සාහ කරන්න, නැතහොත් පෙරහන් යළි පිහිටුවන්න.',
   'Check in from the station above to start your attendance history.':
     'ඔබගේ පැමිණීමේ ඉතිහාසය ආරම්භ කිරීමට ඉහත ස්ථානයෙන් පැමිණීම සටහන් කරන්න.',
+  'Showing records from {date}': '{date} සිට ඇති වාර්තා පෙන්වයි',
+  'Show earlier records': 'පෙර වාර්තා පෙන්වන්න',
   'Filter by date': 'දිනය අනුව පෙරහන් කරන්න',
   'Filter by status': 'තත්ත්වය අනුව පෙරහන් කරන්න',
   'Filter by employee': 'සේවකයා අනුව පෙරහන් කරන්න',
@@ -470,6 +507,25 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Pending': 'පොරොත්තුවෙන්',
   'Approved': 'අනුමතයි',
   'Rejected': 'ප්‍රතික්ෂේපිතයි',
+  'Pending Review': 'සමාලෝචනය පොරොත්තුවෙන්',
+  'Leave view': 'නිවාඩු දසුන',
+  'Requests': 'ඉල්ලීම්',
+  'Calendar': 'දින දර්ශනය',
+  'Team leave calendar': 'කණ්ඩායමේ නිවාඩු දින දර්ශනය',
+  'My leave calendar': 'මගේ නිවාඩු දින දර්ශනය',
+  'Approved and pending leave for everyone in the workspace. Rejected requests are not shown.':
+    'වැඩබිමේ සැමගේ අනුමත සහ පොරොත්තුවෙන් පවතින නිවාඩු. ප්‍රතික්ෂේප කළ ඉල්ලීම් පෙන්වන්නේ නැත.',
+  'Your approved and pending leave. Only leave reviewers can see the whole team.':
+    'ඔබගේ අනුමත සහ පොරොත්තුවෙන් පවතින නිවාඩු. මුළු කණ්ඩායමේම නිවාඩු දැකිය හැක්කේ නිවාඩු සමාලෝචකයින්ට පමණි.',
+  'Previous month': 'පෙර මාසය',
+  'Next month': 'ඊළඟ මාසය',
+  '+{count} more': 'තවත් {count} ක්',
+  '{count} person on leave': '{count} අයෙක් නිවාඩු ගෙන ඇත',
+  '{count} people on leave': '{count} දෙනෙක් නිවාඩු ගෙන ඇත',
+  'Leave details': 'නිවාඩු විස්තර',
+  'No leave this month': 'මෙම මාසයේ නිවාඩු නැත',
+  'Approved and pending leave for this month will be listed here.':
+    'මෙම මාසයේ අනුමත සහ පොරොත්තුවෙන් පවතින නිවාඩු මෙහි ලැයිස්තුගත වේ.',
   'Leave type': 'නිවාඩු වර්ගය',
   'Dates': 'දින',
   'Submitted': 'යොමු කරන ලදී',
@@ -520,6 +576,33 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Task view': 'කාර්ය දසුන',
   'Task details': 'කාර්ය විස්තර',
   'Activity history': 'ක්‍රියාකාරකම් ඉතිහාසය',
+
+  // Task list bulk actions
+  'Select all tasks on this page': 'මෙම පිටුවේ සියලුම කාර්යයන් තෝරන්න',
+  'Select all your tasks on this page': 'මෙම පිටුවේ ඔබගේ සියලුම කාර්යයන් තෝරන්න',
+  'Select “{title}”': '“{title}” තෝරන්න',
+  'You can only change tasks assigned to you.': 'ඔබට වෙනස් කළ හැක්කේ ඔබට පවරා ඇති කාර්යයන් පමණි.',
+  'Actions for selected tasks': 'තෝරාගත් කාර්යයන් සඳහා ක්‍රියා',
+  '{count} selected': '{count} ක් තෝරා ඇත',
+  'Change status': 'තත්ත්වය වෙනස් කරන්න',
+  'Change priority': 'ප්‍රමුඛතාවය වෙනස් කරන්න',
+  'Change assignee': 'පවරන ලද පුද්ගලයා වෙනස් කරන්න',
+  'Apply': 'යොදන්න',
+  'Clear selection': 'තේරීම ඉවත් කරන්න',
+  'Delete {count} task?': 'කාර්යය මකන්නද?',
+  'Delete {count} tasks?': 'කාර්යයන් {count} ක් මකන්නද?',
+  '“{title}” and its comments will be permanently removed.': '“{title}” සහ එහි අදහස් ස්ථිරවම ඉවත් කෙරේ.',
+  '{count} tasks and their comments will be permanently removed.':
+    'කාර්යයන් {count} ක් සහ ඒවායේ අදහස් ස්ථිරවම ඉවත් කෙරේ.',
+  'Delete {count} task': 'කාර්යය මකන්න',
+  'Delete {count} tasks': 'කාර්යයන් {count} ක් මකන්න',
+  '{count} task updated.': 'කාර්යය යාවත්කාලීන කරන ලදී.',
+  '{count} tasks updated.': 'කාර්යයන් {count} ක් යාවත්කාලීන කරන ලදී.',
+  '{count} task deleted.': 'කාර්යය මකා දමන ලදී.',
+  '{count} tasks deleted.': 'කාර්යයන් {count} ක් මකා දමන ලදී.',
+  '{updated} updated, {failed} failed.': '{updated} ක් යාවත්කාලීන කරන ලදී, {failed} ක් අසාර්ථක විය.',
+  '{deleted} deleted, {failed} failed.': '{deleted} ක් මකා දමන ලදී, {failed} ක් අසාර්ථක විය.',
+  'The tasks that failed are still selected.': 'අසාර්ථක වූ කාර්යයන් තවමත් තෝරාගෙන ඇත.',
 
   // Notifications & Activity
   'Stay updated with your tasks, mentions and workspace events.':
@@ -645,6 +728,13 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Turn on two-factor authentication for your own account first.':
     'පළමුව ඔබගේම ගිණුම සඳහා ද්වි-සාධක සත්‍යාපනය සක්‍රිය කරන්න.',
   'Go to My Profile': 'මගේ පැතිකඩ වෙත යන්න',
+  'Google sign-in domain': 'Google පුරනය වීමේ වසම',
+  'Only Google Workspace accounts from this domain can sign in with Google.':
+    'Google සමඟ පුරනය විය හැක්කේ මෙම වසමේ Google Workspace ගිණුම්වලට පමණි.',
+  "Leave it empty to accept any Google account with a member's email address.":
+    'සාමාජිකයෙකුගේ විද්‍යුත් තැපැල් ලිපිනය ඇති ඕනෑම Google ගිණුමක් පිළිගැනීමට මෙය හිස්ව තබන්න.',
+  'Enter a domain like example.com, or leave it empty to allow any Google account.':
+    'example.com වැනි වසමක් ඇතුළත් කරන්න, නැතහොත් ඕනෑම Google ගිණුමකට ඉඩ දීමට එය හිස්ව තබන්න.',
   'Enter the 6-digit code from your authenticator app.': 'ඔබගේ සත්‍යාපන යෙදුමේ ඉලක්කම් 6 කේතය ඇතුළත් කරන්න.',
   'Enter one of your recovery codes.': 'ඔබගේ ප්‍රතිසාධන කේතවලින් එකක් ඇතුළත් කරන්න.',
   'Enter the code from your authenticator app, or a recovery code.':
@@ -657,6 +747,8 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
     'එම ප්‍රතිසාධන කේතය ක්‍රියා කළේ නැත. සෑම කේතයක්ම එක් වරක් පමණක් ක්‍රියා කරයි.',
   'This sign-in has expired. Enter your password again.':
     'මෙම පුරනය වීමේ කාලය ඉකුත් වී ඇත. ඔබගේ මුරපදය නැවත ඇතුළත් කරන්න.',
+  'This sign-in has expired. Continue with Google again.':
+    'මෙම පුරනය වීමේ කාලය ඉකුත් වී ඇත. නැවත Google සමඟ ඉදිරියට යන්න.',
   "Codes from authenticator apps can't be checked on this server right now. Use a recovery code, or ask your admin.":
     'මෙම මොහොතේ මෙම සේවාදායකයට සත්‍යාපන යෙදුම්වල කේත පරීක්ෂා කළ නොහැක. ප්‍රතිසාධන කේතයක් භාවිත කරන්න, නැතහොත් ඔබගේ පරිපාලකගෙන් විමසන්න.',
   'Start the setup again to get a new QR code.': 'නව QR කේතයක් ලබා ගැනීමට සැකසුම නැවත අරඹන්න.',

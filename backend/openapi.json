@@ -957,6 +957,27 @@
         "security" : [ ]
       }
     },
+    "/api/auth/google/two-factor" : {
+      "post" : {
+        "tags" : [ "google-sign-in-controller" ],
+        "summary" : "Get the two-factor step of a sign-in with Google",
+        "description" : "After the callback redirected to the login page with google=two-factor. Finish it like a password sign-in, with /api/auth/login/two-factor or its setup steps.",
+        "operationId" : "googleSignInTwoFactorStep",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponsePendingSignIn"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      }
+    },
     "/api/auth/forgot" : {
       "post" : {
         "tags" : [ "auth-controller" ],
@@ -1454,6 +1475,65 @@
                 }
               }
             }
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/api/auth/google/start" : {
+      "get" : {
+        "tags" : [ "google-sign-in-controller" ],
+        "summary" : "Start signing in with Google",
+        "description" : "Redirects to Google, which sends the browser back to /api/auth/google/callback. With an invitation's token, accepts that invitation.",
+        "operationId" : "googleSignInStart",
+        "parameters" : [ {
+          "name" : "invite",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "default" : ""
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/api/auth/google/callback" : {
+      "get" : {
+        "tags" : [ "google-sign-in-controller" ],
+        "summary" : "Finish signing in with Google",
+        "description" : "Google sends the browser here. Starts a session and redirects to the dashboard, or redirects to the login page for a two-factor code or with what went wrong.",
+        "operationId" : "googleSignInCallback",
+        "parameters" : [ {
+          "name" : "state",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "code",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "error",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
           }
         },
         "security" : [ ]
@@ -2010,9 +2090,12 @@
             }, {
               "type" : "null"
             } ]
+          },
+          "googleSignIn" : {
+            "type" : "boolean"
           }
         },
-        "required" : [ "employees", "expiresAt", "needsSetup", "preferences", "twoFactor", "user", "workspace" ]
+        "required" : [ "employees", "expiresAt", "googleSignIn", "needsSetup", "preferences", "twoFactor", "user", "workspace" ]
       },
       "LeaveAllowance" : {
         "type" : "object",
@@ -2103,9 +2186,12 @@
           },
           "requireAdminTwoFactor" : {
             "type" : "boolean"
+          },
+          "allowedGoogleDomain" : {
+            "type" : "string"
           }
         },
-        "required" : [ "companyName", "employeeIdPrefix", "gracePeriodMinutes", "halfDayThresholdHours", "leaveAllowance", "requireAdminTwoFactor", "timezone", "workDayStart" ]
+        "required" : [ "allowedGoogleDomain", "companyName", "employeeIdPrefix", "gracePeriodMinutes", "halfDayThresholdHours", "leaveAllowance", "requireAdminTwoFactor", "timezone", "workDayStart" ]
       },
       "ProjectRequest" : {
         "type" : "object",
@@ -2515,6 +2601,27 @@
           }
         },
         "required" : [ "bootstrap", "recoveryCodes" ]
+      },
+      "ApiResponsePendingSignIn" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/PendingSignIn"
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "PendingSignIn" : {
+        "type" : "object",
+        "properties" : {
+          "twoFactorChallenge" : {
+            "$ref" : "#/components/schemas/Challenge"
+          },
+          "email" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "email", "twoFactorChallenge" ]
       },
       "ForgotRequest" : {
         "type" : "object",

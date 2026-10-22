@@ -53,6 +53,9 @@ function TasksPage() {
 
   const setProject = useCallback((id: string) => setParams({ project: id || null }), [setParams]);
   const filters = useTaskFilters({ projectId, onProjectChange: setProject });
+  // Changing the filters or search clears the list's selection; re-sorting keeps it. Switching to the board unmounts the
+  // list, which clears it too.
+  const selectionKey = JSON.stringify({ ...filters.filters, sort: undefined });
 
   const exportCsv = useCallback(() => {
     downloadFile(`tasks-${toDateKey()}.csv`, buildTasksCsv(filters.sortedTasks, projectsById, employeesById, date));
@@ -126,7 +129,12 @@ function TasksPage() {
           {view === 'board' ? (
             <KanbanBoard tasks={filters.filteredTasks} onOpenTask={openTask} />
           ) : filters.sortedTasks.length > 0 ? (
-            <TaskList tasks={filters.sortedTasks} onOpenTask={openTask} resetKey={JSON.stringify(filters.filters)} />
+            <TaskList
+              tasks={filters.sortedTasks}
+              onOpenTask={openTask}
+              resetKey={JSON.stringify(filters.filters)}
+              selectionKey={selectionKey}
+            />
           ) : (
             <div className="card">
               <EmptyState

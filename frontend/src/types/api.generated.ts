@@ -465,6 +465,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/auth/google/two-factor": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get the two-factor step of a sign-in with Google
+         * @description After the callback redirected to the login page with google=two-factor. Finish it like a password sign-in, with /api/auth/login/two-factor or its setup steps.
+         */
+        post: operations["googleSignInTwoFactorStep"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/auth/forgot": {
         parameters: {
             query?: never;
@@ -678,6 +698,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/auth/google/start": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Start signing in with Google
+         * @description Redirects to Google, which sends the browser back to /api/auth/google/callback. With an invitation's token, accepts that invitation.
+         */
+        get: operations["googleSignInStart"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/auth/google/callback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Finish signing in with Google
+         * @description Google sends the browser here. Starts a session and redirects to the dashboard, or redirects to the login page for a two-factor code or with what went wrong.
+         */
+        get: operations["googleSignInCallback"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/attendance": {
         parameters: {
             query?: never;
@@ -869,6 +929,7 @@ export interface components {
             employees: components["schemas"]["EmployeeResponse"][];
             preferences: components["schemas"]["PreferencesResponse"] | null;
             twoFactor: components["schemas"]["Status"] | null;
+            googleSignIn: boolean;
         };
         LeaveAllowance: {
             /** Format: int32 */
@@ -905,6 +966,7 @@ export interface components {
             leaveAllowance: components["schemas"]["LeaveAllowance"];
             employeeIdPrefix: string;
             requireAdminTwoFactor: boolean;
+            allowedGoogleDomain: string;
         };
         ProjectRequest: {
             name?: string;
@@ -1043,6 +1105,13 @@ export interface components {
         TwoFactorSignIn: {
             bootstrap: components["schemas"]["BootstrapPayload"];
             recoveryCodes: string[];
+        };
+        ApiResponsePendingSignIn: {
+            data: components["schemas"]["PendingSignIn"];
+        };
+        PendingSignIn: {
+            twoFactorChallenge: components["schemas"]["Challenge"];
+            email: string;
         };
         ForgotRequest: {
             email?: string;
@@ -1953,6 +2022,26 @@ export interface operations {
             };
         };
     };
+    googleSignInTwoFactorStep: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResponsePendingSignIn"];
+                };
+            };
+        };
+    };
     authForgotPassword: {
         parameters: {
             query?: never;
@@ -2400,6 +2489,48 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ApiResponseBootstrapPayload"];
                 };
+            };
+        };
+    };
+    googleSignInStart: {
+        parameters: {
+            query?: {
+                invite?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    googleSignInCallback: {
+        parameters: {
+            query?: {
+                state?: string;
+                code?: string;
+                error?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

@@ -1,4 +1,4 @@
-import type { DateFormat, TimeFormat } from '@/types';
+import type { DateFormat, TimeFormat, WeekStart } from '@/types';
 
 const MS_PER_DAY = 86_400_000;
 
@@ -14,6 +14,34 @@ export function parseDateKey(key: string): Date {
   return new Date(y, (m || 1) - 1, d || 1);
 }
 
+/** Today's date key in a time zone, such as the workspace's, which the server dates attendance in. */
+export function todayInTimeZone(timeZone: string, now: Date = new Date()): string {
+  try {
+    const parts = new Intl.DateTimeFormat('en-US', { timeZone, year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(now);
+    const part = (type: Intl.DateTimeFormatPartTypes) => parts.find((p) => p.type === type)?.value;
+    return `${part('year')}-${part('month')}-${part('day')}`;
+  } catch {
+    return toDateKey(now);
+  }
+}
+
+export function addDaysKey(dateKey: string, days: number): string {
+  const d = parseDateKey(dateKey);
+  d.setDate(d.getDate() + days);
+  return toDateKey(d);
+}
+
+/** The first day of the month `offset` months from the one `dateKey` is in, e.g. (2026-10-22, -1) → 2026-09-01. */
+export function startOfMonthKey(dateKey: string, offset = 0): string {
+  const d = parseDateKey(dateKey);
+  return toDateKey(new Date(d.getFullYear(), d.getMonth() + offset, 1));
+}
+
+export function endOfMonthKey(dateKey: string): string {
+  const d = parseDateKey(dateKey);
+  return toDateKey(new Date(d.getFullYear(), d.getMonth() + 1, 0));
+}
+
 export function formatDate(value: string | Date | undefined, format: DateFormat = 'YYYY-MM-DD'): string {
   if (!value) return '—';
   const d = typeof value === 'string' ? (value.length === 10 ? parseDateKey(value) : new Date(value)) : value;
@@ -24,6 +52,13 @@ export function formatDate(value: string | Date | undefined, format: DateFormat 
   if (format === 'DD/MM/YYYY') return `${dd}/${mm}/${yyyy}`;
   if (format === 'MM/DD/YYYY') return `${mm}/${dd}/${yyyy}`;
   return `${yyyy}-${mm}-${dd}`;
+}
+
+/** Day and month in the order of the date format, without the year, for tight spaces such as chart axes. */
+export function formatDayMonth(value: string | Date | undefined, format: DateFormat = 'YYYY-MM-DD'): string {
+  const full = formatDate(value, format);
+  if (full === '—') return full;
+  return format === 'YYYY-MM-DD' ? full.slice(5) : full.slice(0, 5);
 }
 
 export function formatDateLong(value: string | Date | undefined, locale = 'en-US'): string {
@@ -65,12 +100,6 @@ export function formatRelativeTime(iso: string, now: Date = new Date(), locale =
   return past.toLocaleDateString(locale, { month: 'short', day: 'numeric' });
 }
 
-export function hoursBetween(startIso: string, end: Date = new Date()): number {
-  const start = new Date(startIso).getTime();
-  if (Number.isNaN(start)) return 0;
-  return Math.max(0, end.getTime() - start) / 3_600_000;
-}
-
 export function secondsSince(startIso: string, now: Date = new Date()): number {
   const start = new Date(startIso).getTime();
   if (Number.isNaN(start)) return 0;
@@ -92,13 +121,6 @@ export function formatHours(hours?: number): string {
     return `${mins} min${mins === 1 ? '' : 's'}`;
   }
   return `${hours.toFixed(1)} hrs`;
-}
-
-export function isLateCheckIn(date: Date, workDayStart: string, graceMinutes: number): boolean {
-  const [h, m] = workDayStart.split(':').map(Number);
-  const threshold = new Date(date);
-  threshold.setHours(h || 0, (m || 0) + graceMinutes, 0, 0);
-  return date.getTime() > threshold.getTime();
 }
 
 export function graceDeadlineLabel(workDayStart: string, graceMinutes: number): string {
@@ -125,6 +147,14 @@ export function eachDateKey(startKey: string, endKey: string): string[] {
   });
 }
 
+/** Local midnight on the first day of the week that contains `d`. */
+export function startOfWeek(d: Date, weekStart: WeekStart = 'Monday'): Date {
+  const firstDay = weekStart === 'Sunday' ? 0 : 1;
+  const start = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  start.setDate(start.getDate() - ((start.getDay() - firstDay + 7) % 7));
+  return start;
+}
+
 export function daysUntil(dateKey: string, from: Date = new Date()): number {
   const target = parseDateKey(dateKey).getTime();
   const today = parseDateKey(toDateKey(from)).getTime();
@@ -142,10 +172,6 @@ export function monthLabel(d: Date = new Date()): string {
 export function isSameMonth(dateKey: string, ref: Date = new Date()): boolean {
   const d = parseDateKey(dateKey);
   return d.getFullYear() === ref.getFullYear() && d.getMonth() === ref.getMonth();
-}
-
-export function isSameYear(dateKey: string, ref: Date = new Date()): boolean {
-  return parseDateKey(dateKey).getFullYear() === ref.getFullYear();
 }
 
 export function byNewest<T extends { createdAt: string }>(a: T, b: T): number {

@@ -628,6 +628,54 @@ button,
   background: var(--bg-card-hover);
 }
 
+/* Row selection (DataTable's opt-in checkbox column) */
+/* As narrow as the checkbox; the label fills the cell so the whole cell is the hit target. */
+.custom-table .cell-select {
+  width: 1%;
+  padding: 0;
+}
+
+.cell-select-hit {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 0.25rem 0 1.25rem;
+  cursor: pointer;
+}
+
+.cell-select-hit:has(:disabled) {
+  cursor: not-allowed;
+}
+
+.table-checkbox {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.table-checkbox:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+[data-theme="dark"] .table-checkbox {
+  color-scheme: dark;
+}
+
+.custom-table tbody tr.row-selected {
+  background: var(--bg-subtle);
+}
+
+.custom-table tbody tr.row-selected:hover {
+  background: var(--bg-subtle-hover);
+}
+
+.custom-table tbody tr.row-selected > .cell-select {
+  box-shadow: inset 3px 0 0 var(--primary);
+}
+
 /* Avatars */
 .avatar {
   border-radius: 50%;

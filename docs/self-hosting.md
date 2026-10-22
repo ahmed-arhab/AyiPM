@@ -144,6 +144,18 @@ Then add your team from **Team → Add member**. AyiPM doesn't send email yet, s
 
 Never start a server with the `demo` profile. `compose.prod.yaml` always sets the profile to `prod`, and the backend refuses to start with `demo` and `prod` together.
 
+## 6. Sign in with Google (optional)
+
+To let your team sign in with their Google accounts, create a web client in Google Cloud as described in [Setting up Google](../README.md#setting-up-google). Its authorised redirect URI is your address followed by `/api/auth/google/callback`, such as `https://ayipm.example.com/api/auth/google/callback`. Then add the address and the client's ID and secret to `.env`:
+
+```text
+PUBLIC_URL=https://ayipm.example.com
+GOOGLE_CLIENT_ID=1234-abc.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=...
+```
+
+Run `docker compose up -d`, and check that `docker compose logs backend` says `Sign-in with Google is on. Its authorised redirect URI is https://ayipm.example.com/api/auth/google/callback`. The login page then shows **Continue with Google**. Only people who already have an account or an invitation can use it. To allow only accounts of your Google Workspace, enter its domain under **Settings → Workspace → Security**.
+
 ## Backups
 
 All data is in Postgres, in the `postgres-data` volume. Back it up with `pg_dump`, which runs inside the Postgres container and writes the backup to the server:

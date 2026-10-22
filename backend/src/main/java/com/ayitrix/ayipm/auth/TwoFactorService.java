@@ -91,6 +91,10 @@ public class TwoFactorService {
 	public record Challenge(String token, Instant expiresAt, boolean setupRequired) {
 	}
 
+	/** A challenge handed out earlier, with the email of the account it signs in to. */
+	public record PendingSignIn(Challenge twoFactorChallenge, String email) {
+	}
+
 	/** A completed second step. The recovery codes are set when two-factor authentication was just turned on. */
 	public record SignIn(User user, boolean remember, boolean usedRecoveryCode, List<String> recoveryCodes) {
 	}
@@ -158,6 +162,15 @@ public class TwoFactorService {
 		Instant expiresAt = clock.instant().plus(setupRequired ? SETUP_CHALLENGE_TTL : CODE_CHALLENGE_TTL);
 		challenges.save(new LoginChallenge(Tokens.hash(token), user, remember, setupRequired, expiresAt));
 		return Optional.of(new Challenge(token, expiresAt, setupRequired));
+	}
+
+	/** Looks up a challenge from {@link #challengeFor} by its token, while it can still be completed. */
+	@Transactional(readOnly = true)
+	public Optional<PendingSignIn> pendingSignIn(String token) {
+		if (token.isEmpty()) return Optional.empty();
+		return challenges.findWithUser(Tokens.hash(token))
+				.filter(c -> c.getExpiresAt().isAfter(clock.instant()))
+				.map(c -> new PendingSignIn(new Challenge(token, c.getExpiresAt(), c.isSetupRequired()), c.getUser().getEmail()));
 	}
 
 	/** Completes a sign-in with an authenticator code or a recovery code. Wrong codes count toward the lockout. */

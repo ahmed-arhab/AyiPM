@@ -1,0 +1,119 @@
+/* Stays in view below the sticky navbar (70px) while scrolling a long list. */
+.bar {
+  position: sticky;
+  top: calc(70px + 0.75rem);
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-color: var(--border-medium);
+  box-shadow: var(--shadow-md);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.count {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.fields {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.select {
+  width: auto;
+  flex: 1 1 150px;
+  max-width: 200px;
+}
+
+.end {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: auto;
+}
+
+.delete {
+  color: var(--danger);
+}
+
+.delete:hover:not(:disabled) {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+.failures {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--danger-border);
+  border-radius: var(--radius-md);
+  background: var(--danger-bg);
+  font-size: 0.8125rem;
+  color: var(--text-primary);
+}
+
+.summary {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  font-weight: 600;
+}
+
+.summary svg {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.failureList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0;
+  padding-left: 1.4rem;
+}
+
+.error {
+  font-weight: 600;
+}
+
+.titles {
+  margin-left: 0.4rem;
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .bar {
+    padding: 0.75rem;
+  }
+
+  .fields {
+    flex-basis: 100%;
+  }
+
+  .select {
+    max-width: none;
+    flex-basis: calc(50% - 0.25rem);
+  }
+
+  .end {
+    margin-left: 0;
+  }
+}

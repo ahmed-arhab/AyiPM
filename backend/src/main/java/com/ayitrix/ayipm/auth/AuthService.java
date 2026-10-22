@@ -101,8 +101,14 @@ public class AuthService {
 	/** Records a completed sign-in and clears earlier failed attempts. */
 	@Transactional
 	public void signedIn(User user, boolean usedRecoveryCode) {
+		signedIn(user, usedRecoveryCode ? "Used a recovery code" : null);
+	}
+
+	/** Like {@link #signedIn(User, boolean)}, with details for the activity log such as how the person signed in. */
+	@Transactional
+	public void signedIn(User user, String details) {
 		lockout.clear(LoginLockout.keyFor(user));
-		activity.record(user, "Signed In", ActivityService.AUTH, user.getId(), user.getName(), usedRecoveryCode ? "Used a recovery code" : null);
+		activity.record(user, "Signed In", ActivityService.AUTH, user.getId(), user.getName(), details);
 	}
 
 	@Transactional
@@ -179,6 +185,8 @@ public class AuthService {
 		User user = reset.getUser();
 		user.setPasswordHash(hasher.hash(password));
 		user.setPasswordResetRequestedAt(null);
+		// A reset is also how an admin unlinks a Google account: the next sign-in with Google links the account again.
+		user.setGoogleSubject(null);
 		users.save(user);
 		resets.deleteAllForUser(user.getId());
 		lockout.clear(LoginLockout.keyFor(user));
@@ -187,6 +195,10 @@ public class AuthService {
 
 	@Transactional
 	public void changePassword(User user, String currentPassword, String newPassword) {
+		if (user.getPasswordHash() == null) {
+			throw ApiException.badRequest("There is no current password for this account, because you joined with Google. Ask your admin for a "
+					+ "password reset link to choose one.");
+		}
 		if (!hasher.matches(currentPassword, user.getPasswordHash())) throw ApiException.badRequest("Current password is incorrect.");
 		PasswordHasher.assertAcceptable(newPassword);
 		if (newPassword.equals(currentPassword)) throw ApiException.badRequest("New password must be different from the current one.");

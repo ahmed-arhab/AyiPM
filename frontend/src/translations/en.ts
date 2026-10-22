@@ -104,6 +104,26 @@ export const EN_DICTIONARY = {
   'Reset password': 'Reset password',
   'Accept invitation': 'Accept invitation',
   'Welcome to AyiPM': 'Welcome to AyiPM',
+  'Continue with Google': 'Continue with Google',
+  'Join with Google': 'Join with Google',
+  'or': 'or',
+  "Sign-in with Google isn't set up on this server.": "Sign-in with Google isn't set up on this server.",
+  'This sign-in with Google expired, or it was started in another browser. Try again.':
+    'This sign-in with Google expired, or it was started in another browser. Try again.',
+  "Signing in with Google didn't work. Try again.": "Signing in with Google didn't work. Try again.",
+  "There's no account for this Google account's email address. Ask your admin for an invitation.":
+    "There's no account for this Google account's email address. Ask your admin for an invitation.",
+  'This workspace only accepts Google accounts from its own domain. Use your work Google account.':
+    'This workspace only accepts Google accounts from its own domain. Use your work Google account.',
+  'This account has been deactivated. Contact your administrator.':
+    'This account has been deactivated. Contact your administrator.',
+  'Your invitation has expired. Ask your admin for a new one.':
+    'Your invitation has expired. Ask your admin for a new one.',
+  'This invitation is for another email address. Continue with the Google account it was sent to.':
+    'This invitation is for another email address. Continue with the Google account it was sent to.',
+  "This Google account doesn't match the one linked to your account. Sign in with your password, or ask your admin.":
+    "This Google account doesn't match the one linked to your account. Sign in with your password, or ask your admin.",
+  'Too many attempts. Wait a minute and try again.': 'Too many attempts. Wait a minute and try again.',
 
   // Dashboard
   'Good morning': 'Good morning',
@@ -149,6 +169,20 @@ export const EN_DICTIONARY = {
   'Create tasks to see how work is distributed.': 'Create tasks to see how work is distributed.',
   '{overdue} overdue {unit} need attention': '{overdue} overdue {unit} need attention',
   'No overdue tasks': 'No overdue tasks',
+  'Completion trend': 'Completion trend',
+  'My completion trend': 'My completion trend',
+  'Tasks completed per week': 'Tasks completed per week',
+  '{count} {unit} completed in the last {weeks} weeks': '{count} {unit} completed in the last {weeks} weeks',
+  '{count} {unit} completed in the last {weeks} weeks, most in the week of {week} ({max})':
+    '{count} {unit} completed in the last {weeks} weeks, most in the week of {week} ({max})',
+  '{count} completed in the week of {week}': '{count} completed in the week of {week}',
+  'Week of': 'Week of',
+  'This week': 'This week',
+  'Nothing completed in the last {weeks} weeks': 'Nothing completed in the last {weeks} weeks',
+  'Tasks you move to Completed will appear here, week by week.':
+    'Tasks you move to Completed will appear here, week by week.',
+  'Tasks moved to Completed will appear here, week by week.':
+    'Tasks moved to Completed will appear here, week by week.',
   'My tasks': 'My tasks',
   '{count} open {unit} assigned to you': '{count} open {unit} assigned to you',
   'Assigned to you': 'Assigned to you',
@@ -297,6 +331,7 @@ export const EN_DICTIONARY = {
   'Annual Leave': 'Annual Leave',
   'Sick Leave': 'Sick Leave',
   'Casual Leave': 'Casual Leave',
+  'Unpaid Leave': 'Unpaid Leave',
   'Leave Balances': 'Leave Balances',
   'Available': 'Available',
   'Used': 'Used',
@@ -421,6 +456,8 @@ export const EN_DICTIONARY = {
     'Try another date or status, or reset the filters.',
   'Check in from the station above to start your attendance history.':
     'Check in from the station above to start your attendance history.',
+  'Showing records from {date}': 'Showing records from {date}',
+  'Show earlier records': 'Show earlier records',
   'Filter by date': 'Filter by date',
   'Filter by status': 'Filter by status',
   'Filter by employee': 'Filter by employee',
@@ -468,6 +505,25 @@ export const EN_DICTIONARY = {
   'Pending': 'Pending',
   'Approved': 'Approved',
   'Rejected': 'Rejected',
+  'Pending Review': 'Pending Review',
+  'Leave view': 'Leave view',
+  'Requests': 'Requests',
+  'Calendar': 'Calendar',
+  'Team leave calendar': 'Team leave calendar',
+  'My leave calendar': 'My leave calendar',
+  'Approved and pending leave for everyone in the workspace. Rejected requests are not shown.':
+    'Approved and pending leave for everyone in the workspace. Rejected requests are not shown.',
+  'Your approved and pending leave. Only leave reviewers can see the whole team.':
+    'Your approved and pending leave. Only leave reviewers can see the whole team.',
+  'Previous month': 'Previous month',
+  'Next month': 'Next month',
+  '+{count} more': '+{count} more',
+  '{count} person on leave': '{count} person on leave',
+  '{count} people on leave': '{count} people on leave',
+  'Leave details': 'Leave details',
+  'No leave this month': 'No leave this month',
+  'Approved and pending leave for this month will be listed here.':
+    'Approved and pending leave for this month will be listed here.',
   'Leave type': 'Leave type',
   'Dates': 'Dates',
   'Submitted': 'Submitted',
@@ -518,6 +574,33 @@ export const EN_DICTIONARY = {
   'Task view': 'Task view',
   'Task details': 'Task details',
   'Activity history': 'Activity history',
+
+  // Task list bulk actions
+  'Select all tasks on this page': 'Select all tasks on this page',
+  'Select all your tasks on this page': 'Select all your tasks on this page',
+  'Select “{title}”': 'Select “{title}”',
+  'You can only change tasks assigned to you.': 'You can only change tasks assigned to you.',
+  'Actions for selected tasks': 'Actions for selected tasks',
+  '{count} selected': '{count} selected',
+  'Change status': 'Change status',
+  'Change priority': 'Change priority',
+  'Change assignee': 'Change assignee',
+  'Apply': 'Apply',
+  'Clear selection': 'Clear selection',
+  'Delete {count} task?': 'Delete {count} task?',
+  'Delete {count} tasks?': 'Delete {count} tasks?',
+  '“{title}” and its comments will be permanently removed.': '“{title}” and its comments will be permanently removed.',
+  '{count} tasks and their comments will be permanently removed.':
+    '{count} tasks and their comments will be permanently removed.',
+  'Delete {count} task': 'Delete {count} task',
+  'Delete {count} tasks': 'Delete {count} tasks',
+  '{count} task updated.': '{count} task updated.',
+  '{count} tasks updated.': '{count} tasks updated.',
+  '{count} task deleted.': '{count} task deleted.',
+  '{count} tasks deleted.': '{count} tasks deleted.',
+  '{updated} updated, {failed} failed.': '{updated} updated, {failed} failed.',
+  '{deleted} deleted, {failed} failed.': '{deleted} deleted, {failed} failed.',
+  'The tasks that failed are still selected.': 'The tasks that failed are still selected.',
 
   // Notifications & Activity
   'Stay updated with your tasks, mentions and workspace events.':
@@ -642,6 +725,13 @@ export const EN_DICTIONARY = {
   'Turn on two-factor authentication for your own account first.':
     'Turn on two-factor authentication for your own account first.',
   'Go to My Profile': 'Go to My Profile',
+  'Google sign-in domain': 'Google sign-in domain',
+  'Only Google Workspace accounts from this domain can sign in with Google.':
+    'Only Google Workspace accounts from this domain can sign in with Google.',
+  "Leave it empty to accept any Google account with a member's email address.":
+    "Leave it empty to accept any Google account with a member's email address.",
+  'Enter a domain like example.com, or leave it empty to allow any Google account.':
+    'Enter a domain like example.com, or leave it empty to allow any Google account.',
   'Enter the 6-digit code from your authenticator app.':
     'Enter the 6-digit code from your authenticator app.',
   'Enter one of your recovery codes.': 'Enter one of your recovery codes.',
@@ -655,6 +745,7 @@ export const EN_DICTIONARY = {
     "That recovery code didn't work. Each code works only once.",
   'This sign-in has expired. Enter your password again.':
     'This sign-in has expired. Enter your password again.',
+  'This sign-in has expired. Continue with Google again.': 'This sign-in has expired. Continue with Google again.',
   "Codes from authenticator apps can't be checked on this server right now. Use a recovery code, or ask your admin.":
     "Codes from authenticator apps can't be checked on this server right now. Use a recovery code, or ask your admin.",
   'Start the setup again to get a new QR code.': 'Start the setup again to get a new QR code.',

@@ -7,6 +7,7 @@ import { appStore } from './appStore';
 import {
   selectCurrentUser,
   selectEmployeesById,
+  selectLeaveBalance,
   selectMyNotifications,
   selectMyPreferences,
   selectNavCounts,
@@ -46,10 +47,14 @@ export const useProjects = () => useAppStore((s) => s.projects);
 export const useTasks = () => useAppStore((s) => s.tasks);
 export const useAttendance = () => useAppStore((s) => s.attendance);
 export const useLeaveRequests = () => useAppStore((s) => s.leaveRequests);
+export const useLeaveBalance = (employeeId: string) => useAppStore((s) => selectLeaveBalance(s, employeeId));
+export const useAttendanceSince = () => useAppStore((s) => s.attendanceSince);
 export const useActivityLog = () => useAppStore((s) => s.activityLog);
 export const useWorkspace = () => useAppStore((s) => s.workspace);
 export const useTheme = () => useAppStore((s) => s.theme);
 export const useTwoFactorStatus = () => useAppStore((s) => s.twoFactor);
+/** Whether the server offers sign-in with Google. */
+export const useGoogleSignIn = () => useAppStore((s) => s.googleSignIn);
 export const useNewRecoveryCodes = () => useAppStore((s) => s.newRecoveryCodes);
 
 export const useEmployeesById = () => useAppStore((s) => selectEmployeesById(s.employees));

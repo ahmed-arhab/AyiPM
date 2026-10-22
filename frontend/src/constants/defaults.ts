@@ -18,6 +18,7 @@ export const DEFAULT_WORKSPACE: WorkspaceSettings = {
   leaveAllowance: { annual: 20, sick: 10, casual: 7 },
   employeeIdPrefix: 'AX',
   requireAdminTwoFactor: false,
+  allowedGoogleDomain: '',
 };
 
 export const DEFAULT_PREFERENCES: UserPreferences = {

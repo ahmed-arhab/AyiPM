@@ -106,6 +106,27 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Reset password': 'கடவுச்சொல்லை மீட்டமைக்கவும்',
   'Accept invitation': 'அழைப்பை ஏற்கவும்',
   'Welcome to AyiPM': 'AyiPM க்கு வரவேற்கிறோம்',
+  'Continue with Google': 'Google மூலம் தொடரவும்',
+  'Join with Google': 'Google மூலம் இணையவும்',
+  'or': 'அல்லது',
+  "Sign-in with Google isn't set up on this server.": 'இந்தச் சேவையகத்தில் Google மூலம் உள்நுழைவு அமைக்கப்படவில்லை.',
+  'This sign-in with Google expired, or it was started in another browser. Try again.':
+    'Google மூலமான இந்த உள்நுழைவு காலாவதியாகிவிட்டது, அல்லது வேறொரு உலாவியில் தொடங்கப்பட்டது. மீண்டும் முயற்சிக்கவும்.',
+  "Signing in with Google didn't work. Try again.": 'Google மூலம் உள்நுழைய முடியவில்லை. மீண்டும் முயற்சிக்கவும்.',
+  "There's no account for this Google account's email address. Ask your admin for an invitation.":
+    'இந்த Google கணக்கின் மின்னஞ்சல் முகவரிக்கு எந்தக் கணக்கும் இல்லை. அழைப்புக்கு உங்கள் நிர்வாகியிடம் கேளுங்கள்.',
+  'This workspace only accepts Google accounts from its own domain. Use your work Google account.':
+    'இந்தப் பணியிடம் அதன் சொந்த டொமைனின் Google கணக்குகளை மட்டுமே ஏற்கும். உங்கள் பணி Google கணக்கைப் பயன்படுத்தவும்.',
+  'This account has been deactivated. Contact your administrator.':
+    'இந்தக் கணக்கு செயலிழக்கப்பட்டுள்ளது. உங்கள் நிர்வாகியைத் தொடர்புகொள்ளவும்.',
+  'Your invitation has expired. Ask your admin for a new one.':
+    'உங்கள் அழைப்பு காலாவதியாகிவிட்டது. புதிய அழைப்புக்கு உங்கள் நிர்வாகியிடம் கேளுங்கள்.',
+  'This invitation is for another email address. Continue with the Google account it was sent to.':
+    'இந்த அழைப்பு வேறொரு மின்னஞ்சல் முகவரிக்கானது. அது அனுப்பப்பட்ட Google கணக்கின் மூலம் தொடரவும்.',
+  "This Google account doesn't match the one linked to your account. Sign in with your password, or ask your admin.":
+    'இந்த Google கணக்கு உங்கள் கணக்குடன் இணைக்கப்பட்ட Google கணக்குடன் பொருந்தவில்லை. உங்கள் கடவுச்சொல்லுடன் உள்நுழையவும், அல்லது உங்கள் நிர்வாகியிடம் கேளுங்கள்.',
+  'Too many attempts. Wait a minute and try again.':
+    'அதிகமான முயற்சிகள். ஒரு நிமிடம் காத்திருந்து மீண்டும் முயற்சிக்கவும்.',
 
   // Dashboard
   'Good morning': 'காலை வணக்கம்',
@@ -151,6 +172,20 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Create tasks to see how work is distributed.': 'வேலை எவ்வாறு விநியோகிக்கப்படுகிறது என்பதைப் பார்க்க பணிகளை உருவாக்கவும்.',
   '{overdue} overdue {unit} need attention': '{overdue} காலாவதியான {unit} கவனம் தேவை',
   'No overdue tasks': 'காலாவதியான பணிகள் இல்லை',
+  'Completion trend': 'நிறைவு போக்கு',
+  'My completion trend': 'எனது நிறைவு போக்கு',
+  'Tasks completed per week': 'வாரந்தோறும் முடிக்கப்பட்ட பணிகள்',
+  '{count} {unit} completed in the last {weeks} weeks': 'கடந்த {weeks} வாரங்களில் {count} {unit} முடிக்கப்பட்டன',
+  '{count} {unit} completed in the last {weeks} weeks, most in the week of {week} ({max})':
+    'கடந்த {weeks} வாரங்களில் {count} {unit} முடிக்கப்பட்டன, அதிகபட்சமாக {week} அன்று தொடங்கிய வாரத்தில் ({max})',
+  '{count} completed in the week of {week}': '{week} அன்று தொடங்கிய வாரத்தில் {count} முடிக்கப்பட்டன',
+  'Week of': 'வாரம் தொடங்கும் நாள்',
+  'This week': 'இந்த வாரம்',
+  'Nothing completed in the last {weeks} weeks': 'கடந்த {weeks} வாரங்களில் எதுவும் முடிக்கப்படவில்லை',
+  'Tasks you move to Completed will appear here, week by week.':
+    '“முடிவடைந்தது” நிலைக்கு நீங்கள் நகர்த்தும் பணிகள் வாரம் வாரமாக இங்கே தோன்றும்.',
+  'Tasks moved to Completed will appear here, week by week.':
+    '“முடிவடைந்தது” நிலைக்கு நகர்த்தப்படும் பணிகள் வாரம் வாரமாக இங்கே தோன்றும்.',
   'My tasks': 'எனது பணிகள்',
   '{count} open {unit} assigned to you': 'உங்களுக்கு ஒதுக்கப்பட்ட {count} திறந்த {unit}',
   'Assigned to you': 'உங்களுக்கு ஒதுக்கப்பட்டது',
@@ -299,6 +334,7 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Annual Leave': 'ஆண்டு விடுமுறை',
   'Sick Leave': 'மருத்துவ விடுமுறை',
   'Casual Leave': 'தற்செயல் விடுமுறை',
+  'Unpaid Leave': 'சம்பளமில்லா விடுமுறை',
   'Leave Balances': 'விடுமுறை இருப்பு',
   'Available': 'கிடைக்கக்கூடியவை',
   'Used': 'பயன்படுத்தப்பட்டது',
@@ -423,6 +459,8 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
     'வேறு தேதி அல்லது நிலையை முயற்சிக்கவும், அல்லது வடிகட்டிகளை மீட்டமைக்கவும்.',
   'Check in from the station above to start your attendance history.':
     'உங்கள் வருகை வரலாற்றைத் தொடங்க மேலே உள்ள நிலையத்திலிருந்து வருகை பதிவு செய்யுங்கள்.',
+  'Showing records from {date}': '{date} முதல் உள்ள பதிவுகள் காட்டப்படுகின்றன',
+  'Show earlier records': 'முந்தைய பதிவுகளைக் காட்டு',
   'Filter by date': 'தேதி மூலம் வடிகட்டு',
   'Filter by status': 'நிலை மூலம் வடிகட்டு',
   'Filter by employee': 'ஊழியர் மூலம் வடிகட்டு',
@@ -470,6 +508,25 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Pending': 'நிலுவையில்',
   'Approved': 'அங்கீகரிக்கப்பட்டது',
   'Rejected': 'நிராகரிக்கப்பட்டது',
+  'Pending Review': 'மதிப்பாய்வுக்கு நிலுவையில்',
+  'Leave view': 'விடுமுறைக் காட்சி',
+  'Requests': 'கோரிக்கைகள்',
+  'Calendar': 'நாட்காட்டி',
+  'Team leave calendar': 'குழு விடுமுறை நாட்காட்டி',
+  'My leave calendar': 'எனது விடுமுறை நாட்காட்டி',
+  'Approved and pending leave for everyone in the workspace. Rejected requests are not shown.':
+    'பணியிடத்தில் உள்ள அனைவரின் அங்கீகரிக்கப்பட்ட மற்றும் நிலுவையில் உள்ள விடுமுறைகள். நிராகரிக்கப்பட்ட கோரிக்கைகள் காட்டப்படாது.',
+  'Your approved and pending leave. Only leave reviewers can see the whole team.':
+    'உங்கள் அங்கீகரிக்கப்பட்ட மற்றும் நிலுவையில் உள்ள விடுமுறைகள். முழுக் குழுவின் விடுமுறைகளையும் விடுமுறை மதிப்பாய்வாளர்கள் மட்டுமே பார்க்க முடியும்.',
+  'Previous month': 'முந்தைய மாதம்',
+  'Next month': 'அடுத்த மாதம்',
+  '+{count} more': 'மேலும் {count}',
+  '{count} person on leave': '{count} நபர் விடுமுறையில்',
+  '{count} people on leave': '{count} நபர்கள் விடுமுறையில்',
+  'Leave details': 'விடுமுறை விவரங்கள்',
+  'No leave this month': 'இந்த மாதம் விடுமுறை இல்லை',
+  'Approved and pending leave for this month will be listed here.':
+    'இந்த மாதத்திற்கான அங்கீகரிக்கப்பட்ட மற்றும் நிலுவையில் உள்ள விடுமுறைகள் இங்கு பட்டியலிடப்படும்.',
   'Leave type': 'விடுமுறை வகை',
   'Dates': 'தேதிகள்',
   'Submitted': 'சமர்ப்பிக்கப்பட்டது',
@@ -520,6 +577,34 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Task view': 'பணி பார்வை',
   'Task details': 'பணி விவரங்கள்',
   'Activity history': 'செயல்பாட்டு வரலாறு',
+
+  // Task list bulk actions
+  'Select all tasks on this page': 'இந்தப் பக்கத்திலுள்ள எல்லாப் பணிகளையும் தேர்ந்தெடுக்கவும்',
+  'Select all your tasks on this page': 'இந்தப் பக்கத்திலுள்ள உங்கள் எல்லாப் பணிகளையும் தேர்ந்தெடுக்கவும்',
+  'Select “{title}”': '“{title}” ஐத் தேர்ந்தெடுக்கவும்',
+  'You can only change tasks assigned to you.': 'உங்களுக்கு ஒதுக்கப்பட்ட பணிகளை மட்டுமே நீங்கள் மாற்ற முடியும்.',
+  'Actions for selected tasks': 'தேர்ந்தெடுக்கப்பட்ட பணிகளுக்கான செயல்கள்',
+  '{count} selected': '{count} தேர்ந்தெடுக்கப்பட்டன',
+  'Change status': 'நிலையை மாற்றவும்',
+  'Change priority': 'முன்னுரிமையை மாற்றவும்',
+  'Change assignee': 'ஒதுக்கப்பட்டவரை மாற்றவும்',
+  'Apply': 'பயன்படுத்து',
+  'Clear selection': 'தேர்வை அழிக்கவும்',
+  'Delete {count} task?': 'பணியை நீக்கவா?',
+  'Delete {count} tasks?': '{count} பணிகளை நீக்கவா?',
+  '“{title}” and its comments will be permanently removed.':
+    '“{title}” மற்றும் அதன் கருத்துக்கள் நிரந்தரமாக நீக்கப்படும்.',
+  '{count} tasks and their comments will be permanently removed.':
+    '{count} பணிகளும் அவற்றின் கருத்துக்களும் நிரந்தரமாக நீக்கப்படும்.',
+  'Delete {count} task': 'பணியை நீக்கு',
+  'Delete {count} tasks': '{count} பணிகளை நீக்கு',
+  '{count} task updated.': '{count} பணி புதுப்பிக்கப்பட்டது.',
+  '{count} tasks updated.': '{count} பணிகள் புதுப்பிக்கப்பட்டன.',
+  '{count} task deleted.': '{count} பணி நீக்கப்பட்டது.',
+  '{count} tasks deleted.': '{count} பணிகள் நீக்கப்பட்டன.',
+  '{updated} updated, {failed} failed.': '{updated} புதுப்பிக்கப்பட்டன, {failed} தோல்வியடைந்தன.',
+  '{deleted} deleted, {failed} failed.': '{deleted} நீக்கப்பட்டன, {failed} தோல்வியடைந்தன.',
+  'The tasks that failed are still selected.': 'தோல்வியடைந்த பணிகள் இன்னும் தேர்ந்தெடுக்கப்பட்டே உள்ளன.',
 
   // Notifications & Activity
   'Stay updated with your tasks, mentions and workspace events.':
@@ -645,6 +730,13 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Turn on two-factor authentication for your own account first.':
     'முதலில் உங்கள் சொந்தக் கணக்கிற்கு இரு-காரணி அங்கீகாரத்தை இயக்கவும்.',
   'Go to My Profile': 'எனது சுயவிவரத்திற்குச் செல்லவும்',
+  'Google sign-in domain': 'Google உள்நுழைவு டொமைன்',
+  'Only Google Workspace accounts from this domain can sign in with Google.':
+    'இந்த டொமைனின் Google Workspace கணக்குகள் மட்டுமே Google மூலம் உள்நுழைய முடியும்.',
+  "Leave it empty to accept any Google account with a member's email address.":
+    'உறுப்பினரின் மின்னஞ்சல் முகவரி கொண்ட எந்த Google கணக்கையும் ஏற்க இதைக் காலியாக விடவும்.',
+  'Enter a domain like example.com, or leave it empty to allow any Google account.':
+    'example.com போன்ற ஒரு டொமைனை உள்ளிடவும், அல்லது எந்த Google கணக்கையும் அனுமதிக்க இதைக் காலியாக விடவும்.',
   'Enter the 6-digit code from your authenticator app.':
     'உங்கள் அங்கீகரிப்பு செயலியிலுள்ள 6 இலக்கக் குறியீட்டை உள்ளிடவும்.',
   'Enter one of your recovery codes.': 'உங்கள் மீட்புக் குறியீடுகளில் ஒன்றை உள்ளிடவும்.',
@@ -658,6 +750,8 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
     'அந்த மீட்புக் குறியீடு வேலை செய்யவில்லை. ஒவ்வொரு குறியீடும் ஒரு முறை மட்டுமே செயல்படும்.',
   'This sign-in has expired. Enter your password again.':
     'இந்த உள்நுழைவு காலாவதியாகிவிட்டது. உங்கள் கடவுச்சொல்லை மீண்டும் உள்ளிடவும்.',
+  'This sign-in has expired. Continue with Google again.':
+    'இந்த உள்நுழைவு காலாவதியாகிவிட்டது. மீண்டும் Google மூலம் தொடரவும்.',
   "Codes from authenticator apps can't be checked on this server right now. Use a recovery code, or ask your admin.":
     'இப்போது இந்தச் சேவையகத்தால் அங்கீகரிப்பு செயலிகளின் குறியீடுகளைச் சரிபார்க்க முடியவில்லை. மீட்புக் குறியீட்டைப் பயன்படுத்தவும் அல்லது உங்கள் நிர்வாகியிடம் கேளுங்கள்.',
   'Start the setup again to get a new QR code.': 'புதிய QR குறியீட்டைப் பெற அமைப்பை மீண்டும் தொடங்கவும்.',

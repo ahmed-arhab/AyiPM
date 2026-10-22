@@ -1,11 +1,10 @@
 import { api } from '@/lib/api';
-import { eachDateKey } from '@/lib/date';
-import type { ActionResult, LeaveRequest, LeaveRequestInput } from '@/types';
+import type { ActionResult, LeaveBalance, LeaveRequest, LeaveRequestInput } from '@/types';
 import { authorize, fail, getState, ok, setState } from '../appStore';
-import { addLeaveAttendance } from './attendance';
-import { handleUnauthorized, refreshActivity } from './session';
+import { handleUnauthorized, refreshActivity, refreshAttendance } from './session';
 
-// The backend checks balances and overlaps, records activity and notifies reviewers and the employee.
+// The backend checks balances and overlaps, writes approved days to attendance, records activity and notifies
+// reviewers and the employee.
 
 function upsertLeave(request: LeaveRequest) {
   setState((s) => ({
@@ -36,10 +35,9 @@ export async function reviewLeaveRequest(id: string, decision: 'approved' | 'rej
   );
   if (!result.ok) return result;
   upsertLeave(result.data);
-  // The server also writes these leave days; attendance is read from the browser until the attendance API (#103).
   if (decision === 'approved') {
-    const request = result.data;
-    addLeaveAttendance(request.employeeId, eachDateKey(request.startDate, request.endDate), `Approved ${request.leaveType} leave`);
+    void refreshAttendance();
+    void loadLeaveBalance(result.data.employeeId);
   }
   void refreshActivity();
   return ok();
@@ -55,4 +53,13 @@ export async function cancelLeaveRequest(id: string): Promise<ActionResult> {
   setState((s) => ({ leaveRequests: s.leaveRequests.filter((r) => r.id !== id) }));
   void refreshActivity();
   return ok();
+}
+
+/** Approved days this year against the allowance. Yours loads with the workspace; reviewers can load anyone's. */
+export async function loadLeaveBalance(employeeId: string): Promise<void> {
+  const { session } = getState();
+  if (!session) return;
+  const query = employeeId === session.userId ? '' : `?employeeId=${employeeId}`;
+  const result = handleUnauthorized(await api<LeaveBalance>('GET', `/api/leave/balance${query}`));
+  if (result.ok) setState((s) => ({ leaveBalances: { ...s.leaveBalances, [employeeId]: result.data } }));
 }
