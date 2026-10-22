@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { CheckCircle2, Clock, LogOut, PlaneTakeoff } from 'lucide-react';
-import { checkIn, checkOut, useCurrentUser, useFormatters, useWorkspace } from '@/store';
+import { checkIn, checkOut, selectWorkspaceToday, useAppStore, useCurrentUser, useFormatters, useWorkspace } from '@/store';
 import { Badge, Button, Card, Input, StatusBadge } from '@/components/ui';
 import { useT } from '@/translations';
 import { useToast } from '@/components/feedback/ToastProvider';
@@ -15,25 +15,32 @@ export function CheckInStation() {
   const { t, formatNumber, locale } = useT();
   const user = useCurrentUser();
   const workspace = useWorkspace();
+  const today = useAppStore(selectWorkspaceToday);
   const record = useTodayRecord(user.id);
   const { time } = useFormatters();
   const toast = useToast();
   const [notes, setNotes] = useState('');
+  const [busy, setBusy] = useState(false);
 
   const onLeave = record?.status === 'leave';
   const checkedIn = !!record?.checkInAt && !record.checkOutAt;
   const completed = !!record?.checkOutAt;
   const canCheckIn = !onLeave && !record?.checkInAt;
 
-  const handleCheckIn = () => {
-    const result = checkIn(notes);
+  const handleCheckIn = async () => {
+    if (busy) return;
+    setBusy(true);
+    const result = await checkIn(notes);
+    setBusy(false);
     if (!result.ok) return toast.error(result.error);
     setNotes('');
     toast.success(result.data.status === 'late' ? t('Checked in (after grace period).') : t('Checked in on time.'));
   };
 
-  const handleCheckOut = () => {
-    const result = checkOut();
+  const handleCheckOut = async () => {
+    setBusy(true);
+    const result = await checkOut();
+    setBusy(false);
     if (!result.ok) return toast.error(result.error);
     toast.success(t('Checked out. Have a good evening!'));
   };
@@ -41,7 +48,7 @@ export function CheckInStation() {
   return (
     <Card className={styles.station}>
       <div className={styles.intro}>
-        <span className={styles.eyebrow}>{t('Today · {date}', { date: formatDateLong(new Date(), locale) })}</span>
+        <span className={styles.eyebrow}>{t('Today · {date}', { date: formatDateLong(today, locale) })}</span>
         <h2 className="heading-lg">{user.name}</h2>
         <p className={styles.rule}>
           <Clock size={14} />
@@ -84,7 +91,7 @@ export function CheckInStation() {
           </p>
         )}
         {checkedIn && (
-          <Button variant="danger" icon={LogOut} onClick={handleCheckOut}>
+          <Button variant="danger" icon={LogOut} loading={busy} onClick={handleCheckOut}>
             {t('Check out')}
           </Button>
         )}
@@ -98,7 +105,7 @@ export function CheckInStation() {
               onChange={(e) => setNotes(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleCheckIn()}
             />
-            <Button icon={CheckCircle2} onClick={handleCheckIn}>
+            <Button icon={CheckCircle2} loading={busy} onClick={handleCheckIn}>
               {t('Check in')}
             </Button>
           </>

@@ -2,6 +2,7 @@ import type {
   ActivityLogItem,
   AttendanceRecord,
   Employee,
+  LeaveBalance,
   LeaveRequest,
   NotificationItem,
   Project,
@@ -14,10 +15,8 @@ import type {
 } from '@/types';
 import { DEFAULT_WORKSPACE } from '@/constants/defaults';
 
-// Attendance is the last thing still saved in the browser, until the attendance API (#103) lands.
-export interface PersistedState {
-  attendance: AttendanceRecord[];
-}
+// Nothing is saved in the browser any more; #111 removes this and the code that saved it.
+export interface PersistedState {}
 
 // Loaded from the backend after sign-in and cleared on sign-out.
 export interface ServerState {
@@ -28,6 +27,11 @@ export interface ServerState {
   projects: Project[];
   tasks: Task[];
   leaveRequests: LeaveRequest[];
+  // Keyed by employee. Yours loads with the workspace; someone else's when their profile shows it.
+  leaveBalances: Record<string, LeaveBalance>;
+  // Every visible record from attendanceSince on. Recent months load with the workspace; older ones on request.
+  attendance: AttendanceRecord[];
+  attendanceSince: string | null;
   activityLog: ActivityLogItem[];
   notifications: NotificationItem[];
   // Only the signed-in person's entry is filled in.
@@ -42,7 +46,7 @@ export interface AppState extends PersistedState, ServerState {
   newRecoveryCodes: string[] | null;
 }
 
-export const PERSISTED_KEYS: (keyof PersistedState)[] = ['attendance'];
+export const PERSISTED_KEYS: (keyof PersistedState)[] = [];
 
 export function createInitialState(): AppState {
   return {
@@ -54,8 +58,10 @@ export function createInitialState(): AppState {
     workspace: DEFAULT_WORKSPACE,
     projects: [],
     tasks: [],
-    attendance: [],
     leaveRequests: [],
+    leaveBalances: {},
+    attendance: [],
+    attendanceSince: null,
     activityLog: [],
     notifications: [],
     preferences: {},

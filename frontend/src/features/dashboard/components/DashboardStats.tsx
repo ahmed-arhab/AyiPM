@@ -2,17 +2,15 @@ import { useMemo } from 'react';
 import { CheckSquare, Clock, FolderKanban, PlaneTakeoff } from 'lucide-react';
 import { StatCard, StatGrid } from '@/components/ui';
 import { ATTENDANCE_STATUS } from '@/constants/status';
-import { toDateKey } from '@/lib/date';
 import { percent, pluralize } from '@/lib/format';
 import {
-  computeLeaveBalance,
   selectActiveEmployees,
   selectTodayAttendanceCount,
+  selectWorkspaceToday,
   useAppStore,
   useCurrentUser,
-  useLeaveRequests,
+  useLeaveBalance,
   usePermission,
-  useWorkspace,
 } from '@/store';
 import { useT } from '@/translations';
 import { usePendingApprovals } from '../hooks/usePendingApprovals';
@@ -26,7 +24,7 @@ function AttendanceStat() {
   const present = useAppStore(selectTodayAttendanceCount);
   const active = useAppStore((s) => selectActiveEmployees(s.employees).length);
   const myStatus = useAppStore((s) => {
-    const today = toDateKey();
+    const today = selectWorkspaceToday(s);
     return s.attendance.find((a) => a.employeeId === me.id && a.date === today)?.status;
   });
 
@@ -69,9 +67,7 @@ function PendingApprovalsStat() {
 function LeaveBalanceStat() {
   const me = useCurrentUser();
   const t = useT();
-  const requests = useLeaveRequests();
-  const { leaveAllowance } = useWorkspace();
-  const balance = useMemo(() => computeLeaveBalance(requests, me.id, leaveAllowance), [requests, me.id, leaveAllowance]);
+  const balance = useLeaveBalance(me.id);
   const remaining = (b: { total: number; used: number }) => Math.max(0, b.total - b.used);
   return (
     <StatCard

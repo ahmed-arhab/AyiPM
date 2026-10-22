@@ -421,6 +421,8 @@ export const EN_DICTIONARY = {
     'Try another date or status, or reset the filters.',
   'Check in from the station above to start your attendance history.':
     'Check in from the station above to start your attendance history.',
+  'Showing records from {date}': 'Showing records from {date}',
+  'Show earlier records': 'Show earlier records',
   'Filter by date': 'Filter by date',
   'Filter by status': 'Filter by status',
   'Filter by employee': 'Filter by employee',

@@ -2,7 +2,7 @@
 
 import { useId, useMemo, useState, type FormEvent } from 'react';
 import { CalendarDays, Send } from 'lucide-react';
-import { computeLeaveBalance, submitLeaveRequest, useCurrentUser, useLeaveRequests, useWorkspace } from '@/store';
+import { submitLeaveRequest, useCurrentUser, useLeaveBalance, useLeaveRequests } from '@/store';
 import { Button, Field, FormError, FormGrid, Input, Modal, Select, Textarea, type SelectOption } from '@/components/ui';
 import { useToast } from '@/components/feedback/ToastProvider';
 import { LEAVE_TYPES } from '@/constants/status';
@@ -19,7 +19,7 @@ export function RequestLeaveModal({ onClose }: { onClose: () => void }) {
   const toast = useToast();
   const user = useCurrentUser();
   const requests = useLeaveRequests();
-  const { leaveAllowance } = useWorkspace();
+  const balance = useLeaveBalance(user.id);
   const [leaveType, setLeaveType] = useState<LeaveType>('Annual');
   const [startDate, setStartDate] = useState(toDateKey());
   const [endDate, setEndDate] = useState(toDateKey());
@@ -31,9 +31,9 @@ export function RequestLeaveModal({ onClose }: { onClose: () => void }) {
   const available = useMemo(() => {
     const key = BALANCE_KEY_BY_TYPE[leaveType];
     if (!key) return null;
-    const bucket = computeLeaveBalance(requests, user.id, leaveAllowance)[key];
+    const bucket = balance[key];
     return Math.max(0, bucket.total - bucket.used - pendingDaysByType(requests, user.id)[leaveType]);
-  }, [leaveType, requests, user.id, leaveAllowance]);
+  }, [leaveType, requests, user.id, balance]);
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();

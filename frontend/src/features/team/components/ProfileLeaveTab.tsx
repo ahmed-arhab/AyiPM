@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { PlaneTakeoff } from 'lucide-react';
-import { computeLeaveBalance, useFormatters, useLeaveRequests, useWorkspace } from '@/store';
+import { loadLeaveBalance, useAppStore, useFormatters, useLeaveRequests } from '@/store';
 import { EmptyState, ProgressBar, StatusBadge } from '@/components/ui';
 import { percent, pluralize } from '@/lib/format';
 import styles from './ProfileList.module.css';
@@ -10,10 +10,13 @@ const RECENT_LIMIT = 5;
 
 export function ProfileLeaveTab({ memberId }: { memberId: string }) {
   const leaveRequests = useLeaveRequests();
-  const { leaveAllowance } = useWorkspace();
+  const balance = useAppStore((s) => s.leaveBalances[memberId]);
   const { date } = useFormatters();
 
-  const balance = useMemo(() => computeLeaveBalance(leaveRequests, memberId, leaveAllowance), [leaveRequests, memberId, leaveAllowance]);
+  useEffect(() => {
+    void loadLeaveBalance(memberId);
+  }, [memberId]);
+
   const recent = useMemo(
     () =>
       leaveRequests
@@ -23,11 +26,14 @@ export function ProfileLeaveTab({ memberId }: { memberId: string }) {
     [leaveRequests, memberId]
   );
 
-  const buckets = [
-    { label: 'Annual', ...balance.annual },
-    { label: 'Sick', ...balance.sick },
-    { label: 'Casual', ...balance.casual },
-  ];
+  // Empty until the server's balance arrives.
+  const buckets = balance
+    ? [
+        { label: 'Annual', ...balance.annual },
+        { label: 'Sick', ...balance.sick },
+        { label: 'Casual', ...balance.casual },
+      ]
+    : [];
 
   return (
     <div className={styles.wrap}>

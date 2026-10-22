@@ -423,6 +423,8 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
     'வேறு தேதி அல்லது நிலையை முயற்சிக்கவும், அல்லது வடிகட்டிகளை மீட்டமைக்கவும்.',
   'Check in from the station above to start your attendance history.':
     'உங்கள் வருகை வரலாற்றைத் தொடங்க மேலே உள்ள நிலையத்திலிருந்து வருகை பதிவு செய்யுங்கள்.',
+  'Showing records from {date}': '{date} முதல் உள்ள பதிவுகள் காட்டப்படுகின்றன',
+  'Show earlier records': 'முந்தைய பதிவுகளைக் காட்டு',
   'Filter by date': 'தேதி மூலம் வடிகட்டு',
   'Filter by status': 'நிலை மூலம் வடிகட்டு',
   'Filter by employee': 'ஊழியர் மூலம் வடிகட்டு',
