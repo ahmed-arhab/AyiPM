@@ -398,8 +398,6 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Name (A → Z)': 'නම (A → Z)',
   'Name (Z → A)': 'නම (Z → A)',
   'Newest joined': 'අලුතින්ම එක්වූ',
-  'Showing <strong>{count}</strong> of {total} members':
-    'සාමාජිකයින් {total} කින් <strong>{count}</strong> ක් පෙන්වයි',
   'Showing {count} of {total} members': 'සාමාජිකයින් {total} කින් {count} ක් පෙන්වයි',
   'Reset filters': 'පෙරහන් යළි පිහිටුවන්න',
   'Clear filters': 'පෙරහන් ඉවත් කරන්න',

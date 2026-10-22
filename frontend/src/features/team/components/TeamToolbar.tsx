@@ -82,6 +82,9 @@ export function TeamToolbar({
     [projects, t]
   );
 
+  // The count goes where each language puts it, in bold, so it can't be part of the translated string.
+  const [summaryBefore, summaryAfter = ''] = t('Showing {count} of {total} members', { total: formatNumber(total) }).split('{count}');
+
   return (
     <Card padding="sm" className={styles.toolbar}>
       <div className={styles.row}>
@@ -106,10 +109,9 @@ export function TeamToolbar({
       </div>
       <div className={styles.summary}>
         <span>
-          {t('Showing <strong>{count}</strong> of {total} members', {
-            count: formatNumber(resultCount),
-            total: formatNumber(total),
-          })}
+          {summaryBefore}
+          <strong>{formatNumber(resultCount)}</strong>
+          {summaryAfter}
         </span>
         {hasActiveFilters && (
           <Button variant="ghost" size="sm" icon={RotateCcw} onClick={onReset}>
