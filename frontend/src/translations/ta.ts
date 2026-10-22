@@ -569,4 +569,98 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
     'உங்களிடம் {count} படிக்காத அறிவிப்புகள் உள்ளன. பணி ஒப்படைப்புகள், விடுப்பு பரிசீலனைகள், வருகை மற்றும் திட்டப் புதுப்பிப்புகள் இங்கு வரும்.',
   "You're all caught up. Task handoffs, leave reviews, attendance and project updates land here.":
     'நீங்கள் அனைத்தையும் பார்த்துவிட்டீர்கள். பணி ஒப்படைப்புகள், விடுப்பு பரிசீலனைகள், வருகை மற்றும் திட்டப் புதுப்பிப்புகள் இங்கு வரும்.',
+
+  // Two-factor authentication
+  'Two-factor authentication': 'இரு-காரணி அங்கீகாரம்',
+  'Set up two-factor authentication': 'இரு-காரணி அங்கீகாரத்தை அமைக்கவும்',
+  'Sign-in asks for a code from an authenticator app on your phone as well as your password.':
+    'உள்நுழையும்போது உங்கள் கடவுச்சொல்லுடன், உங்கள் தொலைபேசியிலுள்ள அங்கீகரிப்பு செயலியின் குறியீடும் கேட்கப்படும்.',
+  'Protect your account even if someone learns your password.':
+    'யாராவது உங்கள் கடவுச்சொல்லைத் தெரிந்துகொண்டாலும் உங்கள் கணக்கைப் பாதுகாக்கவும்.',
+  'On': 'இயக்கத்தில்',
+  'Off': 'முடக்கப்பட்டது',
+  'Turn on': 'இயக்கு',
+  'Turn off': 'முடக்கு',
+  'Turn off two-factor authentication': 'இரு-காரணி அங்கீகாரத்தை முடக்கு',
+  'Turn off two-factor authentication?': 'இரு-காரணி அங்கீகாரத்தை முடக்கவா?',
+  'Two-factor authentication is on.': 'இரு-காரணி அங்கீகாரம் இயக்கப்பட்டது.',
+  'Two-factor authentication is off.': 'இரு-காரணி அங்கீகாரம் முடக்கப்பட்டது.',
+  'Two-factor authentication is required': 'இரு-காரணி அங்கீகாரம் தேவை',
+  "Two-factor authentication isn't set up on this server yet.":
+    'இந்தச் சேவையகத்தில் இரு-காரணி அங்கீகாரம் இன்னும் அமைக்கப்படவில்லை.',
+  "Two-factor authentication isn't set up on this server yet. Ask the person who runs AyiPM to turn it on.":
+    'இந்தச் சேவையகத்தில் இரு-காரணி அங்கீகாரம் இன்னும் அமைக்கப்படவில்லை. அதை இயக்குமாறு AyiPM-ஐ நிர்வகிப்பவரிடம் கேளுங்கள்.',
+  'Open an authenticator app, such as Google Authenticator, Microsoft Authenticator or 1Password.':
+    'Google Authenticator, Microsoft Authenticator அல்லது 1Password போன்ற அங்கீகரிப்பு செயலியைத் திறக்கவும்.',
+  'Scan this QR code with the app.': 'இந்த QR குறியீட்டைச் செயலியால் ஸ்கேன் செய்யவும்.',
+  'Enter the 6-digit code that the app shows.': 'செயலி காட்டும் 6 இலக்கக் குறியீட்டை உள்ளிடவும்.',
+  'QR code for your authenticator app': 'உங்கள் அங்கீகரிப்பு செயலிக்கான QR குறியீடு',
+  "Can't scan it? Enter this key in the app instead:":
+    'ஸ்கேன் செய்ய முடியவில்லையா? அதற்குப் பதிலாக இந்த விசையைச் செயலியில் உள்ளிடவும்:',
+  'Key copied.': 'விசை நகலெடுக்கப்பட்டது.',
+  'Could not access the clipboard. Copy the key manually.':
+    'கிளிப்போர்டை அணுக முடியவில்லை. விசையைக் கைமுறையாக நகலெடுக்கவும்.',
+  'Code from your app': 'உங்கள் செயலியில் உள்ள குறியீடு',
+  'Authentication code': 'அங்கீகாரக் குறியீடு',
+  'Authentication or recovery code': 'அங்கீகார அல்லது மீட்புக் குறியீடு',
+  'Recovery code': 'மீட்புக் குறியீடு',
+  'Recovery codes': 'மீட்புக் குறியீடுகள்',
+  'New recovery codes': 'புதிய மீட்புக் குறியீடுகள்',
+  'Create new recovery codes': 'புதிய மீட்புக் குறியீடுகளை உருவாக்கவும்',
+  'Create new codes': 'புதிய குறியீடுகளை உருவாக்கு',
+  '{count} left': '{count} மீதமுள்ளன',
+  'Create new ones so you can still sign in without your phone.':
+    'உங்கள் தொலைபேசி இல்லாமலும் உள்நுழைய புதியவற்றை உருவாக்கவும்.',
+  'Your password alone will sign you in.': 'உங்கள் கடவுச்சொல் மட்டுமே உங்களை உள்நுழைய வைக்கும்.',
+  'Your workspace requires two-factor authentication for admins.':
+    'உங்கள் பணியிடம் நிர்வாகிகளுக்கு இரு-காரணி அங்கீகாரத்தைக் கட்டாயமாக்குகிறது.',
+  'Enter a code from your authenticator app, or a recovery code, to confirm. Your password alone will then sign you in.':
+    'உறுதிப்படுத்த, உங்கள் அங்கீகரிப்பு செயலியின் குறியீட்டை அல்லது மீட்புக் குறியீட்டை உள்ளிடவும். அதன் பிறகு உங்கள் கடவுச்சொல் மட்டுமே உங்களை உள்நுழைய வைக்கும்.',
+  'Enter a code from your authenticator app, or a recovery code. Your current recovery codes stop working.':
+    'உங்கள் அங்கீகரிப்பு செயலியின் குறியீட்டை அல்லது மீட்புக் குறியீட்டை உள்ளிடவும். உங்கள் தற்போதைய மீட்புக் குறியீடுகள் இனி செயல்படாது.',
+  'Save your recovery codes': 'உங்கள் மீட்புக் குறியீடுகளைச் சேமிக்கவும்',
+  "If you lose your phone, each code signs you in once instead of an authenticator code. Keep them somewhere safe, like a password manager. They won't be shown again.":
+    'உங்கள் தொலைபேசியை இழந்தால், அங்கீகாரக் குறியீட்டிற்குப் பதிலாக ஒவ்வொரு குறியீடும் உங்களை ஒரு முறை உள்நுழைய வைக்கும். அவற்றைக் கடவுச்சொல் மேலாளர் போன்ற பாதுகாப்பான இடத்தில் வைத்திருங்கள். அவை மீண்டும் காட்டப்படாது.',
+  "I've saved my codes": 'என் குறியீடுகளைச் சேமித்துவிட்டேன்',
+  'Copy codes': 'குறியீடுகளை நகலெடு',
+  'Recovery codes copied.': 'மீட்புக் குறியீடுகள் நகலெடுக்கப்பட்டன.',
+  'Could not access the clipboard. Copy the codes manually.':
+    'கிளிப்போர்டை அணுக முடியவில்லை. குறியீடுகளைக் கைமுறையாக நகலெடுக்கவும்.',
+  'Open your authenticator app and enter the 6-digit code for this account.':
+    'உங்கள் அங்கீகரிப்பு செயலியைத் திறந்து இந்தக் கணக்கிற்கான 6 இலக்கக் குறியீட்டை உள்ளிடவும்.',
+  'Enter one of the recovery codes you saved when you turned on two-factor authentication. Each code works once.':
+    'இரு-காரணி அங்கீகாரத்தை இயக்கியபோது நீங்கள் சேமித்த மீட்புக் குறியீடுகளில் ஒன்றை உள்ளிடவும். ஒவ்வொரு குறியீடும் ஒரு முறை மட்டுமே செயல்படும்.',
+  'Use a recovery code instead': 'அதற்குப் பதிலாக மீட்புக் குறியீட்டைப் பயன்படுத்தவும்',
+  'Use your authenticator app instead': 'அதற்குப் பதிலாக உங்கள் அங்கீகரிப்பு செயலியைப் பயன்படுத்தவும்',
+  'Verify': 'சரிபார்',
+  'Verifying…': 'சரிபார்க்கிறது…',
+  'Your workspace requires admins to use two-factor authentication. Set it up now to finish signing in.':
+    'உங்கள் பணியிடம் நிர்வாகிகள் இரு-காரணி அங்கீகாரத்தைப் பயன்படுத்த வேண்டும் எனக் கோருகிறது. உள்நுழைவை முடிக்க இப்போதே அதை அமைக்கவும்.',
+  'Turn on and sign in': 'இயக்கி உள்நுழை',
+  'Turning on…': 'இயக்குகிறது…',
+  'Security': 'பாதுகாப்பு',
+  'Require two-factor authentication for admins': 'நிர்வாகிகளுக்கு இரு-காரணி அங்கீகாரத்தைக் கட்டாயமாக்கு',
+  'Admins without it are signed out, and set it up the next time they sign in.':
+    'இது இல்லாத நிர்வாகிகள் வெளியேற்றப்படுவார்கள்; அடுத்த முறை உள்நுழையும்போது அவர்கள் இதை அமைப்பார்கள்.',
+  'Turn on two-factor authentication for your own account first.':
+    'முதலில் உங்கள் சொந்தக் கணக்கிற்கு இரு-காரணி அங்கீகாரத்தை இயக்கவும்.',
+  'Go to My Profile': 'எனது சுயவிவரத்திற்குச் செல்லவும்',
+  'Enter the 6-digit code from your authenticator app.':
+    'உங்கள் அங்கீகரிப்பு செயலியிலுள்ள 6 இலக்கக் குறியீட்டை உள்ளிடவும்.',
+  'Enter one of your recovery codes.': 'உங்கள் மீட்புக் குறியீடுகளில் ஒன்றை உள்ளிடவும்.',
+  'Enter the code from your authenticator app, or a recovery code.':
+    'உங்கள் அங்கீகரிப்பு செயலியின் குறியீட்டை அல்லது மீட்புக் குறியீட்டை உள்ளிடவும்.',
+  "That code didn't work. Enter the newest code from your authenticator app.":
+    'அந்தக் குறியீடு வேலை செய்யவில்லை. உங்கள் அங்கீகரிப்பு செயலியின் புதிய குறியீட்டை உள்ளிடவும்.',
+  'That code has already been used. Wait for the next one in your authenticator app.':
+    'அந்தக் குறியீடு ஏற்கனவே பயன்படுத்தப்பட்டது. உங்கள் அங்கீகரிப்பு செயலியில் அடுத்த குறியீட்டிற்காகக் காத்திருக்கவும்.',
+  "That recovery code didn't work. Each code works only once.":
+    'அந்த மீட்புக் குறியீடு வேலை செய்யவில்லை. ஒவ்வொரு குறியீடும் ஒரு முறை மட்டுமே செயல்படும்.',
+  'This sign-in has expired. Enter your password again.':
+    'இந்த உள்நுழைவு காலாவதியாகிவிட்டது. உங்கள் கடவுச்சொல்லை மீண்டும் உள்ளிடவும்.',
+  "Codes from authenticator apps can't be checked on this server right now. Use a recovery code, or ask your admin.":
+    'இப்போது இந்தச் சேவையகத்தால் அங்கீகரிப்பு செயலிகளின் குறியீடுகளைச் சரிபார்க்க முடியவில்லை. மீட்புக் குறியீட்டைப் பயன்படுத்தவும் அல்லது உங்கள் நிர்வாகியிடம் கேளுங்கள்.',
+  'Start the setup again to get a new QR code.': 'புதிய QR குறியீட்டைப் பெற அமைப்பை மீண்டும் தொடங்கவும்.',
+  "Your workspace requires two-factor authentication for admins, so it can't be turned off.":
+    'உங்கள் பணியிடம் நிர்வாகிகளுக்கு இரு-காரணி அங்கீகாரத்தைக் கட்டாயமாக்குவதால், அதை முடக்க முடியாது.',
 };

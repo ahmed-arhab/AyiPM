@@ -1,3 +1,4 @@
+import type { TwoFactorChallenge, TwoFactorStatus } from './auth';
 import type { Employee } from './employee';
 import type { UserPreferences, WorkspaceSettings } from './settings';
 
@@ -8,6 +9,17 @@ export interface BootstrapPayload {
   workspace: WorkspaceSettings | null;
   employees: Employee[];
   preferences: UserPreferences | null;
+  twoFactor: TwoFactorStatus | null;
+}
+
+/** What login and invite acceptance return instead of a session when a second step is needed. */
+export interface TwoFactorRequired {
+  twoFactorChallenge: TwoFactorChallenge;
+}
+
+export interface TwoFactorSignIn {
+  bootstrap: BootstrapPayload;
+  recoveryCodes: string[];
 }
 
 export interface InviteDetails {

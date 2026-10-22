@@ -567,6 +567,99 @@ export const EN_DICTIONARY = {
     'You have {count} unread notifications. Task handoffs, leave reviews, attendance and project updates land here.',
   "You're all caught up. Task handoffs, leave reviews, attendance and project updates land here.":
     "You're all caught up. Task handoffs, leave reviews, attendance and project updates land here.",
+
+  // Two-factor authentication
+  'Two-factor authentication': 'Two-factor authentication',
+  'Set up two-factor authentication': 'Set up two-factor authentication',
+  'Sign-in asks for a code from an authenticator app on your phone as well as your password.':
+    'Sign-in asks for a code from an authenticator app on your phone as well as your password.',
+  'Protect your account even if someone learns your password.':
+    'Protect your account even if someone learns your password.',
+  'On': 'On',
+  'Off': 'Off',
+  'Turn on': 'Turn on',
+  'Turn off': 'Turn off',
+  'Turn off two-factor authentication': 'Turn off two-factor authentication',
+  'Turn off two-factor authentication?': 'Turn off two-factor authentication?',
+  'Two-factor authentication is on.': 'Two-factor authentication is on.',
+  'Two-factor authentication is off.': 'Two-factor authentication is off.',
+  'Two-factor authentication is required': 'Two-factor authentication is required',
+  "Two-factor authentication isn't set up on this server yet.":
+    "Two-factor authentication isn't set up on this server yet.",
+  "Two-factor authentication isn't set up on this server yet. Ask the person who runs AyiPM to turn it on.":
+    "Two-factor authentication isn't set up on this server yet. Ask the person who runs AyiPM to turn it on.",
+  'Open an authenticator app, such as Google Authenticator, Microsoft Authenticator or 1Password.':
+    'Open an authenticator app, such as Google Authenticator, Microsoft Authenticator or 1Password.',
+  'Scan this QR code with the app.': 'Scan this QR code with the app.',
+  'Enter the 6-digit code that the app shows.': 'Enter the 6-digit code that the app shows.',
+  'QR code for your authenticator app': 'QR code for your authenticator app',
+  "Can't scan it? Enter this key in the app instead:": "Can't scan it? Enter this key in the app instead:",
+  'Key copied.': 'Key copied.',
+  'Could not access the clipboard. Copy the key manually.':
+    'Could not access the clipboard. Copy the key manually.',
+  'Code from your app': 'Code from your app',
+  'Authentication code': 'Authentication code',
+  'Authentication or recovery code': 'Authentication or recovery code',
+  'Recovery code': 'Recovery code',
+  'Recovery codes': 'Recovery codes',
+  'New recovery codes': 'New recovery codes',
+  'Create new recovery codes': 'Create new recovery codes',
+  'Create new codes': 'Create new codes',
+  '{count} left': '{count} left',
+  'Create new ones so you can still sign in without your phone.':
+    'Create new ones so you can still sign in without your phone.',
+  'Your password alone will sign you in.': 'Your password alone will sign you in.',
+  'Your workspace requires two-factor authentication for admins.':
+    'Your workspace requires two-factor authentication for admins.',
+  'Enter a code from your authenticator app, or a recovery code, to confirm. Your password alone will then sign you in.':
+    'Enter a code from your authenticator app, or a recovery code, to confirm. Your password alone will then sign you in.',
+  'Enter a code from your authenticator app, or a recovery code. Your current recovery codes stop working.':
+    'Enter a code from your authenticator app, or a recovery code. Your current recovery codes stop working.',
+  'Save your recovery codes': 'Save your recovery codes',
+  "If you lose your phone, each code signs you in once instead of an authenticator code. Keep them somewhere safe, like a password manager. They won't be shown again.":
+    "If you lose your phone, each code signs you in once instead of an authenticator code. Keep them somewhere safe, like a password manager. They won't be shown again.",
+  "I've saved my codes": "I've saved my codes",
+  'Copy codes': 'Copy codes',
+  'Recovery codes copied.': 'Recovery codes copied.',
+  'Could not access the clipboard. Copy the codes manually.':
+    'Could not access the clipboard. Copy the codes manually.',
+  'Open your authenticator app and enter the 6-digit code for this account.':
+    'Open your authenticator app and enter the 6-digit code for this account.',
+  'Enter one of the recovery codes you saved when you turned on two-factor authentication. Each code works once.':
+    'Enter one of the recovery codes you saved when you turned on two-factor authentication. Each code works once.',
+  'Use a recovery code instead': 'Use a recovery code instead',
+  'Use your authenticator app instead': 'Use your authenticator app instead',
+  'Verify': 'Verify',
+  'Verifying…': 'Verifying…',
+  'Your workspace requires admins to use two-factor authentication. Set it up now to finish signing in.':
+    'Your workspace requires admins to use two-factor authentication. Set it up now to finish signing in.',
+  'Turn on and sign in': 'Turn on and sign in',
+  'Turning on…': 'Turning on…',
+  'Security': 'Security',
+  'Require two-factor authentication for admins': 'Require two-factor authentication for admins',
+  'Admins without it are signed out, and set it up the next time they sign in.':
+    'Admins without it are signed out, and set it up the next time they sign in.',
+  'Turn on two-factor authentication for your own account first.':
+    'Turn on two-factor authentication for your own account first.',
+  'Go to My Profile': 'Go to My Profile',
+  'Enter the 6-digit code from your authenticator app.':
+    'Enter the 6-digit code from your authenticator app.',
+  'Enter one of your recovery codes.': 'Enter one of your recovery codes.',
+  'Enter the code from your authenticator app, or a recovery code.':
+    'Enter the code from your authenticator app, or a recovery code.',
+  "That code didn't work. Enter the newest code from your authenticator app.":
+    "That code didn't work. Enter the newest code from your authenticator app.",
+  'That code has already been used. Wait for the next one in your authenticator app.':
+    'That code has already been used. Wait for the next one in your authenticator app.',
+  "That recovery code didn't work. Each code works only once.":
+    "That recovery code didn't work. Each code works only once.",
+  'This sign-in has expired. Enter your password again.':
+    'This sign-in has expired. Enter your password again.',
+  "Codes from authenticator apps can't be checked on this server right now. Use a recovery code, or ask your admin.":
+    "Codes from authenticator apps can't be checked on this server right now. Use a recovery code, or ask your admin.",
+  'Start the setup again to get a new QR code.': 'Start the setup again to get a new QR code.',
+  "Your workspace requires two-factor authentication for admins, so it can't be turned off.":
+    "Your workspace requires two-factor authentication for admins, so it can't be turned off.",
 } as const;
 
 export type TranslationKey = keyof typeof EN_DICTIONARY;

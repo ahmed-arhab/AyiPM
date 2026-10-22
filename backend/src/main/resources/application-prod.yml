@@ -1,0 +1,20 @@
+# Settings for running AyiPM on a server, turned on with SPRING_PROFILES_ACTIVE=prod.
+# compose.prod.yaml sets this profile; docs/self-hosting.md describes the setup.
+spring:
+  datasource:
+    # No default credentials. Empty counts as missing: the backend then stops before connecting and names the
+    # missing variable (see common/ProductionSettingsCheck).
+    username: ${DATABASE_USERNAME:}
+    password: ${DATABASE_PASSWORD:}
+  # Plain one-line-per-event logs for `docker compose logs` and journald: no banner, no colour codes.
+  main:
+    banner-mode: off
+  output:
+    ansi:
+      enabled: never
+
+management:
+  endpoint:
+    health:
+      # Report only UP or DOWN, never details about the database or disk.
+      show-details: never

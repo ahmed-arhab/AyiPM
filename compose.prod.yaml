@@ -1,0 +1,30 @@
+# Production settings, applied on top of compose.yaml. See docs/self-hosting.md.
+# The .env file (copied from .env.example) lists both files in COMPOSE_FILE and turns on the
+# app profile, so plain `docker compose up -d --build` on the server uses them.
+x-server: &server
+  restart: unless-stopped
+  # Docker's default log driver never rotates its files; "local" keeps about 100 MB per container.
+  logging:
+    driver: local
+
+services:
+  postgres:
+    <<: *server
+    environment:
+      # Postgres only reads this when it creates an empty database volume.
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:?Set DATABASE_PASSWORD in .env, see docs/self-hosting.md}
+    # Only the backend talks to the database, over the Compose network.
+    ports: !reset []
+
+  backend:
+    <<: *server
+    environment:
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:?Set DATABASE_PASSWORD in .env, see docs/self-hosting.md}
+      # Fixed, not read from .env, so the demo profile (accounts with a known password) can't be turned on.
+      SPRING_PROFILES_ACTIVE: prod
+
+  frontend:
+    <<: *server
+    # Reachable only from this machine, so every request goes through the HTTPS reverse proxy.
+    ports: !override
+      - "127.0.0.1:${FRONTEND_PORT:-3000}:3000"

@@ -18,23 +18,25 @@ public class BootstrapService {
 	private final UserRepository users;
 	private final WorkspaceService workspace;
 	private final PreferencesService preferences;
+	private final TwoFactorService twoFactor;
 
-	public BootstrapService(UserRepository users, WorkspaceService workspace, PreferencesService preferences) {
+	public BootstrapService(UserRepository users, WorkspaceService workspace, PreferencesService preferences, TwoFactorService twoFactor) {
 		this.users = users;
 		this.workspace = workspace;
 		this.preferences = preferences;
+		this.twoFactor = twoFactor;
 	}
 
 	@Transactional(readOnly = true)
 	public BootstrapPayload signedIn(User user, Instant expiresAt) {
 		List<EmployeeResponse> employees = users.findAllByOrderByCreatedAtAsc().stream().map(EmployeeResponse::from).toList();
 		return new BootstrapPayload(false, EmployeeResponse.from(user), expiresAt, workspace.getSettings().orElse(null), employees,
-				preferences.get(user.getId()));
+				preferences.get(user.getId()), twoFactor.status(user));
 	}
 
 	@Transactional(readOnly = true)
 	public BootstrapPayload signedOut() {
-		return new BootstrapPayload(workspace.needsSetup(), null, null, null, List.of(), null);
+		return new BootstrapPayload(workspace.needsSetup(), null, null, null, List.of(), null, null);
 	}
 
 }
