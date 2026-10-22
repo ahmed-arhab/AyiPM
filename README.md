@@ -13,7 +13,7 @@ AyiPM has two parts:
 - **`frontend/`**: the web app, built with Next.js 16, React and TypeScript.
 - **`backend/`**: the API, built with Java 21, Spring Boot 4 and PostgreSQL.
 
-Everything the team shares is stored in Postgres and served by the backend: accounts, projects, tasks, leave, notifications, the activity log and each person's preferences. Attendance check-ins are the one thing still kept in the browser until the attendance API (#103) is finished.
+Everything the team shares is stored in Postgres and served by the backend: accounts, projects, tasks, leave, notifications, the activity log and each person's preferences. Attendance check-ins are the one thing the frontend still keeps in the browser: the backend's attendance API is ready, and the frontend switches to it in #105.
 
 ## Features
 
@@ -204,7 +204,7 @@ To change the schema, add a new file such as `V2__add_projects.sql` next to the 
 
 ## Known limitations
 
-- **Attendance is still per browser.** Check-ins and check-outs are saved in the browser until the attendance API (#103) lands, so managers don't see them yet. Approved leave is already written to the server.
+- **Attendance is still per browser.** Check-ins and check-outs are saved in the browser until the frontend uses the attendance API (#105), so managers don't see them yet. Approved leave is already written to the server.
 - **No live updates.** Changes made by other people appear when you reload or switch back to the tab; notifications are checked every minute.
 - **No email delivery.** Invitation and reset links are shown to the admin, who shares them manually.
 - **No single sign-on.** Google and Microsoft sign-in are not available yet.
@@ -239,7 +239,7 @@ backend/                     Spring Boot API
     │   ├── project/         Projects and their members
     │   ├── task/            Tasks, comments, history and Kanban order
     │   ├── leave/           Leave requests, reviews and balances
-    │   ├── attendance/      Attendance records (approved leave for now; check-in comes with #103)
+    │   ├── attendance/      Check-in, check-out, and late and half-day rules
     │   ├── preferences/     Each person's language, formats and notification settings
     │   ├── activity/        The activity log, written by the other services
     │   ├── notification/    Notifications, created by the other services

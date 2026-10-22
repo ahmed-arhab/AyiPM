@@ -15,8 +15,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 /**
- * One person's attendance for one day. Approved leave creates {@code leave} records; check-in and check-out are
- * added by the attendance API (#103).
+ * One person's attendance for one day. Approved leave creates {@code leave} records; check-in and check-out create
+ * or fill in the rest (see {@link AttendanceService}).
  */
 @Entity
 @Table(name = "attendance_records")
