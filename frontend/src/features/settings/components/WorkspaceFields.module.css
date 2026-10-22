@@ -44,3 +44,9 @@
   color: var(--text-primary);
   font-variant-numeric: tabular-nums;
 }
+
+.link {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: underline;
+}

@@ -6,6 +6,23 @@ export interface LoginValues {
   remember: boolean;
 }
 
+export interface CodeValues {
+  code: string;
+}
+
+export function validateAuthenticatorCode(values: CodeValues): FieldErrors<CodeValues> {
+  return { code: /^\d{6}$/.test(values.code.replace(/\s/g, '')) ? undefined : 'Enter the 6-digit code from your authenticator app.' };
+}
+
+export function validateRecoveryCode(values: CodeValues): FieldErrors<CodeValues> {
+  return { code: values.code.trim() ? undefined : 'Enter one of your recovery codes.' };
+}
+
+/** Splits a base32 secret into groups of four so it is easier to type. */
+export function groupSecret(secret: string): string {
+  return secret.replace(/(.{4})(?=.)/g, '$1 ');
+}
+
 export interface PasswordPairValues {
   password: string;
   confirmPassword: string;

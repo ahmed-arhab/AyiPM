@@ -1,5 +1,6 @@
 # Development: `docker compose up -d` starts only Postgres; run the backend and frontend yourself.
 # Everything in Docker: `docker compose --profile app up --build`, then open http://localhost:3000.
+# On a server, add compose.prod.yaml and a .env file instead; see docs/self-hosting.md.
 # The database credentials match the defaults in backend/src/main/resources/application.yml.
 services:
   postgres:
@@ -29,6 +30,10 @@ services:
       # The frontend adds each client's address to X-Forwarded-For, so the sign-in limits apply per client.
       # Add your reverse proxy here if one sits in front; see "Client addresses behind a proxy" in the README.
       TRUSTED_PROXIES: ${TRUSTED_PROXIES:-frontend}
+      # Extra sites allowed to change data; see "Configuration" in the README. Any FRONTEND_PORT works without it.
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3000}
+      # Needed for two-factor authentication: openssl rand -base64 32
+      TWO_FACTOR_ENCRYPTION_KEY: ${TWO_FACTOR_ENCRYPTION_KEY:-}
     depends_on:
       postgres:
         condition: service_healthy

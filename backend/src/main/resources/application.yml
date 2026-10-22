@@ -1,6 +1,8 @@
 spring:
   application:
     name: ayipm-backend
+    # Filled in from pom.xml when Maven builds the app. Shown as the version in the OpenAPI spec.
+    version: "@project.version@"
   datasource:
     url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/ayipm}
     username: ${DATABASE_USERNAME:ayipm}
@@ -16,17 +18,32 @@ server:
   # This also makes request.getRemoteAddr() return an address the client can set; use ClientAddressResolver instead.
   forward-headers-strategy: framework
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
 ayipm:
-  # How often each client address may call each sign-in endpoint (setup, login, forgot, invite and reset).
+  # How often each client address may call each sign-in endpoint (setup, login and its two-factor steps, forgot, invite and reset).
   rate-limit:
     max-requests: ${RATE_LIMIT_MAX_REQUESTS:10}
     window: ${RATE_LIMIT_WINDOW:1m}
   # Proxies whose X-Forwarded-For is believed: comma-separated IP addresses, CIDR ranges or hostnames. When empty, the
   # address of the connection is the client. See "Client addresses behind a proxy" in the README before setting it.
   trusted-proxies: ${TRUSTED_PROXIES:}
+  # Sites, besides the backend's own address, that may send requests that change data. Comma-separated.
+  allowed-origins: ${ALLOWED_ORIGINS:http://localhost:3000}
+  two-factor:
+    # Base64 of 32 random bytes (openssl rand -base64 32). It encrypts the authenticator secrets, so keep it secret and
+    # don't change it once people use two-factor authentication. While it is empty, two-factor authentication is off.
+    encryption-key: ${TWO_FACTOR_ENCRYPTION_KEY:}
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health
+# The OpenAPI spec at /v3/api-docs and Swagger UI at /swagger-ui.html. Set both to false to turn them off.
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+  # Every endpoint returns JSON; without this the spec lists each response as */*.
+  default-produces-media-type: application/json

@@ -14,5 +14,6 @@ public record BootstrapPayload(
 		Instant expiresAt,
 		WorkspaceSettings workspace,
 		List<EmployeeResponse> employees,
-		PreferencesResponse preferences) {
+		PreferencesResponse preferences,
+		TwoFactorService.Status twoFactor) {
 }

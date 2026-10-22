@@ -11,6 +11,7 @@ export interface WorkspaceFormValues {
   sick: string;
   casual: string;
   employeeIdPrefix: string;
+  requireAdminTwoFactor: boolean;
 }
 
 const TIME_PATTERN = /^([01]\d|2[0-3]):[0-5]\d$/;
@@ -27,6 +28,7 @@ export function toWorkspaceFormValues(workspace: WorkspaceSettings): WorkspaceFo
     sick: String(workspace.leaveAllowance.sick),
     casual: String(workspace.leaveAllowance.casual),
     employeeIdPrefix: workspace.employeeIdPrefix,
+    requireAdminTwoFactor: workspace.requireAdminTwoFactor,
   };
 }
 
@@ -67,6 +69,7 @@ export function toWorkspaceSettings(values: WorkspaceFormValues): WorkspaceSetti
       casual: Number(values.casual),
     },
     employeeIdPrefix: values.employeeIdPrefix.trim().toUpperCase(),
+    requireAdminTwoFactor: values.requireAdminTwoFactor,
   };
 }
 
