@@ -80,7 +80,7 @@ public class LeaveService {
 		}
 		if (type != LeaveType.UNPAID) {
 			LeaveResponse.Bucket bucket = bucket(balanceOf(mine), type);
-			int pending = mine.stream().filter(r -> r.getStatus() == LeaveStatus.PENDING && r.getLeaveType() == type).mapToInt(LeaveRequest::getDays).sum();
+			int pending = mine.stream().filter(r -> r.getStatus() == LeaveStatus.PENDING && r.getLeaveType() == type).mapToInt(r -> r.getDays()).sum();
 			if (bucket.used() + pending + days > bucket.total()) {
 				int available = Math.max(0, bucket.total() - bucket.used() - pending);
 				throw ApiException.badRequest("Not enough " + type.value().toLowerCase() + " leave remaining (" + available + " day(s) available).");
@@ -108,7 +108,7 @@ public class LeaveService {
 		request.review(decision, reviewer.getId(), clock.instant(), decision == LeaveStatus.REJECTED ? reason : null);
 		if (decision == LeaveStatus.APPROVED) markOnLeave(request);
 
-		String employeeName = users.findById(request.getUserId()).map(User::getName).orElse("Employee");
+		String employeeName = users.findById(request.getUserId()).map(u -> u.getName()).orElse("Employee");
 		boolean approved = decision == LeaveStatus.APPROVED;
 		activity.record(reviewer, approved ? "Approved Leave Request" : "Rejected Leave Request", ActivityService.LEAVE, id,
 				employeeName + " · " + request.getLeaveType().value(), approved ? request.getDays() + " day(s)" : "Reason: " + reason);
@@ -148,7 +148,7 @@ public class LeaveService {
 	private static int used(List<LeaveRequest> mine, LeaveType type, int year) {
 		return mine.stream()
 				.filter(r -> r.getStatus() == LeaveStatus.APPROVED && r.getLeaveType() == type && r.getStartDate().getYear() == year)
-				.mapToInt(LeaveRequest::getDays)
+				.mapToInt(r -> r.getDays())
 				.sum();
 	}
 
@@ -163,7 +163,7 @@ public class LeaveService {
 	/** Adds an "on leave" attendance record for each approved day that doesn't have one yet. */
 	private void markOnLeave(LeaveRequest request) {
 		Set<LocalDate> existing = attendance.findByUserIdAndDateBetween(request.getUserId(), request.getStartDate(), request.getEndDate()).stream()
-				.map(AttendanceRecord::getDate)
+				.map(a -> a.getDate())
 				.collect(Collectors.toSet());
 		String note = "Approved " + request.getLeaveType().value() + " leave";
 		request.getStartDate().datesUntil(request.getEndDate().plusDays(1))

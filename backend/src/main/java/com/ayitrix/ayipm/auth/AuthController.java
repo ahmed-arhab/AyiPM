@@ -17,7 +17,6 @@ import com.ayitrix.ayipm.common.ApiException;
 import com.ayitrix.ayipm.common.ApiResponse;
 import com.ayitrix.ayipm.employee.User;
 import com.ayitrix.ayipm.workspace.WorkspaceService;
-import com.ayitrix.ayipm.workspace.WorkspaceSettings;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -148,7 +147,7 @@ public class AuthController {
 	public ResponseEntity<ApiResponse<InviteDetails>> inviteDetails(@RequestParam(defaultValue = "") String token) {
 		Invite invite = auth.findInvite(token).orElseThrow(() -> new ApiException(HttpStatus.GONE, "This invitation is invalid or has expired."));
 		User user = invite.getUser();
-		String companyName = workspace.getSettings().map(WorkspaceSettings::companyName).orElse("AyiPM");
+		String companyName = workspace.getSettings().map(s -> s.companyName()).orElse("AyiPM");
 		return ApiResponse.ok(new InviteDetails(user.getName(), user.getEmail(), user.getEmployeeId(), companyName, invite.getExpiresAt()));
 	}
 

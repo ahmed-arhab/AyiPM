@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ayitrix.ayipm.auth.Permission;
 import com.ayitrix.ayipm.common.ApiException;
-import com.ayitrix.ayipm.employee.User;
 import com.ayitrix.ayipm.employee.UserRepository;
 import com.ayitrix.ayipm.preferences.PreferencesService;
 
@@ -54,7 +53,7 @@ public class NotificationService {
 	public List<UUID> peopleWith(Permission permission, UUID excluded) {
 		return users.findAll().stream()
 				.filter(u -> u.isActive() && u.getRole().has(permission) && !u.getId().equals(excluded))
-				.map(User::getId)
+				.map(u -> u.getId())
 				.toList();
 	}
 

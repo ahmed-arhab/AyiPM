@@ -2,7 +2,6 @@ package com.ayitrix.ayipm.project;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -32,7 +31,7 @@ public record ProjectResponse(
 				p.getStartDate().toString(),
 				p.getEndDate().toString(),
 				p.getStatus().value(),
-				p.getMemberIds().stream().map(UUID::toString).toList(),
+				p.getMemberIds().stream().map(id -> id.toString()).toList(),
 				p.getManagerId() == null ? null : p.getManagerId().toString(),
 				p.getBudget(),
 				p.getCreatedById().toString(),

@@ -195,7 +195,7 @@ public class TaskService {
 
 	/** The next free position at the end of a column, read under the column lock. */
 	private int endOfColumn(TaskStatus status) {
-		return tasks.lockColumn(status).stream().mapToInt(Task::getPosition).max().orElse(-1) + 1;
+		return tasks.lockColumn(status).stream().mapToInt(t -> t.getPosition()).max().orElse(-1) + 1;
 	}
 
 	private void notifyAssignee(Task task, User actor) {
@@ -223,7 +223,7 @@ public class TaskService {
 	private UUID parseAssignee(String value) {
 		if (value == null || value.isBlank()) return null;
 		UUID id = parseId(value);
-		if (id == null || users.findById(id).filter(User::isActive).isEmpty()) throw ApiException.badRequest("Select an active assignee.");
+		if (id == null || users.findById(id).filter(u -> u.isActive()).isEmpty()) throw ApiException.badRequest("Select an active assignee.");
 		return id;
 	}
 
@@ -245,11 +245,11 @@ public class TaskService {
 
 	// Loads comments and history for all tasks in two queries instead of two per task.
 	private List<TaskResponse> toResponses(List<Task> found) {
-		List<UUID> ids = found.stream().map(Task::getId).toList();
+		List<UUID> ids = found.stream().map(t -> t.getId()).toList();
 		Map<UUID, List<TaskResponse.Comment>> commentsByTask = comments.findByTaskIdInOrderByCreatedAtAsc(ids).stream()
-				.collect(Collectors.groupingBy(TaskComment::getTaskId, Collectors.mapping(TaskResponse.Comment::from, Collectors.toList())));
+				.collect(Collectors.groupingBy(c -> c.getTaskId(), Collectors.mapping(TaskResponse.Comment::from, Collectors.toList())));
 		Map<UUID, List<TaskResponse.HistoryEntry>> historyByTask = history.findByTaskIdInOrderByCreatedAtAsc(ids).stream()
-				.collect(Collectors.groupingBy(TaskHistoryEntry::getTaskId, Collectors.mapping(TaskResponse.HistoryEntry::from, Collectors.toList())));
+				.collect(Collectors.groupingBy(h -> h.getTaskId(), Collectors.mapping(TaskResponse.HistoryEntry::from, Collectors.toList())));
 		return found.stream()
 				.map(t -> TaskResponse.from(t, commentsByTask.getOrDefault(t.getId(), List.of()), historyByTask.getOrDefault(t.getId(), List.of())))
 				.toList();

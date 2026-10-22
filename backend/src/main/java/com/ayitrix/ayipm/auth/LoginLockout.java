@@ -37,7 +37,7 @@ class LoginLockout {
 	/** Fails with 429 while the key is locked. */
 	void assertNotLocked(String key) {
 		Instant now = clock.instant();
-		Instant lockedUntil = attempts.findById(key).map(LoginAttempt::getLockedUntil).orElse(null);
+		Instant lockedUntil = attempts.findById(key).map(a -> a.getLockedUntil()).orElse(null);
 		if (lockedUntil != null && lockedUntil.isAfter(now)) throw locked(Duration.between(now, lockedUntil));
 	}
 

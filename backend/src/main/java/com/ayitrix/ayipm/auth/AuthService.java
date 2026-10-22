@@ -92,7 +92,7 @@ public class AuthService {
 		String key = user.map(LoginLockout::keyFor).orElse("email:" + email);
 		lockout.assertNotLocked(key);
 
-		boolean valid = hasher.matches(password, user.map(User::getPasswordHash).orElse(null));
+		boolean valid = hasher.matches(password, user.map(u -> u.getPasswordHash()).orElse(null));
 		if (!valid || user.isEmpty()) throw lockout.recordFailure(key, new ApiException(HttpStatus.UNAUTHORIZED, INVALID_CREDENTIALS));
 		if (!user.get().isActive()) throw new ApiException(HttpStatus.FORBIDDEN, "This account has been deactivated. Contact your administrator.");
 		return user.get();
