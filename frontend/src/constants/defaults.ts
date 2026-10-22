@@ -1,13 +1,10 @@
 import type { UserPreferences, WorkspaceSettings } from '@/types';
 
-export const STORAGE_KEY = 'ayipm:v3:state';
 export const THEME_STORAGE_KEY = 'ayipm:v2:theme';
 export const LANGUAGE_STORAGE_KEY = 'ayipm:v2:language';
-export const LEGACY_STORAGE_KEYS = ['ayipm:v2:state'];
+// Saved by older versions and deleted on startup. The workspace data in them now comes from the server.
+export const LEGACY_STORAGE_KEYS = ['ayipm:v2:state', 'ayipm:v3:state'];
 export const LEGACY_STORAGE_PREFIX = 'ayipm_';
-
-export const MAX_ACTIVITY_ITEMS = 500;
-export const MAX_NOTIFICATIONS_PER_USER = 100;
 
 export const DEFAULT_WORKSPACE: WorkspaceSettings = {
   companyName: 'AyiPM',

@@ -18,7 +18,7 @@ import com.ayitrix.ayipm.preferences.PreferencesService;
 @Service
 public class NotificationService {
 
-	/** Same cap the browser used (MAX_NOTIFICATIONS_PER_USER). */
+	/** Each person keeps at most this many notifications; older ones are deleted. */
 	static final int MAX_PER_USER = 100;
 
 	private final NotificationRepository notifications;

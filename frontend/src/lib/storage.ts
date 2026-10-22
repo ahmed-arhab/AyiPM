@@ -1,16 +1,6 @@
 const isBrowser = () => typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
 
 export const storage = {
-  read<T>(key: string): T | null {
-    if (!isBrowser()) return null;
-    try {
-      const raw = window.localStorage.getItem(key);
-      return raw ? (JSON.parse(raw) as T) : null;
-    } catch {
-      return null;
-    }
-  },
-
   readRaw(key: string): string | null {
     if (!isBrowser()) return null;
     try {
