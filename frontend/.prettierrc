@@ -1,0 +1,13 @@
+{
+  "singleQuote": true,
+  "semi": true,
+  "tabWidth": 2,
+  "printWidth": 140,
+  "trailingComma": "es5",
+  "overrides": [
+    {
+      "files": "src/translations/**",
+      "options": { "quoteProps": "consistent" }
+    }
+  ]
+}

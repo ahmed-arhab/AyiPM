@@ -11,6 +11,8 @@
     "build": "next build",
     "start": "node --require ./scripts/client-address.cjs node_modules/next/dist/bin/next start",
     "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "generate:api": "openapi-typescript ../backend/openapi.json -o src/types/api.generated.ts",
     "test": "vitest run",
     "test:watch": "vitest"
@@ -39,6 +41,7 @@
     "eslint": "9.39.5",
     "eslint-config-next": "16.4.0",
     "openapi-typescript": "7.13.0",
+    "prettier": "3.9.10",
     "typescript": "^5.5.3",
     "vitest": "4.1.12"
   }
