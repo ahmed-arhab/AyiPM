@@ -5,14 +5,16 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { LifeBuoy, Link2Off, MailOpen } from 'lucide-react';
 import { ButtonLink, Spinner } from '@/components/ui';
 import { ROUTES } from '@/constants/navigation';
-import { fetchInvite } from '@/store';
+import { fetchInvite, useGoogleSignIn } from '@/store';
 import type { TwoFactorChallenge } from '@/types';
 import { useT } from '@/translations';
 import { useTokenLookup } from '../hooks/useTokenLookup';
+import { googleSignInUrl } from '../utils';
 import { AuthCard } from './AuthCard';
 import { AuthSplitLayout } from './AuthSplitLayout';
 import { AuthStatus } from './AuthStatus';
 import { AcceptInviteForm } from './AcceptInviteForm';
+import { AuthDivider, GoogleSignInButton } from './GoogleSignInButton';
 import { TwoFactorSetupStep } from './TwoFactorSetupStep';
 import styles from './AcceptInviteView.module.css';
 
@@ -40,6 +42,7 @@ function AcceptInviteContent() {
   const router = useRouter();
   const token = useSearchParams()?.get('token') ?? '';
   const lookup = useTokenLookup(token, fetchInvite);
+  const googleSignIn = useGoogleSignIn();
   const [challenge, setChallenge] = useState<TwoFactorChallenge | null>(null);
 
   if (challenge && lookup.status === 'valid') {
@@ -76,6 +79,13 @@ function AcceptInviteContent() {
         </div>
       </dl>
       <AcceptInviteForm token={token} onAccepted={() => router.replace(ROUTES.dashboard)} onTwoFactorRequired={setChallenge} />
+      {googleSignIn && (
+        <>
+          <AuthDivider />
+          {/* Joins without a password. Only the Google account for the invited address is accepted. */}
+          <GoogleSignInButton href={googleSignInUrl(token)} label={t('Join with Google')} />
+        </>
+      )}
     </AuthCard>
   );
 }

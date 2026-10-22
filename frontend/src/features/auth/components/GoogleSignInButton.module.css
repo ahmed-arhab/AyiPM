@@ -1,0 +1,25 @@
+.button {
+  height: 46px;
+  gap: 0.65rem;
+  font-size: 0.9375rem;
+}
+
+.logo {
+  flex-shrink: 0;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-subtle);
+}

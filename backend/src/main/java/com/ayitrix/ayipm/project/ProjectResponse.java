@@ -3,6 +3,8 @@ package com.ayitrix.ayipm.project;
 import java.time.Instant;
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /** Matches Project in the frontend's src/types/project.ts. */
@@ -14,10 +16,10 @@ public record ProjectResponse(
 		String description,
 		String startDate,
 		String endDate,
-		String status,
+		ProjectStatus status,
 		List<String> members,
-		String managerId,
-		String budget,
+		@Nullable String managerId,
+		@Nullable String budget,
 		String createdBy,
 		Instant createdAt,
 		Instant updatedAt) {
@@ -30,7 +32,7 @@ public record ProjectResponse(
 				p.getDescription(),
 				p.getStartDate().toString(),
 				p.getEndDate().toString(),
-				p.getStatus().value(),
+				p.getStatus(),
 				p.getMemberIds().stream().map(id -> id.toString()).toList(),
 				p.getManagerId() == null ? null : p.getManagerId().toString(),
 				p.getBudget(),

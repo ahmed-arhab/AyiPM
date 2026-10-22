@@ -2,14 +2,17 @@ package com.ayitrix.ayipm.common;
 
 import java.util.Optional;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import jakarta.persistence.AttributeConverter;
 
 /**
- * An enum that is stored in the database and sent in JSON as a fixed string, such as {@code "in_progress"}. The
- * strings match the union types in the frontend's src/types.
+ * An enum that is stored in the database and sent in JSON as a fixed string, such as {@code "in_progress"}. The OpenAPI
+ * spec lists the strings, so they become union types in the frontend's src/types/api.generated.ts.
  */
 public interface ApiValue {
 
+	@JsonValue
 	String value();
 
 	static <E extends Enum<E> & ApiValue> Optional<E> parse(Class<E> type, String value) {

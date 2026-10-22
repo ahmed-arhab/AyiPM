@@ -3,6 +3,8 @@ package com.ayitrix.ayipm.employee;
 import java.util.List;
 import java.util.Map;
 
+import org.jspecify.annotations.Nullable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ayitrix.ayipm.auth.AccessLink;
@@ -36,7 +39,8 @@ public class EmployeeController {
 		this.sessions = sessions;
 	}
 
-	public record CreatedEmployee(EmployeeResponse employee, AccessLink invite) {
+	/** {@code invite} is null when the person was given a password and can sign in straight away. */
+	public record CreatedEmployee(EmployeeResponse employee, @Nullable AccessLink invite) {
 	}
 
 	public record RoleChange(String role) {
@@ -52,6 +56,7 @@ public class EmployeeController {
 	}
 
 	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<ApiResponse<CreatedEmployee>> create(HttpServletRequest request, @RequestBody CreateEmployeeRequest body) {
 		User actor = sessions.requireUser(request, Permission.EMPLOYEES_MANAGE);
 		User user = employees.create(actor, body);
