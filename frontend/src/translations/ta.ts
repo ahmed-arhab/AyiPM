@@ -399,8 +399,6 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Name (A → Z)': 'பெயர் (A → Z)',
   'Name (Z → A)': 'பெயர் (Z → A)',
   'Newest joined': 'சமீபத்தில் இணைந்தவர்',
-  'Showing <strong>{count}</strong> of {total} members':
-    '<strong>{count}</strong> / {total} உறுப்பினர்கள் காட்டப்படுகின்றனர்',
   'Showing {count} of {total} members': '{count} / {total} உறுப்பினர்கள் காட்டப்படுகின்றனர்',
   'Reset filters': 'வடிகட்டிகளை மீட்டமை',
   'Clear filters': 'வடிகட்டிகளை அழி',

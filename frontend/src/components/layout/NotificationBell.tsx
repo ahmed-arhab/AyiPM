@@ -48,9 +48,14 @@ export function NotificationBell() {
             aria-label={unread > 0 ? `Notifications, ${unread} unread` : 'Notifications'}
           >
             <Bell size={19} />
-            {unread > 0 && <span className={styles.count}>{unread > 99 ? '99+' : unread}</span>}
           </button>
         </CollapsibleTrigger>
+        {/* Outside the button, whose overflow is hidden for the ripple effect. The button's label already says how many are unread. */}
+        {unread > 0 && (
+          <span className={styles.count} aria-hidden>
+            {unread > 99 ? '99+' : unread}
+          </span>
+        )}
 
         <CollapsibleContent
           className={styles.panel}

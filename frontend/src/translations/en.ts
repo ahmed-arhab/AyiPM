@@ -396,8 +396,6 @@ export const EN_DICTIONARY = {
   'Name (A → Z)': 'Name (A → Z)',
   'Name (Z → A)': 'Name (Z → A)',
   'Newest joined': 'Newest joined',
-  'Showing <strong>{count}</strong> of {total} members':
-    'Showing <strong>{count}</strong> of {total} members',
   'Showing {count} of {total} members': 'Showing {count} of {total} members',
   'Reset filters': 'Reset filters',
   'Clear filters': 'Clear filters',
