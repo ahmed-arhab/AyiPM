@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 
 export function useHotkey(key: string, handler: (event: KeyboardEvent) => void, options: { meta?: boolean } = {}): void {
   const handlerRef = useRef(handler);
+  // eslint-disable-next-line react-hooks/refs -- Latest-ref pattern: the listener calls the newest handler without being re-attached.
   handlerRef.current = handler;
   const { meta = false } = options;
 

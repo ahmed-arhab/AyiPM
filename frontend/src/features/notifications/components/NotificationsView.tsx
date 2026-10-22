@@ -3,7 +3,6 @@
 import { Bell, CheckCheck, Inbox, RotateCcw, SearchX, Trash2 } from 'lucide-react';
 import { useMyNotifications, useUnreadCount } from '@/store';
 import { usePagination } from '@/hooks/usePagination';
-import { pluralize } from '@/lib/format';
 import { Button, Card, EmptyState, PageHeader, Pagination } from '@/components/ui';
 import { useNotificationActions } from '../hooks/useNotificationActions';
 import { useNotificationFilters } from '../hooks/useNotificationFilters';

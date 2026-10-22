@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useMemo } from 'react';
 import { usePreferences } from '@/store';
 import { EN_DICTIONARY, type TranslationKey } from './en';
 import { SI_DICTIONARY } from './si';
@@ -127,40 +127,19 @@ export interface TranslationHook {
 export function useT(): TranslationHook {
   const preferences = usePreferences();
   const language = preferences.language || 'English (US)';
-  const locale = getLocale(language);
 
-  const t = useCallback(
-    (key: string, params?: Record<string, string | number>) =>
-      translate(key, language, params),
-    [language]
-  );
-
-  const formatNumberFn = useCallback(
-    (value: number, options?: Intl.NumberFormatOptions) =>
-      formatNumber(value, language, options),
-    [language]
-  );
-
-  const formatDateFn = useCallback(
-    (value: Date | string | undefined, options?: Intl.DateTimeFormatOptions) =>
-      formatDate(value, language, options),
-    [language]
-  );
-
-  const formatTimeFn = useCallback(
-    (value: Date | string | undefined, options?: Intl.DateTimeFormatOptions) =>
-      formatTime(value, language, options),
-    [language]
-  );
-
-  const hook = Object.assign(t, {
-    t,
-    formatNumber: formatNumberFn,
-    formatDate: formatDateFn,
-    formatTime: formatTimeFn,
-    language,
-    locale,
-  });
-
-  return hook as TranslationHook;
+  // Built once per language, so `t` and the formatters keep their identity between renders.
+  return useMemo<TranslationHook>(() => {
+    const t = (key: string, params?: Record<string, string | number>) => translate(key, language, params);
+    return Object.assign(t, {
+      t,
+      formatNumber: (value: number, options?: Intl.NumberFormatOptions) => formatNumber(value, language, options),
+      formatDate: (value: Date | string | undefined, options?: Intl.DateTimeFormatOptions) =>
+        formatDate(value, language, options),
+      formatTime: (value: Date | string | undefined, options?: Intl.DateTimeFormatOptions) =>
+        formatTime(value, language, options),
+      language,
+      locale: getLocale(language),
+    });
+  }, [language]);
 }

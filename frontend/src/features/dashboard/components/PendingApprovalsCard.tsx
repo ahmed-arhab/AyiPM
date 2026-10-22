@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { PlaneTakeoff } from 'lucide-react';
 import { Avatar, Card, CardHeader, EmptyState } from '@/components/ui';
 import { ROUTES } from '@/constants/navigation';
-import { pluralize } from '@/lib/format';
 import { useEmployeesById, useFormatters } from '@/store';
 import { useT } from '@/translations';
 import { usePendingApprovals } from '../hooks/usePendingApprovals';

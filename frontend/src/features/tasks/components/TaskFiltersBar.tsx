@@ -6,14 +6,10 @@ import { Button, SearchInput, Select, type SelectOption } from '@/components/ui'
 import { useT } from '@/translations';
 import { useEmployees, useProjects } from '@/store';
 import { TASK_PRIORITY, TASK_PRIORITY_ORDER, TASK_STATUS, TASK_STATUS_ORDER } from '@/constants/status';
-import { pluralize } from '@/lib/format';
 import type { TaskPriority, TaskStatus } from '@/types';
 import type { TaskFiltersApi } from '../hooks/useTaskFilters';
 import { SORT_OPTIONS, UNASSIGNED, type TaskSort, type TaskView } from '../utils';
 import styles from './TaskFiltersBar.module.css';
-
-const PRIORITY_OPTIONS: SelectOption<TaskPriority>[] = TASK_PRIORITY_ORDER.map((p) => ({ value: p, label: TASK_PRIORITY[p].label }));
-const STATUS_OPTIONS: SelectOption<TaskStatus>[] = TASK_STATUS_ORDER.map((s) => ({ value: s, label: TASK_STATUS[s].label }));
 
 interface TaskFiltersBarProps {
   api: TaskFiltersApi;

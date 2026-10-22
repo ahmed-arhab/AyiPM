@@ -1,4 +1,4 @@
-import { Bell, Building2, Globe, Monitor, Moon, Palette, RotateCcw, Sun, type LucideIcon } from 'lucide-react';
+import { Bell, Building2, Globe, RotateCcw, type LucideIcon } from 'lucide-react';
 import type { SegmentOption, SelectOption } from '@/components/ui';
 import { LANGUAGES } from '@/constants/defaults';
 import type { DateFormat, NotificationCategory, ThemeMode, TimeFormat, WeekStart } from '@/types';

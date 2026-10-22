@@ -20,6 +20,7 @@ export function useWorkspaceForm() {
   const [errors, setErrors] = useState<FieldErrors<WorkspaceFormValues>>({});
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Resets the form whenever the saved workspace settings change.
     setValues(baseline);
     setErrors({});
   }, [baseline]);

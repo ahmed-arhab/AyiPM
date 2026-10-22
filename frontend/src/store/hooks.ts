@@ -33,9 +33,12 @@ export const useSessionUser = () => useAppStore(selectCurrentUser);
 export function useCurrentUser(): Employee {
   const user = useAppStore(selectCurrentUser);
   const lastUser = useRef(user);
+  // Keeps returning the last user while the shell is still mounted during sign-out, instead of throwing.
+  /* eslint-disable react-hooks/refs */
   if (user) lastUser.current = user;
   if (!lastUser.current) throw new Error('useCurrentUser must be used inside the authenticated app shell.');
   return lastUser.current;
+  /* eslint-enable react-hooks/refs */
 }
 
 export function usePermission(permission: Permission): boolean {

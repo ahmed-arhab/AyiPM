@@ -13,6 +13,7 @@ export function useKanbanDnd(onMove: (taskId: string, status: TaskStatus, visibl
   const [dropTarget, setDropTarget] = useState<DropTarget | null>(null);
   const draggingRef = useRef<string | null>(null);
   const onMoveRef = useRef(onMove);
+  // eslint-disable-next-line react-hooks/refs -- Latest-ref pattern: drop calls the newest onMove without the drag handlers being recreated.
   onMoveRef.current = onMove;
 
   const startDrag = useCallback((taskId: string) => {

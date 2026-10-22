@@ -118,7 +118,7 @@ Open the PR as a draft if you'd like early feedback. Mark it ready for review wh
 
 ## Before you ask for review
 
-- [ ] Frontend changes: `npx tsc --noEmit` passes and `npm run build` succeeds (in `frontend/`).
+- [ ] Frontend changes: `npm run lint` and `npx tsc --noEmit` pass, and `npm run build` succeeds (in `frontend/`).
 - [ ] Backend changes: `./mvnw verify` passes (in `backend/`), with tests for new endpoints.
 - [ ] The change works in light and dark mode, and at phone width.
 - [ ] Permissions are respected: try it as an admin, a project manager and an employee where it matters (start the backend with the `demo` profile to get one account of each; see the README).

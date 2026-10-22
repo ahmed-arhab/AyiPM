@@ -6,7 +6,6 @@ import { CompletionTrendCard } from './CompletionTrendCard';
 import { DashboardHeader } from './DashboardHeader';
 import { DashboardStats } from './DashboardStats';
 import { DeadlinesCard } from './DeadlinesCard';
-import { GetStartedCard } from './GetStartedCard';
 import { MyTasksCard } from './MyTasksCard';
 import { PendingApprovalsCard } from './PendingApprovalsCard';
 import { ProjectOverviewCard } from './ProjectOverviewCard';

@@ -91,6 +91,7 @@ function FilesHighlight({ hover = true, ...props }: FilesHighlightProps) {
       controlledItems
       mode="parent"
       hover={hover}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Omit over the HighlightProps union drops its discriminant, so the rest props match no single variant.
       {...(props as any)}
     />
   );

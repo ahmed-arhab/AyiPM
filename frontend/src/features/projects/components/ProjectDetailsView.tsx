@@ -177,6 +177,8 @@ function ProjectDetailsContent({ projectId }: { projectId?: string }) {
   }
 
   if (!project) {
+    // Set by handleDelete before the project leaves the store, so "not found" doesn't flash while navigating away.
+    // eslint-disable-next-line react-hooks/refs
     if (leavingRef.current) return null;
     return (
       <div className="page-container">

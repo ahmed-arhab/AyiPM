@@ -55,7 +55,7 @@ function startSlideTransition(
   const [fromClip, toClip] = getClipKeyframes(direction);
 
   try {
-    const transition = (document as any).startViewTransition(() => {
+    const transition = document.startViewTransition(() => {
       flushSync(() => {
         updateFn();
       });
@@ -116,6 +116,7 @@ function ThemeToggler({
       theme === preview.effective &&
       resolvedTheme === preview.resolved
     ) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Drops the preview once the real theme has caught up with it.
       setPreview(null);
     }
   }, [theme, resolvedTheme, preview]);

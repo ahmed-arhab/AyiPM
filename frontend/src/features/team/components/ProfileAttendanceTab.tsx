@@ -17,6 +17,7 @@ export function ProfileAttendanceTab({ memberId }: { memberId: string }) {
 
   useEffect(() => {
     let cancelled = false;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Shows the loading state again while another member's history loads.
     setHistory(null);
     fetchAttendanceHistory(memberId, startOfMonthKey(today, -HISTORY_MONTHS), endOfMonthKey(today)).then((result) => {
       if (!cancelled && result.ok) setHistory(result.data);

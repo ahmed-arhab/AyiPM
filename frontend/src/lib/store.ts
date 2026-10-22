@@ -53,6 +53,9 @@ export function useStoreSelector<T, S>(
   isEqual: EqualityFn<S> = Object.is
 ): S {
   const instRef = useRef<{ hasValue: boolean; value: S }>({ hasValue: false, value: undefined as S });
+  // The ref and the closure variables only cache the last selection, as in with-selector. What renders always comes
+  // from useSyncExternalStore.
+  /* eslint-disable react-hooks/refs, react-hooks/immutability */
   const inst = instRef.current;
 
   const getSelection = useMemo(() => {
@@ -74,6 +77,7 @@ export function useStoreSelector<T, S>(
       return memoizedSelection;
     };
   }, [store, selector, isEqual, inst]);
+  /* eslint-enable react-hooks/refs, react-hooks/immutability */
 
   const value = useSyncExternalStore(store.subscribe, getSelection, getSelection);
 

@@ -44,6 +44,7 @@ function DashboardLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- Closes the mobile menu after each navigation.
   useEffect(() => setMobileNavOpen(false), [pathname]);
 
   return (
@@ -81,6 +82,9 @@ export function AppShell({ children }: { children: ReactNode }) {
       clearInterval(timer);
       document.removeEventListener('visibilitychange', onVisible);
     };
+    // notFoundRoute is left out for now: adding it would also start and stop the check when moving between a 404 page and
+    // the rest of the app, a behaviour change for its own pull request.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hydrated]);
 
   useEffect(() => {

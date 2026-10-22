@@ -84,6 +84,7 @@ function Slot<T extends HTMLElement = HTMLElement>({
   const mergedProps = mergeProps(childProps, props);
 
   return (
+    // eslint-disable-next-line react-hooks/static-components -- Base is memoized on the child's type, so it is only recreated when that type changes.
     <Base {...mergedProps} ref={mergeRefs(childRef as React.Ref<T>, ref)} />
   );
 }

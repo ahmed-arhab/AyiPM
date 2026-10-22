@@ -6,7 +6,6 @@ import {
   Calendar,
   CalendarDays,
   CalendarRange,
-  Check,
   CheckCircle2,
   ChevronDown,
   ChevronRight,
@@ -19,7 +18,7 @@ import {
   X,
   type LucideIcon,
 } from 'lucide-react';
-import { Avatar, Button, EmptyState, Input, Select, StatusBadge, type SelectOption } from '@/components/ui';
+import { Button, EmptyState, Input, Select, type SelectOption } from '@/components/ui';
 import { useToast } from '@/components/feedback/ToastProvider';
 import { TASK_PRIORITY, TASK_PRIORITY_ORDER } from '@/constants/status';
 import { cn } from '@/lib/cn';

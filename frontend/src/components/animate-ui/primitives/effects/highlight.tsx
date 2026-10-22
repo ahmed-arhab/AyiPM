@@ -228,6 +228,7 @@ function Highlight<T extends React.ElementType = 'div'>({
   }, []);
 
   React.useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Follows the value prop; hovering also changes the active value locally.
     if (value !== undefined) setActiveValue(value);
     else if (defaultValue !== undefined) setActiveValue(defaultValue);
   }, [value, defaultValue]);
