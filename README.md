@@ -171,6 +171,7 @@ The frontend keeps both `package-lock.json` and `pnpm-lock.yaml`. If you change 
 | `DATABASE_USERNAME` | backend | `ayipm` | Database user |
 | `DATABASE_PASSWORD` | backend | `ayipm` | Database password |
 | `PORT` | backend | `8080` | Port the API listens on |
+| `TWO_FACTOR_ENCRYPTION_KEY` | backend | empty | Sets `ayipm.two-factor.encryption-key`: 32 random bytes in base64 that encrypt the authenticator secrets of two-factor authentication. Generate one with `openssl rand -base64 32` and keep it secret, like a database password. While it is empty, two-factor authentication can't be turned on and everything else works as usual; if it is set but isn't a valid key, the backend refuses to start. Don't change or remove it once people use two-factor authentication: their authenticator codes stop working and they can only sign in with a recovery code. |
 | `BACKEND_URL` | frontend | `http://localhost:8080` | Where `/api` requests are forwarded. Read when the frontend is built, so set it before `npm run build`. |
 
 ### If you can't sign in locally
@@ -179,6 +180,7 @@ The frontend keeps both `package-lock.json` and `pnpm-lock.yaml`. If you change 
 - **The backend isn't running.** The login page loads from the frontend, but signing in needs the backend on port 8080. Check the backend terminal for errors, such as Postgres not running.
 - **The account may be locked.** After 5 failed attempts the account is locked for 15 minutes, and even the correct password is refused until then. To unlock it straight away, run `psql ayipm -c "delete from login_attempts"`.
 - **Invited members need to accept their invitation first.** Until they set a password through the invite link, their login is refused. Invite links expire after 7 days; an admin can send a new one from the member's profile.
+- **Two-factor authentication is on and the phone and recovery codes are gone.** Turn it off for that account in the database: `psql ayipm -c "update users set two_factor_secret = null, two_factor_last_step = null where email = 'name@company.com'"`, and turn it on again from My Profile after signing in.
 
 To start over with an empty database, run `docker compose down -v` and `docker compose up -d` (Docker), or `dropdb ayipm && createdb -O ayipm ayipm` (Homebrew).
 
@@ -195,6 +197,14 @@ If someone can't sign in, they use **Can't log in?** on the login page. Their pr
 After 5 failed attempts within 15 minutes, an account is locked for 15 minutes. Login errors never say whether an account exists.
 
 Passwords are hashed with Argon2. Sessions are random tokens kept in an `httpOnly` cookie and stored hashed in the database, so signing out or deactivating someone ends their session everywhere.
+
+### Two-factor authentication
+
+Anyone can turn on two-factor authentication in **My Profile** once the server has `TWO_FACTOR_ENCRYPTION_KEY` set (see [Configuration](#configuration)). They scan a QR code with an authenticator app such as Google Authenticator, Microsoft Authenticator or 1Password, and it only takes effect once they confirm a code from the app. They then get 10 one-time recovery codes, shown once, for when they can't use their phone.
+
+After that, signing in takes a third step: after the email and password, AyiPM asks for the 6-digit code from the app, or a recovery code. Each code works only once, and wrong codes count toward the same lockout as wrong passwords. Turning two-factor authentication off, or creating new recovery codes, also needs a current code or a recovery code.
+
+Admins can require two-factor authentication for every admin under **Settings → Workspace → Security**. They can only turn it on once they use it themselves, so the workspace always keeps an admin who can sign in. Other admins without it are signed out, and set it up the next time they sign in, before they get a session; so do people who become admins later. While it is required, admins can't turn it off. The authenticator secrets are encrypted with AES-GCM, and recovery codes are stored only as hashes.
 
 ## Database
 
@@ -233,7 +243,7 @@ backend/                     Spring Boot API
 ├── Dockerfile               Production image (builds and runs the jar)
 └── src/
     ├── main/java/com/ayitrix/ayipm/
-    │   ├── auth/            Setup, sign-in, sessions, invites, password resets
+    │   ├── auth/            Setup, sign-in, sessions, invites, password resets, two-factor authentication
     │   ├── employee/        Users, roles and the /api/employees endpoints
     │   ├── workspace/       Workspace settings and /api/workspace
     │   ├── project/         Projects and their members

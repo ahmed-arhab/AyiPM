@@ -17,6 +17,7 @@ public class AuthCleanupJob {
     private final InviteRepository invites;
     private final PasswordResetRepository resets;
     private final LoginAttemptRepository attempts;
+    private final LoginChallengeRepository challenges;
     private final Clock clock;
 
     public AuthCleanupJob(
@@ -24,15 +25,18 @@ public class AuthCleanupJob {
             InviteRepository invites,
             PasswordResetRepository resets,
             LoginAttemptRepository attempts,
+            LoginChallengeRepository challenges,
             Clock clock) {
         this.sessions = sessions;
         this.invites = invites;
         this.resets = resets;
         this.attempts = attempts;
+        this.challenges = challenges;
         this.clock = clock;
     }
 
-    @Scheduled(fixedRate = 3_600_000)
+    // The first run waits one interval, so it never competes with tests truncating these tables right after startup.
+    @Scheduled(fixedRate = 3_600_000, initialDelay = 3_600_000)
     @Transactional
     public void cleanupExpiredRecords() {
         Instant now = clock.instant();
@@ -41,5 +45,6 @@ public class AuthCleanupJob {
         invites.deleteExpired(now);
         resets.deleteExpired(now);
         attempts.deleteExpired(now.minus(LOGIN_ATTEMPT_TTL), now);
+        challenges.deleteExpired(now);
     }
 }

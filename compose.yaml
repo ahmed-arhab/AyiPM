@@ -26,6 +26,8 @@ services:
       DATABASE_PASSWORD: ayipm
       # Set to "demo" to create the demo accounts on an empty database.
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-}
+      # Needed for two-factor authentication: openssl rand -base64 32
+      TWO_FACTOR_ENCRYPTION_KEY: ${TWO_FACTOR_ENCRYPTION_KEY:-}
     depends_on:
       postgres:
         condition: service_healthy
