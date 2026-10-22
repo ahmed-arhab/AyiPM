@@ -5,6 +5,7 @@ import type { ActionResult, ThemeMode, UserPreferences, WorkspaceSettings } from
 import { api } from '@/lib/api';
 import { authorize, ok, setState } from '../appStore';
 import { handleUnauthorized, refreshActivity } from './session';
+import { refreshTwoFactorStatus } from './twoFactor';
 
 // The theme is chosen per device, so it stays in the browser.
 export function setTheme(theme: ThemeMode): void {
@@ -52,5 +53,7 @@ export async function updateWorkspace(update: Partial<WorkspaceSettings>): Promi
   if (!result.ok) return result;
   setState({ workspace: result.data });
   void refreshActivity();
+  // Whether two-factor authentication is required for you may have changed.
+  void refreshTwoFactorStatus();
   return ok();
 }

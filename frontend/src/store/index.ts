@@ -10,4 +10,5 @@ export * from './actions/projects';
 export * from './actions/tasks';
 export * from './actions/notifications';
 export * from './actions/settings';
+export * from './actions/twoFactor';
 export { loadWorkspaceData, refreshActivity, refreshNotifications, refreshSession } from './actions/session';

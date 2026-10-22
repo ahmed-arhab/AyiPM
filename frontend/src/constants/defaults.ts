@@ -17,6 +17,7 @@ export const DEFAULT_WORKSPACE: WorkspaceSettings = {
   halfDayThresholdHours: 4.5,
   leaveAllowance: { annual: 20, sick: 10, casual: 7 },
   employeeIdPrefix: 'AX',
+  requireAdminTwoFactor: false,
 };
 
 export const DEFAULT_PREFERENCES: UserPreferences = {

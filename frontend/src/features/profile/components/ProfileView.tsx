@@ -9,6 +9,7 @@ import { AccountInfoCard } from './AccountInfoCard';
 import { ChangePasswordForm } from './ChangePasswordForm';
 import { EditProfileForm } from './EditProfileForm';
 import { ProfileOverviewCard } from './ProfileOverviewCard';
+import { TwoFactorCard } from './TwoFactorCard';
 import styles from './ProfileView.module.css';
 
 export function ProfileView() {
@@ -35,6 +36,7 @@ export function ProfileView() {
         <div className={styles.main}>
           <EditProfileForm user={user} />
           <ChangePasswordForm username={user.email} />
+          <TwoFactorCard />
         </div>
       </div>
     </div>

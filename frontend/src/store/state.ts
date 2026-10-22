@@ -8,6 +8,7 @@ import type {
   Session,
   Task,
   ThemeMode,
+  TwoFactorStatus,
   UserPreferences,
   WorkspaceSettings,
 } from '@/types';
@@ -31,11 +32,14 @@ export interface ServerState {
   notifications: NotificationItem[];
   // Only the signed-in person's entry is filled in.
   preferences: Record<string, UserPreferences>;
+  twoFactor: TwoFactorStatus | null;
 }
 
 export interface AppState extends PersistedState, ServerState {
   hydrated: boolean;
   theme: ThemeMode;
+  // Shown once, then forgotten. Kept here so they survive the redirect after signing in.
+  newRecoveryCodes: string[] | null;
 }
 
 export const PERSISTED_KEYS: (keyof PersistedState)[] = ['attendance'];
@@ -55,5 +59,7 @@ export function createInitialState(): AppState {
     activityLog: [],
     notifications: [],
     preferences: {},
+    twoFactor: null,
+    newRecoveryCodes: null,
   };
 }

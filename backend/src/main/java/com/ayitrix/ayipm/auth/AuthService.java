@@ -24,30 +24,29 @@ public class AuthService {
 
 	private static final Duration INVITE_TTL = Duration.ofDays(7);
 	private static final Duration RESET_TTL = Duration.ofMinutes(30);
-	private static final int MAX_FAILED_ATTEMPTS = 5;
-	private static final Duration ATTEMPT_WINDOW = Duration.ofMinutes(15);
-	private static final Duration LOCKOUT = Duration.ofMinutes(15);
 	private static final String INVALID_CREDENTIALS = "Incorrect email or password.";
 
 	private final UserRepository users;
 	private final WorkspaceRepository workspaces;
 	private final InviteRepository invites;
 	private final PasswordResetRepository resets;
-	private final LoginAttemptRepository attempts;
+	private final LoginLockout lockout;
 	private final SessionService sessions;
 	private final PasswordHasher hasher;
 	private final ActivityService activity;
+	private final AccessLinkEmails emails;
 
 	public AuthService(UserRepository users, WorkspaceRepository workspaces, InviteRepository invites, PasswordResetRepository resets,
-			LoginAttemptRepository attempts, SessionService sessions, PasswordHasher hasher, ActivityService activity) {
+			LoginLockout lockout, SessionService sessions, PasswordHasher hasher, ActivityService activity, AccessLinkEmails emails) {
 		this.users = users;
 		this.workspaces = workspaces;
 		this.invites = invites;
 		this.resets = resets;
-		this.attempts = attempts;
+		this.lockout = lockout;
 		this.sessions = sessions;
 		this.hasher = hasher;
 		this.activity = activity;
+		this.emails = emails;
 	}
 
 	/** Creates the workspace and its owner. Only allowed while there are no accounts. */
@@ -82,32 +81,28 @@ public class AuthService {
 
 	/**
 	 * Checks the credentials. The identifier is a work email or an employee ID. Failed attempts are recorded even
-	 * though the request fails.
+	 * though the request fails. A correct password doesn't clear them; {@link #signedIn} does once sign-in is complete,
+	 * so wrong two-factor codes keep counting toward the same lockout.
 	 */
 	@Transactional(noRollbackFor = ApiException.class)
 	public User authenticate(String rawIdentifier, String password) {
 		String email = Text.normalizeEmail(rawIdentifier);
 		if (email.isEmpty() || password.isEmpty()) throw ApiException.badRequest("Enter your email and password.");
 		Optional<User> user = users.findFirstByEmailOrEmployeeId(email, Text.trim(rawIdentifier).toUpperCase());
-		String key = user.map(u -> "user:" + u.getId()).orElse("email:" + email);
-
-		Optional<LoginAttempt> attempt = attempts.findById(key);
-		Instant lockedUntil = attempt.map(a -> a.getLockedUntil()).orElse(null);
-		if (lockedUntil != null && lockedUntil.isAfter(Instant.now())) {
-			throw new ApiException(HttpStatus.TOO_MANY_REQUESTS, lockedMessage(Duration.between(Instant.now(), lockedUntil)));
-		}
+		String key = user.map(LoginLockout::keyFor).orElse("email:" + email);
+		lockout.assertNotLocked(key);
 
 		boolean valid = hasher.matches(password, user.map(u -> u.getPasswordHash()).orElse(null));
-		if (!valid || user.isEmpty()) {
-			boolean locked = recordFailure(key, attempt);
-			if (locked) throw new ApiException(HttpStatus.TOO_MANY_REQUESTS, lockedMessage(LOCKOUT));
-			throw new ApiException(HttpStatus.UNAUTHORIZED, INVALID_CREDENTIALS);
-		}
+		if (!valid || user.isEmpty()) throw lockout.recordFailure(key, new ApiException(HttpStatus.UNAUTHORIZED, INVALID_CREDENTIALS));
 		if (!user.get().isActive()) throw new ApiException(HttpStatus.FORBIDDEN, "This account has been deactivated. Contact your administrator.");
-
-		attempt.ifPresent(attempts::delete);
-		recordAuth(user.get(), "Signed In");
 		return user.get();
+	}
+
+	/** Records a completed sign-in and clears earlier failed attempts. */
+	@Transactional
+	public void signedIn(User user, boolean usedRecoveryCode) {
+		lockout.clear(LoginLockout.keyFor(user));
+		activity.record(user, "Signed In", ActivityService.AUTH, user.getId(), user.getName(), usedRecoveryCode ? "Used a recovery code" : null);
 	}
 
 	@Transactional
@@ -121,7 +116,8 @@ public class AuthService {
 		Instant expiresAt = Instant.now().plus(INVITE_TTL);
 		invites.deleteAllForUser(user.getId());
 		invites.save(new Invite(Tokens.hash(token), user, createdBy, expiresAt));
-		return new AccessLink(token, expiresAt);
+		boolean emailed = emails.sendInvite(user, createdBy, token, expiresAt);
+		return new AccessLink(token, expiresAt, emailed);
 	}
 
 	@Transactional
@@ -144,7 +140,8 @@ public class AuthService {
 		user.setPasswordResetRequestedAt(null);
 		users.save(user);
 		activity.record(actor, "Issued Password Reset Link", ActivityService.AUTH, user.getId(), user.getName());
-		return new AccessLink(token, expiresAt);
+		boolean emailed = emails.sendPasswordReset(user, actor, token, expiresAt);
+		return new AccessLink(token, expiresAt, emailed);
 	}
 
 	@Transactional(readOnly = true)
@@ -184,7 +181,7 @@ public class AuthService {
 		user.setPasswordResetRequestedAt(null);
 		users.save(user);
 		resets.deleteAllForUser(user.getId());
-		attempts.deleteById("user:" + user.getId());
+		lockout.clear(LoginLockout.keyFor(user));
 		sessions.revokeAll(user.getId());
 	}
 
@@ -208,24 +205,6 @@ public class AuthService {
 		String email = Text.normalizeEmail(rawEmail);
 		if (!Text.isValidEmail(email)) return;
 		users.markResetRequested(email, EmployeeStatus.ACTIVE, Instant.now());
-	}
-
-	private boolean recordFailure(String key, Optional<LoginAttempt> previous) {
-		Instant now = Instant.now();
-		boolean withinWindow = previous.isPresent()
-				&& previous.get().getFirstFailedAt() != null
-				&& Duration.between(previous.get().getFirstFailedAt(), now).compareTo(ATTEMPT_WINDOW) < 0;
-		int failures = withinWindow ? previous.get().getFailures() + 1 : 1;
-		boolean locked = failures >= MAX_FAILED_ATTEMPTS;
-		LoginAttempt attempt = previous.orElseGet(() -> new LoginAttempt(key));
-		attempt.update(locked ? 0 : failures, withinWindow ? previous.get().getFirstFailedAt() : now, locked ? now.plus(LOCKOUT) : null);
-		attempts.save(attempt);
-		return locked;
-	}
-
-	private static String lockedMessage(Duration remaining) {
-		long minutes = Math.max(1, (long) Math.ceil(remaining.toMillis() / 60_000.0));
-		return "Too many failed attempts. Try again in " + minutes + " minute" + (minutes == 1 ? "" : "s") + ", or ask your admin for a reset link.";
 	}
 
 }

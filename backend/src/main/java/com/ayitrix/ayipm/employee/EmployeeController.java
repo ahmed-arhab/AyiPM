@@ -19,6 +19,7 @@ import com.ayitrix.ayipm.auth.Permission;
 import com.ayitrix.ayipm.auth.SessionService;
 import com.ayitrix.ayipm.common.ApiResponse;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
@@ -76,14 +77,14 @@ public class EmployeeController {
 		return ApiResponse.ok(EmployeeResponse.from(employees.changeStatus(actor, id, body.status())));
 	}
 
-	/** Issues a fresh invitation link for someone who hasn't joined yet. */
+	@Operation(summary = "Issue a fresh invitation link for someone who hasn't joined yet")
 	@PostMapping("/{id}/invite")
 	public ResponseEntity<ApiResponse<AccessLink>> resendInvite(HttpServletRequest request, @PathVariable String id) {
 		User actor = sessions.requireUser(request, Permission.EMPLOYEES_MANAGE);
 		return ApiResponse.ok(auth.resendInvite(employees.get(id), actor));
 	}
 
-	/** Issues a one-time password reset link; the admin shares it with the person. */
+	@Operation(summary = "Issue a one-time password reset link", description = "Emails the link to the person when email is set up. The admin can also share it themselves.")
 	@PostMapping("/{id}/reset-link")
 	public ResponseEntity<ApiResponse<AccessLink>> resetLink(HttpServletRequest request, @PathVariable String id) {
 		User actor = sessions.requireUser(request, Permission.EMPLOYEES_MANAGE);

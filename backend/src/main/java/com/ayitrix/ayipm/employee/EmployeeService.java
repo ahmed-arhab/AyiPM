@@ -154,6 +154,8 @@ public class EmployeeService {
 		Role previous = target.getRole();
 		target.setRole(role);
 		users.saveAndFlush(target);
+		// A new admin without two-factor authentication sets it up the next time they sign in.
+		if (role == Role.ADMIN && !target.hasTwoFactor() && workspace.adminTwoFactorRequired()) sessions.revokeAll(target.getId());
 		activity.record(actor, "Updated Employee Role", ActivityService.EMPLOYEE, target.getId(), target.getName(), previous.label() + " → " + role.label());
 		notifications.notify(List.of(target.getId()), new NotificationMessage("Your role was updated",
 				actor.getName() + " changed your role to " + role.label() + ".", "system", "high", null, actor.getId()));

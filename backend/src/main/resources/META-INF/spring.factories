@@ -1,0 +1,5 @@
+# Checks the prod settings before any bean is created, and reports a failed check without a stack trace.
+org.springframework.context.ApplicationListener=\
+com.ayitrix.ayipm.common.ProductionSettingsCheck
+org.springframework.boot.diagnostics.FailureAnalyzer=\
+com.ayitrix.ayipm.common.ProductionSettingsCheck$Analyzer

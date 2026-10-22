@@ -24,7 +24,7 @@ export function useWorkspaceForm() {
     setErrors({});
   }, [baseline]);
 
-  const setField = useCallback((field: keyof WorkspaceFormValues, value: string) => {
+  const setField = useCallback(<K extends keyof WorkspaceFormValues>(field: K, value: WorkspaceFormValues[K]) => {
     setValues((current) => ({ ...current, [field]: value }));
     setErrors((current) => (current[field] ? { ...current, [field]: undefined } : current));
   }, []);

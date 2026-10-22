@@ -24,6 +24,8 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
 	long countByRoleAndStatusAndIdNot(Role role, EmployeeStatus status, UUID excludedId);
 
+	List<User> findAllByRoleAndTwoFactorSecretIsNull(Role role);
+
 	/** Locks one person's row until the transaction ends, to serialise checks such as the leave balance. */
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	@Query("select u from User u where u.id = :id")
@@ -32,5 +34,10 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 	@Modifying
 	@Query("update User u set u.passwordResetRequestedAt = :at where u.email = :email and u.status = :status")
 	int markResetRequested(String email, EmployeeStatus status, Instant at);
+
+	/** Records an accepted TOTP step. Returns 0 if that step or a later one was already used, so a code works only once. */
+	@Modifying
+	@Query("update User u set u.twoFactorLastStep = :step where u.id = :id and (u.twoFactorLastStep is null or u.twoFactorLastStep < :step)")
+	int markTwoFactorStepUsed(UUID id, long step);
 
 }

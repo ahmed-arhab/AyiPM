@@ -7,15 +7,19 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+
+import com.ayitrix.ayipm.common.InMemoryRateLimiter;
 
 import io.zonky.test.db.postgres.embedded.EmbeddedPostgres;
 import tools.jackson.databind.JsonNode;
@@ -26,6 +30,7 @@ import tools.jackson.databind.json.JsonMapper;
  * over HTTP with a cookie jar, the same way the browser does.
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Import(TestClock.Config.class)
 public abstract class IntegrationTest {
 
 	private static final EmbeddedPostgres POSTGRES = startPostgres();
@@ -37,6 +42,10 @@ public abstract class IntegrationTest {
 	@Autowired
 	protected JdbcTemplate jdbc;
 
+	/** The app's clock. It reads the real time unless a test sets it. */
+	@Autowired
+	protected TestClock clock;
+
 	@DynamicPropertySource
 	static void database(DynamicPropertyRegistry registry) {
 		registry.add("spring.datasource.url", () -> POSTGRES.getJdbcUrl("postgres", "postgres"));
@@ -46,7 +55,14 @@ public abstract class IntegrationTest {
 
 	@BeforeEach
 	void cleanDatabase() {
+		clock.reset();
 		jdbc.execute("truncate table login_attempts, users, workspace cascade");
+	}
+
+	// Every test signs in from 127.0.0.1, so each one starts with fresh rate limits.
+	@BeforeEach
+	void resetRateLimits(@Autowired InMemoryRateLimiter rateLimiter) {
+		rateLimiter.clear();
 	}
 
 	/** A browser-like client with its own cookies. */
@@ -115,9 +131,17 @@ public abstract class IntegrationTest {
 		private final String baseUrl;
 		private final HttpClient http;
 
+		private final Map<String, String> headers = new LinkedHashMap<>();
+
 		Client(String baseUrl) {
 			this.baseUrl = baseUrl;
 			this.http = HttpClient.newBuilder().cookieHandler(new CookieManager()).build();
+		}
+
+		/** Sends this header with every request from this client. */
+		public Client withHeader(String name, String value) {
+			headers.put(name, value);
+			return this;
 		}
 
 		public Response get(String path) {
@@ -153,6 +177,7 @@ public abstract class IntegrationTest {
 		}
 
 		private Response send(HttpRequest.Builder request) {
+			headers.forEach(request::header);
 			try {
 				HttpResponse<String> response = http.send(request.build(), HttpResponse.BodyHandlers.ofString());
 				String body = response.body();
