@@ -15,6 +15,10 @@ server:
   # Trust X-Forwarded-* from the Next.js proxy so the session cookie is marked Secure behind HTTPS.
   forward-headers-strategy: framework
 
+ayipm:
+  # Sites, besides the backend's own address, that may send requests that change data. Comma-separated.
+  allowed-origins: ${ALLOWED_ORIGINS:http://localhost:3000}
+
 management:
   endpoints:
     web:

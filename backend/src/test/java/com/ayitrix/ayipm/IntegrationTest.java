@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -115,9 +116,17 @@ public abstract class IntegrationTest {
 		private final String baseUrl;
 		private final HttpClient http;
 
+		private final Map<String, String> headers = new LinkedHashMap<>();
+
 		Client(String baseUrl) {
 			this.baseUrl = baseUrl;
 			this.http = HttpClient.newBuilder().cookieHandler(new CookieManager()).build();
+		}
+
+		/** Sends this header with every request from this client. */
+		public Client withHeader(String name, String value) {
+			headers.put(name, value);
+			return this;
 		}
 
 		public Response get(String path) {
@@ -153,6 +162,7 @@ public abstract class IntegrationTest {
 		}
 
 		private Response send(HttpRequest.Builder request) {
+			headers.forEach(request::header);
 			try {
 				HttpResponse<String> response = http.send(request.build(), HttpResponse.BodyHandlers.ofString());
 				String body = response.body();

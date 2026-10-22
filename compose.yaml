@@ -26,6 +26,8 @@ services:
       DATABASE_PASSWORD: ayipm
       # Set to "demo" to create the demo accounts on an empty database.
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-}
+      # Extra sites allowed to change data; see "Configuration" in the README. Any FRONTEND_PORT works without it.
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3000}
     depends_on:
       postgres:
         condition: service_healthy

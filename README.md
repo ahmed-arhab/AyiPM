@@ -68,7 +68,7 @@ Other useful commands:
 | `docker compose --profile app down -v` | Stop everything and delete the database |
 | `FRONTEND_PORT=3005 docker compose --profile app up` | Use another port if 3000 is taken |
 
-Data is stored in the `postgres-data` Docker volume, so it survives restarts and rebuilds. Only the frontend is published on your machine; the backend is reachable only from the frontend inside Docker. Before running it for real users, change the database password in `compose.yaml` and put it behind HTTPS.
+Data is stored in the `postgres-data` Docker volume, so it survives restarts and rebuilds. Only the frontend is published on your machine; the backend is reachable only from the frontend inside Docker. Before running it for real users, change the database password in `compose.yaml` and put it behind HTTPS. The HTTPS proxy should pass on the original `Host` and set `X-Forwarded-Proto`; if it can't, set `ALLOWED_ORIGINS=https://your-domain`, or saving anything fails with "Requests from other sites are not allowed."
 
 ## Getting started
 
@@ -171,6 +171,7 @@ The frontend keeps both `package-lock.json` and `pnpm-lock.yaml`. If you change 
 | `DATABASE_USERNAME` | backend | `ayipm` | Database user |
 | `DATABASE_PASSWORD` | backend | `ayipm` | Database password |
 | `PORT` | backend | `8080` | Port the API listens on |
+| `ALLOWED_ORIGINS` | backend | `http://localhost:3000` | Comma-separated sites, such as `https://pm.example.com`, that may send requests that change data (the `ayipm.allowed-origins` property). The address the frontend is opened at is recognised through its proxy, so you only need this when a proxy in front of AyiPM doesn't pass on the original `Host` and `X-Forwarded-Proto` headers. |
 | `BACKEND_URL` | frontend | `http://localhost:8080` | Where `/api` requests are forwarded. Read when the frontend is built, so set it before `npm run build`. |
 
 ### If you can't sign in locally
@@ -195,6 +196,8 @@ If someone can't sign in, they use **Can't log in?** on the login page. Their pr
 After 5 failed attempts within 15 minutes, an account is locked for 15 minutes. Login errors never say whether an account exists.
 
 Passwords are hashed with Argon2. Sessions are random tokens kept in an `httpOnly` cookie and stored hashed in the database, so signing out or deactivating someone ends their session everywhere.
+
+So that a page on another site can't use someone's session cookie, the backend refuses `POST`, `PUT`, `PATCH` and `DELETE` requests with `403` when they come from another site. It compares the `Origin` header (or `Referer`, if there is no `Origin`) with its own address and with `ALLOWED_ORIGINS`. Behind the frontend's proxy, its own address is the one in the browser's address bar, because the proxy passes it on in `X-Forwarded-Host`. `Origin: null`, which sandboxed pages and local files send, is refused. Requests with neither header, such as from `curl` or another server, are allowed: browsers always send `Origin` with these methods, and a client outside the browser only has the cookies it signed in for itself.
 
 ## Database
 
