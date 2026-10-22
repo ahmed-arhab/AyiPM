@@ -5,6 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { refreshSession, useHydrated, useNeedsSetup, useSessionUser } from '@/store';
 import { AUTH_ROUTES, ROUTES } from '@/constants/navigation';
 import { FullPageLoader } from '@/components/ui/Spinner';
+import { RecoveryCodesDialog } from '@/features/auth/components/RecoveryCodesDialog';
 import { Sidebar } from './Sidebar';
 import { Navbar } from './Navbar';
 import styles from './AppShell.module.css';
@@ -52,6 +53,7 @@ function DashboardLayout({ children }: { children: ReactNode }) {
         <Navbar onMenuClick={() => setMobileNavOpen(true)} />
         <main className={styles.main}>{children}</main>
       </div>
+      <RecoveryCodesDialog />
     </div>
   );
 }

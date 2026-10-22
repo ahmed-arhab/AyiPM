@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -26,6 +27,7 @@ import tools.jackson.databind.json.JsonMapper;
  * over HTTP with a cookie jar, the same way the browser does.
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Import(TestClock.Config.class)
 public abstract class IntegrationTest {
 
 	private static final EmbeddedPostgres POSTGRES = startPostgres();
@@ -37,6 +39,10 @@ public abstract class IntegrationTest {
 	@Autowired
 	protected JdbcTemplate jdbc;
 
+	/** The app's clock. It reads the real time unless a test sets it. */
+	@Autowired
+	protected TestClock clock;
+
 	@DynamicPropertySource
 	static void database(DynamicPropertyRegistry registry) {
 		registry.add("spring.datasource.url", () -> POSTGRES.getJdbcUrl("postgres", "postgres"));
@@ -46,6 +52,7 @@ public abstract class IntegrationTest {
 
 	@BeforeEach
 	void cleanDatabase() {
+		clock.reset();
 		jdbc.execute("truncate table login_attempts, users, workspace cascade");
 	}
 

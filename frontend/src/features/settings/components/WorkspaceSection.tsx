@@ -5,7 +5,7 @@ import { Badge, Button } from '@/components/ui';
 import { SECTION_BY_ID } from '../constants';
 import { useWorkspaceForm } from '../hooks/useWorkspaceForm';
 import { SettingsSection } from './SettingsSection';
-import { AttendanceFields, GeneralFields, LeaveFields } from './WorkspaceFields';
+import { AttendanceFields, GeneralFields, LeaveFields, SecurityFields } from './WorkspaceFields';
 import styles from './WorkspaceSection.module.css';
 
 const SECTION = SECTION_BY_ID.workspace;
@@ -26,6 +26,7 @@ export function WorkspaceSection() {
         <GeneralFields {...fieldProps} />
         <AttendanceFields {...fieldProps} />
         <LeaveFields {...fieldProps} />
+        <SecurityFields {...fieldProps} />
         <div className={styles.footer}>
           <span className={styles.status}>{dirty ? 'You have unsaved workspace changes.' : 'All workspace changes saved.'}</span>
           <div className={styles.actions}>
