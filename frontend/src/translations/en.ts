@@ -385,6 +385,16 @@ export const EN_DICTIONARY = {
   'Employee ID': 'Employee ID',
   'Join date': 'Join date',
   'Member': 'Member',
+  'Expires': 'Expires',
+  'Copy': 'Copy',
+  'Link': 'Link',
+  'Link copied.': 'Link copied.',
+  'Could not access the clipboard. Copy the link manually.':
+    'Could not access the clipboard. Copy the link manually.',
+  "We've emailed this link to them. If it doesn't arrive, copy it and share it privately. Generating a new link cancels this one.":
+    "We've emailed this link to them. If it doesn't arrive, copy it and share it privately. Generating a new link cancels this one.",
+  "Email delivery isn't set up, so share this link privately. Generating a new link cancels this one.":
+    "Email delivery isn't set up, so share this link privately. Generating a new link cancels this one.",
 
   // Attendance
   'Daily check-ins, working hours and punctuality across the team.':

@@ -37,9 +37,10 @@ public class AuthService {
 	private final SessionService sessions;
 	private final PasswordHasher hasher;
 	private final ActivityService activity;
+	private final AccessLinkEmails emails;
 
 	public AuthService(UserRepository users, WorkspaceRepository workspaces, InviteRepository invites, PasswordResetRepository resets,
-			LoginAttemptRepository attempts, SessionService sessions, PasswordHasher hasher, ActivityService activity) {
+			LoginAttemptRepository attempts, SessionService sessions, PasswordHasher hasher, ActivityService activity, AccessLinkEmails emails) {
 		this.users = users;
 		this.workspaces = workspaces;
 		this.invites = invites;
@@ -48,6 +49,7 @@ public class AuthService {
 		this.sessions = sessions;
 		this.hasher = hasher;
 		this.activity = activity;
+		this.emails = emails;
 	}
 
 	/** Creates the workspace and its owner. Only allowed while there are no accounts. */
@@ -121,7 +123,8 @@ public class AuthService {
 		Instant expiresAt = Instant.now().plus(INVITE_TTL);
 		invites.deleteAllForUser(user.getId());
 		invites.save(new Invite(Tokens.hash(token), user, createdBy, expiresAt));
-		return new AccessLink(token, expiresAt);
+		boolean emailed = emails.sendInvite(user, createdBy, token, expiresAt);
+		return new AccessLink(token, expiresAt, emailed);
 	}
 
 	@Transactional
@@ -144,7 +147,8 @@ public class AuthService {
 		user.setPasswordResetRequestedAt(null);
 		users.save(user);
 		activity.record(actor, "Issued Password Reset Link", ActivityService.AUTH, user.getId(), user.getName());
-		return new AccessLink(token, expiresAt);
+		boolean emailed = emails.sendPasswordReset(user, actor, token, expiresAt);
+		return new AccessLink(token, expiresAt, emailed);
 	}
 
 	@Transactional(readOnly = true)

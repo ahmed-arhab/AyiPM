@@ -171,7 +171,17 @@ The frontend keeps both `package-lock.json` and `pnpm-lock.yaml`. If you change 
 | `DATABASE_USERNAME` | backend | `ayipm` | Database user |
 | `DATABASE_PASSWORD` | backend | `ayipm` | Database password |
 | `PORT` | backend | `8080` | Port the API listens on |
+| `PUBLIC_URL` | backend | `http://localhost:3000` | The address people open AyiPM at. Links in invitation and reset emails point here. |
+| `SPRING_MAIL_HOST` | backend | not set | SMTP server for invitation and reset emails, such as `smtp.example.com`. Without it, no email is sent and each email is written to the backend log instead. |
+| `SPRING_MAIL_PORT` | backend | `25` | SMTP port, usually `587`. For port `465`, also set `SPRING_MAIL_SSL_ENABLED=true`. |
+| `SPRING_MAIL_USERNAME` | backend | not set | SMTP login, if the server needs one |
+| `SPRING_MAIL_PASSWORD` | backend | not set | SMTP password |
+| `MAIL_FROM` | backend | `AyiPM <no-reply@localhost>` | Sender of the emails. Use an address your SMTP server is allowed to send from. |
 | `BACKEND_URL` | frontend | `http://localhost:8080` | Where `/api` requests are forwarded. Read when the frontend is built, so set it before `npm run build`. |
+
+The mail settings are Spring Boot's standard `spring.mail.*` settings, so any other one can be set the same way. The backend uses STARTTLS when the server offers it and gives up on a server that doesn't answer within 10 seconds. Emails are sent in the background after the change is saved; if sending fails, the error is in the backend log, and the admin can still copy the link from the app. In Docker, add these variables to the `backend` service's `environment` in `compose.yaml`.
+
+Without `SPRING_MAIL_HOST`, the backend log contains working invitation and reset links, so keep it private. To see the emails as real messages while developing, run a local mail catcher such as [Mailpit](https://mailpit.axllent.org/) (`docker run -p 8025:8025 -p 1025:1025 axllent/mailpit`), start the backend with `SPRING_MAIL_HOST=localhost SPRING_MAIL_PORT=1025`, and open http://localhost:8025.
 
 ### If you can't sign in locally
 
@@ -186,11 +196,11 @@ To start over with an empty database, run `docker compose down -v` and `docker c
 
 There is no public sign-up. The only account anyone creates themselves is the workspace owner, once, on `/setup`. After that, accounts work the way they do in tools like ClickUp or Jira:
 
-1. An admin adds a person from **Team → Add member**. AyiPM creates an Employee ID and an invitation link that is valid for 7 days. The person shows as **Invited** until they accept it.
+1. An admin adds a person from **Team → Add member**. AyiPM creates an Employee ID and emails them an invitation link that is valid for 7 days. The admin also sees the link and can copy it, which is the only way to share it when email isn't set up (see [Configuration](#configuration)). The person shows as **Invited** until they accept it.
 2. The person opens the link (`/accept-invite`), chooses a password and lands in the workspace.
 3. After that, they sign in with their work email and password. "Keep me signed in" extends the session from 12 hours to 30 days.
 
-If someone can't sign in, they use **Can't log in?** on the login page. Their profile on the Team page is then marked **Reset requested**, and an admin sends them a one-time reset link (valid for 30 minutes) from that profile.
+If someone can't sign in, they use **Can't log in?** on the login page. Their profile on the Team page is then marked **Reset requested**, and an admin sends them a one-time reset link (valid for 30 minutes) from that profile. The link is emailed to them and shown to the admin, like an invitation.
 
 After 5 failed attempts within 15 minutes, an account is locked for 15 minutes. Login errors never say whether an account exists.
 
@@ -206,7 +216,7 @@ To change the schema, add a new file such as `V2__add_projects.sql` next to the 
 
 - **Attendance is still per browser.** Check-ins and check-outs are saved in the browser until the attendance API (#103) lands, so managers don't see them yet. Approved leave is already written to the server.
 - **No live updates.** Changes made by other people appear when you reload or switch back to the tab; notifications are checked every minute.
-- **No email delivery.** Invitation and reset links are shown to the admin, who shares them manually.
+- **Password resets go through an admin.** **Can't log in?** flags the account for an admin, who sends the reset link; it doesn't email a link by itself.
 - **No single sign-on.** Google and Microsoft sign-in are not available yet.
 
 ## Project structure
@@ -242,6 +252,7 @@ backend/                     Spring Boot API
     │   ├── attendance/      Attendance records (approved leave for now; check-in comes with #103)
     │   ├── preferences/     Each person's language, formats and notification settings
     │   ├── activity/        The activity log, written by the other services
+    │   ├── mail/            Sending email, or writing it to the log when SMTP isn't set up
     │   ├── notification/    Notifications, created by the other services
     │   ├── seed/            Demo accounts and sample data for the `demo` profile
     │   └── common/          Response format, error handling, shared helpers

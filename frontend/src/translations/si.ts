@@ -387,6 +387,16 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Employee ID': 'සේවක අංකය',
   'Join date': 'එක්වූ දිනය',
   'Member': 'සාමාජිකයා',
+  'Expires': 'කල් ඉකුත් වේ',
+  'Copy': 'පිටපත් කරන්න',
+  'Link': 'සබැඳිය',
+  'Link copied.': 'සබැඳිය පිටපත් කරන ලදී.',
+  'Could not access the clipboard. Copy the link manually.':
+    'පසුරු පුවරුවට ප්‍රවේශ විය නොහැකි විය. සබැඳිය අතින් පිටපත් කරන්න.',
+  "We've emailed this link to them. If it doesn't arrive, copy it and share it privately. Generating a new link cancels this one.":
+    'අපි මෙම සබැඳිය ඔවුන්ට විද්‍යුත් තැපෑලෙන් යැව්වෙමු. එය නොලැබුණහොත්, එය පිටපත් කර පෞද්ගලිකව බෙදාගන්න. නව සබැඳියක් සෑදීමෙන් මෙය අවලංගු වේ.',
+  "Email delivery isn't set up, so share this link privately. Generating a new link cancels this one.":
+    'විද්‍යුත් තැපැල් යැවීම සකසා නොමැති බැවින්, මෙම සබැඳිය පෞද්ගලිකව බෙදාගන්න. නව සබැඳියක් සෑදීමෙන් මෙය අවලංගු වේ.',
 
   // Attendance
   'Daily check-ins, working hours and punctuality across the team.':

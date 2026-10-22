@@ -3,6 +3,7 @@ import { Button } from '@/components/ui';
 import { useToast } from '@/components/feedback/ToastProvider';
 import { useFormatters } from '@/store';
 import { absoluteUrl } from '@/lib/url';
+import { useT } from '@/translations';
 import type { AccessLink } from '@/types';
 import styles from './AccessLinkCard.module.css';
 
@@ -16,15 +17,16 @@ interface AccessLinkCardProps {
 
 export function AccessLinkCard({ title, description, path, link, details = [] }: AccessLinkCardProps) {
   const toast = useToast();
+  const { t } = useT();
   const { dateTime } = useFormatters();
   const url = absoluteUrl(`${path}?token=${encodeURIComponent(link.token)}`);
 
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(url);
-      toast.success('Link copied.');
+      toast.success(t('Link copied.'));
     } catch {
-      toast.error('Could not access the clipboard. Copy the link manually.');
+      toast.error(t('Could not access the clipboard. Copy the link manually.'));
     }
   };
 
@@ -45,17 +47,21 @@ export function AccessLinkCard({ title, description, path, link, details = [] }:
           </div>
         ))}
         <div className={styles.row}>
-          <dt>Expires</dt>
+          <dt>{t('Expires')}</dt>
           <dd>{dateTime(link.expiresAt)}</dd>
         </div>
       </dl>
       <div className={styles.linkRow}>
-        <input className={`form-input ${styles.link}`} value={url} readOnly aria-label="Link" onFocus={(e) => e.currentTarget.select()} />
+        <input className={`form-input ${styles.link}`} value={url} readOnly aria-label={t('Link')} onFocus={(e) => e.currentTarget.select()} />
         <Button variant="secondary" icon={Copy} onClick={copy}>
-          Copy
+          {t('Copy')}
         </Button>
       </div>
-      <p className={styles.note}>Email delivery isn&apos;t configured yet, so share this link privately. Generating a new link cancels this one.</p>
+      <p className={styles.note}>
+        {link.emailed
+          ? t("We've emailed this link to them. If it doesn't arrive, copy it and share it privately. Generating a new link cancels this one.")
+          : t("Email delivery isn't set up, so share this link privately. Generating a new link cancels this one.")}
+      </p>
     </div>
   );
 }
