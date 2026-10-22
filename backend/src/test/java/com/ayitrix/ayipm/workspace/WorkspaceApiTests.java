@@ -2,6 +2,8 @@ package com.ayitrix.ayipm.workspace;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
@@ -23,6 +25,25 @@ class WorkspaceApiTests extends IntegrationTest {
 		Response invalid = owner.patch("/api/workspace", Map.of("workDayStart", "25:00"));
 		assertThat(invalid.status()).isEqualTo(400);
 		assertThat(invalid.error()).isEqualTo("Work day start must be a time like 09:00.");
+	}
+
+	@Test
+	void onlyRealTimeZonesAreSaved() {
+		Client owner = signedInOwner();
+		Response updated = owner.patch("/api/workspace", Map.of("timezone", "Europe/London")).expectStatus(200);
+		assertThat(updated.data().path("timezone").asString()).isEqualTo("Europe/London");
+
+		for (String invalid : List.of("Mars/Base", "", "   ", "europe/london", "+05:30", "UTC+1")) {
+			Response rejected = owner.patch("/api/workspace", Map.of("timezone", invalid));
+			assertThat(rejected.status()).as(invalid).isEqualTo(400);
+			assertThat(rejected.error()).as(invalid).isEqualTo("Choose a valid time zone.");
+		}
+
+		// A null time zone means "leave unchanged".
+		Map<String, Object> unchanged = new HashMap<>();
+		unchanged.put("timezone", null);
+		owner.patch("/api/workspace", unchanged).expectStatus(200);
+		assertThat(owner.get("/api/workspace").data().path("timezone").asString()).isEqualTo("Europe/London");
 	}
 
 	@Test
