@@ -12,10 +12,18 @@ export interface WorkspaceFormValues {
   casual: string;
   employeeIdPrefix: string;
   requireAdminTwoFactor: boolean;
+  allowedGoogleDomain: string;
 }
 
 const TIME_PATTERN = /^([01]\d|2[0-3]):[0-5]\d$/;
 const PREFIX_PATTERN = /^[A-Za-z]{1,5}$/;
+// Same rule as DOMAIN in the backend's WorkspaceService: a host name such as example.com.
+const DOMAIN_PATTERN = /^(?=.{1,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$/;
+
+// People paste "@example.com" or "Example.com"; Google sends the domain in lower case.
+function normalizeDomain(value: string): string {
+  return value.trim().toLowerCase().replace(/^@/, '');
+}
 
 export function toWorkspaceFormValues(workspace: WorkspaceSettings): WorkspaceFormValues {
   return {
@@ -29,6 +37,7 @@ export function toWorkspaceFormValues(workspace: WorkspaceSettings): WorkspaceFo
     casual: String(workspace.leaveAllowance.casual),
     employeeIdPrefix: workspace.employeeIdPrefix,
     requireAdminTwoFactor: workspace.requireAdminTwoFactor,
+    allowedGoogleDomain: workspace.allowedGoogleDomain ?? '',
   };
 }
 
@@ -53,6 +62,10 @@ export function validateWorkspaceForm(values: WorkspaceFormValues): FieldErrors<
   errors.sick = integerError(values.sick, 0, 365, 'Sick leave');
   errors.casual = integerError(values.casual, 0, 365, 'Casual leave');
   if (!PREFIX_PATTERN.test(values.employeeIdPrefix.trim())) errors.employeeIdPrefix = 'Use 1–5 letters, e.g. AX.';
+  const domain = normalizeDomain(values.allowedGoogleDomain);
+  if (domain && !DOMAIN_PATTERN.test(domain)) {
+    errors.allowedGoogleDomain = 'Enter a domain like example.com, or leave it empty to allow any Google account.';
+  }
   return errors;
 }
 
@@ -70,6 +83,7 @@ export function toWorkspaceSettings(values: WorkspaceFormValues): WorkspaceSetti
     },
     employeeIdPrefix: values.employeeIdPrefix.trim().toUpperCase(),
     requireAdminTwoFactor: values.requireAdminTwoFactor,
+    allowedGoogleDomain: normalizeDomain(values.allowedGoogleDomain),
   };
 }
 

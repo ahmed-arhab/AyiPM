@@ -1,12 +1,5 @@
-export type AttendanceStatus = 'present' | 'late' | 'half_day' | 'absent' | 'leave';
+import type { ApiSchema } from './api-schema';
 
-export interface AttendanceRecord {
-  id: string;
-  employeeId: string;
-  date: string;
-  checkInAt?: string;
-  checkOutAt?: string;
-  workingHours?: number;
-  status: AttendanceStatus;
-  notes?: string;
-}
+export type AttendanceStatus = ApiSchema<'AttendanceStatus'>;
+
+export type AttendanceRecord = ApiSchema<'AttendanceResponse'>;

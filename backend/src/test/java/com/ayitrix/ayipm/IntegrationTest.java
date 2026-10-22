@@ -5,6 +5,7 @@ import java.io.UncheckedIOException;
 import java.net.CookieManager;
 import java.net.URI;
 import java.net.http.HttpClient;
+import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.LinkedHashMap;
@@ -109,7 +110,12 @@ public abstract class IntegrationTest {
 		}
 	}
 
-	public record Response(int status, JsonNode body) {
+	public record Response(int status, JsonNode body, HttpHeaders headers) {
+
+		/** The first value of a response header, or null. */
+		public String header(String name) {
+			return headers.firstValue(name).orElse(null);
+		}
 
 		public JsonNode data() {
 			return body.path("data");
@@ -181,7 +187,7 @@ public abstract class IntegrationTest {
 			try {
 				HttpResponse<String> response = http.send(request.build(), HttpResponse.BodyHandlers.ofString());
 				String body = response.body();
-				return new Response(response.statusCode(), JSON.readTree(body.isEmpty() ? "{}" : body));
+				return new Response(response.statusCode(), JSON.readTree(body.isEmpty() ? "{}" : body), response.headers());
 			} catch (IOException e) {
 				throw new UncheckedIOException(e);
 			} catch (InterruptedException e) {

@@ -39,11 +39,12 @@ management:
       enabled: false
 
 ayipm:
-  # The address people open the app at. Links in emails point here.
+  # The address people open the app at. Links in emails point here, and so does the redirect URI of sign-in with Google.
   public-url: ${PUBLIC_URL:http://localhost:3000}
   mail:
     from: "${MAIL_FROM:AyiPM <no-reply@localhost>}"
-  # How often each client address may call each sign-in endpoint (setup, login and its two-factor steps, forgot, invite and reset).
+  # How often each client address may call each sign-in endpoint (setup, login and its two-factor steps, forgot, invite, reset
+  # and the start of sign-in with Google).
   rate-limit:
     max-requests: ${RATE_LIMIT_MAX_REQUESTS:10}
     window: ${RATE_LIMIT_WINDOW:1m}
@@ -56,6 +57,13 @@ ayipm:
     # Base64 of 32 random bytes (openssl rand -base64 32). It encrypts the authenticator secrets, so keep it secret and
     # don't change it once people use two-factor authentication. While it is empty, two-factor authentication is off.
     encryption-key: ${TWO_FACTOR_ENCRYPTION_KEY:}
+  # "Continue with Google", offered only when both the client id and secret of a Google OAuth web client are set. Its
+  # authorised redirect URI is public-url followed by /api/auth/google/callback. See "Sign in with Google" in the README.
+  google:
+    client-id: ${GOOGLE_CLIENT_ID:}
+    client-secret: ${GOOGLE_CLIENT_SECRET:}
+    # The OpenID Connect provider. Only tests point it elsewhere.
+    issuer: ${GOOGLE_ISSUER:https://accounts.google.com}
 
 # The OpenAPI spec at /v3/api-docs and Swagger UI at /swagger-ui.html. Set both to false to turn them off.
 springdoc:

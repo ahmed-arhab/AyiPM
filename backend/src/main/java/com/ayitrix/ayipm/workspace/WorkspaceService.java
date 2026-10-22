@@ -5,6 +5,7 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.function.IntConsumer;
 import java.util.regex.Pattern;
@@ -25,6 +26,8 @@ public class WorkspaceService {
 
 	private static final Pattern TIME = Pattern.compile("^([01]\\d|2[0-3]):[0-5]\\d$");
 	private static final Pattern ID_PREFIX = Pattern.compile("^[A-Za-z]{1,5}$");
+	// A host name with at least two labels, such as example.com. International names in their xn-- form.
+	private static final Pattern DOMAIN = Pattern.compile("^(?=.{1,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\\.)+[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$");
 
 	private final WorkspaceRepository workspaces;
 	private final UserRepository users;
@@ -85,6 +88,12 @@ public class WorkspaceService {
 				&& workspaces.findById(Workspace.DEFAULT_ID).map(Workspace::isRequireAdminTwoFactor).orElse(false);
 	}
 
+	/** The Google Workspace domain that sign-in with Google is limited to, if the workspace sets one. */
+	@Transactional(readOnly = true)
+	public Optional<String> allowedGoogleDomain() {
+		return workspaces.findById(Workspace.DEFAULT_ID).map(Workspace::getAllowedGoogleDomain);
+	}
+
 	@Transactional(readOnly = true)
 	public String getEmployeeIdPrefix() {
 		return workspaces.findById(Workspace.DEFAULT_ID).map(w -> w.getEmployeeIdPrefix()).orElse("AX");
@@ -132,6 +141,7 @@ public class WorkspaceService {
 			setLeaveDays(allowance.sick(), workspace::setSickLeaveDays);
 			setLeaveDays(allowance.casual(), workspace::setCasualLeaveDays);
 		}
+		if (update.allowedGoogleDomain() != null) workspace.setAllowedGoogleDomain(googleDomain(update.allowedGoogleDomain()));
 		boolean nowRequiringTwoFactor = Boolean.TRUE.equals(update.requireAdminTwoFactor()) && !workspace.isRequireAdminTwoFactor();
 		if (nowRequiringTwoFactor) assertCanRequireTwoFactor(actor);
 		if (update.requireAdminTwoFactor() != null) workspace.setRequireAdminTwoFactor(update.requireAdminTwoFactor());
@@ -155,6 +165,16 @@ public class WorkspaceService {
 	// Admins without two-factor authentication set it up the next time they sign in.
 	private void signOutAdminsWithoutTwoFactor() {
 		users.findAllByRoleAndTwoFactorSecretIsNull(Role.ADMIN).forEach(admin -> sessions.revokeAll(admin.getId()));
+	}
+
+	// People paste "@example.com" or "Example.com"; Google sends the domain in lower case.
+	private static String googleDomain(String value) {
+		String domain = value.trim().toLowerCase(Locale.ROOT).replaceFirst("^@", "");
+		if (domain.isEmpty()) return null;
+		if (!DOMAIN.matcher(domain).matches()) {
+			throw ApiException.badRequest("Enter a domain like example.com, or leave it empty to allow any Google account.");
+		}
+		return domain;
 	}
 
 	private static void setLeaveDays(Integer days, IntConsumer setter) {

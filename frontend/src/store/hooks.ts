@@ -56,6 +56,8 @@ export const useActivityLog = () => useAppStore((s) => s.activityLog);
 export const useWorkspace = () => useAppStore((s) => s.workspace);
 export const useTheme = () => useAppStore((s) => s.theme);
 export const useTwoFactorStatus = () => useAppStore((s) => s.twoFactor);
+/** Whether the server offers sign-in with Google. */
+export const useGoogleSignIn = () => useAppStore((s) => s.googleSignIn);
 export const useNewRecoveryCodes = () => useAppStore((s) => s.newRecoveryCodes);
 
 export const useEmployeesById = () => useAppStore((s) => selectEmployeesById(s.employees));

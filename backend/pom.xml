@@ -25,6 +25,7 @@
 		<bouncycastle.version>1.86</bouncycastle.version>
 		<embedded-postgres.version>2.2.2</embedded-postgres.version>
 		<embedded-postgres-binaries.version>18.6.0</embedded-postgres-binaries.version>
+		<nimbus-jose-jwt.version>10.10</nimbus-jose-jwt.version>
 		<springdoc.version>3.1.1</springdoc.version>
 	</properties>
 
@@ -84,6 +85,14 @@
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcprov-jdk18on</artifactId>
 			<version>${bouncycastle.version}</version>
+		</dependency>
+
+		<!-- Verifies Google's ID tokens for "Continue with Google". Spring Security's OAuth client isn't used: it would
+		     switch on Spring Security for every endpoint. -->
+		<dependency>
+			<groupId>com.nimbusds</groupId>
+			<artifactId>nimbus-jose-jwt</artifactId>
+			<version>${nimbus-jose-jwt.version}</version>
 		</dependency>
 
 		<!-- OpenAPI spec at /v3/api-docs and Swagger UI at /swagger-ui.html -->

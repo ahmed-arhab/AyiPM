@@ -18,6 +18,7 @@ public class AuthCleanupJob {
     private final PasswordResetRepository resets;
     private final LoginAttemptRepository attempts;
     private final LoginChallengeRepository challenges;
+    private final GoogleSignInRepository googleSignIns;
     private final Clock clock;
 
     public AuthCleanupJob(
@@ -26,12 +27,14 @@ public class AuthCleanupJob {
             PasswordResetRepository resets,
             LoginAttemptRepository attempts,
             LoginChallengeRepository challenges,
+            GoogleSignInRepository googleSignIns,
             Clock clock) {
         this.sessions = sessions;
         this.invites = invites;
         this.resets = resets;
         this.attempts = attempts;
         this.challenges = challenges;
+        this.googleSignIns = googleSignIns;
         this.clock = clock;
     }
 
@@ -46,5 +49,6 @@ public class AuthCleanupJob {
         resets.deleteExpired(now);
         attempts.deleteExpired(now.minus(LOGIN_ATTEMPT_TTL), now);
         challenges.deleteExpired(now);
+        googleSignIns.deleteExpired(now);
     }
 }

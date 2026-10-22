@@ -2,6 +2,8 @@ package com.ayitrix.ayipm.leave;
 
 import java.time.Instant;
 
+import org.jspecify.annotations.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /** Matches LeaveRequest in the frontend's src/types/leave.ts. */
@@ -9,27 +11,27 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public record LeaveResponse(
 		String id,
 		String employeeId,
-		String leaveType,
+		LeaveType leaveType,
 		String startDate,
 		String endDate,
 		int days,
 		String reason,
-		String status,
+		LeaveStatus status,
 		String appliedOn,
-		String reviewedBy,
-		Instant reviewedAt,
-		String rejectionReason) {
+		@Nullable String reviewedBy,
+		@Nullable Instant reviewedAt,
+		@Nullable String rejectionReason) {
 
 	static LeaveResponse from(LeaveRequest r) {
 		return new LeaveResponse(
 				r.getId().toString(),
 				r.getUserId().toString(),
-				r.getLeaveType().value(),
+				r.getLeaveType(),
 				r.getStartDate().toString(),
 				r.getEndDate().toString(),
 				r.getDays(),
 				r.getReason(),
-				r.getStatus().value(),
+				r.getStatus(),
 				r.getAppliedOn().toString(),
 				r.getReviewedById() == null ? null : r.getReviewedById().toString(),
 				r.getReviewedAt(),
