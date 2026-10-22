@@ -34,7 +34,9 @@ export const NotificationRow = memo(function NotificationRow({ item, onOpen, act
           <span className={styles.titleRow}>
             <span className={styles.title}>{item.title}</span>
             {(item.priority === 'urgent' || item.priority === 'high') && (
-              <span className={cn('badge', item.priority === 'urgent' ? 'badge-danger' : 'badge-warning', styles.priority)}>{item.priority}</span>
+              <span className={cn('badge', item.priority === 'urgent' ? 'badge-danger' : 'badge-warning', styles.priority)}>
+                {item.priority}
+              </span>
             )}
           </span>
           <span className={styles.message}>{item.message}</span>

@@ -2,13 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { useEmployees } from '@/store';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 import type { Project } from '@/types';
-import {
-  computeTeamStats,
-  DEFAULT_TEAM_FILTERS,
-  departmentOptions,
-  filterAndSortMembers,
-  type TeamFilters,
-} from '../utils';
+import { computeTeamStats, DEFAULT_TEAM_FILTERS, departmentOptions, filterAndSortMembers, type TeamFilters } from '../utils';
 
 export function useTeamDirectory(projectsByMember: Map<string, Project[]>) {
   const employees = useEmployees();
@@ -33,11 +27,7 @@ export function useTeamDirectory(projectsByMember: Map<string, Project[]>) {
   }, []);
 
   const hasActiveFilters =
-    query.trim() !== '' ||
-    filters.department !== 'all' ||
-    filters.role !== 'all' ||
-    filters.status !== 'all' ||
-    filters.project !== 'all';
+    query.trim() !== '' || filters.department !== 'all' || filters.role !== 'all' || filters.status !== 'all' || filters.project !== 'all';
 
   return { employees, members, stats, departments, query, setQuery, filters, updateFilter, reset, hasActiveFilters };
 }

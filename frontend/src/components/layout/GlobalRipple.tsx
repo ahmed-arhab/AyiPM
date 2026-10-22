@@ -15,9 +15,7 @@ export function GlobalRipple() {
       const target = event.target as HTMLElement | null;
       if (!target) return;
 
-      const button = target.closest<HTMLElement>(
-        'button, .btn, .icon-btn, [role="button"]'
-      );
+      const button = target.closest<HTMLElement>('button, .btn, .icon-btn, [role="button"]');
       if (!button) return;
 
       // Skip disabled buttons or buttons already handled by animate-ui's RippleButtonPrimitive

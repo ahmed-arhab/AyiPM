@@ -30,8 +30,7 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Account': 'ගිණුම',
   'Close navigation': 'සංචාලනය වසන්න',
   'Open navigation': 'සංචාලනය විවෘත කරන්න',
-  'You will need your Employee ID and password to sign back in.':
-    'නැවත පුරනය වීමට ඔබට ඔබගේ සේවක අංකය සහ මුරපදය අවශ්‍ය වනු ඇත.',
+  'You will need your Employee ID and password to sign back in.': 'නැවත පුරනය වීමට ඔබට ඔබගේ සේවක අංකය සහ මුරපදය අවශ්‍ය වනු ඇත.',
 
   // Common Header & Search
   'Check In': 'පැමිණීම සටහන් කරන්න',
@@ -83,16 +82,13 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Keep me signed in': 'මාව පුරනය කර තබන්න',
   "Can't log in?": 'පුරනය විය නොහැකිද?',
   'Change': 'වෙනස් කරන්න',
-  "Your team's projects, time and leave in one place.":
-    'ඔබගේ කණ්ඩායමේ ව්‍යාපෘති, කාලය සහ නිවාඩු එකම තැනක.',
+  "Your team's projects, time and leave in one place.": 'ඔබගේ කණ්ඩායමේ ව්‍යාපෘති, කාලය සහ නිවාඩු එකම තැනක.',
   'AyiPM replaces scattered spreadsheets and chat threads with one workspace for the whole team.':
     'AyiPM විසිරුණු පැතුරුම්පත් සහ සංවාද නූල් වෙනුවට මුළු කණ්ඩායමටම එක් වැඩබිමක් ලබා දෙයි.',
-  'Plan projects and move tasks on a Kanban board':
-    'ව්‍යාපෘති සැලසුම් කර කාන්බන් පුවරුවක කාර්යයන් හසුරුවන්න',
+  'Plan projects and move tasks on a Kanban board': 'ව්‍යාපෘති සැලසුම් කර කාන්බන් පුවරුවක කාර්යයන් හසුරුවන්න',
   'Check in and out with automatic late and half-day tracking':
     'ප්‍රමාද සහ අර්ධ දින ස්වයංක්‍රීයව සටහන් වන පරිදි පැමිණීම සහ පිටවීම ලකුණු කරන්න',
-  'Request leave and get approvals without the email chains':
-    'විද්‍යුත් තැපැල් දාමයන්ගෙන් තොරව නිවාඩු ඉල්ලුම් කර අනුමැතිය ලබා ගන්න',
+  'Request leave and get approvals without the email chains': 'විද්‍යුත් තැපැල් දාමයන්ගෙන් තොරව නිවාඩු ඉල්ලුම් කර අනුමැතිය ලබා ගන්න',
   'Role-based access for admins, project managers and employees':
     'පරිපාලකයින්, ව්‍යාපෘති කළමනාකරුවන් සහ සේවකයින් සඳහා භූමිකාව පදනම් කරගත් ප්‍රවේශය',
   'About AyiPM': 'AyiPM පිළිබඳව',
@@ -118,14 +114,12 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'This workspace only accepts Google accounts from its own domain. Use your work Google account.':
     'මෙම වැඩබිම පිළිගන්නේ තම වසමේ Google ගිණුම් පමණි. ඔබගේ කාර්යාල Google ගිණුම භාවිත කරන්න.',
   'This account has been deactivated. Contact your administrator.': 'මෙම ගිණුම අක්‍රිය කර ඇත. ඔබගේ පරිපාලකයා අමතන්න.',
-  'Your invitation has expired. Ask your admin for a new one.':
-    'ඔබගේ ආරාධනයේ කාලය ඉකුත් වී ඇත. නව එකක් සඳහා ඔබගේ පරිපාලකයාගෙන් ඉල්ලන්න.',
+  'Your invitation has expired. Ask your admin for a new one.': 'ඔබගේ ආරාධනයේ කාලය ඉකුත් වී ඇත. නව එකක් සඳහා ඔබගේ පරිපාලකයාගෙන් ඉල්ලන්න.',
   'This invitation is for another email address. Continue with the Google account it was sent to.':
     'මෙම ආරාධනය වෙනත් විද්‍යුත් තැපැල් ලිපිනයක් සඳහා ය. එය යවන ලද Google ගිණුම සමඟ ඉදිරියට යන්න.',
   "This Google account doesn't match the one linked to your account. Sign in with your password, or ask your admin.":
     'මෙම Google ගිණුම ඔබගේ ගිණුමට සම්බන්ධ කර ඇති Google ගිණුමට නොගැළපේ. ඔබගේ මුරපදය සමඟ පුරනය වන්න, නැතහොත් ඔබගේ පරිපාලකයාගෙන් විමසන්න.',
-  'Too many attempts. Wait a minute and try again.':
-    'උත්සාහයන් ඕනෑවට වඩා වැඩිය. මිනිත්තුවක් රැඳී සිට නැවත උත්සාහ කරන්න.',
+  'Too many attempts. Wait a minute and try again.': 'උත්සාහයන් ඕනෑවට වඩා වැඩිය. මිනිත්තුවක් රැඳී සිට නැවත උත්සාහ කරන්න.',
 
   // Dashboard
   'Good morning': 'සුබ උදෑසනක්',
@@ -159,8 +153,7 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Active projects by nearest deadline': 'ළඟම ඇති අවසන් දිනය අනුව ක්‍රියාකාරී ව්‍යාපෘති',
   'View all': 'සියල්ල බලන්න',
   'No active projects': 'ක්‍රියාකාරී ව්‍යාපෘති නොමැත',
-  'Active projects and their progress will appear here.':
-    'ක්‍රියාකාරී ව්‍යාපෘති සහ ඒවායේ ප්‍රගතිය මෙහි දිස්වනු ඇත.',
+  'Active projects and their progress will appear here.': 'ක්‍රියාකාරී ව්‍යාපෘති සහ ඒවායේ ප්‍රගතිය මෙහි දිස්වනු ඇත.',
   'Task breakdown': 'කාර්යයන් බෙදීම',
   'My task breakdown': 'මගේ කාර්යයන් බෙදීම',
   '{percent}% of {total} tasks completed': 'කාර්යයන් {total} න් {percent}% ක් නිමයි',
@@ -181,17 +174,14 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Week of': 'සතිය ඇරඹෙන දිනය',
   'This week': 'මෙම සතිය',
   'Nothing completed in the last {weeks} weeks': 'පසුගිය සති {weeks} තුළ කිසිවක් නිම කර නැත',
-  'Tasks you move to Completed will appear here, week by week.':
-    'ඔබ “සම්පූර්ණයි” වෙත ගෙන යන කාර්යයන් සතියෙන් සතිය මෙහි දිස්වනු ඇත.',
-  'Tasks moved to Completed will appear here, week by week.':
-    '“සම්පූර්ණයි” වෙත ගෙන යන කාර්යයන් සතියෙන් සතිය මෙහි දිස්වනු ඇත.',
+  'Tasks you move to Completed will appear here, week by week.': 'ඔබ “සම්පූර්ණයි” වෙත ගෙන යන කාර්යයන් සතියෙන් සතිය මෙහි දිස්වනු ඇත.',
+  'Tasks moved to Completed will appear here, week by week.': '“සම්පූර්ණයි” වෙත ගෙන යන කාර්යයන් සතියෙන් සතිය මෙහි දිස්වනු ඇත.',
   'My tasks': 'මගේ කාර්යයන්',
   '{count} open {unit} assigned to you': 'ඔබට පවරන ලද විවෘත {unit} {count}',
   'Assigned to you': 'ඔබට පවරන ලදි',
   'Open board': 'පුවරුව විවෘත කරන්න',
   "You're all caught up": 'ඔබ සියල්ල අවසන් කර ඇත',
-  'Tasks assigned to you will appear here, soonest due first.':
-    'ඔබට පවරා ඇති කාර්යයන් මෙහි දිස්වනු ඇත, ළඟම ඇති දිනය පළමුව.',
+  'Tasks assigned to you will appear here, soonest due first.': 'ඔබට පවරා ඇති කාර්යයන් මෙහි දිස්වනු ඇත, ළඟම ඇති දිනය පළමුව.',
   '+{count} more on the board': 'පුවරුවේ තවත් +{count}',
   'Recent projects': 'මෑත ව්‍යාපෘති',
   'Latest updated': 'නවතම යාවත්කාලීන කිරීම්',
@@ -200,8 +190,7 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Deadlines': 'අවසන් දින',
   'Upcoming deadlines': 'ළඟ එන අවසන් දින',
   'Nothing due soon': 'ළඟදී කිසිවක් නියමිත නැත',
-  'No open tasks or projects are due in the next {days} days.':
-    'ඉදිරි දින {days} තුළ විවෘත කාර්යයන් හෝ ව්‍යාපෘති කිසිවක් නියමිත නැත.',
+  'No open tasks or projects are due in the next {days} days.': 'ඉදිරි දින {days} තුළ විවෘත කාර්යයන් හෝ ව්‍යාපෘති කිසිවක් නියමිත නැත.',
   'Overdue and due in the next {days} days': 'කල් ඉකුත් වූ සහ ඉදිරි දින {days} තුළ නියමිත',
   '· your work': '· ඔබගේ වැඩ',
   '+{count} more upcoming': 'තවත් +{count} ක් ඉදිරියට',
@@ -210,8 +199,7 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   '{count} {unit} awaiting review': 'සමාලෝචනය අපේක්ෂාවෙන් ඇති {unit} {count}',
   'Review': 'සමාලෝචනය',
   'All clear': 'සියල්ල පැහැදිලියි',
-  'There are no leave requests waiting for your review.':
-    'ඔබගේ සමාලෝචනය අපේක්ෂාවෙන් ඇති නිවාඩු ඉල්ලීම් කිසිවක් නොමැත.',
+  'There are no leave requests waiting for your review.': 'ඔබගේ සමාලෝචනය අපේක්ෂාවෙන් ඇති නිවාඩු ඉල්ලීම් කිසිවක් නොමැත.',
   '+{count} more pending': 'තවත් +{count} ක් අපේක්ෂිත',
   'Recent activity': 'මෑත ක්‍රියාකාරකම්',
   'Across the workspace': 'වැඩබිම පුරා',
@@ -344,8 +332,7 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Manage client deliverables, milestones, tech stacks, and team assignments.':
     'සේවාදායක ව්‍යාපෘති, ඉලක්ක සහ කණ්ඩායම් පැවරුම් කළමනාකරණය කරන්න.',
   'Tasks & Delivery Board': 'කාර්යයන් සහ බෙදාහැරීම් පුවරුව',
-  'Kanban sprint workflows, task assignments, blockers, and backlog priorities.':
-    'කාන්බන් වැඩ ප්‍රවාහ, කාර්ය පැවරුම් සහ ප්‍රමුඛතා.',
+  'Kanban sprint workflows, task assignments, blockers, and backlog priorities.': 'කාන්බන් වැඩ ප්‍රවාහ, කාර්ය පැවරුම් සහ ප්‍රමුඛතා.',
   'Project Title': 'ව්‍යාපෘති නාමය',
   'Project Name': 'ව්‍යාපෘතියේ නම',
   'Description': 'විස්තරය',
@@ -363,8 +350,7 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Details': 'විස්තර',
 
   // Toasts
-  'All settings and account preferences saved successfully.':
-    'සියලුම සැකසුම් සාර්ථකව සුරකින ලදී.',
+  'All settings and account preferences saved successfully.': 'සියලුම සැකසුම් සාර්ථකව සුරකින ලදී.',
   'Profile picture updated successfully!': 'පැතිකඩ ඡායාරූපය සාර්ථකව යාවත්කාලීන කරන ලදී!',
 
   // Team & Directory
@@ -402,8 +388,7 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Reset filters': 'පෙරහන් යළි පිහිටුවන්න',
   'Clear filters': 'පෙරහන් ඉවත් කරන්න',
   'No members match these filters': 'මෙම පෙරහන් වලට ගැලපෙන සාමාජිකයන් නැත',
-  'Try clearing the search or filters to see everyone.':
-    'සියලු දෙනා බැලීමට සෙවුම හෝ පෙරහන් ඉවත් කරන්න.',
+  'Try clearing the search or filters to see everyone.': 'සියලු දෙනා බැලීමට සෙවුම හෝ පෙරහන් ඉවත් කරන්න.',
   'Assign to project': 'ව්‍යාපෘතියට පවරන්න',
   'Assign projects': 'ව්‍යාපෘති පවරන්න',
   'Invited': 'ආරාධනා කර ඇත',
@@ -424,18 +409,15 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Copy': 'පිටපත් කරන්න',
   'Link': 'සබැඳිය',
   'Link copied.': 'සබැඳිය පිටපත් කරන ලදී.',
-  'Could not access the clipboard. Copy the link manually.':
-    'පසුරු පුවරුවට ප්‍රවේශ විය නොහැකි විය. සබැඳිය අතින් පිටපත් කරන්න.',
+  'Could not access the clipboard. Copy the link manually.': 'පසුරු පුවරුවට ප්‍රවේශ විය නොහැකි විය. සබැඳිය අතින් පිටපත් කරන්න.',
   "We've emailed this link to them. If it doesn't arrive, copy it and share it privately. Generating a new link cancels this one.":
     'අපි මෙම සබැඳිය ඔවුන්ට විද්‍යුත් තැපෑලෙන් යැව්වෙමු. එය නොලැබුණහොත්, එය පිටපත් කර පෞද්ගලිකව බෙදාගන්න. නව සබැඳියක් සෑදීමෙන් මෙය අවලංගු වේ.',
   "Email delivery isn't set up, so share this link privately. Generating a new link cancels this one.":
     'විද්‍යුත් තැපැල් යැවීම සකසා නොමැති බැවින්, මෙම සබැඳිය පෞද්ගලිකව බෙදාගන්න. නව සබැඳියක් සෑදීමෙන් මෙය අවලංගු වේ.',
 
   // Attendance
-  'Daily check-ins, working hours and punctuality across the team.':
-    'කණ්ඩායමේ දෛනික පැමිණීම්, වැඩ කරන වේලාවන් සහ වේලාවට වැඩ කිරීම.',
-  'Your daily check-ins, working hours and punctuality.':
-    'ඔබගේ දෛනික පැමිණීම්, වැඩ කරන වේලාවන් සහ වේලාවට වැඩ කිරීම.',
+  'Daily check-ins, working hours and punctuality across the team.': 'කණ්ඩායමේ දෛනික පැමිණීම්, වැඩ කරන වේලාවන් සහ වේලාවට වැඩ කිරීම.',
+  'Your daily check-ins, working hours and punctuality.': 'ඔබගේ දෛනික පැමිණීම්, වැඩ කරන වේලාවන් සහ වේලාවට වැඩ කිරීම.',
   'Export CSV': 'CSV බාගන්න',
   'Daily log': 'දෛනික ලඝු-සටහන',
   'Monthly summary': 'මාසික සාරාංශය',
@@ -452,8 +434,7 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Attendance records': 'පැමිණීමේ වාර්තා',
   'No records match these filters': 'මෙම පෙරහන් වලට ගැලපෙන වාර්තා කිසිවක් නැත',
   'No attendance records yet': 'තවමත් පැමිණීමේ වාර්තා නොමැත',
-  'Try another date or status, or reset the filters.':
-    'වෙනත් දිනයක් හෝ තත්ත්වයක් උත්සාහ කරන්න, නැතහොත් පෙරහන් යළි පිහිටුවන්න.',
+  'Try another date or status, or reset the filters.': 'වෙනත් දිනයක් හෝ තත්ත්වයක් උත්සාහ කරන්න, නැතහොත් පෙරහන් යළි පිහිටුවන්න.',
   'Check in from the station above to start your attendance history.':
     'ඔබගේ පැමිණීමේ ඉතිහාසය ආරම්භ කිරීමට ඉහත ස්ථානයෙන් පැමිණීම සටහන් කරන්න.',
   'Showing records from {date}': '{date} සිට ඇති වාර්තා පෙන්වයි',
@@ -473,8 +454,7 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'NOTES': 'සටහන්',
 
   // Leave
-  'Your leave balance, time-off requests and the team review queue.':
-    'ඔබගේ නිවාඩු ශේෂය, නිවාඩු ඉල්ලීම් සහ කණ්ඩායම් සමාලෝචන පෝලිම.',
+  'Your leave balance, time-off requests and the team review queue.': 'ඔබගේ නිවාඩු ශේෂය, නිවාඩු ඉල්ලීම් සහ කණ්ඩායම් සමාලෝචන පෝලිම.',
   'Annual leave used': 'භාවිතා කළ වාර්ෂික නිවාඩු',
   'Sick leave used': 'භාවිතා කළ අසනීප නිවාඩු',
   'Casual leave used': 'භාවිතා කළ හදිසි නිවාඩු',
@@ -491,8 +471,7 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Team requests': 'කණ්ඩායම් ඉල්ලීම්',
   'Team leave requests': 'කණ්ඩායමේ නිවාඩු ඉල්ලීම්',
   'Track the status of your time-off requests.': 'ඔබගේ නිවාඩු ඉල්ලීම් වල තත්ත්වය නිරීක්ෂණය කරන්න.',
-  'Approve or reject pending requests from your team.':
-    'ඔබගේ කණ්ඩායමේ පොරොත්තුවෙන් පවතින ඉල්ලීම් අනුමත කරන්න හෝ ප්‍රතික්ෂේප කරන්න.',
+  'Approve or reject pending requests from your team.': 'ඔබගේ කණ්ඩායමේ පොරොත්තුවෙන් පවතින ඉල්ලීම් අනුමත කරන්න හෝ ප්‍රතික්ෂේප කරන්න.',
   'No leave requests yet': 'තවමත් නිවාඩු ඉල්ලීම් නොමැත',
   'Use “Request leave” to plan time off. Your requests and their status will appear here.':
     'නිවාඩු සැලසුම් කිරීමට “නිවාඩු ඉල්ලන්න” භාවිතා කරන්න. ඔබගේ ඉල්ලීම් සහ ඒවායේ තත්ත්වය මෙහි දිස්වනු ඇත.',
@@ -522,8 +501,7 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   '{count} people on leave': '{count} දෙනෙක් නිවාඩු ගෙන ඇත',
   'Leave details': 'නිවාඩු විස්තර',
   'No leave this month': 'මෙම මාසයේ නිවාඩු නැත',
-  'Approved and pending leave for this month will be listed here.':
-    'මෙම මාසයේ අනුමත සහ පොරොත්තුවෙන් පවතින නිවාඩු මෙහි ලැයිස්තුගත වේ.',
+  'Approved and pending leave for this month will be listed here.': 'මෙම මාසයේ අනුමත සහ පොරොත්තුවෙන් පවතින නිවාඩු මෙහි ලැයිස්තුගත වේ.',
   'Leave type': 'නිවාඩු වර්ගය',
   'Dates': 'දින',
   'Submitted': 'යොමු කරන ලදී',
@@ -555,8 +533,7 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Delete project': 'ව්‍යාපෘතිය මකන්න',
 
   // Tasks
-  'Plan, assign and track delivery across every project.':
-    'සෑම ව්‍යාපෘතියකම සැලසුම් කිරීම, පැවරීම සහ ප්‍රගතිය නිරීක්ෂණය කිරීම.',
+  'Plan, assign and track delivery across every project.': 'සෑම ව්‍යාපෘතියකම සැලසුම් කිරීම, පැවරීම සහ ප්‍රගතිය නිරීක්ෂණය කිරීම.',
   'Create a project first': 'පළමුව ව්‍යාපෘතියක් සාදන්න',
   'Every task belongs to a project. Set up your first project, then come back to plan its work.':
     'සෑම කාර්යයක්ම ව්‍යාපෘතියකට අයත් වේ. ඔබගේ පළමු ව්‍යාපෘතිය සකසා, එහි වැඩ සැලසුම් කිරීමට නැවත මෙහි එන්න.',
@@ -590,8 +567,7 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Delete {count} task?': 'කාර්යය මකන්නද?',
   'Delete {count} tasks?': 'කාර්යයන් {count} ක් මකන්නද?',
   '“{title}” and its comments will be permanently removed.': '“{title}” සහ එහි අදහස් ස්ථිරවම ඉවත් කෙරේ.',
-  '{count} tasks and their comments will be permanently removed.':
-    'කාර්යයන් {count} ක් සහ ඒවායේ අදහස් ස්ථිරවම ඉවත් කෙරේ.',
+  '{count} tasks and their comments will be permanently removed.': 'කාර්යයන් {count} ක් සහ ඒවායේ අදහස් ස්ථිරවම ඉවත් කෙරේ.',
   'Delete {count} task': 'කාර්යය මකන්න',
   'Delete {count} tasks': 'කාර්යයන් {count} ක් මකන්න',
   '{count} task updated.': 'කාර්යය යාවත්කාලීන කරන ලදී.',
@@ -609,16 +585,14 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'All notifications': 'සියලුම දැනුම්දීම්',
   'Unread': 'නොකියවූ',
   'No notifications yet': 'තවමත් දැනුම්දීම් නොමැත',
-  "You're all caught up! New notifications will appear here.":
-    'ඔබ සියල්ල පරීක්ෂා කර ඇත! නව දැනුම්දීම් මෙහි දිස්වනු ඇත.',
+  "You're all caught up! New notifications will appear here.": 'ඔබ සියල්ල පරීක්ෂා කර ඇත! නව දැනුම්දීම් මෙහි දිස්වනු ඇත.',
   'Audit log of actions across your workspace.': 'ඔබගේ වැඩබිම පුරා සිදුවූ ක්‍රියාවන්හි විගණන ලඝු-සටහන.',
   'All events': 'සියලුම සිදුවීම්',
   'All entities': 'සියලුම අංශයන්',
   'All actors': 'සියලුම ක්‍රියාකරුවන්',
 
   // Profile & Settings
-  'Personal information, contact details and password.':
-    'පුද්ගලික තොරතුරු, සබඳතා විස්තර සහ මුරපදය.',
+  'Personal information, contact details and password.': 'පුද්ගලික තොරතුරු, සබඳතා විස්තර සහ මුරපදය.',
   'Account information': 'ගිණුම් තොරතුරු',
   'Work information': 'කාර්යාල තොරතුරු',
   'Change password': 'මුරපදය වෙනස් කරන්න',
@@ -635,13 +609,11 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Manage how and when you receive updates.': 'ඔබට යාවත්කාලීන ලැබෙන ආකාරය සහ වේලාව කළමනාකරණය කරන්න.',
   'Workspace & account settings': 'වැඩබිම සහ ගිණුම් සැකසීම්',
   'Personal details & password': 'පෞද්ගලික විස්තර සහ මුරපදය',
-  'Edit your profile, photo and password on My Profile.':
-    'ඔබගේ පැතිකඩ, ඡායාරූපය සහ මුරපදය මගේ පැතිකඩෙහි සංස්කරණය කරන්න.',
+  'Edit your profile, photo and password on My Profile.': 'ඔබගේ පැතිකඩ, ඡායාරූපය සහ මුරපදය මගේ පැතිකඩෙහි සංස්කරණය කරන්න.',
   'Preferences': 'මනාප',
   'Mark all read': 'සියල්ල කියවූ ලෙස සලකුණු කරන්න',
   'Clear all': 'සියල්ල හිස් කරන්න',
-  'Manage your personal details, profile photo and password.':
-    'ඔබගේ පෞද්ගලික විස්තර, පැතිකඩ ඡායාරූපය සහ මුරපදය කළමනාකරණය කරන්න.',
+  'Manage your personal details, profile photo and password.': 'ඔබගේ පෞද්ගලික විස්තර, පැතිකඩ ඡායාරූපය සහ මුරපදය කළමනාකරණය කරන්න.',
   'Audit trail of every change across the workspace — onboarding, tasks, projects, attendance, leave and settings.':
     'වැඩබිම පුරා සිදු වූ සෑම වෙනස්කමකම විගණන සටහන — බඳවා ගැනීම්, කාර්යයන්, ව්‍යාපෘති, පැමිණීම, නිවාඩු සහ සැකසුම්.',
   'Showing only actions you performed. The workspace-wide audit trail is available to admins and project managers.':
@@ -656,8 +628,7 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Set up two-factor authentication': 'ද්වි-සාධක සත්‍යාපනය සකසන්න',
   'Sign-in asks for a code from an authenticator app on your phone as well as your password.':
     'පුරනය වීමේදී ඔබගේ මුරපදයට අමතරව ඔබගේ දුරකථනයේ ඇති සත්‍යාපන යෙදුමෙන් කේතයක් ද ඉල්ලනු ලැබේ.',
-  'Protect your account even if someone learns your password.':
-    'යමෙකු ඔබගේ මුරපදය දැනගත්තද ඔබගේ ගිණුම ආරක්ෂා කරන්න.',
+  'Protect your account even if someone learns your password.': 'යමෙකු ඔබගේ මුරපදය දැනගත්තද ඔබගේ ගිණුම ආරක්ෂා කරන්න.',
   'On': 'සක්‍රියයි',
   'Off': 'අක්‍රියයි',
   'Turn on': 'සක්‍රිය කරන්න',
@@ -667,8 +638,7 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Two-factor authentication is on.': 'ද්වි-සාධක සත්‍යාපනය සක්‍රියයි.',
   'Two-factor authentication is off.': 'ද්වි-සාධක සත්‍යාපනය අක්‍රියයි.',
   'Two-factor authentication is required': 'ද්වි-සාධක සත්‍යාපනය අවශ්‍යයි',
-  "Two-factor authentication isn't set up on this server yet.":
-    'මෙම සේවාදායකයේ ද්වි-සාධක සත්‍යාපනය තවම සකසා නැත.',
+  "Two-factor authentication isn't set up on this server yet.": 'මෙම සේවාදායකයේ ද්වි-සාධක සත්‍යාපනය තවම සකසා නැත.',
   "Two-factor authentication isn't set up on this server yet. Ask the person who runs AyiPM to turn it on.":
     'මෙම සේවාදායකයේ ද්වි-සාධක සත්‍යාපනය තවම සකසා නැත. එය සක්‍රිය කරන ලෙස AyiPM පවත්වාගෙන යන පුද්ගලයාගෙන් ඉල්ලන්න.',
   'Open an authenticator app, such as Google Authenticator, Microsoft Authenticator or 1Password.':
@@ -676,11 +646,9 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Scan this QR code with the app.': 'යෙදුමෙන් මෙම QR කේතය ස්කෑන් කරන්න.',
   'Enter the 6-digit code that the app shows.': 'යෙදුම පෙන්වන ඉලක්කම් 6 කේතය ඇතුළත් කරන්න.',
   'QR code for your authenticator app': 'ඔබගේ සත්‍යාපන යෙදුම සඳහා QR කේතය',
-  "Can't scan it? Enter this key in the app instead:":
-    'ස්කෑන් කළ නොහැකිද? ඒ වෙනුවට මෙම යතුර යෙදුමට ඇතුළත් කරන්න:',
+  "Can't scan it? Enter this key in the app instead:": 'ස්කෑන් කළ නොහැකිද? ඒ වෙනුවට මෙම යතුර යෙදුමට ඇතුළත් කරන්න:',
   'Key copied.': 'යතුර පිටපත් විය.',
-  'Could not access the clipboard. Copy the key manually.':
-    'පසුරු පුවරුවට ප්‍රවේශ විය නොහැකි විය. යතුර අතින් පිටපත් කරන්න.',
+  'Could not access the clipboard. Copy the key manually.': 'පසුරු පුවරුවට ප්‍රවේශ විය නොහැකි විය. යතුර අතින් පිටපත් කරන්න.',
   'Code from your app': 'ඔබගේ යෙදුමේ කේතය',
   'Authentication code': 'සත්‍යාපන කේතය',
   'Authentication or recovery code': 'සත්‍යාපන හෝ ප්‍රතිසාධන කේතය',
@@ -690,11 +658,9 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Create new recovery codes': 'නව ප්‍රතිසාධන කේත සාදන්න',
   'Create new codes': 'නව කේත සාදන්න',
   '{count} left': '{count}ක් ඉතිරියි',
-  'Create new ones so you can still sign in without your phone.':
-    'ඔබගේ දුරකථනය නොමැතිව වුවද පුරනය විය හැකි වන පරිදි නව ඒවා සාදන්න.',
+  'Create new ones so you can still sign in without your phone.': 'ඔබගේ දුරකථනය නොමැතිව වුවද පුරනය විය හැකි වන පරිදි නව ඒවා සාදන්න.',
   'Your password alone will sign you in.': 'ඔබගේ මුරපදය පමණක් ඔබව පුරනය කරනු ඇත.',
-  'Your workspace requires two-factor authentication for admins.':
-    'ඔබගේ වැඩබිම පරිපාලකයින් සඳහා ද්වි-සාධක සත්‍යාපනය අනිවාර්ය කරයි.',
+  'Your workspace requires two-factor authentication for admins.': 'ඔබගේ වැඩබිම පරිපාලකයින් සඳහා ද්වි-සාධක සත්‍යාපනය අනිවාර්ය කරයි.',
   'Enter a code from your authenticator app, or a recovery code, to confirm. Your password alone will then sign you in.':
     'තහවුරු කිරීමට ඔබගේ සත්‍යාපන යෙදුමේ කේතයක් හෝ ප්‍රතිසාධන කේතයක් ඇතුළත් කරන්න. ඉන්පසු ඔබගේ මුරපදය පමණක් ඔබව පුරනය කරනු ඇත.',
   'Enter a code from your authenticator app, or a recovery code. Your current recovery codes stop working.':
@@ -705,8 +671,7 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   "I've saved my codes": 'මම මගේ කේත සුරැකුවෙමි',
   'Copy codes': 'කේත පිටපත් කරන්න',
   'Recovery codes copied.': 'ප්‍රතිසාධන කේත පිටපත් විය.',
-  'Could not access the clipboard. Copy the codes manually.':
-    'පසුරු පුවරුවට ප්‍රවේශ විය නොහැකි විය. කේත අතින් පිටපත් කරන්න.',
+  'Could not access the clipboard. Copy the codes manually.': 'පසුරු පුවරුවට ප්‍රවේශ විය නොහැකි විය. කේත අතින් පිටපත් කරන්න.',
   'Open your authenticator app and enter the 6-digit code for this account.':
     'ඔබගේ සත්‍යාපන යෙදුම විවෘත කර මෙම ගිණුම සඳහා වන ඉලක්කම් 6 කේතය ඇතුළත් කරන්න.',
   'Enter one of the recovery codes you saved when you turned on two-factor authentication. Each code works once.':
@@ -723,8 +688,7 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Require two-factor authentication for admins': 'පරිපාලකයින් සඳහා ද්වි-සාධක සත්‍යාපනය අනිවාර්ය කරන්න',
   'Admins without it are signed out, and set it up the next time they sign in.':
     'එය සක්‍රිය කර නොමැති පරිපාලකයින් පද්ධතියෙන් පිටකරනු ලබන අතර, ඊළඟ වර පුරනය වන විට ඔවුන් එය සකසනු ඇත.',
-  'Turn on two-factor authentication for your own account first.':
-    'පළමුව ඔබගේම ගිණුම සඳහා ද්වි-සාධක සත්‍යාපනය සක්‍රිය කරන්න.',
+  'Turn on two-factor authentication for your own account first.': 'පළමුව ඔබගේම ගිණුම සඳහා ද්වි-සාධක සත්‍යාපනය සක්‍රිය කරන්න.',
   'Go to My Profile': 'මගේ පැතිකඩ වෙත යන්න',
   'Google sign-in domain': 'Google පුරනය වීමේ වසම',
   'Only Google Workspace accounts from this domain can sign in with Google.':
@@ -735,18 +699,15 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
     'example.com වැනි වසමක් ඇතුළත් කරන්න, නැතහොත් ඕනෑම Google ගිණුමකට ඉඩ දීමට එය හිස්ව තබන්න.',
   'Enter the 6-digit code from your authenticator app.': 'ඔබගේ සත්‍යාපන යෙදුමේ ඉලක්කම් 6 කේතය ඇතුළත් කරන්න.',
   'Enter one of your recovery codes.': 'ඔබගේ ප්‍රතිසාධන කේතවලින් එකක් ඇතුළත් කරන්න.',
-  'Enter the code from your authenticator app, or a recovery code.':
-    'ඔබගේ සත්‍යාපන යෙදුමේ කේතය හෝ ප්‍රතිසාධන කේතයක් ඇතුළත් කරන්න.',
+  'Enter the code from your authenticator app, or a recovery code.': 'ඔබගේ සත්‍යාපන යෙදුමේ කේතය හෝ ප්‍රතිසාධන කේතයක් ඇතුළත් කරන්න.',
   "That code didn't work. Enter the newest code from your authenticator app.":
     'එම කේතය ක්‍රියා කළේ නැත. ඔබගේ සත්‍යාපන යෙදුමේ නවතම කේතය ඇතුළත් කරන්න.',
   'That code has already been used. Wait for the next one in your authenticator app.':
     'එම කේතය දැනටමත් භාවිත කර ඇත. ඔබගේ සත්‍යාපන යෙදුමේ ඊළඟ කේතය එනතුරු රැඳී සිටින්න.',
   "That recovery code didn't work. Each code works only once.":
     'එම ප්‍රතිසාධන කේතය ක්‍රියා කළේ නැත. සෑම කේතයක්ම එක් වරක් පමණක් ක්‍රියා කරයි.',
-  'This sign-in has expired. Enter your password again.':
-    'මෙම පුරනය වීමේ කාලය ඉකුත් වී ඇත. ඔබගේ මුරපදය නැවත ඇතුළත් කරන්න.',
-  'This sign-in has expired. Continue with Google again.':
-    'මෙම පුරනය වීමේ කාලය ඉකුත් වී ඇත. නැවත Google සමඟ ඉදිරියට යන්න.',
+  'This sign-in has expired. Enter your password again.': 'මෙම පුරනය වීමේ කාලය ඉකුත් වී ඇත. ඔබගේ මුරපදය නැවත ඇතුළත් කරන්න.',
+  'This sign-in has expired. Continue with Google again.': 'මෙම පුරනය වීමේ කාලය ඉකුත් වී ඇත. නැවත Google සමඟ ඉදිරියට යන්න.',
   "Codes from authenticator apps can't be checked on this server right now. Use a recovery code, or ask your admin.":
     'මෙම මොහොතේ මෙම සේවාදායකයට සත්‍යාපන යෙදුම්වල කේත පරීක්ෂා කළ නොහැක. ප්‍රතිසාධන කේතයක් භාවිත කරන්න, නැතහොත් ඔබගේ පරිපාලකගෙන් විමසන්න.',
   'Start the setup again to get a new QR code.': 'නව QR කේතයක් ලබා ගැනීමට සැකසුම නැවත අරඹන්න.',

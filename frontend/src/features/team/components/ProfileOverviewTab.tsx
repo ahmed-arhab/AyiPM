@@ -42,7 +42,15 @@ export function ProfileOverviewTab({ member, isSelf, projects, tasks, ...handler
             <Icon size={16} className={styles.detailIcon} />
             <div className={styles.detailText}>
               <dt>{label}</dt>
-              <dd>{href ? <a href={href} className="link">{value}</a> : value}</dd>
+              <dd>
+                {href ? (
+                  <a href={href} className="link">
+                    {value}
+                  </a>
+                ) : (
+                  value
+                )}
+              </dd>
             </div>
           </div>
         ))}

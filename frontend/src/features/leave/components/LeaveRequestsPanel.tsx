@@ -64,8 +64,12 @@ export function LeaveRequestsPanel() {
       <CardHeader
         icon={Inbox}
         title={t(view.scope === 'team' ? 'Team leave requests' : 'My leave requests')}
-        description={t(view.scope === 'team' ? 'Approve or reject pending requests from your team.' : 'Track the status of your time-off requests.')}
-        actions={canReview && <SegmentedControl label={t('Request scope')} options={scopeOptions} value={view.scope} onChange={view.setScope} />}
+        description={t(
+          view.scope === 'team' ? 'Approve or reject pending requests from your team.' : 'Track the status of your time-off requests.'
+        )}
+        actions={
+          canReview && <SegmentedControl label={t('Request scope')} options={scopeOptions} value={view.scope} onChange={view.setScope} />
+        }
       />
       <SegmentedControl label={t('Filter by status')} size="sm" options={statusOptions} value={view.status} onChange={view.setStatus} />
       <LeaveRequestsTable

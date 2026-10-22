@@ -11,22 +11,11 @@ interface AuthSubmitButtonProps {
   animateArrow?: boolean;
 }
 
-export function AuthSubmitButton({
-  loading,
-  loadingLabel,
-  children,
-  animateArrow = false,
-}: AuthSubmitButtonProps) {
+export function AuthSubmitButton({ loading, loadingLabel, children, animateArrow = false }: AuthSubmitButtonProps) {
   return (
     <Button type="submit" fullWidth loading={loading} className={styles.submit}>
       {loading ? loadingLabel : children}
-      {!loading && (
-        <ArrowRight
-          size={16}
-          className={cn(styles.arrow, animateArrow && styles.arrowAnimated)}
-        />
-      )}
+      {!loading && <ArrowRight size={16} className={cn(styles.arrow, animateArrow && styles.arrowAnimated)} />}
     </Button>
   );
 }
-

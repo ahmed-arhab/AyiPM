@@ -86,8 +86,14 @@ export function useFormatters() {
   return {
     date: useCallback((value?: string | Date) => formatDate(value, dateFormat), [dateFormat]),
     dateLong: useCallback((value?: string | Date) => formatDateLong(value, locale), [locale]),
-    time: useCallback((value?: string | Date, withSeconds = false) => formatTime(value, timeFormat, withSeconds, locale), [timeFormat, locale]),
+    time: useCallback(
+      (value?: string | Date, withSeconds = false) => formatTime(value, timeFormat, withSeconds, locale),
+      [timeFormat, locale]
+    ),
     dateTime: useCallback((value?: string) => formatDateTime(value, dateFormat, timeFormat, locale), [dateFormat, timeFormat, locale]),
-    number: useCallback((value: number, options?: Intl.NumberFormatOptions) => new Intl.NumberFormat(locale, options).format(value), [locale]),
+    number: useCallback(
+      (value: number, options?: Intl.NumberFormatOptions) => new Intl.NumberFormat(locale, options).format(value),
+      [locale]
+    ),
   };
 }

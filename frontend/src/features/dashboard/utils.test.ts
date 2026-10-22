@@ -37,7 +37,10 @@ describe('taskCompletedAt', () => {
   const now = new Date('2026-10-22T16:00:00Z');
 
   it('is undefined for a task that is not done', () => {
-    const task = makeTask({ status: 'review', history: [entry('Moved to Completed', '2026-10-10T12:00:00Z'), entry('Moved to Review', '2026-10-11T12:00:00Z')] });
+    const task = makeTask({
+      status: 'review',
+      history: [entry('Moved to Completed', '2026-10-10T12:00:00Z'), entry('Moved to Review', '2026-10-11T12:00:00Z')],
+    });
     expect(taskCompletedAt(task, now)).toBeUndefined();
   });
 
@@ -98,9 +101,10 @@ describe('countCompletionsByWeek', () => {
 
   it('lists the last eight weeks, oldest first, ending with this week', () => {
     expect(countCompletionsByWeek([], 'Monday', now)).toEqual(
-      ['2026-08-31', '2026-09-07', '2026-09-14', '2026-09-21', '2026-09-28', '2026-10-05', '2026-10-12', '2026-10-19'].map(
-        (weekStart) => ({ weekStart, count: 0 })
-      )
+      ['2026-08-31', '2026-09-07', '2026-09-14', '2026-09-21', '2026-09-28', '2026-10-05', '2026-10-12', '2026-10-19'].map((weekStart) => ({
+        weekStart,
+        count: 0,
+      }))
     );
     expect(countCompletionsByWeek([], 'Sunday', now).map((w) => w.weekStart)).toEqual([
       '2026-08-30',
@@ -130,7 +134,11 @@ describe('countCompletionsByWeek', () => {
       completedAt(new Date(2026, 9, 20), { status: 'in_progress' }), // reopened since
     ];
     const counts = (weekStart: 'Monday' | 'Sunday') =>
-      Object.fromEntries(countCompletionsByWeek(tasks, weekStart, now).filter((w) => w.count > 0).map((w) => [w.weekStart, w.count]));
+      Object.fromEntries(
+        countCompletionsByWeek(tasks, weekStart, now)
+          .filter((w) => w.count > 0)
+          .map((w) => [w.weekStart, w.count])
+      );
 
     expect(counts('Monday')).toEqual({ '2026-08-31': 1, '2026-10-12': 1, '2026-10-19': 3 });
     expect(counts('Sunday')).toEqual({ '2026-08-30': 2, '2026-10-18': 4 });

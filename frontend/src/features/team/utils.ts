@@ -158,10 +158,7 @@ export interface ValidateMemberFormOptions {
   requirePassword?: boolean;
 }
 
-export function validateMemberForm(
-  values: MemberFormValues,
-  options?: ValidateMemberFormOptions | boolean
-): FieldErrors<MemberFormValues> {
+export function validateMemberForm(values: MemberFormValues, options?: ValidateMemberFormOptions | boolean): FieldErrors<MemberFormValues> {
   const requireEmployeeId = typeof options === 'boolean' ? options : !!options?.requireEmployeeId;
   const requirePassword = typeof options === 'object' ? !!options?.requirePassword : false;
 

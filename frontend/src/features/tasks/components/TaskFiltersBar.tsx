@@ -30,10 +30,7 @@ export function TaskFiltersBar({ api, view }: TaskFiltersBarProps) {
     () => TASK_STATUS_ORDER.map((s) => ({ value: s, label: t(TASK_STATUS[s].label) })),
     [t]
   );
-  const sortOptions = useMemo(
-    () => SORT_OPTIONS.map((s) => ({ value: s.value, label: t(s.label) })),
-    [t]
-  );
+  const sortOptions = useMemo(() => SORT_OPTIONS.map((s) => ({ value: s.value, label: t(s.label) })), [t]);
 
   const projectOptions = useMemo<SelectOption[]>(
     () => [...projects].sort((a, b) => a.name.localeCompare(b.name)).map((p) => ({ value: p.id, label: p.name })),

@@ -39,10 +39,7 @@ export function TeamToolbar({
   const { t, formatNumber } = useT();
 
   const roleFilterOptions = useMemo<SelectOption<'all' | UserRole>[]>(
-    () => [
-      { value: 'all', label: t('All roles') },
-      ...ROLE_OPTIONS.map((r) => ({ value: r.value, label: t(r.label) })),
-    ],
+    () => [{ value: 'all', label: t('All roles') }, ...ROLE_OPTIONS.map((r) => ({ value: r.value, label: t(r.label) }))],
     [t]
   );
 
@@ -63,10 +60,7 @@ export function TeamToolbar({
     [t]
   );
 
-  const sortOptions = useMemo(
-    () => SORT_OPTIONS.map((s) => ({ value: s.value, label: t(s.label) })),
-    [t]
-  );
+  const sortOptions = useMemo(() => SORT_OPTIONS.map((s) => ({ value: s.value, label: t(s.label) })), [t]);
 
   const departmentOptions = useMemo<SelectOption[]>(
     () => [{ value: 'all', label: t('All departments') }, ...departments.map((d) => ({ value: d, label: d }))],
@@ -98,13 +92,28 @@ export function TeamToolbar({
         <SegmentedControl label={t('Layout')} size="sm" options={viewOptions} value={viewMode} onChange={onViewModeChange} />
       </div>
       <div className="toolbar">
-        <Select aria-label={t('Department')} options={departmentOptions} value={filters.department} onChange={(v) => onFilterChange('department', v)} />
+        <Select
+          aria-label={t('Department')}
+          options={departmentOptions}
+          value={filters.department}
+          onChange={(v) => onFilterChange('department', v)}
+        />
         <Select aria-label={t('Role')} options={roleFilterOptions} value={filters.role} onChange={(v) => onFilterChange('role', v)} />
-        <Select aria-label={t('Status')} options={statusFilterOptions} value={filters.status} onChange={(v) => onFilterChange('status', v)} />
+        <Select
+          aria-label={t('Status')}
+          options={statusFilterOptions}
+          value={filters.status}
+          onChange={(v) => onFilterChange('status', v)}
+        />
         <Select aria-label={t('Project')} options={projectOptions} value={filters.project} onChange={(v) => onFilterChange('project', v)} />
         <span className={styles.sort}>
           <ArrowUpDown size={14} aria-hidden />
-          <Select<TeamSort> aria-label={t('Sort by')} options={sortOptions} value={filters.sort} onChange={(v) => onFilterChange('sort', v)} />
+          <Select<TeamSort>
+            aria-label={t('Sort by')}
+            options={sortOptions}
+            value={filters.sort}
+            onChange={(v) => onFilterChange('sort', v)}
+          />
         </span>
       </div>
       <div className={styles.summary}>

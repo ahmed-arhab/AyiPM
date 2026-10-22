@@ -50,7 +50,13 @@ export function TwoFactorCodeModal({ action, onClose }: { action: TwoFactorCodeA
           <Button variant="secondary" onClick={onClose} disabled={saving}>
             {t('Cancel')}
           </Button>
-          <Button type="submit" form={id} variant={disabling ? 'danger' : 'primary'} icon={disabling ? ShieldOff : RefreshCw} loading={saving}>
+          <Button
+            type="submit"
+            form={id}
+            variant={disabling ? 'danger' : 'primary'}
+            icon={disabling ? ShieldOff : RefreshCw}
+            loading={saving}
+          >
             {disabling ? t('Turn off') : t('Create new codes')}
           </Button>
         </>

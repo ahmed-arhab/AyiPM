@@ -58,7 +58,12 @@ export function GlobalSearch() {
         items: tasks
           .filter((task) => matchesQuery(deferredQuery, task.title, projectNames.get(task.projectId)))
           .slice(0, LIMIT)
-          .map((task) => ({ id: task.id, title: task.title, subtitle: projectNames.get(task.projectId) ?? '', href: `${ROUTES.tasks}?task=${task.id}` })),
+          .map((task) => ({
+            id: task.id,
+            title: task.title,
+            subtitle: projectNames.get(task.projectId) ?? '',
+            href: `${ROUTES.tasks}?task=${task.id}`,
+          })),
       },
       {
         label: t('Projects'),
@@ -116,13 +121,25 @@ export function GlobalSearch() {
       {open && deferredQuery && (
         <div className={styles.panel} role="listbox">
           {groups.length === 0 ? (
-            <EmptyState compact icon={Search} title={t('No matches')} description={t('Nothing found for “{query}”.', { query: deferredQuery })} />
+            <EmptyState
+              compact
+              icon={Search}
+              title={t('No matches')}
+              description={t('Nothing found for “{query}”.', { query: deferredQuery })}
+            />
           ) : (
             groups.map(({ label, icon: Icon, items }) => (
               <div key={label} className={styles.group}>
                 <div className={styles.groupLabel}>{label}</div>
                 {items.map((item) => (
-                  <button key={item.id} type="button" role="option" aria-selected={false} className={styles.item} onClick={() => go(item.href)}>
+                  <button
+                    key={item.id}
+                    type="button"
+                    role="option"
+                    aria-selected={false}
+                    className={styles.item}
+                    onClick={() => go(item.href)}
+                  >
                     <Icon size={16} className={styles.itemIcon} />
                     <span className={styles.itemText}>
                       <span className={styles.itemTitle}>{item.title}</span>

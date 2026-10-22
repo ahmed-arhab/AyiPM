@@ -81,4 +81,3 @@ export async function sendPasswordResetLink(id: string): Promise<ActionResult<Ac
   void refreshActivity();
   return ok(result.data);
 }
-

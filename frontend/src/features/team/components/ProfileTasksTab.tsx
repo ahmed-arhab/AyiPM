@@ -23,7 +23,9 @@ export function ProfileTasksTab({ tasks }: { tasks: Task[] }) {
   );
 
   if (sorted.length === 0) {
-    return <EmptyState compact icon={CheckSquare} title="No tasks assigned" description="Tasks assigned to this member will appear here." />;
+    return (
+      <EmptyState compact icon={CheckSquare} title="No tasks assigned" description="Tasks assigned to this member will appear here." />
+    );
   }
 
   return (

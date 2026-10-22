@@ -20,7 +20,8 @@ export function ResetPreferencesSection() {
   const onReset = async () => {
     const confirmed = await confirm({
       title: t('Reset preferences'),
-      message: 'Theme, language, date and time formats, week start and notification choices will return to their defaults. Your profile and workspace settings are not affected.',
+      message:
+        'Theme, language, date and time formats, week start and notification choices will return to their defaults. Your profile and workspace settings are not affected.',
       confirmLabel: t('Reset preferences'),
       tone: 'danger',
     });
@@ -35,7 +36,12 @@ export function ResetPreferencesSection() {
   };
 
   return (
-    <SettingsSection id={SECTION.id} icon={SECTION.icon} title={t(SECTION.label)} description="Start over with the default personal settings.">
+    <SettingsSection
+      id={SECTION.id}
+      icon={SECTION.icon}
+      title={t(SECTION.label)}
+      description="Start over with the default personal settings."
+    >
       <SettingRow label="Restore defaults" hint="Only affects your own account on this workspace.">
         <Button variant="danger" icon={RotateCcw} onClick={onReset}>
           {t('Reset preferences')}

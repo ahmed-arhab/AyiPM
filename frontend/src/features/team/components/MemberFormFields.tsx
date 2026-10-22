@@ -32,7 +32,13 @@ export function MemberFormFields({
   return (
     <FormGrid columns={2}>
       <Field label="Full name" htmlFor={`${id}-name`} required error={errors.name}>
-        <Input id={`${id}-name`} value={values.name} invalid={!!errors.name} onChange={(e) => onChange('name', e.target.value)} autoComplete="off" />
+        <Input
+          id={`${id}-name`}
+          value={values.name}
+          invalid={!!errors.name}
+          onChange={(e) => onChange('name', e.target.value)}
+          autoComplete="off"
+        />
       </Field>
       <Field label="Work email" htmlFor={`${id}-email`} required error={errors.email}>
         <Input
@@ -90,13 +96,24 @@ export function MemberFormFields({
         />
       </Field>
       <Field label="Role" htmlFor={`${id}-role`} hint={roleLocked ? 'You cannot change your own role.' : undefined}>
-        <Select<UserRole> id={`${id}-role`} options={ROLE_OPTIONS} value={values.role} disabled={roleLocked} onChange={(v) => onChange('role', v)} />
+        <Select<UserRole>
+          id={`${id}-role`}
+          options={ROLE_OPTIONS}
+          value={values.role}
+          disabled={roleLocked}
+          onChange={(v) => onChange('role', v)}
+        />
       </Field>
       <Field label="Phone" htmlFor={`${id}-phone`}>
         <Input id={`${id}-phone`} type="tel" value={values.phone} onChange={(e) => onChange('phone', e.target.value)} />
       </Field>
       <Field label="Location" htmlFor={`${id}-location`}>
-        <Input id={`${id}-location`} value={values.location} placeholder="City or Remote" onChange={(e) => onChange('location', e.target.value)} />
+        <Input
+          id={`${id}-location`}
+          value={values.location}
+          placeholder="City or Remote"
+          onChange={(e) => onChange('location', e.target.value)}
+        />
       </Field>
       <Field label="Join date" htmlFor={`${id}-join`}>
         <Input id={`${id}-join`} type="date" value={values.joinDate} onChange={(e) => onChange('joinDate', e.target.value)} />

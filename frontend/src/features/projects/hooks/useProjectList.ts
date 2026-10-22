@@ -1,14 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 import { useProjectProgress, useProjects } from '@/store';
-import {
-  countByStatus,
-  matchesProject,
-  sortProjects,
-  type ProjectSortKey,
-  type ProjectStatusFilter,
-  type ProjectViewMode,
-} from '../utils';
+import { countByStatus, matchesProject, sortProjects, type ProjectSortKey, type ProjectStatusFilter, type ProjectViewMode } from '../utils';
 
 export function useProjectList() {
   const projects = useProjects();

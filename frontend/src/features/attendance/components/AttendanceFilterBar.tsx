@@ -33,10 +33,26 @@ export function AttendanceFilterBar({ filters, onChange, onReset, hasActiveFilte
 
   return (
     <div className="toolbar">
-      <Input type="date" aria-label={t('Filter by date')} className={styles.date} value={filters.date} onChange={(e) => onChange('date', e.target.value)} />
-      <Select<StatusFilter> aria-label={t('Filter by status')} options={statusOptions} value={filters.status} onChange={(v) => onChange('status', v)} />
+      <Input
+        type="date"
+        aria-label={t('Filter by date')}
+        className={styles.date}
+        value={filters.date}
+        onChange={(e) => onChange('date', e.target.value)}
+      />
+      <Select<StatusFilter>
+        aria-label={t('Filter by status')}
+        options={statusOptions}
+        value={filters.status}
+        onChange={(v) => onChange('status', v)}
+      />
       {showEmployeeFilter && (
-        <Select aria-label={t('Filter by employee')} options={employeeOptions} value={filters.employeeId} onChange={(v) => onChange('employeeId', v)} />
+        <Select
+          aria-label={t('Filter by employee')}
+          options={employeeOptions}
+          value={filters.employeeId}
+          onChange={(v) => onChange('employeeId', v)}
+        />
       )}
       {hasActiveFilters && (
         <Button variant="ghost" size="sm" icon={RotateCcw} onClick={onReset}>

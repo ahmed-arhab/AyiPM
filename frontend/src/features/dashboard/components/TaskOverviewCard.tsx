@@ -51,11 +51,7 @@ export function TaskOverviewCard({ tasks, personal }: TaskOverviewCardProps) {
           className={styles.empty}
           icon={CheckSquare}
           title={t('No tasks yet')}
-          description={t(
-            personal
-              ? 'Tasks assigned to you will appear here.'
-              : 'Create tasks to see how work is distributed.'
-          )}
+          description={t(personal ? 'Tasks assigned to you will appear here.' : 'Create tasks to see how work is distributed.')}
         />
       ) : (
         <>
@@ -79,11 +75,7 @@ export function TaskOverviewCard({ tasks, personal }: TaskOverviewCardProps) {
                   <span className={styles.dot} style={{ background: TASK_STATUS[s].color }} aria-hidden />
                   {t(TASK_STATUS[s].label)}
                 </span>
-                <Progress
-                  value={percent(counts[s], total)}
-                  indicatorColor={TASK_STATUS[s].color}
-                  className={styles.track}
-                />
+                <Progress value={percent(counts[s], total)} indicatorColor={TASK_STATUS[s].color} className={styles.track} />
                 <strong className={styles.value}>{t.formatNumber(counts[s])}</strong>
               </li>
             ))}

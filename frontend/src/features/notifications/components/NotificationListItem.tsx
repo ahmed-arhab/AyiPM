@@ -15,7 +15,12 @@ interface NotificationListItemProps {
   onDelete: NotificationHandler;
 }
 
-export const NotificationListItem = memo(function NotificationListItem({ item, onOpen, onToggleRead, onDelete }: NotificationListItemProps) {
+export const NotificationListItem = memo(function NotificationListItem({
+  item,
+  onOpen,
+  onToggleRead,
+  onDelete,
+}: NotificationListItemProps) {
   return (
     <NotificationRow
       item={item}

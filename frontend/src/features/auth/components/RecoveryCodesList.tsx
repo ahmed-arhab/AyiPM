@@ -34,7 +34,12 @@ export function RecoveryCodesList({ codes }: { codes: string[] }) {
         <Button variant="secondary" size="sm" icon={Copy} onClick={copy}>
           {t('Copy codes')}
         </Button>
-        <Button variant="secondary" size="sm" icon={Download} onClick={() => downloadFile('ayipm-recovery-codes.txt', `${text}\n`, 'text/plain;charset=utf-8')}>
+        <Button
+          variant="secondary"
+          size="sm"
+          icon={Download}
+          onClick={() => downloadFile('ayipm-recovery-codes.txt', `${text}\n`, 'text/plain;charset=utf-8')}
+        >
           {t('Download')}
         </Button>
       </div>

@@ -22,22 +22,11 @@ interface SegmentedControlProps<V extends string> {
   className?: string;
 }
 
-export function SegmentedControl<V extends string>({
-  options,
-  value,
-  onChange,
-  label,
-  size = 'md',
-  className,
-}: SegmentedControlProps<V>) {
+export function SegmentedControl<V extends string>({ options, value, onChange, label, size = 'md', className }: SegmentedControlProps<V>) {
   const controlId = React.useId();
 
   return (
-    <div
-      className={cn(styles.group, size === 'sm' && styles.sm, className)}
-      role="tablist"
-      aria-label={label}
-    >
+    <div className={cn(styles.group, size === 'sm' && styles.sm, className)} role="tablist" aria-label={label}>
       {options.map(({ value: v, label: text, count, icon: Icon }) => {
         const active = v === value;
         return (

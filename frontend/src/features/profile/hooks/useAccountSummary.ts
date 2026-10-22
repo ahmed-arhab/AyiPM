@@ -12,7 +12,12 @@ export interface AccountSummary {
 
 export function useAccountSummary(userId: string): AccountSummary {
   const projects = useAppStore((s) => selectProjectsByMember(s.projects).get(userId)?.length ?? 0);
-  const openTasks = useAppStore((s) => selectTasksByAssignee(s.tasks).get(userId)?.filter((t) => t.status !== 'done').length ?? 0);
+  const openTasks = useAppStore(
+    (s) =>
+      selectTasksByAssignee(s.tasks)
+        .get(userId)
+        ?.filter((t) => t.status !== 'done').length ?? 0
+  );
   const balance = useLeaveBalance(userId);
 
   const leave = useMemo(() => {

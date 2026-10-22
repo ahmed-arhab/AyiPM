@@ -1,12 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 import type { NotificationItem } from '@/types';
-import {
-  DEFAULT_NOTIFICATION_FILTERS,
-  countByCategory,
-  filterNotifications,
-  type NotificationFilterState,
-} from '../utils';
+import { DEFAULT_NOTIFICATION_FILTERS, countByCategory, filterNotifications, type NotificationFilterState } from '../utils';
 
 export type UpdateNotificationFilter = <K extends keyof NotificationFilterState>(key: K, value: NotificationFilterState[K]) => void;
 

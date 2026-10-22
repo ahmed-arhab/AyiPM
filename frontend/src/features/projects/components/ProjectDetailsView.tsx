@@ -52,7 +52,7 @@ function ProjectDetailsContent({ projectId }: { projectId?: string }) {
   const hydrated = useHydrated();
 
   const paramId = params?.id ? (Array.isArray(params.id) ? params.id[0] : params.id) : undefined;
-  const resolvedProjectId = projectId && projectId !== 'undefined' ? projectId : (paramId ? decodeURIComponent(paramId) : '');
+  const resolvedProjectId = projectId && projectId !== 'undefined' ? projectId : paramId ? decodeURIComponent(paramId) : '';
 
   const canManageProjects = usePermission('projects.manage');
   const canManageTasks = usePermission('tasks.manage');
@@ -60,9 +60,7 @@ function ProjectDetailsContent({ projectId }: { projectId?: string }) {
   const tasks = useProjectTasks(resolvedProjectId);
 
   const initialTab = searchParams.get('tab') as ProjectTab | null;
-  const [activeTab, setActiveTab] = useState<ProjectTab>(
-    initialTab === 'board' || initialTab === 'overview' ? initialTab : 'todo'
-  );
+  const [activeTab, setActiveTab] = useState<ProjectTab>(initialTab === 'board' || initialTab === 'overview' ? initialTab : 'todo');
   const hasViewTransition = typeof document !== 'undefined' && 'startViewTransition' in document;
 
   const [editMode, setEditMode] = useState<EditMode>('closed');
@@ -200,21 +198,11 @@ function ProjectDetailsContent({ projectId }: { projectId?: string }) {
 
   return (
     <div className="page-container">
-      <ProjectDetailsHeader
-        project={project}
-        canManage={canManageProjects}
-        onEdit={() => setEditMode('details')}
-        onDelete={handleDelete}
-      />
+      <ProjectDetailsHeader project={project} canManage={canManageProjects} onEdit={() => setEditMode('details')} onDelete={handleDelete} />
 
       {/* View switcher tabs: Things To Do | Kanban Board | Overview */}
       <div className={styles.tabBar}>
-        <SegmentedControl
-          label="Project view"
-          options={tabOptions}
-          value={activeTab}
-          onChange={handleTabChange}
-        />
+        <SegmentedControl label="Project view" options={tabOptions} value={activeTab} onChange={handleTabChange} />
       </div>
 
       <div key={activeTab} className={cn(styles.tabContent, !hasViewTransition && styles.tabFallback)}>
@@ -242,12 +230,7 @@ function ProjectDetailsContent({ projectId }: { projectId?: string }) {
         {/* Tab: Kanban Board */}
         {activeTab === 'board' && (
           <div className={styles.boardLayout}>
-            <ProjectKanbanTab
-              tasks={tasks}
-              canManage={canManageTasks}
-              onOpenTask={openTask}
-              onCreateTask={openCreateTask}
-            />
+            <ProjectKanbanTab tasks={tasks} canManage={canManageTasks} onOpenTask={openTask} onCreateTask={openCreateTask} />
           </div>
         )}
 
@@ -278,12 +261,7 @@ function ProjectDetailsContent({ projectId }: { projectId?: string }) {
       <TaskDetailModal taskId={activeTaskId} onClose={closeTask} onEdit={startEditTask} />
 
       {canManageTasks && (
-        <TaskFormModal
-          isOpen={isCreatingTask}
-          defaultProjectId={project.id}
-          onClose={closeCreateTask}
-          onSaved={() => closeCreateTask()}
-        />
+        <TaskFormModal isOpen={isCreatingTask} defaultProjectId={project.id} onClose={closeCreateTask} onSaved={() => closeCreateTask()} />
       )}
 
       {canManageTasks && (
@@ -297,12 +275,7 @@ function ProjectDetailsContent({ projectId }: { projectId?: string }) {
       )}
 
       {canManageProjects && (
-        <ProjectFormModal
-          isOpen={editMode !== 'closed'}
-          onClose={closeEditor}
-          project={project}
-          focusMembers={editMode === 'members'}
-        />
+        <ProjectFormModal isOpen={editMode !== 'closed'} onClose={closeEditor} project={project} focusMembers={editMode === 'members'} />
       )}
     </div>
   );

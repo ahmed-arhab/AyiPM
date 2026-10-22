@@ -75,7 +75,13 @@ export function CheckInStation() {
         </div>
         <div>
           <dt>{completed ? t('Hours logged') : t('Shift duration')}</dt>
-          <dd>{checkedIn && record?.checkInAt ? <ShiftTimer since={record.checkInAt} /> : <strong>{formatHours(record?.workingHours)}</strong>}</dd>
+          <dd>
+            {checkedIn && record?.checkInAt ? (
+              <ShiftTimer since={record.checkInAt} />
+            ) : (
+              <strong>{formatHours(record?.workingHours)}</strong>
+            )}
+          </dd>
         </div>
       </dl>
 

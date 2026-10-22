@@ -27,9 +27,36 @@ export function GetStartedCard() {
   const taskCount = useAppStore((s) => s.tasks.length);
 
   const steps: Step[] = [
-    { key: 'team', title: t('Add your team members'), description: t('Invite colleagues so you can staff projects and assign work.'), href: ROUTES.team, cta: t('Add members'), icon: Users, permission: 'employees.manage', done: otherMembers > 0 },
-    { key: 'project', title: t('Create a project'), description: t('Set a timeline, a manager and the people working on it.'), href: `${ROUTES.projects}?new=1`, cta: t('New project'), icon: FolderKanban, permission: 'projects.manage', done: projectCount > 0 },
-    { key: 'tasks', title: t('Create tasks'), description: t('Break projects into tasks — progress is calculated from them.'), href: `${ROUTES.tasks}?new=1`, cta: t('New task'), icon: CheckSquare, permission: 'tasks.manage', done: taskCount > 0 },
+    {
+      key: 'team',
+      title: t('Add your team members'),
+      description: t('Invite colleagues so you can staff projects and assign work.'),
+      href: ROUTES.team,
+      cta: t('Add members'),
+      icon: Users,
+      permission: 'employees.manage',
+      done: otherMembers > 0,
+    },
+    {
+      key: 'project',
+      title: t('Create a project'),
+      description: t('Set a timeline, a manager and the people working on it.'),
+      href: `${ROUTES.projects}?new=1`,
+      cta: t('New project'),
+      icon: FolderKanban,
+      permission: 'projects.manage',
+      done: projectCount > 0,
+    },
+    {
+      key: 'tasks',
+      title: t('Create tasks'),
+      description: t('Break projects into tasks — progress is calculated from them.'),
+      href: `${ROUTES.tasks}?new=1`,
+      cta: t('New task'),
+      icon: CheckSquare,
+      permission: 'tasks.manage',
+      done: taskCount > 0,
+    },
   ];
   const available = steps.filter((s) => hasPermission(me.role, s.permission));
   const remaining = available.filter((s) => !s.done).length;
@@ -38,7 +65,11 @@ export function GetStartedCard() {
     if (projectCount > 0) return null;
     return (
       <Card as="section" className={styles.card}>
-        <CardHeader icon={Rocket} title={t('Welcome aboard')} description={t('Your workspace is still being set up. Projects and tasks assigned to you will show up here.')} />
+        <CardHeader
+          icon={Rocket}
+          title={t('Welcome aboard')}
+          description={t('Your workspace is still being set up. Projects and tasks assigned to you will show up here.')}
+        />
         <div className={styles.inlineActions}>
           <ButtonLink href={ROUTES.profile} variant="secondary" size="sm">
             {t('Complete your profile')}

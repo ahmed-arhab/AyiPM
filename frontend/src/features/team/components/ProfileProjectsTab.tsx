@@ -26,7 +26,9 @@ export function ProfileProjectsTab({ member, projects, onAssign }: ProfileProjec
         compact
         icon={FolderKanban}
         title="Not on any projects yet"
-        description={onAssign ? 'Assign this member to a project to start tracking their work.' : 'Project managers can assign members to projects.'}
+        description={
+          onAssign ? 'Assign this member to a project to start tracking their work.' : 'Project managers can assign members to projects.'
+        }
         action={assignButton}
       />
     );

@@ -131,7 +131,11 @@ export interface BulkTaskResult {
 // own history entry, activity entry and notifications, exactly as if it had been changed on its own.
 const BULK_CONCURRENCY = 4;
 
-async function runBulk(ids: string[], run: (id: string) => Promise<ActionResult<unknown>>, concurrency = BULK_CONCURRENCY): Promise<BulkTaskResult> {
+async function runBulk(
+  ids: string[],
+  run: (id: string) => Promise<ActionResult<unknown>>,
+  concurrency = BULK_CONCURRENCY
+): Promise<BulkTaskResult> {
   const results = await mapWithConcurrency(ids, concurrency, async (id) => {
     // A 401 ends the session part way through; don't keep sending requests that will all fail.
     if (!getState().session) return fail('You must be signed in to do that.');
@@ -161,7 +165,10 @@ function changedFields(task: Task, update: TaskUpdate): TaskUpdate {
  * Sets the status, priority or assignee (an empty assigneeId unassigns) of several tasks. Tasks that fail don't stop
  * the others; the result says which ones succeeded and why the rest failed.
  */
-export async function updateTasks(ids: string[], update: Pick<TaskUpdate, 'status' | 'priority' | 'assigneeId'>): Promise<ActionResult<BulkTaskResult>> {
+export async function updateTasks(
+  ids: string[],
+  update: Pick<TaskUpdate, 'status' | 'priority' | 'assigneeId'>
+): Promise<ActionResult<BulkTaskResult>> {
   const auth = authorize();
   if (!auth.ok) return auth;
   // A status change puts the task at the end of its new column. The server works that position out per request, so

@@ -41,17 +41,12 @@ export function shallowEqual<S>(a: S, b: S): boolean {
   if (keysA.length !== keysB.length) return false;
   return keysA.every(
     (key) =>
-      Object.prototype.hasOwnProperty.call(b, key) &&
-      Object.is((a as Record<string, unknown>)[key], (b as Record<string, unknown>)[key])
+      Object.prototype.hasOwnProperty.call(b, key) && Object.is((a as Record<string, unknown>)[key], (b as Record<string, unknown>)[key])
   );
 }
 
 // Mirrors use-sync-external-store/with-selector so derived values only re-render when they actually change.
-export function useStoreSelector<T, S>(
-  store: Store<T>,
-  selector: (state: T) => S,
-  isEqual: EqualityFn<S> = Object.is
-): S {
+export function useStoreSelector<T, S>(store: Store<T>, selector: (state: T) => S, isEqual: EqualityFn<S> = Object.is): S {
   const instRef = useRef<{ hasValue: boolean; value: S }>({ hasValue: false, value: undefined as S });
   // The ref and the closure variables only cache the last selection, as in with-selector. What renders always comes
   // from useSyncExternalStore.

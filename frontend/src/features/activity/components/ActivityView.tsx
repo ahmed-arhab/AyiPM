@@ -68,7 +68,7 @@ export function ActivityView() {
             description={
               canViewAll
                 ? 'Changes to employees, projects, tasks, attendance, leave and settings will be logged here as they happen.'
-                : "Actions you take — checking in, requesting leave, updating tasks — will be logged here."
+                : 'Actions you take — checking in, requesting leave, updating tasks — will be logged here.'
             }
           />
         ) : filtered.length === 0 ? (

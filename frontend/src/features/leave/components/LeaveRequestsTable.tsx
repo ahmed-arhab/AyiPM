@@ -78,7 +78,7 @@ export function LeaveRequestsTable({
         key: 'status',
         header: 'Status',
         render: (r) => {
-          const reviewer = r.reviewedBy ? employeesById.get(r.reviewedBy)?.name ?? 'Former member' : undefined;
+          const reviewer = r.reviewedBy ? (employeesById.get(r.reviewedBy)?.name ?? 'Former member') : undefined;
           return (
             <span className={styles.stack}>
               <StatusBadge kind="leave" value={r.status} />

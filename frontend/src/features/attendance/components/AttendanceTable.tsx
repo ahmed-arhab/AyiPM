@@ -24,7 +24,9 @@ export function AttendanceTable({ records, showEmployee, emptyTitle, emptyDescri
   const { page, pageCount, pageItems, setPage, total, pageSize } = usePagination(records, PAGE_SIZE);
 
   const columns = useMemo<Column<AttendanceRecord>[]>(() => {
-    const list: Column<AttendanceRecord>[] = [{ key: 'date', header: t('Date'), render: (r) => <span className={styles.strong}>{date(r.date)}</span> }];
+    const list: Column<AttendanceRecord>[] = [
+      { key: 'date', header: t('Date'), render: (r) => <span className={styles.strong}>{date(r.date)}</span> },
+    ];
     if (showEmployee) {
       list.push({
         key: 'employee',

@@ -4,13 +4,7 @@ import { useCallback, useEffect, useMemo, useState, type FormEvent } from 'react
 import { updateWorkspace, useWorkspace } from '@/store';
 import { useToast } from '@/components/feedback/ToastProvider';
 import { hasErrors, type FieldErrors } from '@/lib/validation';
-import {
-  isSameWorkspaceForm,
-  toWorkspaceFormValues,
-  toWorkspaceSettings,
-  validateWorkspaceForm,
-  type WorkspaceFormValues,
-} from '../utils';
+import { isSameWorkspaceForm, toWorkspaceFormValues, toWorkspaceSettings, validateWorkspaceForm, type WorkspaceFormValues } from '../utils';
 
 export function useWorkspaceForm() {
   const toast = useToast();

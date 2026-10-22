@@ -2,13 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 import { useEmployeesById } from '@/store';
 import type { ActivityLogItem } from '@/types';
-import {
-  DEFAULT_ACTIVITY_FILTERS,
-  actorOptions,
-  countByEntity,
-  filterActivity,
-  type ActivityFilterState,
-} from '../utils';
+import { DEFAULT_ACTIVITY_FILTERS, actorOptions, countByEntity, filterActivity, type ActivityFilterState } from '../utils';
 
 export type UpdateActivityFilter = <K extends keyof ActivityFilterState>(key: K, value: ActivityFilterState[K]) => void;
 
@@ -22,10 +16,7 @@ export function useActivityFilters(log: ActivityLogItem[], canViewAll: boolean, 
   const scoped = useMemo(() => (canViewAll ? log : log.filter((item) => item.actorId === userId)), [log, canViewAll, userId]);
   const counts = useMemo(() => countByEntity(scoped), [scoped]);
   const actors = useMemo(() => (canViewAll ? actorOptions(scoped, employeesById) : []), [canViewAll, scoped, employeesById]);
-  const filtered = useMemo(
-    () => filterActivity(scoped, { entity, actorId, query, from, to }),
-    [scoped, entity, actorId, query, from, to]
-  );
+  const filtered = useMemo(() => filterActivity(scoped, { entity, actorId, query, from, to }), [scoped, entity, actorId, query, from, to]);
 
   const update = useCallback<UpdateActivityFilter>((key, value) => setFilters((f) => ({ ...f, [key]: value })), []);
   const reset = useCallback(() => setFilters(DEFAULT_ACTIVITY_FILTERS), []);

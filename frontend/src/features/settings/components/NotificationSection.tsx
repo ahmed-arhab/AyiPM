@@ -31,7 +31,11 @@ export function NotificationSection() {
       icon={SECTION.icon}
       title={SECTION.label}
       description="Choose which in-app notifications you receive. Muted categories won't reach your inbox."
-      actions={<span className={styles.count}>{enabledCount}/{CATEGORIES.length} on</span>}
+      actions={
+        <span className={styles.count}>
+          {enabledCount}/{CATEGORIES.length} on
+        </span>
+      }
     >
       <div className={styles.list}>
         {CATEGORIES.map((category) => (

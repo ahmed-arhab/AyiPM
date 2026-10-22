@@ -37,10 +37,7 @@ export function useAttendanceRecords() {
     [attendance, canViewAll, user.id]
   );
 
-  const effectiveFilters = useMemo(
-    () => (canViewAll ? filters : { ...filters, employeeId: 'all' }),
-    [filters, canViewAll]
-  );
+  const effectiveFilters = useMemo(() => (canViewAll ? filters : { ...filters, employeeId: 'all' }), [filters, canViewAll]);
   const filtered = useMemo(() => filterAttendance(visible, effectiveFilters), [visible, effectiveFilters]);
 
   const updateFilter = useCallback(<K extends keyof AttendanceFilters>(key: K, value: AttendanceFilters[K]) => {

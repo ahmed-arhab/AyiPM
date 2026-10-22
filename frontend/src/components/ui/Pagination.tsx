@@ -25,7 +25,13 @@ export function Pagination({ page, pageCount, total, pageSize, onPageChange }: P
         <span className={styles.page}>
           {page} / {pageCount}
         </span>
-        <button type="button" className="icon-btn" onClick={() => onPageChange(page + 1)} disabled={page >= pageCount} aria-label="Next page">
+        <button
+          type="button"
+          className="icon-btn"
+          onClick={() => onPageChange(page + 1)}
+          disabled={page >= pageCount}
+          aria-label="Next page"
+        >
           <ChevronRight size={16} />
         </button>
       </div>

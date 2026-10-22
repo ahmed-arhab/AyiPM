@@ -16,25 +16,12 @@ import { setTheme as setStoreTheme, useTheme as useStoreTheme } from '@/store';
 import { resolveTheme } from '@/lib/theme';
 import type { ThemeMode } from '@/types';
 
-const getIcon = (
-  effective: ThemeSelection,
-  resolved: Resolved,
-  modes: ThemeSelection[],
-) => {
+const getIcon = (effective: ThemeSelection, resolved: Resolved, modes: ThemeSelection[]) => {
   const theme = modes.includes('system') ? effective : resolved;
-  return theme === 'system' ? (
-    <Monitor className="size-4" />
-  ) : theme === 'dark' ? (
-    <Moon className="size-4" />
-  ) : (
-    <Sun className="size-4" />
-  );
+  return theme === 'system' ? <Monitor className="size-4" /> : theme === 'dark' ? <Moon className="size-4" /> : <Sun className="size-4" />;
 };
 
-const getNextTheme = (
-  effective: ThemeSelection,
-  modes: ThemeSelection[],
-): ThemeSelection => {
+const getNextTheme = (effective: ThemeSelection, modes: ThemeSelection[]): ThemeSelection => {
   const i = modes.indexOf(effective);
   if (i === -1) return modes[0];
   return modes[(i + 1) % modes.length];
@@ -65,8 +52,7 @@ function ThemeTogglerButton({
     setMounted(true);
   }, []);
 
-  const effectiveTheme: ThemeSelection =
-    storeTheme === 'device' ? 'system' : (storeTheme as ThemeSelection) || 'light';
+  const effectiveTheme: ThemeSelection = storeTheme === 'device' ? 'system' : (storeTheme as ThemeSelection) || 'light';
   const resolvedTheme: Resolved = resolveTheme(storeTheme || 'light');
 
   const handleSetTheme = React.useCallback((nextTheme: ThemeSelection) => {

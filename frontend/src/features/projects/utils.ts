@@ -163,8 +163,7 @@ export function groupTasksByDueTimeline(tasks: Task[], now: Date = new Date()): 
   });
 
   const sortByDue = (a: Task, b: Task) =>
-    (a.dueDate || '9999').localeCompare(b.dueDate || '9999') ||
-    TASK_PRIORITY[a.priority].rank - TASK_PRIORITY[b.priority].rank;
+    (a.dueDate || '9999').localeCompare(b.dueDate || '9999') || TASK_PRIORITY[a.priority].rank - TASK_PRIORITY[b.priority].rank;
 
   overdue.sort(sortByDue);
   today.sort(sortByDue);
@@ -227,7 +226,11 @@ export function groupTasksByDueTimeline(tasks: Task[], now: Date = new Date()): 
   ];
 }
 
-export function formatDueRelative(dueDate: string | undefined, completed = false, now: Date = new Date()): { label: string; overdue: boolean; isToday: boolean } {
+export function formatDueRelative(
+  dueDate: string | undefined,
+  completed = false,
+  now: Date = new Date()
+): { label: string; overdue: boolean; isToday: boolean } {
   if (completed) return { label: 'Completed', overdue: false, isToday: false };
   if (!dueDate) return { label: 'No due date', overdue: false, isToday: false };
   const days = daysUntil(dueDate, now);
@@ -237,4 +240,3 @@ export function formatDueRelative(dueDate: string | undefined, completed = false
   if (days <= 7) return { label: `In ${days} days`, overdue: false, isToday: false };
   return { label: dueDate, overdue: false, isToday: false };
 }
-

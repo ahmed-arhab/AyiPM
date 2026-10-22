@@ -128,7 +128,9 @@
 .number {
   position: relative;
   z-index: 1;
-  font-family: Arial Black, var(--font-sans);
+  font-family:
+    Arial Black,
+    var(--font-sans);
   font-size: clamp(12rem, 27vw, 25rem);
   font-weight: 900;
   line-height: 0.7;
@@ -151,7 +153,9 @@
   border: clamp(0.7rem, 1.6vw, 1.45rem) solid var(--ink);
   border-radius: 50%;
   background: var(--smoke);
-  box-shadow: inset 0 0 0 4px var(--paper), 0 14px 0 rgba(0, 0, 0, 0.12);
+  box-shadow:
+    inset 0 0 0 4px var(--paper),
+    0 14px 0 rgba(0, 0, 0, 0.12);
 }
 
 .portalInner {
@@ -183,8 +187,14 @@
   background: #cfcfca;
 }
 
-.earLeft { left: -11%; transform: rotate(-20deg); }
-.earRight { right: -11%; transform: scaleX(-1) rotate(-20deg); }
+.earLeft {
+  left: -11%;
+  transform: rotate(-20deg);
+}
+.earRight {
+  right: -11%;
+  transform: scaleX(-1) rotate(-20deg);
+}
 
 .face span:not(.nose) {
   position: absolute;
@@ -195,8 +205,12 @@
   background: var(--ink);
 }
 
-.eyeLeft { left: 23%; }
-.eyeRight { right: 23%; }
+.eyeLeft {
+  left: 23%;
+}
+.eyeRight {
+  right: 23%;
+}
 
 .nose {
   position: absolute;
@@ -249,8 +263,15 @@
   background: var(--ink);
 }
 
-.dotOne { top: 14%; left: 14%; }
-.dotTwo { right: 5%; bottom: 12%; width: 6px; }
+.dotOne {
+  top: 14%;
+  left: 14%;
+}
+.dotTwo {
+  right: 5%;
+  bottom: 12%;
+  width: 6px;
+}
 
 .footer {
   padding-bottom: clamp(1.25rem, 3vw, 2.5rem);
@@ -285,28 +306,54 @@
     margin: 0 auto;
   }
 
-  .number { font-size: clamp(10rem, 40vw, 16rem); }
-  .portal { width: clamp(7.8rem, 29vw, 10.5rem); }
-  .footer span:last-child { display: none; }
+  .number {
+    font-size: clamp(10rem, 40vw, 16rem);
+  }
+  .portal {
+    width: clamp(7.8rem, 29vw, 10.5rem);
+  }
+  .footer span:last-child {
+    display: none;
+  }
 }
 
 @media (max-width: 390px) {
-  .header { padding-top: 1.25rem; }
-  .status { font-size: 0.58rem; }
-  .copy h1 { font-size: 2.3rem; }
-  .footer { font-size: 0.56rem; }
+  .header {
+    padding-top: 1.25rem;
+  }
+  .status {
+    font-size: 0.58rem;
+  }
+  .copy h1 {
+    font-size: 2.3rem;
+  }
+  .footer {
+    font-size: 0.56rem;
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .artwork { animation: enter 0.65s cubic-bezier(0.16, 1, 0.3, 1) both; }
-  .orbit { animation: orbit 16s linear infinite; }
+  .artwork {
+    animation: enter 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .orbit {
+    animation: orbit 16s linear infinite;
+  }
 }
 
 @keyframes enter {
-  from { opacity: 0; transform: translateY(18px) scale(0.96); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 @keyframes orbit {
-  to { transform: rotate(334deg); }
+  to {
+    transform: rotate(334deg);
+  }
 }

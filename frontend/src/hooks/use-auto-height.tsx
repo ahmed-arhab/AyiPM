@@ -12,7 +12,7 @@ export function useAutoHeight<T extends HTMLElement = HTMLDivElement>(
   options: AutoHeightOptions = {
     includeParentBox: true,
     includeSelfBox: false,
-  },
+  }
 ) {
   const ref = React.useRef<T | null>(null);
   const roRef = React.useRef<ResizeObserver | null>(null);
@@ -28,12 +28,8 @@ export function useAutoHeight<T extends HTMLElement = HTMLDivElement>(
 
     if (options.includeParentBox && el.parentElement) {
       const cs = getComputedStyle(el.parentElement);
-      const paddingY =
-        (parseFloat(cs.paddingTop || '0') || 0) +
-        (parseFloat(cs.paddingBottom || '0') || 0);
-      const borderY =
-        (parseFloat(cs.borderTopWidth || '0') || 0) +
-        (parseFloat(cs.borderBottomWidth || '0') || 0);
+      const paddingY = (parseFloat(cs.paddingTop || '0') || 0) + (parseFloat(cs.paddingBottom || '0') || 0);
+      const borderY = (parseFloat(cs.borderTopWidth || '0') || 0) + (parseFloat(cs.borderBottomWidth || '0') || 0);
       const isBorderBox = cs.boxSizing === 'border-box';
       if (isBorderBox) {
         extra += paddingY + borderY;
@@ -42,20 +38,15 @@ export function useAutoHeight<T extends HTMLElement = HTMLDivElement>(
 
     if (options.includeSelfBox) {
       const cs = getComputedStyle(el);
-      const paddingY =
-        (parseFloat(cs.paddingTop || '0') || 0) +
-        (parseFloat(cs.paddingBottom || '0') || 0);
-      const borderY =
-        (parseFloat(cs.borderTopWidth || '0') || 0) +
-        (parseFloat(cs.borderBottomWidth || '0') || 0);
+      const paddingY = (parseFloat(cs.paddingTop || '0') || 0) + (parseFloat(cs.paddingBottom || '0') || 0);
+      const borderY = (parseFloat(cs.borderTopWidth || '0') || 0) + (parseFloat(cs.borderBottomWidth || '0') || 0);
       const isBorderBox = cs.boxSizing === 'border-box';
       if (isBorderBox) {
         extra += paddingY + borderY;
       }
     }
 
-    const dpr =
-      typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1;
+    const dpr = typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1;
     const total = Math.ceil((base + extra) * dpr) / dpr;
 
     return total;

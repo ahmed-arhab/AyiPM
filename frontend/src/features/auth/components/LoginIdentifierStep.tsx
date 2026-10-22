@@ -32,14 +32,9 @@ export function LoginIdentifierStep({ value, error, onChange }: LoginIdentifierS
           autoFocus
         />
       </Field>
-      <AuthSubmitButton
-        loading={false}
-        loadingLabel={t('Continue')}
-        animateArrow={hasEnteredEmail}
-      >
+      <AuthSubmitButton loading={false} loadingLabel={t('Continue')} animateArrow={hasEnteredEmail}>
         {t('Continue')}
       </AuthSubmitButton>
     </>
   );
 }
-

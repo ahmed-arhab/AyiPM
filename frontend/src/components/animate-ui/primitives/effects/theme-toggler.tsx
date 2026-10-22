@@ -9,17 +9,11 @@ type Direction = 'btt' | 'ttb' | 'ltr' | 'rtl';
 
 type ChildrenRender =
   | React.ReactNode
-  | ((state: {
-      resolved: Resolved;
-      effective: ThemeSelection;
-      toggleTheme: (theme: ThemeSelection) => void;
-    }) => React.ReactNode);
+  | ((state: { resolved: Resolved; effective: ThemeSelection; toggleTheme: (theme: ThemeSelection) => void }) => React.ReactNode);
 
 function getSystemEffective(): Resolved {
   if (typeof window === 'undefined') return 'light';
-  return window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
 function getClipKeyframes(direction: Direction): [string, string] {
@@ -89,15 +83,7 @@ type ThemeTogglerProps = {
   children?: ChildrenRender;
 };
 
-function ThemeToggler({
-  theme,
-  resolvedTheme,
-  setTheme,
-  onImmediateChange,
-  direction = 'ltr',
-  children,
-  ...props
-}: ThemeTogglerProps) {
+function ThemeToggler({ theme, resolvedTheme, setTheme, onImmediateChange, direction = 'ltr', children, ...props }: ThemeTogglerProps) {
   const [preview, setPreview] = React.useState<null | {
     effective: ThemeSelection;
     resolved: Resolved;
@@ -111,11 +97,7 @@ function ThemeToggler({
   });
 
   React.useEffect(() => {
-    if (
-      preview &&
-      theme === preview.effective &&
-      resolvedTheme === preview.resolved
-    ) {
+    if (preview && theme === preview.effective && resolvedTheme === preview.resolved) {
       // eslint-disable-next-line react-hooks/set-state-in-effect -- Drops the preview once the real theme has caught up with it.
       setPreview(null);
     }
@@ -139,10 +121,7 @@ function ThemeToggler({
         flushSync(() => {
           setPreview({ effective: theme, resolved });
           document.documentElement.setAttribute('data-theme', resolved);
-          document.documentElement.classList.toggle(
-            'dark',
-            resolved === 'dark',
-          );
+          document.documentElement.classList.toggle('dark', resolved === 'dark');
         });
         setTheme(theme);
         return;
@@ -152,10 +131,7 @@ function ThemeToggler({
         flushSync(() => {
           setPreview({ effective: theme, resolved });
           document.documentElement.setAttribute('data-theme', resolved);
-          document.documentElement.classList.toggle(
-            'dark',
-            resolved === 'dark',
-          );
+          document.documentElement.classList.toggle('dark', resolved === 'dark');
         });
       }).ready;
 
@@ -166,13 +142,13 @@ function ThemeToggler({
             duration: 700,
             easing: 'ease-in-out',
             pseudoElement: '::view-transition-new(root)',
-          },
+          }
         )
         .finished.finally(() => {
           setTheme(theme);
         });
     },
-    [onImmediateChange, resolvedTheme, fromClip, toClip, setTheme],
+    [onImmediateChange, resolvedTheme, fromClip, toClip, setTheme]
   );
 
   return (
@@ -189,12 +165,4 @@ function ThemeToggler({
   );
 }
 
-export {
-  ThemeToggler,
-  startSlideTransition,
-  getClipKeyframes,
-  type ThemeTogglerProps,
-  type ThemeSelection,
-  type Resolved,
-  type Direction,
-};
+export { ThemeToggler, startSlideTransition, getClipKeyframes, type ThemeTogglerProps, type ThemeSelection, type Resolved, type Direction };

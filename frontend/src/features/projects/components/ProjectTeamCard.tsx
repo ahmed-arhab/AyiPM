@@ -27,9 +27,20 @@ export function ProjectTeamCard({ project, canManage, onManage }: ProjectTeamCar
 
   return (
     <Card as="section">
-      <CardHeader icon={Users} title="Team" description={`${members.length} ${members.length === 1 ? 'member' : 'members'}`} actions={members.length > 0 && manageButton} />
+      <CardHeader
+        icon={Users}
+        title="Team"
+        description={`${members.length} ${members.length === 1 ? 'member' : 'members'}`}
+        actions={members.length > 0 && manageButton}
+      />
       {members.length === 0 ? (
-        <EmptyState compact icon={Users} title="No team members" description="Add people to this project so they can be assigned tasks." action={manageButton} />
+        <EmptyState
+          compact
+          icon={Users}
+          title="No team members"
+          description="Add people to this project so they can be assigned tasks."
+          action={manageButton}
+        />
       ) : (
         <ul className={styles.list}>
           {members.map((m) => (

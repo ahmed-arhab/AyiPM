@@ -35,7 +35,11 @@ function AttendanceStat() {
         value={`${t.formatNumber(present)}/${t.formatNumber(active)}`}
         icon={Clock}
         accent="var(--success)"
-        hint={active > 0 ? t('{percent}% of active members checked in', { percent: t.formatNumber(percent(present, active)) }) : t('No active members yet')}
+        hint={
+          active > 0
+            ? t('{percent}% of active members checked in', { percent: t.formatNumber(percent(present, active)) })
+            : t('No active members yet')
+        }
       />
     );
   }
@@ -75,7 +79,10 @@ function LeaveBalanceStat() {
       value={`${t.formatNumber(remaining(balance.annual))} / ${t.formatNumber(balance.annual.total)}`}
       icon={PlaneTakeoff}
       accent="var(--accent-strong)"
-      hint={t('{sick} sick · {casual} casual days left', { sick: t.formatNumber(remaining(balance.sick)), casual: t.formatNumber(remaining(balance.casual)) })}
+      hint={t('{sick} sick · {casual} casual days left', {
+        sick: t.formatNumber(remaining(balance.sick)),
+        casual: t.formatNumber(remaining(balance.casual)),
+      })}
     />
   );
 }

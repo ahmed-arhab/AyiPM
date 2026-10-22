@@ -18,9 +18,7 @@ export function MonthlySummary({ records, scopeToId }: MonthlySummaryProps) {
 
   const rows = useMemo(() => {
     const summary = summarizeMonth(records);
-    const people = employees.filter((e) =>
-      scopeToId ? e.id === scopeToId : e.status === 'active' || summary.has(e.id)
-    );
+    const people = employees.filter((e) => (scopeToId ? e.id === scopeToId : e.status === 'active' || summary.has(e.id)));
     return people
       .sort((a, b) => a.name.localeCompare(b.name))
       .map((employee): { employee: Employee; row: MonthlySummaryRow } => ({
@@ -33,7 +31,11 @@ export function MonthlySummary({ records, scopeToId }: MonthlySummaryProps) {
 
   return (
     <Card>
-      <CardHeader icon={CalendarRange} title={monthLabel()} description="Days present, late, half days and leave this month, with total hours logged." />
+      <CardHeader
+        icon={CalendarRange}
+        title={monthLabel()}
+        description="Days present, late, half days and leave this month, with total hours logged."
+      />
       {hasData ? (
         <div className={styles.grid}>
           {rows.map(({ employee, row }) => (

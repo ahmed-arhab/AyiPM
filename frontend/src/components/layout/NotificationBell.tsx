@@ -11,11 +11,7 @@ import { ROUTES } from '@/constants/navigation';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { NotificationRow } from '@/features/notifications/components/NotificationRow';
 import type { NotificationItem } from '@/types';
-import {
-  Collapsible,
-  CollapsibleTrigger,
-  CollapsibleContent,
-} from '@/components/animate-ui/primitives/radix/collapsible';
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/animate-ui/primitives/radix/collapsible';
 import styles from './NotificationBell.module.css';
 
 const PREVIEW_COUNT = 6;
@@ -76,7 +72,12 @@ export function NotificationBell() {
           </div>
           <div className={styles.list}>
             {notifications.length === 0 ? (
-              <EmptyState compact icon={Inbox} title="You're all caught up" description="New activity that needs your attention will show up here." />
+              <EmptyState
+                compact
+                icon={Inbox}
+                title="You're all caught up"
+                description="New activity that needs your attention will show up here."
+              />
             ) : (
               notifications.slice(0, PREVIEW_COUNT).map((item) => <NotificationRow key={item.id} item={item} onOpen={open} compact />)
             )}

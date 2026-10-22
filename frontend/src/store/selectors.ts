@@ -3,15 +3,7 @@ import { todayInTimeZone } from '@/lib/date';
 import { percent } from '@/lib/format';
 import { DEFAULT_PREFERENCES, LANGUAGE_STORAGE_KEY } from '@/constants/defaults';
 import { storage } from '@/lib/storage';
-import type {
-  Employee,
-  LeaveAllowance,
-  LeaveBalance,
-  NotificationItem,
-  Project,
-  Task,
-  UserPreferences,
-} from '@/types';
+import type { Employee, LeaveAllowance, LeaveBalance, NotificationItem, Project, Task, UserPreferences } from '@/types';
 import type { AppState } from './state';
 import { isSessionActive } from './session';
 
@@ -20,13 +12,9 @@ export const selectCurrentUser = (s: AppState): Employee | undefined =>
 
 export const selectPendingInviteIds = memoizeOne((employees: Employee[]) => new Set(employees.filter((e) => e.invited).map((e) => e.id)));
 
-export const selectEmployeesById = memoizeOne(
-  (employees: Employee[]) => new Map(employees.map((e) => [e.id, e]))
-);
+export const selectEmployeesById = memoizeOne((employees: Employee[]) => new Map(employees.map((e) => [e.id, e])));
 
-export const selectProjectsById = memoizeOne(
-  (projects: Project[]) => new Map(projects.map((p) => [p.id, p]))
-);
+export const selectProjectsById = memoizeOne((projects: Project[]) => new Map(projects.map((p) => [p.id, p])));
 
 export const selectActiveEmployees = memoizeOne((employees: Employee[]) => employees.filter((e) => e.status === 'active'));
 
@@ -79,8 +67,7 @@ const selectNotificationsForUser = memoizeOne((notifications: NotificationItem[]
   userId ? notifications.filter((n) => n.recipientId === userId) : []
 );
 
-export const selectMyNotifications = (s: AppState): NotificationItem[] =>
-  selectNotificationsForUser(s.notifications, s.session?.userId);
+export const selectMyNotifications = (s: AppState): NotificationItem[] => selectNotificationsForUser(s.notifications, s.session?.userId);
 
 export const selectUnreadCount = (s: AppState): number => selectMyNotifications(s).filter((n) => !n.read).length;
 
@@ -101,13 +88,11 @@ export const selectMyPreferences = (s: AppState): UserPreferences => {
 };
 
 // Only shown if the server's balance couldn't be loaded.
-const unusedBalance = memoizeOne(
-  (allowance: LeaveAllowance): LeaveBalance => ({
-    annual: { total: allowance.annual, used: 0 },
-    sick: { total: allowance.sick, used: 0 },
-    casual: { total: allowance.casual, used: 0 },
-  })
-);
+const unusedBalance = memoizeOne((allowance: LeaveAllowance): LeaveBalance => ({
+  annual: { total: allowance.annual, used: 0 },
+  sick: { total: allowance.sick, used: 0 },
+  casual: { total: allowance.casual, used: 0 },
+}));
 
 export const selectLeaveBalance = (s: AppState, employeeId: string): LeaveBalance =>
   s.leaveBalances[employeeId] ?? unusedBalance(s.workspace.leaveAllowance);

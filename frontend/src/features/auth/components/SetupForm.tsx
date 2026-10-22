@@ -16,10 +16,9 @@ export function SetupForm() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    void submit(
-      (v) => setupWorkspace({ companyName: v.companyName, name: v.name, email: v.email, password: v.password }),
-      { keepLoadingOnSuccess: true }
-    );
+    void submit((v) => setupWorkspace({ companyName: v.companyName, name: v.name, email: v.email, password: v.password }), {
+      keepLoadingOnSuccess: true,
+    });
   };
 
   return (

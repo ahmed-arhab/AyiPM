@@ -54,13 +54,7 @@ const PRIORITY_FILTER_OPTIONS: SelectOption<string>[] = [
   ...TASK_PRIORITY_ORDER.map((p) => ({ value: p, label: TASK_PRIORITY[p].label })),
 ];
 
-export function ProjectTodoList({
-  tasks,
-  canManage,
-  onOpenTask,
-  onEditTask,
-  onCreateTask,
-}: ProjectTodoListProps) {
+export function ProjectTodoList({ tasks, canManage, onOpenTask, onEditTask, onCreateTask }: ProjectTodoListProps) {
   const toast = useToast();
   const employeesById = useEmployeesById();
   const { date } = useFormatters();
@@ -189,9 +183,7 @@ export function ProjectTodoList({
         <div className={styles.statTile}>
           <div className={styles.statInfo}>
             <span className={styles.statLabel}>OVER DUE</span>
-            <span className={styles.statValue + (stats.overdue > 0 ? ` ${styles.danger}` : '')}>
-              {stats.overdue}
-            </span>
+            <span className={styles.statValue + (stats.overdue > 0 ? ` ${styles.danger}` : '')}>{stats.overdue}</span>
           </div>
           <div className={styles.statIcon + (stats.overdue > 0 ? ` ${styles.danger}` : '')}>
             <AlertCircle size={18} />
@@ -202,9 +194,7 @@ export function ProjectTodoList({
         <div className={cn(styles.statTile, styles.dueTodayTile, stats.today > 0 && styles.hasItems)}>
           <div className={styles.statInfo}>
             <span className={styles.statLabel}>DUE TODAY</span>
-            <span className={styles.statValue + (stats.today > 0 ? ` ${styles.warning}` : '')}>
-              {stats.today}
-            </span>
+            <span className={styles.statValue + (stats.today > 0 ? ` ${styles.warning}` : '')}>{stats.today}</span>
           </div>
           <div className={styles.statIcon + (stats.today > 0 ? ` ${styles.warning}` : '')}>
             <Clock size={18} />
@@ -264,12 +254,8 @@ export function ProjectTodoList({
                     }}
                     title={`Click to view: ${task.title}`}
                   >
-                    <span className={cn(styles.dueTodayTaskName, isDone && styles.done)}>
-                      {task.title}
-                    </span>
-                    <span className={styles.dueTodayDateLabel}>
-                      (Due: {date(task.dueDate)})
-                    </span>
+                    <span className={cn(styles.dueTodayTaskName, isDone && styles.done)}>{task.title}</span>
+                    <span className={styles.dueTodayDateLabel}>(Due: {date(task.dueDate)})</span>
                   </div>
                 );
               })}
@@ -292,22 +278,12 @@ export function ProjectTodoList({
           </div>
 
           <div className={styles.filterSelect}>
-            <Select
-              aria-label="Filter by priority"
-              options={PRIORITY_FILTER_OPTIONS}
-              value={priorityFilter}
-              onChange={setPriorityFilter}
-            />
+            <Select aria-label="Filter by priority" options={PRIORITY_FILTER_OPTIONS} value={priorityFilter} onChange={setPriorityFilter} />
           </div>
 
           {assigneeOptions.length > 2 && (
             <div className={styles.filterSelect}>
-              <Select
-                aria-label="Filter by assignee"
-                options={assigneeOptions}
-                value={assigneeFilter}
-                onChange={setAssigneeFilter}
-              />
+              <Select aria-label="Filter by assignee" options={assigneeOptions} value={assigneeFilter} onChange={setAssigneeFilter} />
             </div>
           )}
 
@@ -364,9 +340,7 @@ export function ProjectTodoList({
                       <span className={`${styles.groupIcon} ${styles.success}`}>
                         <CheckCircle2 size={14} />
                       </span>
-                      <span>
-                        Completed tasks ({group.tasks.length})
-                      </span>
+                      <span>Completed tasks ({group.tasks.length})</span>
                     </button>
                   </div>
 
@@ -398,9 +372,7 @@ export function ProjectTodoList({
                       <Icon size={14} />
                     </span>
                     <h3 className={styles.groupTitle}>{group.label}</h3>
-                    <span className={`${styles.groupCount} ${group.tone === 'danger' ? styles.danger : ''}`}>
-                      {group.tasks.length}
-                    </span>
+                    <span className={`${styles.groupCount} ${group.tone === 'danger' ? styles.danger : ''}`}>{group.tasks.length}</span>
                   </div>
                   <span className={styles.groupDesc}>{group.description}</span>
                 </div>

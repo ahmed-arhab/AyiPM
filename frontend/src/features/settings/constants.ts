@@ -19,8 +19,6 @@ export const SETTINGS_SECTIONS: SettingsSectionMeta[] = [
   { id: 'reset', label: 'Reset preferences', icon: RotateCcw },
 ];
 
-
-
 export const THEME_LABELS: Record<ThemeMode, string> = { light: 'Light', dark: 'Dark', device: 'Device' };
 
 export const LANGUAGE_OPTIONS: SelectOption[] = LANGUAGES.map((language) => ({ value: language, label: language }));

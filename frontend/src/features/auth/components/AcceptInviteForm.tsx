@@ -35,7 +35,14 @@ export function AcceptInviteForm({ token, onAccepted, onTwoFactorRequired }: Acc
     <>
       <FormError message={formError} />
       <form onSubmit={handleSubmit} className="auth-form" noValidate>
-        <PasswordFields idPrefix="invite" passwordLabel="Choose a password" values={values} errors={errors} disabled={submitting} onChange={setField} />
+        <PasswordFields
+          idPrefix="invite"
+          passwordLabel="Choose a password"
+          values={values}
+          errors={errors}
+          disabled={submitting}
+          onChange={setField}
+        />
         <AuthSubmitButton loading={submitting} loadingLabel="Joining…">
           Join workspace
         </AuthSubmitButton>

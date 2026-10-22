@@ -24,7 +24,13 @@ export function MemberProfileHeader({ member, isSelf }: { member: Employee; isSe
       <div className={styles.badges}>
         <span className={styles.idGroup}>
           <span className={styles.badgeId}>{member.employeeId}</span>
-          <IconButton icon={Copy} size={14} label={`Copy employee ID ${member.employeeId}`} className={styles.copyButton} onClick={copyEmployeeId} />
+          <IconButton
+            icon={Copy}
+            size={14}
+            label={`Copy employee ID ${member.employeeId}`}
+            className={styles.copyButton}
+            onClick={copyEmployeeId}
+          />
         </span>
         <RoleBadge role={member.role} />
         <MemberStatusBadge member={member} />

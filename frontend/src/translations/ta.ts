@@ -30,8 +30,7 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Account': 'கணக்கு',
   'Close navigation': 'வழிசெலுத்தலை மூடுக',
   'Open navigation': 'வழிசெலுத்தலைத் திறக்க',
-  'You will need your Employee ID and password to sign back in.':
-    'மீண்டும் உள்நுழைய உங்கள் பணியாளர் எண் மற்றும் கடவுச்சொல் தேவைப்படும்.',
+  'You will need your Employee ID and password to sign back in.': 'மீண்டும் உள்நுழைய உங்கள் பணியாளர் எண் மற்றும் கடவுச்சொல் தேவைப்படும்.',
 
   // Common Header & Search
   'Check In': 'வருகை பதிவு',
@@ -83,22 +82,18 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Keep me signed in': 'என்னை உள்நுழைந்திருக்க வைக்கவும்',
   "Can't log in?": 'உள்நுழைய முடியவில்லையா?',
   'Change': 'மாற்று',
-  "Your team's projects, time and leave in one place.":
-    'உங்கள் குழுவின் திட்டங்கள், நேரம் மற்றும் விடுப்பு ஒரே இடத்தில்.',
+  "Your team's projects, time and leave in one place.": 'உங்கள் குழுவின் திட்டங்கள், நேரம் மற்றும் விடுப்பு ஒரே இடத்தில்.',
   'AyiPM replaces scattered spreadsheets and chat threads with one workspace for the whole team.':
     'AyiPM சிதறிய விரிதாள்கள் மற்றும் அரட்டை உரையாடல்களுக்கு பதிலாக முழு குழுவிற்கும் ஒரு பணியிடத்தை வழங்குகிறது.',
-  'Plan projects and move tasks on a Kanban board':
-    'திட்டங்களை திட்டமிட்டு கான்பன் பலகையில் பணிகளை நகர்த்தவும்',
+  'Plan projects and move tasks on a Kanban board': 'திட்டங்களை திட்டமிட்டு கான்பன் பலகையில் பணிகளை நகர்த்தவும்',
   'Check in and out with automatic late and half-day tracking':
     'தானியங்கி தாமதம் மற்றும் அரை நாள் கண்காணிப்புடன் வருகை மற்றும் வெளியேறுதல் பதிவு',
-  'Request leave and get approvals without the email chains':
-    'மின்னஞ்சல் சங்கிலிகள் இல்லாமல் விடுப்பு கோரி ஒப்புதல்களைப் பெறுங்கள்',
+  'Request leave and get approvals without the email chains': 'மின்னஞ்சல் சங்கிலிகள் இல்லாமல் விடுப்பு கோரி ஒப்புதல்களைப் பெறுங்கள்',
   'Role-based access for admins, project managers and employees':
     'நிர்வாகிகள், திட்ட மேலாளர்கள் மற்றும் ஊழியர்களுக்கான பங்கு சார்ந்த அணுகல்',
   'About AyiPM': 'AyiPM பற்றி',
   'Forgot password': 'கடவுச்சொல்லை மறந்துவிட்டீர்களா',
-  "Enter your work email and we'll send you a reset link.":
-    'உங்கள் பணி மின்னஞ்சலை உள்ளிடவும், மீட்டமைப்பு இணைப்பை அனுப்புவோம்.',
+  "Enter your work email and we'll send you a reset link.": 'உங்கள் பணி மின்னஞ்சலை உள்ளிடவும், மீட்டமைப்பு இணைப்பை அனுப்புவோம்.',
   'Send reset link': 'மீட்டமைப்பு இணைப்பை அனுப்பு',
   'Back to sign in': 'மீண்டும் உள்நுழைய',
   'Set new password': 'புதிய கடவுச்சொல்லை அமைக்கவும்',
@@ -125,8 +120,7 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
     'இந்த அழைப்பு வேறொரு மின்னஞ்சல் முகவரிக்கானது. அது அனுப்பப்பட்ட Google கணக்கின் மூலம் தொடரவும்.',
   "This Google account doesn't match the one linked to your account. Sign in with your password, or ask your admin.":
     'இந்த Google கணக்கு உங்கள் கணக்குடன் இணைக்கப்பட்ட Google கணக்குடன் பொருந்தவில்லை. உங்கள் கடவுச்சொல்லுடன் உள்நுழையவும், அல்லது உங்கள் நிர்வாகியிடம் கேளுங்கள்.',
-  'Too many attempts. Wait a minute and try again.':
-    'அதிகமான முயற்சிகள். ஒரு நிமிடம் காத்திருந்து மீண்டும் முயற்சிக்கவும்.',
+  'Too many attempts. Wait a minute and try again.': 'அதிகமான முயற்சிகள். ஒரு நிமிடம் காத்திருந்து மீண்டும் முயற்சிக்கவும்.',
 
   // Dashboard
   'Good morning': 'காலை வணக்கம்',
@@ -160,8 +154,7 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Active projects by nearest deadline': 'அருகிலுள்ள காலக்கெடுவின் படி செயலில் உள்ள திட்டங்கள்',
   'View all': 'அனைத்தையும் பார்',
   'No active projects': 'செயலில் உள்ள திட்டங்கள் இல்லை',
-  'Active projects and their progress will appear here.':
-    'செயலில் உள்ள திட்டங்கள் மற்றும் அவற்றின் முன்னேற்றம் இங்கே தோன்றும்.',
+  'Active projects and their progress will appear here.': 'செயலில் உள்ள திட்டங்கள் மற்றும் அவற்றின் முன்னேற்றம் இங்கே தோன்றும்.',
   'Task breakdown': 'பணிகளின் பிரிவு',
   'My task breakdown': 'எனது பணிகளின் பிரிவு',
   '{percent}% of {total} tasks completed': '{total} பணிகளில் {percent}% முடிந்தது',
@@ -184,8 +177,7 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Nothing completed in the last {weeks} weeks': 'கடந்த {weeks} வாரங்களில் எதுவும் முடிக்கப்படவில்லை',
   'Tasks you move to Completed will appear here, week by week.':
     '“முடிவடைந்தது” நிலைக்கு நீங்கள் நகர்த்தும் பணிகள் வாரம் வாரமாக இங்கே தோன்றும்.',
-  'Tasks moved to Completed will appear here, week by week.':
-    '“முடிவடைந்தது” நிலைக்கு நகர்த்தப்படும் பணிகள் வாரம் வாரமாக இங்கே தோன்றும்.',
+  'Tasks moved to Completed will appear here, week by week.': '“முடிவடைந்தது” நிலைக்கு நகர்த்தப்படும் பணிகள் வாரம் வாரமாக இங்கே தோன்றும்.',
   'My tasks': 'எனது பணிகள்',
   '{count} open {unit} assigned to you': 'உங்களுக்கு ஒதுக்கப்பட்ட {count} திறந்த {unit}',
   'Assigned to you': 'உங்களுக்கு ஒதுக்கப்பட்டது',
@@ -201,8 +193,7 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Deadlines': 'காலக்கெடு',
   'Upcoming deadlines': 'வரவிருக்கும் காலக்கெடு',
   'Nothing due soon': 'விரைவில் எதுவும் இல்லை',
-  'No open tasks or projects are due in the next {days} days.':
-    'அடுத்த {days} நாட்களில் எந்த பணிகளும் அல்லது திட்டங்களும் இல்லை.',
+  'No open tasks or projects are due in the next {days} days.': 'அடுத்த {days} நாட்களில் எந்த பணிகளும் அல்லது திட்டங்களும் இல்லை.',
   'Overdue and due in the next {days} days': 'காலாவதியானது மற்றும் அடுத்த {days} நாட்களில் நிலுவையில் உள்ளது',
   '· your work': '· உங்கள் வேலை',
   '+{count} more upcoming': 'மேலும் +{count} வரவிருக்கிறது',
@@ -211,8 +202,7 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   '{count} {unit} awaiting review': 'மதிப்பாய்வுக்காக காத்திருக்கும் {count} {unit}',
   'Review': 'மதிப்பாய்வு',
   'All clear': 'எல்லாம் சரியாகிவிட்டது',
-  'There are no leave requests waiting for your review.':
-    'உங்கள் மதிப்பாய்வுக்காக காத்திருக்கும் விடுப்பு கோரிக்கைகள் எதுவும் இல்லை.',
+  'There are no leave requests waiting for your review.': 'உங்கள் மதிப்பாய்வுக்காக காத்திருக்கும் விடுப்பு கோரிக்கைகள் எதுவும் இல்லை.',
   '+{count} more pending': 'மேலும் +{count} நிலுவையில் உள்ளது',
   'Recent activity': 'சமீபத்திய செயல்பாடு',
   'Across the workspace': 'பணியிடம் முழுவதும்',
@@ -364,8 +354,7 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Details': 'விவரங்கள்',
 
   // Toasts
-  'All settings and account preferences saved successfully.':
-    'அனைத்து அமைப்புகளும் வெற்றிகரமாக சேமிக்கப்பட்டன.',
+  'All settings and account preferences saved successfully.': 'அனைத்து அமைப்புகளும் வெற்றிகரமாக சேமிக்கப்பட்டன.',
   'Profile picture updated successfully!': 'சுயவிவரப் படம் வெற்றிகரமாக புதுப்பிக்கப்பட்டது!',
 
   // Team & Directory
@@ -385,8 +374,7 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   '{count} Employees': 'ஊழியர்கள் {count}',
   'Allocated to projects': 'திட்டங்களுக்கு ஒதுக்கப்பட்டவை',
   '{percent}% assigned to at least one project': 'குறைந்தபட்சம் ஒரு திட்டத்திற்கு {percent}% ஒதுக்கப்பட்டுள்ளது',
-  'Search name, email, Employee ID, designation, department, location…':
-    'பெயர், மின்னஞ்சல், ஊழியர் ஐடி, பதவி, துறை, இடம் மூலம் தேடுங்கள்…',
+  'Search name, email, Employee ID, designation, department, location…': 'பெயர், மின்னஞ்சல், ஊழியர் ஐடி, பதவி, துறை, இடம் மூலம் தேடுங்கள்…',
   'Search team members': 'குழு உறுப்பினர்களைத் தேடுங்கள்',
   'Grid': 'கட்டம்',
   'Table': 'அட்டவணை',
@@ -403,8 +391,7 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Reset filters': 'வடிகட்டிகளை மீட்டமை',
   'Clear filters': 'வடிகட்டிகளை அழி',
   'No members match these filters': 'இந்த வடிகட்டிகளுக்கு பொருந்தும் உறுப்பினர்கள் இல்லை',
-  'Try clearing the search or filters to see everyone.':
-    'அனைவரையும் காண தேடல் அல்லது வடிகட்டிகளை அழிக்கவும்.',
+  'Try clearing the search or filters to see everyone.': 'அனைவரையும் காண தேடல் அல்லது வடிகட்டிகளை அழிக்கவும்.',
   'Assign to project': 'திட்டத்திற்கு ஒதுக்கு',
   'Assign projects': 'திட்டங்களை ஒதுக்கு',
   'Invited': 'அழைக்கப்பட்டது',
@@ -425,18 +412,15 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Copy': 'நகலெடு',
   'Link': 'இணைப்பு',
   'Link copied.': 'இணைப்பு நகலெடுக்கப்பட்டது.',
-  'Could not access the clipboard. Copy the link manually.':
-    'கிளிப்போர்டை அணுக முடியவில்லை. இணைப்பை நீங்களே நகலெடுக்கவும்.',
+  'Could not access the clipboard. Copy the link manually.': 'கிளிப்போர்டை அணுக முடியவில்லை. இணைப்பை நீங்களே நகலெடுக்கவும்.',
   "We've emailed this link to them. If it doesn't arrive, copy it and share it privately. Generating a new link cancels this one.":
     'இந்த இணைப்பை அவர்களுக்கு மின்னஞ்சல் மூலம் அனுப்பியுள்ளோம். அது வந்து சேராவிட்டால், அதை நகலெடுத்துத் தனிப்பட்ட முறையில் பகிரவும். புதிய இணைப்பை உருவாக்கினால் இது ரத்தாகும்.',
   "Email delivery isn't set up, so share this link privately. Generating a new link cancels this one.":
     'மின்னஞ்சல் அனுப்புதல் அமைக்கப்படவில்லை, எனவே இந்த இணைப்பைத் தனிப்பட்ட முறையில் பகிரவும். புதிய இணைப்பை உருவாக்கினால் இது ரத்தாகும்.',
 
   // Attendance
-  'Daily check-ins, working hours and punctuality across the team.':
-    'குழுவின் தினசரி வருகை, வேலை நேரம் மற்றும் நேரந்தவறாமை.',
-  'Your daily check-ins, working hours and punctuality.':
-    'உங்கள் தினசரி வருகை, வேலை நேரம் மற்றும் நேரந்தவறாமை.',
+  'Daily check-ins, working hours and punctuality across the team.': 'குழுவின் தினசரி வருகை, வேலை நேரம் மற்றும் நேரந்தவறாமை.',
+  'Your daily check-ins, working hours and punctuality.': 'உங்கள் தினசரி வருகை, வேலை நேரம் மற்றும் நேரந்தவறாமை.',
   'Export CSV': 'CSV ஏற்றுமதி செய்',
   'Daily log': 'தினசரி பதிவு',
   'Monthly summary': 'மாதாந்திர சுருக்கம்',
@@ -453,8 +437,7 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Attendance records': 'வருகை பதிவுகள்',
   'No records match these filters': 'இந்த வடிகட்டிகளுக்கு பொருந்தும் பதிவுகள் இல்லை',
   'No attendance records yet': 'இன்னும் வருகை பதிவுகள் இல்லை',
-  'Try another date or status, or reset the filters.':
-    'வேறு தேதி அல்லது நிலையை முயற்சிக்கவும், அல்லது வடிகட்டிகளை மீட்டமைக்கவும்.',
+  'Try another date or status, or reset the filters.': 'வேறு தேதி அல்லது நிலையை முயற்சிக்கவும், அல்லது வடிகட்டிகளை மீட்டமைக்கவும்.',
   'Check in from the station above to start your attendance history.':
     'உங்கள் வருகை வரலாற்றைத் தொடங்க மேலே உள்ள நிலையத்திலிருந்து வருகை பதிவு செய்யுங்கள்.',
   'Showing records from {date}': '{date} முதல் உள்ள பதிவுகள் காட்டப்படுகின்றன',
@@ -590,10 +573,8 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Clear selection': 'தேர்வை அழிக்கவும்',
   'Delete {count} task?': 'பணியை நீக்கவா?',
   'Delete {count} tasks?': '{count} பணிகளை நீக்கவா?',
-  '“{title}” and its comments will be permanently removed.':
-    '“{title}” மற்றும் அதன் கருத்துக்கள் நிரந்தரமாக நீக்கப்படும்.',
-  '{count} tasks and their comments will be permanently removed.':
-    '{count} பணிகளும் அவற்றின் கருத்துக்களும் நிரந்தரமாக நீக்கப்படும்.',
+  '“{title}” and its comments will be permanently removed.': '“{title}” மற்றும் அதன் கருத்துக்கள் நிரந்தரமாக நீக்கப்படும்.',
+  '{count} tasks and their comments will be permanently removed.': '{count} பணிகளும் அவற்றின் கருத்துக்களும் நிரந்தரமாக நீக்கப்படும்.',
   'Delete {count} task': 'பணியை நீக்கு',
   'Delete {count} tasks': '{count} பணிகளை நீக்கு',
   '{count} task updated.': '{count} பணி புதுப்பிக்கப்பட்டது.',
@@ -611,16 +592,14 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'All notifications': 'அனைத்து அறிவிப்புகளும்',
   'Unread': 'படிக்காதவை',
   'No notifications yet': 'இன்னும் அறிவிப்புகள் இல்லை',
-  "You're all caught up! New notifications will appear here.":
-    'அனைத்தையும் பார்த்துவிட்டீர்கள்! புதிய அறிவிப்புகள் இங்கு தோன்றும்.',
+  "You're all caught up! New notifications will appear here.": 'அனைத்தையும் பார்த்துவிட்டீர்கள்! புதிய அறிவிப்புகள் இங்கு தோன்றும்.',
   'Audit log of actions across your workspace.': 'உங்கள் பணியிடத்தில் செய்யப்பட்ட நடவடிக்கைகளின் தணிக்கை பதிவு.',
   'All events': 'அனைத்து நிகழ்வுகளும்',
   'All entities': 'அனைத்து கூறுகளும்',
   'All actors': 'அனைத்து செயல்படுத்துபவர்களும்',
 
   // Profile & Settings
-  'Personal information, contact details and password.':
-    'தனிப்பட்ட தகவல், தொடர்பு விவரங்கள் மற்றும் கடவுச்சொல்.',
+  'Personal information, contact details and password.': 'தனிப்பட்ட தகவல், தொடர்பு விவரங்கள் மற்றும் கடவுச்சொல்.',
   'Account information': 'கணக்கு தகவல்',
   'Work information': 'பணி தகவல்',
   'Change password': 'கடவுச்சொல்லை மாற்றவும்',
@@ -669,8 +648,7 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Two-factor authentication is on.': 'இரு-காரணி அங்கீகாரம் இயக்கப்பட்டது.',
   'Two-factor authentication is off.': 'இரு-காரணி அங்கீகாரம் முடக்கப்பட்டது.',
   'Two-factor authentication is required': 'இரு-காரணி அங்கீகாரம் தேவை',
-  "Two-factor authentication isn't set up on this server yet.":
-    'இந்தச் சேவையகத்தில் இரு-காரணி அங்கீகாரம் இன்னும் அமைக்கப்படவில்லை.',
+  "Two-factor authentication isn't set up on this server yet.": 'இந்தச் சேவையகத்தில் இரு-காரணி அங்கீகாரம் இன்னும் அமைக்கப்படவில்லை.',
   "Two-factor authentication isn't set up on this server yet. Ask the person who runs AyiPM to turn it on.":
     'இந்தச் சேவையகத்தில் இரு-காரணி அங்கீகாரம் இன்னும் அமைக்கப்படவில்லை. அதை இயக்குமாறு AyiPM-ஐ நிர்வகிப்பவரிடம் கேளுங்கள்.',
   'Open an authenticator app, such as Google Authenticator, Microsoft Authenticator or 1Password.':
@@ -678,11 +656,9 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Scan this QR code with the app.': 'இந்த QR குறியீட்டைச் செயலியால் ஸ்கேன் செய்யவும்.',
   'Enter the 6-digit code that the app shows.': 'செயலி காட்டும் 6 இலக்கக் குறியீட்டை உள்ளிடவும்.',
   'QR code for your authenticator app': 'உங்கள் அங்கீகரிப்பு செயலிக்கான QR குறியீடு',
-  "Can't scan it? Enter this key in the app instead:":
-    'ஸ்கேன் செய்ய முடியவில்லையா? அதற்குப் பதிலாக இந்த விசையைச் செயலியில் உள்ளிடவும்:',
+  "Can't scan it? Enter this key in the app instead:": 'ஸ்கேன் செய்ய முடியவில்லையா? அதற்குப் பதிலாக இந்த விசையைச் செயலியில் உள்ளிடவும்:',
   'Key copied.': 'விசை நகலெடுக்கப்பட்டது.',
-  'Could not access the clipboard. Copy the key manually.':
-    'கிளிப்போர்டை அணுக முடியவில்லை. விசையைக் கைமுறையாக நகலெடுக்கவும்.',
+  'Could not access the clipboard. Copy the key manually.': 'கிளிப்போர்டை அணுக முடியவில்லை. விசையைக் கைமுறையாக நகலெடுக்கவும்.',
   'Code from your app': 'உங்கள் செயலியில் உள்ள குறியீடு',
   'Authentication code': 'அங்கீகாரக் குறியீடு',
   'Authentication or recovery code': 'அங்கீகார அல்லது மீட்புக் குறியீடு',
@@ -692,8 +668,7 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Create new recovery codes': 'புதிய மீட்புக் குறியீடுகளை உருவாக்கவும்',
   'Create new codes': 'புதிய குறியீடுகளை உருவாக்கு',
   '{count} left': '{count} மீதமுள்ளன',
-  'Create new ones so you can still sign in without your phone.':
-    'உங்கள் தொலைபேசி இல்லாமலும் உள்நுழைய புதியவற்றை உருவாக்கவும்.',
+  'Create new ones so you can still sign in without your phone.': 'உங்கள் தொலைபேசி இல்லாமலும் உள்நுழைய புதியவற்றை உருவாக்கவும்.',
   'Your password alone will sign you in.': 'உங்கள் கடவுச்சொல் மட்டுமே உங்களை உள்நுழைய வைக்கும்.',
   'Your workspace requires two-factor authentication for admins.':
     'உங்கள் பணியிடம் நிர்வாகிகளுக்கு இரு-காரணி அங்கீகாரத்தைக் கட்டாயமாக்குகிறது.',
@@ -707,8 +682,7 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   "I've saved my codes": 'என் குறியீடுகளைச் சேமித்துவிட்டேன்',
   'Copy codes': 'குறியீடுகளை நகலெடு',
   'Recovery codes copied.': 'மீட்புக் குறியீடுகள் நகலெடுக்கப்பட்டன.',
-  'Could not access the clipboard. Copy the codes manually.':
-    'கிளிப்போர்டை அணுக முடியவில்லை. குறியீடுகளைக் கைமுறையாக நகலெடுக்கவும்.',
+  'Could not access the clipboard. Copy the codes manually.': 'கிளிப்போர்டை அணுக முடியவில்லை. குறியீடுகளைக் கைமுறையாக நகலெடுக்கவும்.',
   'Open your authenticator app and enter the 6-digit code for this account.':
     'உங்கள் அங்கீகரிப்பு செயலியைத் திறந்து இந்தக் கணக்கிற்கான 6 இலக்கக் குறியீட்டை உள்ளிடவும்.',
   'Enter one of the recovery codes you saved when you turned on two-factor authentication. Each code works once.':
@@ -725,8 +699,7 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Require two-factor authentication for admins': 'நிர்வாகிகளுக்கு இரு-காரணி அங்கீகாரத்தைக் கட்டாயமாக்கு',
   'Admins without it are signed out, and set it up the next time they sign in.':
     'இது இல்லாத நிர்வாகிகள் வெளியேற்றப்படுவார்கள்; அடுத்த முறை உள்நுழையும்போது அவர்கள் இதை அமைப்பார்கள்.',
-  'Turn on two-factor authentication for your own account first.':
-    'முதலில் உங்கள் சொந்தக் கணக்கிற்கு இரு-காரணி அங்கீகாரத்தை இயக்கவும்.',
+  'Turn on two-factor authentication for your own account first.': 'முதலில் உங்கள் சொந்தக் கணக்கிற்கு இரு-காரணி அங்கீகாரத்தை இயக்கவும்.',
   'Go to My Profile': 'எனது சுயவிவரத்திற்குச் செல்லவும்',
   'Google sign-in domain': 'Google உள்நுழைவு டொமைன்',
   'Only Google Workspace accounts from this domain can sign in with Google.':
@@ -735,8 +708,7 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
     'உறுப்பினரின் மின்னஞ்சல் முகவரி கொண்ட எந்த Google கணக்கையும் ஏற்க இதைக் காலியாக விடவும்.',
   'Enter a domain like example.com, or leave it empty to allow any Google account.':
     'example.com போன்ற ஒரு டொமைனை உள்ளிடவும், அல்லது எந்த Google கணக்கையும் அனுமதிக்க இதைக் காலியாக விடவும்.',
-  'Enter the 6-digit code from your authenticator app.':
-    'உங்கள் அங்கீகரிப்பு செயலியிலுள்ள 6 இலக்கக் குறியீட்டை உள்ளிடவும்.',
+  'Enter the 6-digit code from your authenticator app.': 'உங்கள் அங்கீகரிப்பு செயலியிலுள்ள 6 இலக்கக் குறியீட்டை உள்ளிடவும்.',
   'Enter one of your recovery codes.': 'உங்கள் மீட்புக் குறியீடுகளில் ஒன்றை உள்ளிடவும்.',
   'Enter the code from your authenticator app, or a recovery code.':
     'உங்கள் அங்கீகரிப்பு செயலியின் குறியீட்டை அல்லது மீட்புக் குறியீட்டை உள்ளிடவும்.',
@@ -746,10 +718,8 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
     'அந்தக் குறியீடு ஏற்கனவே பயன்படுத்தப்பட்டது. உங்கள் அங்கீகரிப்பு செயலியில் அடுத்த குறியீட்டிற்காகக் காத்திருக்கவும்.',
   "That recovery code didn't work. Each code works only once.":
     'அந்த மீட்புக் குறியீடு வேலை செய்யவில்லை. ஒவ்வொரு குறியீடும் ஒரு முறை மட்டுமே செயல்படும்.',
-  'This sign-in has expired. Enter your password again.':
-    'இந்த உள்நுழைவு காலாவதியாகிவிட்டது. உங்கள் கடவுச்சொல்லை மீண்டும் உள்ளிடவும்.',
-  'This sign-in has expired. Continue with Google again.':
-    'இந்த உள்நுழைவு காலாவதியாகிவிட்டது. மீண்டும் Google மூலம் தொடரவும்.',
+  'This sign-in has expired. Enter your password again.': 'இந்த உள்நுழைவு காலாவதியாகிவிட்டது. உங்கள் கடவுச்சொல்லை மீண்டும் உள்ளிடவும்.',
+  'This sign-in has expired. Continue with Google again.': 'இந்த உள்நுழைவு காலாவதியாகிவிட்டது. மீண்டும் Google மூலம் தொடரவும்.',
   "Codes from authenticator apps can't be checked on this server right now. Use a recovery code, or ask your admin.":
     'இப்போது இந்தச் சேவையகத்தால் அங்கீகரிப்பு செயலிகளின் குறியீடுகளைச் சரிபார்க்க முடியவில்லை. மீட்புக் குறியீட்டைப் பயன்படுத்தவும் அல்லது உங்கள் நிர்வாகியிடம் கேளுங்கள்.',
   'Start the setup again to get a new QR code.': 'புதிய QR குறியீட்டைப் பெற அமைப்பை மீண்டும் தொடங்கவும்.',

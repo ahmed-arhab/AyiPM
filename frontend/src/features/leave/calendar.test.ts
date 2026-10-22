@@ -93,7 +93,11 @@ describe('leaveByDay', () => {
   });
 
   it('lists approved and pending leave on every day it covers, and leaves out rejected leave', () => {
-    const requests = [leave('zoe', 'approved', '2026-10-20', '2026-10-21'), leave('adam', 'pending', '2026-10-21'), leave('bea', 'rejected', '2026-10-21')];
+    const requests = [
+      leave('zoe', 'approved', '2026-10-20', '2026-10-21'),
+      leave('adam', 'pending', '2026-10-21'),
+      leave('bea', 'rejected', '2026-10-21'),
+    ];
     expect(summary(leaveByDay(requests, '2026-10-01', '2026-10-31', nameOf))).toEqual({
       '2026-10-20': ['zoe:approved'],
       '2026-10-21': ['zoe:approved', 'adam:pending'],
@@ -140,7 +144,12 @@ describe('leaveByDay', () => {
   });
 
   it('sorts each day approved first, then by name', () => {
-    const requests = [leave('zoe', 'pending', '2026-10-22'), leave('cleo', 'approved', '2026-10-22'), leave('adam', 'pending', '2026-10-22'), leave('bea', 'approved', '2026-10-22')];
+    const requests = [
+      leave('zoe', 'pending', '2026-10-22'),
+      leave('cleo', 'approved', '2026-10-22'),
+      leave('adam', 'pending', '2026-10-22'),
+      leave('bea', 'approved', '2026-10-22'),
+    ];
     expect(summary(leaveByDay(requests, '2026-10-22', '2026-10-22', nameOf))).toEqual({
       '2026-10-22': ['bea:approved', 'cleo:approved', 'adam:pending', 'zoe:pending'],
     });

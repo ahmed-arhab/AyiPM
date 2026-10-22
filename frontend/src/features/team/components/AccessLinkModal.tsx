@@ -37,7 +37,13 @@ export function AccessLinkModal({ member, onClose }: AccessLinkModalProps) {
 
   if (link) {
     return (
-      <Modal isOpen onClose={onClose} title={isInvite ? 'Invitation link' : 'Password reset link'} size="md" footer={<Button onClick={onClose}>Done</Button>}>
+      <Modal
+        isOpen
+        onClose={onClose}
+        title={isInvite ? 'Invitation link' : 'Password reset link'}
+        size="md"
+        footer={<Button onClick={onClose}>Done</Button>}
+      >
         <AccessLinkCard
           title={isInvite ? `Invite ${member.name}` : `Reset link for ${member.name}`}
           description={

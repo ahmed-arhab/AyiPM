@@ -9,13 +9,11 @@ interface CommonControlledStateProps<T> {
 export function useControlledState<T, Rest extends any[] = []>(
   props: CommonControlledStateProps<T> & {
     onChange?: (value: T, ...args: Rest) => void;
-  },
+  }
 ): readonly [T, (next: T, ...args: Rest) => void] {
   const { value, defaultValue, onChange } = props;
 
-  const [state, setInternalState] = React.useState<T>(
-    value !== undefined ? value : (defaultValue as T),
-  );
+  const [state, setInternalState] = React.useState<T>(value !== undefined ? value : (defaultValue as T));
 
   React.useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- Follows the value prop when the caller controls it.
@@ -27,7 +25,7 @@ export function useControlledState<T, Rest extends any[] = []>(
       setInternalState(next);
       onChange?.(next, ...args);
     },
-    [onChange],
+    [onChange]
   );
 
   return [state, setState] as const;

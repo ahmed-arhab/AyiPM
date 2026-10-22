@@ -11,15 +11,8 @@ import { Avatar } from '@/components/ui/Avatar';
 import { RoleBadge } from '@/components/ui/Badge';
 import { useConfirm } from '@/components/feedback/ConfirmProvider';
 import { useT } from '@/translations';
-import {
-  Collapsible,
-  CollapsibleTrigger,
-  CollapsibleContent,
-} from '@/components/animate-ui/primitives/radix/collapsible';
-import {
-  FilesHighlight,
-  FileHighlight,
-} from '@/components/animate-ui/primitives/base/files';
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/animate-ui/primitives/radix/collapsible';
+import { FilesHighlight, FileHighlight } from '@/components/animate-ui/primitives/base/files';
 import styles from './ProfileMenu.module.css';
 
 export function ProfileMenu() {

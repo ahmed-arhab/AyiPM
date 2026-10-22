@@ -19,11 +19,7 @@ export function ProgressBar({ value, label, showValue, color, className }: Progr
           {showValue && <strong>{clamped}%</strong>}
         </div>
       )}
-      <Progress
-        value={clamped}
-        aria-label={label}
-        indicatorColor={color}
-      />
+      <Progress value={clamped} aria-label={label} indicatorColor={color} />
     </div>
   );
 }

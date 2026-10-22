@@ -17,8 +17,7 @@ type RippleButtonContextType = {
   setRipples: (ripples: Ripple[]) => void;
 };
 
-const [RippleButtonProvider, useRippleButton] =
-  getStrictContext<RippleButtonContextType>('RippleButtonContext');
+const [RippleButtonProvider, useRippleButton] = getStrictContext<RippleButtonContextType>('RippleButtonContext');
 
 type RippleButtonProps = WithAsChild<
   HTMLMotionProps<'button'> & {
@@ -27,42 +26,31 @@ type RippleButtonProps = WithAsChild<
   }
 >;
 
-function RippleButton({
-  ref,
-  onClick,
-  hoverScale = 1.05,
-  tapScale = 0.95,
-  asChild = false,
-  style,
-  ...props
-}: RippleButtonProps) {
+function RippleButton({ ref, onClick, hoverScale = 1.05, tapScale = 0.95, asChild = false, style, ...props }: RippleButtonProps) {
   const [ripples, setRipples] = React.useState<Ripple[]>([]);
   const buttonRef = React.useRef<HTMLButtonElement>(null);
   React.useImperativeHandle(ref as React.Ref<HTMLButtonElement>, () => buttonRef.current as HTMLButtonElement);
 
-  const createRipple = React.useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
-      const button = buttonRef.current;
-      if (!button) return;
+  const createRipple = React.useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+    const button = buttonRef.current;
+    if (!button) return;
 
-      const rect = button.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
+    const rect = button.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
 
-      const newRipple: Ripple = {
-        id: Date.now(),
-        x,
-        y,
-      };
+    const newRipple: Ripple = {
+      id: Date.now(),
+      x,
+      y,
+    };
 
-      setRipples((prev) => [...prev, newRipple]);
+    setRipples((prev) => [...prev, newRipple]);
 
-      setTimeout(() => {
-        setRipples((prev) => prev.filter((r) => r.id !== newRipple.id));
-      }, 600);
-    },
-    [],
-  );
+    setTimeout(() => {
+      setRipples((prev) => prev.filter((r) => r.id !== newRipple.id));
+    }, 600);
+  }, []);
 
   const handleClick = React.useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -71,7 +59,7 @@ function RippleButton({
         onClick(event);
       }
     },
-    [createRipple, onClick],
+    [createRipple, onClick]
   );
 
   const Component = asChild ? Slot : motion.button;
@@ -136,9 +124,4 @@ function RippleButtonRipples({
   ));
 }
 
-export {
-  RippleButton,
-  RippleButtonRipples,
-  type RippleButtonProps,
-  type RippleButtonRipplesProps,
-};
+export { RippleButton, RippleButtonRipples, type RippleButtonProps, type RippleButtonRipplesProps };
