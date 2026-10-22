@@ -68,7 +68,9 @@ Other useful commands:
 | `docker compose --profile app down -v` | Stop everything and delete the database |
 | `FRONTEND_PORT=3005 docker compose --profile app up` | Use another port if 3000 is taken |
 
-Data is stored in the `postgres-data` Docker volume, so it survives restarts and rebuilds. Only the frontend is published on your machine; the backend is reachable only from the frontend inside Docker. Before running it for real users, change the database password in `compose.yaml` and put it behind HTTPS.
+Data is stored in the `postgres-data` Docker volume, so it survives restarts and rebuilds. Only the frontend is published on your machine; the backend is reachable only from the frontend inside Docker.
+
+These defaults are for trying AyiPM out: the database password is `ayipm` and there is no HTTPS. To run it on a server for real users, follow the [self-hosting guide](docs/self-hosting.md). It sets your own database password in a `.env` file, turns on the backend's `prod` profile, puts AyiPM behind HTTPS with Caddy or nginx, and covers backups and upgrades.
 
 ## Getting started
 
@@ -168,8 +170,8 @@ The frontend keeps both `package-lock.json` and `pnpm-lock.yaml`. If you change 
 | Variable | Used by | Default | What it is |
 | --- | --- | --- | --- |
 | `DATABASE_URL` | backend | `jdbc:postgresql://localhost:5432/ayipm` | JDBC URL of the Postgres database |
-| `DATABASE_USERNAME` | backend | `ayipm` | Database user |
-| `DATABASE_PASSWORD` | backend | `ayipm` | Database password |
+| `DATABASE_USERNAME` | backend | `ayipm` (none with the `prod` profile) | Database user |
+| `DATABASE_PASSWORD` | backend | `ayipm` (none with the `prod` profile) | Database password |
 | `PORT` | backend | `8080` | Port the API listens on |
 | `BACKEND_URL` | frontend | `http://localhost:8080` | Where `/api` requests are forwarded. Read when the frontend is built, so set it before `npm run build`. |
 
@@ -213,6 +215,8 @@ To change the schema, add a new file such as `V2__add_projects.sql` next to the 
 
 ```text
 compose.yaml                 Postgres for development; the full app with --profile app
+compose.prod.yaml            Production settings on top of compose.yaml (see docs/self-hosting.md)
+docs/                        Guides: self-hosting.md
 frontend/                    Next.js web app
 ├── Dockerfile               Production image (standalone Next.js server)
 ├── public/                  Static files (logo, icons)
@@ -247,6 +251,7 @@ backend/                     Spring Boot API
     │   └── common/          Response format, error handling, shared helpers
     ├── main/resources/
     │   ├── application.yml  Configuration
+    │   ├── application-prod.yml  Overrides for the `prod` profile
     │   └── db/migration/    Flyway SQL migrations
     └── test/                Integration tests against a temporary Postgres
 ```

@@ -1,5 +1,6 @@
 # Development: `docker compose up -d` starts only Postgres; run the backend and frontend yourself.
 # Everything in Docker: `docker compose --profile app up --build`, then open http://localhost:3000.
+# On a server, add compose.prod.yaml and a .env file instead; see docs/self-hosting.md.
 # The database credentials match the defaults in backend/src/main/resources/application.yml.
 services:
   postgres:
