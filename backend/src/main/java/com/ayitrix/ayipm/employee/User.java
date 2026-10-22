@@ -58,6 +58,14 @@ public class User {
 	private Instant passwordUpdatedAt;
 	private Instant passwordResetRequestedAt;
 
+	/** The authenticator secret, encrypted; null while two-factor authentication is off. */
+	private String twoFactorSecret;
+	/** The secret shown during setup, encrypted, until it is confirmed with a code. */
+	private String twoFactorPendingSecret;
+	private Instant twoFactorEnabledAt;
+	/** The last TOTP time step accepted, so a code can't be used twice. */
+	private Long twoFactorLastStep;
+
 	@CreationTimestamp
 	@Column(nullable = false, updatable = false)
 	private Instant createdAt;
@@ -72,6 +80,10 @@ public class User {
 
 	public boolean hasJoined() {
 		return passwordHash != null;
+	}
+
+	public boolean hasTwoFactor() {
+		return twoFactorSecret != null;
 	}
 
 	public UUID getId() {
@@ -193,6 +205,38 @@ public class User {
 
 	public void setPasswordResetRequestedAt(Instant passwordResetRequestedAt) {
 		this.passwordResetRequestedAt = passwordResetRequestedAt;
+	}
+
+	public String getTwoFactorSecret() {
+		return twoFactorSecret;
+	}
+
+	public void setTwoFactorSecret(String twoFactorSecret) {
+		this.twoFactorSecret = twoFactorSecret;
+	}
+
+	public String getTwoFactorPendingSecret() {
+		return twoFactorPendingSecret;
+	}
+
+	public void setTwoFactorPendingSecret(String twoFactorPendingSecret) {
+		this.twoFactorPendingSecret = twoFactorPendingSecret;
+	}
+
+	public Instant getTwoFactorEnabledAt() {
+		return twoFactorEnabledAt;
+	}
+
+	public void setTwoFactorEnabledAt(Instant twoFactorEnabledAt) {
+		this.twoFactorEnabledAt = twoFactorEnabledAt;
+	}
+
+	public Long getTwoFactorLastStep() {
+		return twoFactorLastStep;
+	}
+
+	public void setTwoFactorLastStep(Long twoFactorLastStep) {
+		this.twoFactorLastStep = twoFactorLastStep;
 	}
 
 	public Instant getCreatedAt() {

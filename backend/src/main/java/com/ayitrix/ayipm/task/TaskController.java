@@ -19,6 +19,7 @@ import com.ayitrix.ayipm.auth.SessionService;
 import com.ayitrix.ayipm.common.ApiResponse;
 import com.ayitrix.ayipm.employee.User;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
@@ -57,7 +58,7 @@ public class TaskController {
 		return ApiResponse.ok(tasks.update(sessions.requireUser(request), id, body));
 	}
 
-	/** Drag and drop on the board. Returns every task in the target column. */
+	@Operation(summary = "Move a task to a column and position on the board", description = "Used for drag and drop. Returns every task in the target column.")
 	@PostMapping("/{id}/move")
 	public ResponseEntity<ApiResponse<List<TaskResponse>>> move(HttpServletRequest request, @PathVariable UUID id, @RequestBody Move body) {
 		return ApiResponse.ok(tasks.move(sessions.requireUser(request), id, body.status(), body.index()));
