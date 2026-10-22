@@ -90,7 +90,8 @@ export function formatRelativeTime(iso: string, now: Date = new Date(), locale =
   if (Number.isNaN(past.getTime())) return '—';
   const diffSec = Math.floor((now.getTime() - past.getTime()) / 1000);
   if (diffSec < 45) return 'Just now';
-  const diffMin = Math.floor(diffSec / 60);
+  // 45-59 seconds would otherwise floor to "0m ago".
+  const diffMin = Math.max(1, Math.floor(diffSec / 60));
   if (diffMin < 60) return `${diffMin}m ago`;
   const diffHours = Math.floor(diffMin / 60);
   if (diffHours < 24) return `${diffHours}h ago`;

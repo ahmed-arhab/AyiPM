@@ -118,7 +118,7 @@ Open the PR as a draft if you'd like early feedback. Mark it ready for review wh
 
 ## Before you ask for review
 
-- [ ] Frontend changes: `npx tsc --noEmit` passes and `npm run build` succeeds (in `frontend/`).
+- [ ] Frontend changes: `npx tsc --noEmit` and `npm test` pass, and `npm run build` succeeds (in `frontend/`).
 - [ ] Backend changes: `./mvnw verify` passes (in `backend/`), with tests for new endpoints.
 - [ ] The change works in light and dark mode, and at phone width.
 - [ ] Permissions are respected: try it as an admin, a project manager and an employee where it matters (start the backend with the `demo` profile to get one account of each; see the README).
@@ -141,6 +141,7 @@ The README describes the project structure. In practice:
 - **Performance.** Memoise derived lists with `useMemo`, avoid `.find` or `.filter` inside loops over large lists, and keep per-second timers (`useNow`) inside small leaf components.
 - **Comments.** Prefer clear names over comments. When a comment is needed, keep it to one line that explains *why*, not *what*.
 - **Size.** If a component grows past roughly 200 lines, it is usually doing more than one job. Split it.
+- **Tests.** Cover pure helpers (filters, sorting, dates, CSV) with [Vitest](https://vitest.dev) in a `*.test.ts` file next to the code, for example `src/features/tasks/utils.test.ts`. Run `npm test` once, or `npm run test:watch` while you work. Tests run in the `America/New_York` time zone (set in `vitest.config.mts`), so date tests give the same result on every machine and can check daylight saving changes. Pass fixed dates instead of relying on the current time, and test what a helper returns, not how it works.
 
 ### Backend (`backend/`)
 

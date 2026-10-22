@@ -151,6 +151,10 @@ Frontend (run in `frontend/`):
 | `npm run build` | Create a production build (also type-checks) |
 | `npm run start` | Serve the production build |
 | `npx tsc --noEmit` | Type-check without building |
+| `npm test` | Run the unit tests once |
+| `npm run test:watch` | Re-run the unit tests as you change files |
+
+The frontend unit tests use [Vitest](https://vitest.dev) and sit next to the code they cover, for example `src/lib/date.test.ts`. They test pure helpers, so they don't need the backend.
 
 Backend (run in `backend/`):
 
