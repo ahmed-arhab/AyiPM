@@ -26,6 +26,17 @@ Everything the team shares is stored in Postgres and served by the backend: acco
 - **Notifications and activity log**: notifications go to the people involved in a change; the activity log records every change for auditing.
 - **Profile and settings**: profile photo, personal details, password changes, theme, date and time formats, notification preferences, and (for admins) workspace rules such as working hours and leave allowance.
 
+## Screenshots
+
+A sample workspace with made-up people and projects, in light and dark mode.
+
+| | Light | Dark |
+| --- | --- | --- |
+| Dashboard | ![Dashboard in light mode: counts of active projects, open tasks, today's attendance and pending leave approvals, with project progress, a task breakdown and upcoming deadlines](docs/screenshots/dashboard-light.webp) | ![Dashboard in dark mode: counts of active projects, open tasks, today's attendance and pending leave approvals, with project progress, a task breakdown and upcoming deadlines](docs/screenshots/dashboard-dark.webp) |
+| Kanban board | ![Kanban board in light mode with To Do, In Progress, Review and Completed columns; each task card shows its project, priority, assignee and due date](docs/screenshots/kanban-board-light.webp) | ![Kanban board in dark mode with To Do, In Progress, Review and Completed columns; each task card shows its project, priority, assignee and due date](docs/screenshots/kanban-board-dark.webp) |
+| Team | ![Team page in light mode: member counts by status, role and project allocation, search and filters, and a card for each member with their role, department and email](docs/screenshots/team-light.webp) | ![Team page in dark mode: member counts by status, role and project allocation, search and filters, and a card for each member with their role, department and email](docs/screenshots/team-dark.webp) |
+| Attendance | ![Attendance page in light mode: today's check-in with the workday rules, and a monthly summary of days present, late, half days and leave for each person](docs/screenshots/attendance-light.webp) | ![Attendance page in dark mode: today's check-in with the workday rules, and a monthly summary of days present, late, half days and leave for each person](docs/screenshots/attendance-dark.webp) |
+
 ## Roles
 
 | | Admin | Project Manager | Employee |
@@ -296,7 +307,7 @@ To change the schema, add a new file such as `V2__add_projects.sql` next to the 
 ```text
 compose.yaml                 Postgres for development; the full app with --profile app
 compose.prod.yaml            Production settings on top of compose.yaml (see docs/self-hosting.md)
-docs/                        Guides: self-hosting.md
+docs/                        Guides (self-hosting.md) and the README's screenshots (screenshots/)
 frontend/                    Next.js web app
 ├── Dockerfile               Production image (standalone Next.js server)
 ├── public/                  Static files (logo, icons)
