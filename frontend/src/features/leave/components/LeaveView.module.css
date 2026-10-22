@@ -1,0 +1,9 @@
+.tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.switcher {
+  align-self: flex-start;
+}
