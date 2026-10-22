@@ -1,20 +1,8 @@
-export type ProjectStatus = 'planning' | 'in_progress' | 'in_review' | 'on_hold' | 'completed';
+import type { ApiSchema } from './api-schema';
 
-export interface Project {
-  id: string;
-  name: string;
-  client: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  status: ProjectStatus;
-  members: string[];
-  managerId?: string;
-  budget?: string;
-  createdBy: string;
-  createdAt: string;
-  updatedAt: string;
-}
+export type ProjectStatus = ApiSchema<'ProjectStatus'>;
+
+export type Project = ApiSchema<'ProjectResponse'>;
 
 export type ProjectInput = Pick<Project, 'name' | 'client' | 'description' | 'startDate' | 'endDate' | 'status' | 'members'> &
   Partial<Pick<Project, 'managerId' | 'budget'>>;

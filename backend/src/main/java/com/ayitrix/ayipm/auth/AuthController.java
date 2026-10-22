@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ayitrix.ayipm.common.ApiException;
@@ -19,6 +20,7 @@ import com.ayitrix.ayipm.employee.User;
 import com.ayitrix.ayipm.workspace.WorkspaceService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import jakarta.servlet.http.HttpServletRequest;
@@ -70,8 +72,13 @@ public class AuthController {
 	public record ChallengeCodeRequest(String challenge, String code) {
 	}
 
+	/** What login and invite acceptance answer with: the session, or a request for a second step. */
+	@Schema(oneOf = { BootstrapPayload.class, TwoFactorRequired.class })
+	public sealed interface SignInResult permits BootstrapPayload, TwoFactorRequired {
+	}
+
 	/** Sent by login and invite acceptance instead of a session when a second step is needed. */
-	public record TwoFactorRequired(TwoFactorService.Challenge twoFactorChallenge) {
+	public record TwoFactorRequired(TwoFactorService.Challenge twoFactorChallenge) implements SignInResult {
 	}
 
 	public record TwoFactorSignIn(BootstrapPayload bootstrap, List<String> recoveryCodes) {
@@ -85,6 +92,7 @@ public class AuthController {
 
 	@Operation(summary = "Create the workspace and its owner account, and sign in as the owner", description = "Works only once; after that it fails with 409.")
 	@PostMapping("/api/setup")
+	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<ApiResponse<BootstrapPayload>> setup(@RequestBody SetupRequest body, HttpServletRequest request, HttpServletResponse response) {
 		rateLimit.check("setup", request);
 		User owner = auth.setupWorkspace(body.companyName(), body.name(), body.email(), orEmpty(body.password()));
@@ -95,7 +103,7 @@ public class AuthController {
 	/** Answers with the session, or with {@link TwoFactorRequired} when the account needs a code or two-factor setup. */
 	@Operation(summary = "Sign in with an email or Employee ID", description = "Sets the session cookie, which the browser then sends with every request.")
 	@PostMapping("/api/auth/login")
-	public ResponseEntity<ApiResponse<Object>> login(@RequestBody LoginRequest body, HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<ApiResponse<SignInResult>> login(@RequestBody LoginRequest body, HttpServletRequest request, HttpServletResponse response) {
 		rateLimit.check("login", request);
 		User user = auth.authenticate(body.email(), orEmpty(body.password()));
 		boolean remember = Boolean.TRUE.equals(body.remember());
@@ -154,7 +162,7 @@ public class AuthController {
 	/** Like login, answers with {@link TwoFactorRequired} when a new admin has to set up two-factor authentication first. */
 	@Operation(summary = "Accept an invitation by choosing a password, and sign in")
 	@PostMapping("/api/auth/invite")
-	public ResponseEntity<ApiResponse<Object>> acceptInvite(@RequestBody TokenPasswordRequest body, HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<ApiResponse<SignInResult>> acceptInvite(@RequestBody TokenPasswordRequest body, HttpServletRequest request, HttpServletResponse response) {
 		rateLimit.check("invite", request);
 		User user = auth.acceptInvite(orEmpty(body.token()).trim(), orEmpty(body.password()));
 		Optional<TwoFactorService.Challenge> challenge = twoFactor.challengeFor(user, false);

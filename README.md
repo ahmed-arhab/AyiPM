@@ -151,6 +151,7 @@ Frontend (run in `frontend/`):
 | `npm run build` | Create a production build (also type-checks) |
 | `npm run start` | Serve the production build |
 | `npx tsc --noEmit` | Type-check without building |
+| `npm run generate:api` | Regenerate `src/types/api.generated.ts` from the backend's OpenAPI spec (`backend/openapi.json`) |
 
 Backend (run in `backend/`):
 
@@ -161,7 +162,7 @@ Backend (run in `backend/`):
 | `./mvnw verify` | Compile, test and package; this is what CI runs |
 | `./mvnw package` | Build `target/ayipm-backend-*.jar`, which runs with `java -jar` |
 
-The backend tests start their own temporary Postgres, so you don't need Docker or a running database to run them.
+The backend tests start their own temporary Postgres, so you don't need Docker or a running database to run them. They also save the OpenAPI spec to `backend/openapi.json`, which the frontend's API types are generated from; see [API types](CONTRIBUTING.md#api-types) after changing the API.
 
 No linter is set up for the frontend yet. Next.js 16 removed `next lint`, so ESLint needs its own configuration when it is added.
 
@@ -278,9 +279,10 @@ frontend/                    Next.js web app
     ├── hooks/               Generic React hooks
     ├── lib/                 Framework-free helpers (API client, store engine, dates, CSV, validation)
     ├── constants/           Roles and permissions, status labels, navigation, defaults
-    └── types/               Domain types, one file per domain
+    └── types/               Domain types, one file per domain, mostly derived from api.generated.ts
 backend/                     Spring Boot API
 ├── Dockerfile               Production image (builds and runs the jar)
+├── openapi.json             The OpenAPI spec, saved by the tests; the frontend's API types are generated from it
 └── src/
     ├── main/java/com/ayitrix/ayipm/
     │   ├── auth/            Setup, sign-in, sessions, invites, password resets, two-factor authentication
@@ -318,7 +320,7 @@ Backend:
 - Controllers stay thin: check the session with `SessionService.requireUser(request, permission)`, call a service, and return `ApiResponse.ok(...)`.
 - If an endpoint's method name and path don't say what it does, add `@Operation(summary = "...")`. Swagger UI shows it next to the endpoint.
 - Every response is `{ "data": ... }` on success or `{ "error": "message" }` on failure. Throw `ApiException` for errors the user should see; anything else becomes a generic 500.
-- Response records must match the TypeScript types in `frontend/src/types`. Never return entities directly, and never send password hashes or tokens other than the one-time invite or reset link.
+- The frontend's TypeScript types are generated from the response records, so regenerate them when you change one (see [API types](CONTRIBUTING.md#api-types)). Never return entities directly, and never send password hashes or tokens other than the one-time invite or reset link.
 
 ## Contributing
 

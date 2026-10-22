@@ -2,6 +2,8 @@ package com.ayitrix.ayipm.employee;
 
 import java.time.Instant;
 
+import org.jspecify.annotations.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /** Matches the Employee type in the frontend's src/types/employee.ts. Never includes the password hash. */
@@ -13,15 +15,15 @@ public record EmployeeResponse(
 		String email,
 		String department,
 		String designation,
-		String role,
-		String status,
+		Role role,
+		EmployeeStatus status,
 		String joinDate,
-		String avatar,
-		String phone,
-		String location,
-		String bio,
+		@Nullable String avatar,
+		@Nullable String phone,
+		@Nullable String location,
+		@Nullable String bio,
 		boolean invited,
-		Instant passwordResetRequestedAt,
+		@Nullable Instant passwordResetRequestedAt,
 		Instant createdAt,
 		Instant updatedAt) {
 
@@ -33,8 +35,8 @@ public record EmployeeResponse(
 				user.getEmail(),
 				user.getDepartment(),
 				user.getDesignation(),
-				user.getRole().value(),
-				user.getStatus().value(),
+				user.getRole(),
+				user.getStatus(),
 				user.getJoinDate().toString(),
 				user.getAvatar(),
 				user.getPhone(),

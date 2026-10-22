@@ -2,6 +2,8 @@ package com.ayitrix.ayipm.activity;
 
 import java.time.Instant;
 
+import org.jspecify.annotations.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /** Matches ActivityLogItem in the frontend's src/types/activity.ts. */
@@ -13,9 +15,9 @@ public record ActivityResponse(
 		String actorRole,
 		String action,
 		String entityType,
-		String entityId,
+		@Nullable String entityId,
 		String entityName,
-		String details,
+		@Nullable String details,
 		Instant createdAt) {
 
 	static ActivityResponse from(ActivityEntry e) {

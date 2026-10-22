@@ -3,6 +3,8 @@ package com.ayitrix.ayipm.task;
 import java.time.Instant;
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /** Matches Task in the frontend's src/types/task.ts. */
@@ -12,9 +14,9 @@ public record TaskResponse(
 		String projectId,
 		String title,
 		String description,
-		String assigneeId,
-		String priority,
-		String status,
+		@Nullable String assigneeId,
+		TaskPriority priority,
+		TaskStatus status,
 		String dueDate,
 		int order,
 		List<Comment> comments,
@@ -46,8 +48,8 @@ public record TaskResponse(
 				t.getTitle(),
 				t.getDescription(),
 				t.getAssigneeId() == null ? null : t.getAssigneeId().toString(),
-				t.getPriority().value(),
-				t.getStatus().value(),
+				t.getPriority(),
+				t.getStatus(),
 				t.getDueDate().toString(),
 				t.getPosition(),
 				comments,

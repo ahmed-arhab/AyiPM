@@ -2,6 +2,8 @@ package com.ayitrix.ayipm.attendance;
 
 import java.time.Instant;
 
+import org.jspecify.annotations.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /** Matches AttendanceRecord in the frontend's src/types/attendance.ts. */
@@ -10,11 +12,11 @@ public record AttendanceResponse(
 		String id,
 		String employeeId,
 		String date,
-		Instant checkInAt,
-		Instant checkOutAt,
-		Double workingHours,
-		String status,
-		String notes) {
+		@Nullable Instant checkInAt,
+		@Nullable Instant checkOutAt,
+		@Nullable Double workingHours,
+		AttendanceStatus status,
+		@Nullable String notes) {
 
 	static AttendanceResponse from(AttendanceRecord r) {
 		return new AttendanceResponse(
@@ -24,7 +26,7 @@ public record AttendanceResponse(
 				r.getCheckInAt(),
 				r.getCheckOutAt(),
 				r.getWorkingHours(),
-				r.getStatus().value(),
+				r.getStatus(),
 				r.getNotes());
 	}
 

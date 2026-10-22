@@ -2,6 +2,8 @@ package com.ayitrix.ayipm.notification;
 
 import java.time.Instant;
 
+import org.jspecify.annotations.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /** Matches NotificationItem in the frontend's src/types/notification.ts. */
@@ -14,8 +16,8 @@ public record NotificationResponse(
 		String category,
 		String priority,
 		boolean read,
-		String link,
-		String senderId,
+		@Nullable String link,
+		@Nullable String senderId,
 		Instant createdAt) {
 
 	static NotificationResponse from(Notification n) {

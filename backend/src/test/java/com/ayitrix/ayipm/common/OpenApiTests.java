@@ -6,6 +6,9 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -19,8 +22,12 @@ import com.ayitrix.ayipm.IntegrationTest;
 import com.ayitrix.ayipm.auth.SessionService;
 
 import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.json.JsonMapper;
 
 class OpenApiTests extends IntegrationTest {
+
+	private static final Path SPEC_FILE = Path.of("openapi.json");
 
 	@Value("${local.server.port}")
 	private int serverPort;
@@ -63,6 +70,49 @@ class OpenApiTests extends IntegrationTest {
 		assertThat(paths.path("/api/auth/password").path("post").path("security").path(0).has(SessionService.COOKIE_NAME)).isTrue();
 	}
 
+	/**
+	 * Saves the spec to backend/openapi.json, which the frontend generates src/types/api.generated.ts from. CI fails when
+	 * the committed file is out of date, so commit it with any change to the API.
+	 */
+	@Test
+	void writesTheSpecForTheFrontend() throws Exception {
+		JsonNode spec = client().get("/v3/api-docs").expectStatus(200).body();
+		Files.writeString(SPEC_FILE, JsonMapper.builder().enable(SerializationFeature.INDENT_OUTPUT).build().writeValueAsString(spec) + "\n");
+	}
+
+	@Test
+	void schemasSayWhichFieldsAreAlwaysSent() {
+		JsonNode schemas = client().get("/v3/api-docs").expectStatus(200).body().path("components").path("schemas");
+		// EmployeeResponse leaves out null fields, so its @Nullable ones are optional.
+		JsonNode employee = schemas.path("EmployeeResponse");
+		assertThat(strings(employee.path("required"))).contains("id", "role", "invited", "updatedAt").doesNotContain("avatar", "phone", "bio");
+		assertThat(employee.path("properties").path("role").path("$ref").asString()).isEqualTo("#/components/schemas/Role");
+		assertThat(strings(schemas.path("Role").path("enum"))).containsExactly("admin", "project_manager", "employee");
+		// BootstrapPayload sends its @Nullable fields as null.
+		JsonNode bootstrap = schemas.path("BootstrapPayload");
+		assertThat(strings(bootstrap.path("required"))).contains("user", "expiresAt", "employees");
+		assertThat(bootstrap.path("properties").path("user").path("oneOf").path(1).path("type").asString()).isEqualTo("null");
+		assertThat(strings(bootstrap.path("properties").path("expiresAt").path("type"))).containsExactly("string", "null");
+		assertThat(schemas.path("ApiResponseVoid").path("properties").path("data").path("type").asString()).isEqualTo("null");
+		// Request bodies are checked by the services and may leave fields out.
+		assertThat(schemas.path("LoginRequest").has("required")).isFalse();
+		assertThat(schemas.path("TaskRequest").has("required")).isFalse();
+	}
+
+	@Test
+	void operationsHaveStableIdsAndTheirSuccessStatus() {
+		JsonNode paths = client().get("/v3/api-docs").expectStatus(200).body().path("paths");
+		assertThat(paths.path("/api/employees").path("get").path("operationId").asString()).isEqualTo("employeeList");
+		assertThat(paths.path("/api/projects").path("get").path("operationId").asString()).isEqualTo("projectList");
+		Set<String> created = new TreeSet<>();
+		paths.properties().forEach(path -> path.getValue().properties().forEach(operation -> {
+			assertThat(operation.getValue().path("operationId").asString()).matches("[a-z][A-Za-z]+");
+			if (operation.getValue().path("responses").has("201")) created.add(operation.getKey().toUpperCase() + " " + path.getKey());
+		}));
+		assertThat(created).containsExactly("POST /api/employees", "POST /api/leave", "POST /api/projects", "POST /api/setup", "POST /api/tasks",
+				"POST /api/tasks/{id}/comments");
+	}
+
 	@Test
 	void swaggerUiLoadsAndPointsAtTheSpec() throws Exception {
 		HttpResponse<String> page = send(HttpRequest.newBuilder(url("/swagger-ui.html")));
@@ -98,6 +148,10 @@ class OpenApiTests extends IntegrationTest {
 		return HttpRequest.newBuilder(url(path))
 				.header("Origin", "http://localhost:" + serverPort)
 				.header("Referer", "http://localhost:" + serverPort + "/swagger-ui/index.html");
+	}
+
+	private static List<String> strings(JsonNode array) {
+		return array.valueStream().map(JsonNode::asString).toList();
 	}
 
 	private URI url(String path) {

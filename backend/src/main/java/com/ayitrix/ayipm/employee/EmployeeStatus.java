@@ -3,10 +3,12 @@ package com.ayitrix.ayipm.employee;
 import java.util.Arrays;
 import java.util.Optional;
 
+import com.ayitrix.ayipm.common.ApiValue;
+
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
-public enum EmployeeStatus {
+public enum EmployeeStatus implements ApiValue {
 	ACTIVE("active"),
 	INACTIVE("inactive");
 
@@ -16,6 +18,7 @@ public enum EmployeeStatus {
 		this.value = value;
 	}
 
+	@Override
 	public String value() {
 		return value;
 	}

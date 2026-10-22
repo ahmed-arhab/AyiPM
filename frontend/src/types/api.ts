@@ -1,31 +1,11 @@
-import type { TwoFactorChallenge, TwoFactorStatus } from './auth';
-import type { Employee } from './employee';
-import type { UserPreferences, WorkspaceSettings } from './settings';
+import type { ApiSchema, Narrowed } from './api-schema';
+import type { UserPreferences } from './settings';
 
-export interface BootstrapPayload {
-  needsSetup: boolean;
-  user: Employee | null;
-  expiresAt: string | null;
-  workspace: WorkspaceSettings | null;
-  employees: Employee[];
-  preferences: UserPreferences | null;
-  twoFactor: TwoFactorStatus | null;
-}
+export type BootstrapPayload = Narrowed<ApiSchema<'BootstrapPayload'>, { preferences: UserPreferences | null }>;
 
 /** What login and invite acceptance return instead of a session when a second step is needed. */
-export interface TwoFactorRequired {
-  twoFactorChallenge: TwoFactorChallenge;
-}
+export type TwoFactorRequired = ApiSchema<'TwoFactorRequired'>;
 
-export interface TwoFactorSignIn {
-  bootstrap: BootstrapPayload;
-  recoveryCodes: string[];
-}
+export type TwoFactorSignIn = Narrowed<ApiSchema<'TwoFactorSignIn'>, { bootstrap: BootstrapPayload }>;
 
-export interface InviteDetails {
-  name: string;
-  email: string;
-  employeeId: string;
-  companyName: string;
-  expiresAt: string;
-}
+export type InviteDetails = ApiSchema<'InviteDetails'>;

@@ -1,25 +1,9 @@
-export type UserRole = 'admin' | 'project_manager' | 'employee';
-export type EmployeeStatus = 'active' | 'inactive';
+import type { ApiSchema } from './api-schema';
 
-export interface Employee {
-  id: string;
-  employeeId: string;
-  name: string;
-  email: string;
-  department: string;
-  designation: string;
-  role: UserRole;
-  status: EmployeeStatus;
-  joinDate: string;
-  avatar?: string;
-  phone?: string;
-  location?: string;
-  bio?: string;
-  invited: boolean;
-  passwordResetRequestedAt?: string;
-  createdAt: string;
-  updatedAt: string;
-}
+export type UserRole = ApiSchema<'Role'>;
+export type EmployeeStatus = ApiSchema<'EmployeeStatus'>;
+
+export type Employee = ApiSchema<'EmployeeResponse'>;
 
 export type EmployeeInput = Pick<Employee, 'name' | 'email' | 'department' | 'designation' | 'role'> &
   Partial<Pick<Employee, 'employeeId' | 'joinDate' | 'avatar' | 'phone' | 'location' | 'bio'>> & {
