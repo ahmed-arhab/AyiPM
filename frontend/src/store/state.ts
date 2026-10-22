@@ -15,10 +15,6 @@ import type {
 } from '@/types';
 import { DEFAULT_WORKSPACE } from '@/constants/defaults';
 
-// Nothing is saved in the browser any more; #111 removes this and the code that saved it.
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type -- AppState still extends it until then.
-export interface PersistedState {}
-
 // Loaded from the backend after sign-in and cleared on sign-out.
 export interface ServerState {
   session: Session | null;
@@ -41,14 +37,12 @@ export interface ServerState {
   googleSignIn: boolean;
 }
 
-export interface AppState extends PersistedState, ServerState {
+export interface AppState extends ServerState {
   hydrated: boolean;
   theme: ThemeMode;
   // Shown once, then forgotten. Kept here so they survive the redirect after signing in.
   newRecoveryCodes: string[] | null;
 }
-
-export const PERSISTED_KEYS: (keyof PersistedState)[] = [];
 
 export function createInitialState(): AppState {
   return {
