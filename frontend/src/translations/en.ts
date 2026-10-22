@@ -555,6 +555,33 @@ export const EN_DICTIONARY = {
   'Task details': 'Task details',
   'Activity history': 'Activity history',
 
+  // Task list bulk actions
+  'Select all tasks on this page': 'Select all tasks on this page',
+  'Select all your tasks on this page': 'Select all your tasks on this page',
+  'Select “{title}”': 'Select “{title}”',
+  'You can only change tasks assigned to you.': 'You can only change tasks assigned to you.',
+  'Actions for selected tasks': 'Actions for selected tasks',
+  '{count} selected': '{count} selected',
+  'Change status': 'Change status',
+  'Change priority': 'Change priority',
+  'Change assignee': 'Change assignee',
+  'Apply': 'Apply',
+  'Clear selection': 'Clear selection',
+  'Delete {count} task?': 'Delete {count} task?',
+  'Delete {count} tasks?': 'Delete {count} tasks?',
+  '“{title}” and its comments will be permanently removed.': '“{title}” and its comments will be permanently removed.',
+  '{count} tasks and their comments will be permanently removed.':
+    '{count} tasks and their comments will be permanently removed.',
+  'Delete {count} task': 'Delete {count} task',
+  'Delete {count} tasks': 'Delete {count} tasks',
+  '{count} task updated.': '{count} task updated.',
+  '{count} tasks updated.': '{count} tasks updated.',
+  '{count} task deleted.': '{count} task deleted.',
+  '{count} tasks deleted.': '{count} tasks deleted.',
+  '{updated} updated, {failed} failed.': '{updated} updated, {failed} failed.',
+  '{deleted} deleted, {failed} failed.': '{deleted} deleted, {failed} failed.',
+  'The tasks that failed are still selected.': 'The tasks that failed are still selected.',
+
   // Notifications & Activity
   'Stay updated with your tasks, mentions and workspace events.':
     'Stay updated with your tasks, mentions and workspace events.',
