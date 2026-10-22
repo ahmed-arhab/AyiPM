@@ -559,4 +559,98 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
     'ඔබට නොකියවූ දැනුම්දීම් {count}ක් ඇත. කාර්ය පැවරුම්, නිවාඩු සමාලෝචන, පැමිණීම සහ ව්‍යාපෘති යාවත්කාලීන මෙහි ලැබෙනු ඇත.',
   "You're all caught up. Task handoffs, leave reviews, attendance and project updates land here.":
     'ඔබ සියල්ල බලා අවසන් කර ඇත. කාර්ය පැවරුම්, නිවාඩු සමාලෝචන, පැමිණීම සහ ව්‍යාපෘති යාවත්කාලීන මෙහි ලැබෙනු ඇත.',
+
+  // Two-factor authentication
+  'Two-factor authentication': 'ද්වි-සාධක සත්‍යාපනය',
+  'Set up two-factor authentication': 'ද්වි-සාධක සත්‍යාපනය සකසන්න',
+  'Sign-in asks for a code from an authenticator app on your phone as well as your password.':
+    'පුරනය වීමේදී ඔබගේ මුරපදයට අමතරව ඔබගේ දුරකථනයේ ඇති සත්‍යාපන යෙදුමෙන් කේතයක් ද ඉල්ලනු ලැබේ.',
+  'Protect your account even if someone learns your password.':
+    'යමෙකු ඔබගේ මුරපදය දැනගත්තද ඔබගේ ගිණුම ආරක්ෂා කරන්න.',
+  'On': 'සක්‍රියයි',
+  'Off': 'අක්‍රියයි',
+  'Turn on': 'සක්‍රිය කරන්න',
+  'Turn off': 'අක්‍රිය කරන්න',
+  'Turn off two-factor authentication': 'ද්වි-සාධක සත්‍යාපනය අක්‍රිය කරන්න',
+  'Turn off two-factor authentication?': 'ද්වි-සාධක සත්‍යාපනය අක්‍රිය කරන්නද?',
+  'Two-factor authentication is on.': 'ද්වි-සාධක සත්‍යාපනය සක්‍රියයි.',
+  'Two-factor authentication is off.': 'ද්වි-සාධක සත්‍යාපනය අක්‍රියයි.',
+  'Two-factor authentication is required': 'ද්වි-සාධක සත්‍යාපනය අවශ්‍යයි',
+  "Two-factor authentication isn't set up on this server yet.":
+    'මෙම සේවාදායකයේ ද්වි-සාධක සත්‍යාපනය තවම සකසා නැත.',
+  "Two-factor authentication isn't set up on this server yet. Ask the person who runs AyiPM to turn it on.":
+    'මෙම සේවාදායකයේ ද්වි-සාධක සත්‍යාපනය තවම සකසා නැත. එය සක්‍රිය කරන ලෙස AyiPM පවත්වාගෙන යන පුද්ගලයාගෙන් ඉල්ලන්න.',
+  'Open an authenticator app, such as Google Authenticator, Microsoft Authenticator or 1Password.':
+    'Google Authenticator, Microsoft Authenticator හෝ 1Password වැනි සත්‍යාපන යෙදුමක් විවෘත කරන්න.',
+  'Scan this QR code with the app.': 'යෙදුමෙන් මෙම QR කේතය ස්කෑන් කරන්න.',
+  'Enter the 6-digit code that the app shows.': 'යෙදුම පෙන්වන ඉලක්කම් 6 කේතය ඇතුළත් කරන්න.',
+  'QR code for your authenticator app': 'ඔබගේ සත්‍යාපන යෙදුම සඳහා QR කේතය',
+  "Can't scan it? Enter this key in the app instead:":
+    'ස්කෑන් කළ නොහැකිද? ඒ වෙනුවට මෙම යතුර යෙදුමට ඇතුළත් කරන්න:',
+  'Copy': 'පිටපත් කරන්න',
+  'Key copied.': 'යතුර පිටපත් විය.',
+  'Could not access the clipboard. Copy the key manually.':
+    'පසුරු පුවරුවට ප්‍රවේශ විය නොහැකි විය. යතුර අතින් පිටපත් කරන්න.',
+  'Code from your app': 'ඔබගේ යෙදුමේ කේතය',
+  'Authentication code': 'සත්‍යාපන කේතය',
+  'Authentication or recovery code': 'සත්‍යාපන හෝ ප්‍රතිසාධන කේතය',
+  'Recovery code': 'ප්‍රතිසාධන කේතය',
+  'Recovery codes': 'ප්‍රතිසාධන කේත',
+  'New recovery codes': 'නව ප්‍රතිසාධන කේත',
+  'Create new recovery codes': 'නව ප්‍රතිසාධන කේත සාදන්න',
+  'Create new codes': 'නව කේත සාදන්න',
+  '{count} left': '{count}ක් ඉතිරියි',
+  'Create new ones so you can still sign in without your phone.':
+    'ඔබගේ දුරකථනය නොමැතිව වුවද පුරනය විය හැකි වන පරිදි නව ඒවා සාදන්න.',
+  'Your password alone will sign you in.': 'ඔබගේ මුරපදය පමණක් ඔබව පුරනය කරනු ඇත.',
+  'Your workspace requires two-factor authentication for admins.':
+    'ඔබගේ වැඩබිම පරිපාලකයින් සඳහා ද්වි-සාධක සත්‍යාපනය අනිවාර්ය කරයි.',
+  'Enter a code from your authenticator app, or a recovery code, to confirm. Your password alone will then sign you in.':
+    'තහවුරු කිරීමට ඔබගේ සත්‍යාපන යෙදුමේ කේතයක් හෝ ප්‍රතිසාධන කේතයක් ඇතුළත් කරන්න. ඉන්පසු ඔබගේ මුරපදය පමණක් ඔබව පුරනය කරනු ඇත.',
+  'Enter a code from your authenticator app, or a recovery code. Your current recovery codes stop working.':
+    'ඔබගේ සත්‍යාපන යෙදුමේ කේතයක් හෝ ප්‍රතිසාධන කේතයක් ඇතුළත් කරන්න. ඔබගේ වත්මන් ප්‍රතිසාධන කේත තවදුරටත් ක්‍රියා නොකරනු ඇත.',
+  'Save your recovery codes': 'ඔබගේ ප්‍රතිසාධන කේත සුරකින්න',
+  "If you lose your phone, each code signs you in once instead of an authenticator code. Keep them somewhere safe, like a password manager. They won't be shown again.":
+    'ඔබගේ දුරකථනය නැති වුවහොත්, සත්‍යාපන කේතයක් වෙනුවට සෑම කේතයකින්ම එක් වරක් පුරනය විය හැක. ඒවා මුරපද කළමනාකරුවෙකු වැනි ආරක්ෂිත තැනක තබා ගන්න. ඒවා නැවත නොපෙන්වනු ඇත.',
+  "I've saved my codes": 'මම මගේ කේත සුරැකුවෙමි',
+  'Copy codes': 'කේත පිටපත් කරන්න',
+  'Recovery codes copied.': 'ප්‍රතිසාධන කේත පිටපත් විය.',
+  'Could not access the clipboard. Copy the codes manually.':
+    'පසුරු පුවරුවට ප්‍රවේශ විය නොහැකි විය. කේත අතින් පිටපත් කරන්න.',
+  'Open your authenticator app and enter the 6-digit code for this account.':
+    'ඔබගේ සත්‍යාපන යෙදුම විවෘත කර මෙම ගිණුම සඳහා වන ඉලක්කම් 6 කේතය ඇතුළත් කරන්න.',
+  'Enter one of the recovery codes you saved when you turned on two-factor authentication. Each code works once.':
+    'ද්වි-සාධක සත්‍යාපනය සක්‍රිය කළ විට ඔබ සුරැකි ප්‍රතිසාධන කේතවලින් එකක් ඇතුළත් කරන්න. සෑම කේතයක්ම එක් වරක් පමණක් ක්‍රියා කරයි.',
+  'Use a recovery code instead': 'ඒ වෙනුවට ප්‍රතිසාධන කේතයක් භාවිත කරන්න',
+  'Use your authenticator app instead': 'ඒ වෙනුවට ඔබගේ සත්‍යාපන යෙදුම භාවිත කරන්න',
+  'Verify': 'තහවුරු කරන්න',
+  'Verifying…': 'තහවුරු කරමින්…',
+  'Your workspace requires admins to use two-factor authentication. Set it up now to finish signing in.':
+    'ඔබගේ වැඩබිම පරිපාලකයින් ද්වි-සාධක සත්‍යාපනය භාවිත කිරීම අනිවාර්ය කරයි. පුරනය වීම අවසන් කිරීමට දැන් එය සකසන්න.',
+  'Turn on and sign in': 'සක්‍රිය කර පුරනය වන්න',
+  'Turning on…': 'සක්‍රිය කරමින්…',
+  'Security': 'ආරක්ෂාව',
+  'Require two-factor authentication for admins': 'පරිපාලකයින් සඳහා ද්වි-සාධක සත්‍යාපනය අනිවාර්ය කරන්න',
+  'Admins without it are signed out, and set it up the next time they sign in.':
+    'එය සක්‍රිය කර නොමැති පරිපාලකයින් පද්ධතියෙන් පිටකරනු ලබන අතර, ඊළඟ වර පුරනය වන විට ඔවුන් එය සකසනු ඇත.',
+  'Turn on two-factor authentication for your own account first.':
+    'පළමුව ඔබගේම ගිණුම සඳහා ද්වි-සාධක සත්‍යාපනය සක්‍රිය කරන්න.',
+  'Go to My Profile': 'මගේ පැතිකඩ වෙත යන්න',
+  'Enter the 6-digit code from your authenticator app.': 'ඔබගේ සත්‍යාපන යෙදුමේ ඉලක්කම් 6 කේතය ඇතුළත් කරන්න.',
+  'Enter one of your recovery codes.': 'ඔබගේ ප්‍රතිසාධන කේතවලින් එකක් ඇතුළත් කරන්න.',
+  'Enter the code from your authenticator app, or a recovery code.':
+    'ඔබගේ සත්‍යාපන යෙදුමේ කේතය හෝ ප්‍රතිසාධන කේතයක් ඇතුළත් කරන්න.',
+  "That code didn't work. Enter the newest code from your authenticator app.":
+    'එම කේතය ක්‍රියා කළේ නැත. ඔබගේ සත්‍යාපන යෙදුමේ නවතම කේතය ඇතුළත් කරන්න.',
+  'That code has already been used. Wait for the next one in your authenticator app.':
+    'එම කේතය දැනටමත් භාවිත කර ඇත. ඔබගේ සත්‍යාපන යෙදුමේ ඊළඟ කේතය එනතුරු රැඳී සිටින්න.',
+  "That recovery code didn't work. Each code works only once.":
+    'එම ප්‍රතිසාධන කේතය ක්‍රියා කළේ නැත. සෑම කේතයක්ම එක් වරක් පමණක් ක්‍රියා කරයි.',
+  'This sign-in has expired. Enter your password again.':
+    'මෙම පුරනය වීමේ කාලය ඉකුත් වී ඇත. ඔබගේ මුරපදය නැවත ඇතුළත් කරන්න.',
+  "Codes from authenticator apps can't be checked on this server right now. Use a recovery code, or ask your admin.":
+    'මෙම මොහොතේ මෙම සේවාදායකයට සත්‍යාපන යෙදුම්වල කේත පරීක්ෂා කළ නොහැක. ප්‍රතිසාධන කේතයක් භාවිත කරන්න, නැතහොත් ඔබගේ පරිපාලකගෙන් විමසන්න.',
+  'Start the setup again to get a new QR code.': 'නව QR කේතයක් ලබා ගැනීමට සැකසුම නැවත අරඹන්න.',
+  "Your workspace requires two-factor authentication for admins, so it can't be turned off.":
+    'ඔබගේ වැඩබිම පරිපාලකයින් සඳහා ද්වි-සාධක සත්‍යාපනය අනිවාර්ය කරන බැවින්, එය අක්‍රිය කළ නොහැක.',
 };

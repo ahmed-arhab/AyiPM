@@ -22,4 +22,5 @@ export interface WorkspaceSettings {
   halfDayThresholdHours: number;
   leaveAllowance: LeaveAllowance;
   employeeIdPrefix: string;
+  requireAdminTwoFactor: boolean;
 }

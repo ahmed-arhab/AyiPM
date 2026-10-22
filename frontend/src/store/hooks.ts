@@ -49,6 +49,8 @@ export const useLeaveRequests = () => useAppStore((s) => s.leaveRequests);
 export const useActivityLog = () => useAppStore((s) => s.activityLog);
 export const useWorkspace = () => useAppStore((s) => s.workspace);
 export const useTheme = () => useAppStore((s) => s.theme);
+export const useTwoFactorStatus = () => useAppStore((s) => s.twoFactor);
+export const useNewRecoveryCodes = () => useAppStore((s) => s.newRecoveryCodes);
 
 export const useEmployeesById = () => useAppStore((s) => selectEmployeesById(s.employees));
 export const useProjectsById = () => useAppStore((s) => selectProjectsById(s.projects));
