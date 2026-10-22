@@ -149,6 +149,20 @@ export const EN_DICTIONARY = {
   'Create tasks to see how work is distributed.': 'Create tasks to see how work is distributed.',
   '{overdue} overdue {unit} need attention': '{overdue} overdue {unit} need attention',
   'No overdue tasks': 'No overdue tasks',
+  'Completion trend': 'Completion trend',
+  'My completion trend': 'My completion trend',
+  'Tasks completed per week': 'Tasks completed per week',
+  '{count} {unit} completed in the last {weeks} weeks': '{count} {unit} completed in the last {weeks} weeks',
+  '{count} {unit} completed in the last {weeks} weeks, most in the week of {week} ({max})':
+    '{count} {unit} completed in the last {weeks} weeks, most in the week of {week} ({max})',
+  '{count} completed in the week of {week}': '{count} completed in the week of {week}',
+  'Week of': 'Week of',
+  'This week': 'This week',
+  'Nothing completed in the last {weeks} weeks': 'Nothing completed in the last {weeks} weeks',
+  'Tasks you move to Completed will appear here, week by week.':
+    'Tasks you move to Completed will appear here, week by week.',
+  'Tasks moved to Completed will appear here, week by week.':
+    'Tasks moved to Completed will appear here, week by week.',
   'My tasks': 'My tasks',
   '{count} open {unit} assigned to you': '{count} open {unit} assigned to you',
   'Assigned to you': 'Assigned to you',
