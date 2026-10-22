@@ -423,6 +423,8 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
     'වෙනත් දිනයක් හෝ තත්ත්වයක් උත්සාහ කරන්න, නැතහොත් පෙරහන් යළි පිහිටුවන්න.',
   'Check in from the station above to start your attendance history.':
     'ඔබගේ පැමිණීමේ ඉතිහාසය ආරම්භ කිරීමට ඉහත ස්ථානයෙන් පැමිණීම සටහන් කරන්න.',
+  'Showing records from {date}': '{date} සිට ඇති වාර්තා පෙන්වයි',
+  'Show earlier records': 'පෙර වාර්තා පෙන්වන්න',
   'Filter by date': 'දිනය අනුව පෙරහන් කරන්න',
   'Filter by status': 'තත්ත්වය අනුව පෙරහන් කරන්න',
   'Filter by employee': 'සේවකයා අනුව පෙරහන් කරන්න',

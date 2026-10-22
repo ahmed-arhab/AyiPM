@@ -1,7 +1,19 @@
 import { api, type ApiResult } from '@/lib/api';
+import { endOfMonthKey, startOfMonthKey, todayInTimeZone } from '@/lib/date';
 import { DEFAULT_WORKSPACE } from '@/constants/defaults';
-import type { ActivityLogItem, BootstrapPayload, Employee, LeaveRequest, NotificationItem, Project, Task } from '@/types';
+import type {
+  ActivityLogItem,
+  AttendanceRecord,
+  BootstrapPayload,
+  Employee,
+  LeaveBalance,
+  LeaveRequest,
+  NotificationItem,
+  Project,
+  Task,
+} from '@/types';
 import { getState, setState } from '../appStore';
+import type { AppState } from '../state';
 
 // The Activity page and dashboard filter this in the browser; the API returns at most 500 entries per page.
 const ACTIVITY_PAGE_SIZE = 500;
@@ -24,6 +36,9 @@ export function clearSession(): void {
     projects: [],
     tasks: [],
     leaveRequests: [],
+    leaveBalances: {},
+    attendance: [],
+    attendanceSince: null,
     activityLog: [],
     notifications: [],
     preferences: {},
@@ -38,27 +53,55 @@ export function handleUnauthorized<T>(result: ApiResult<T>): ApiResult<T> {
   return result;
 }
 
-/** Loads everything the workspace shares (projects, tasks, leave, notifications, activity) for the signed-in user. */
+// Attendance loads from the start of last month to the end of this one, which covers this month's summary (with any
+// approved leave later in the month) and the recent daily log. "Today" is the workspace's, which the server dates
+// check-ins by.
+function recentAttendanceRange(): { from: string; to: string } {
+  const today = todayInTimeZone(getState().workspace.timezone);
+  return { from: startOfMonthKey(today, -1), to: endOfMonthKey(today) };
+}
+
+/** Everyone's records with `attendance.viewAll`, otherwise your own; both dates are inclusive. */
+export function fetchAttendance(from: string, to: string, employeeId?: string): Promise<ApiResult<AttendanceRecord[]>> {
+  const query = new URLSearchParams({ from, to, ...(employeeId && { employeeId }) });
+  return api<AttendanceRecord[]>('GET', `/api/attendance?${query}`);
+}
+
+/** Replaces the records dated from `from` to `to` with the server's and keeps the rest. */
+export function withAttendance(s: AppState, from: string, to: string, records: AttendanceRecord[]): Partial<AppState> {
+  return {
+    attendance: [...records, ...s.attendance.filter((r) => r.date < from || r.date > to)],
+    attendanceSince: s.attendanceSince && s.attendanceSince < from ? s.attendanceSince : from,
+  };
+}
+
+/** Loads everything the workspace shares (projects, tasks, leave, attendance, notifications, activity) for the signed-in user. */
 export async function loadWorkspaceData(): Promise<void> {
-  if (!getState().session) return;
-  const [projects, tasks, leaveRequests, notifications, activityLog] = await Promise.all([
+  const { session } = getState();
+  if (!session) return;
+  const range = recentAttendanceRange();
+  const [projects, tasks, leaveRequests, leaveBalance, attendance, notifications, activityLog] = await Promise.all([
     api<Project[]>('GET', '/api/projects'),
     api<Task[]>('GET', '/api/tasks'),
     api<LeaveRequest[]>('GET', '/api/leave'),
+    api<LeaveBalance>('GET', '/api/leave/balance'),
+    fetchAttendance(range.from, range.to),
     api<NotificationItem[]>('GET', '/api/notifications'),
     api<ActivityLogItem[]>('GET', `/api/activity?size=${ACTIVITY_PAGE_SIZE}`),
   ]);
-  if ([projects, tasks, leaveRequests, notifications, activityLog].some((r) => !r.ok && r.status === 401)) {
+  if ([projects, tasks, leaveRequests, leaveBalance, attendance, notifications, activityLog].some((r) => !r.ok && r.status === 401)) {
     clearSession();
     return;
   }
-  setState({
+  setState((s) => ({
     ...(projects.ok && { projects: projects.data }),
     ...(tasks.ok && { tasks: tasks.data }),
     ...(leaveRequests.ok && { leaveRequests: leaveRequests.data }),
+    ...(leaveBalance.ok && { leaveBalances: { ...s.leaveBalances, [session.userId]: leaveBalance.data } }),
+    ...(attendance.ok && withAttendance(s, range.from, range.to, attendance.data)),
     ...(notifications.ok && { notifications: notifications.data }),
     ...(activityLog.ok && { activityLog: activityLog.data }),
-  });
+  }));
 }
 
 export async function refreshNotifications(): Promise<void> {
@@ -72,6 +115,14 @@ export async function refreshActivity(): Promise<void> {
   if (!getState().session) return;
   const result = handleUnauthorized(await api<ActivityLogItem[]>('GET', `/api/activity?size=${ACTIVITY_PAGE_SIZE}`));
   if (result.ok) setState({ activityLog: result.data });
+}
+
+/** Re-reads recent attendance, for after an approval writes leave days. */
+export async function refreshAttendance(): Promise<void> {
+  if (!getState().session) return;
+  const { from, to } = recentAttendanceRange();
+  const result = handleUnauthorized(await fetchAttendance(from, to));
+  if (result.ok) setState((s) => withAttendance(s, from, to, result.data));
 }
 
 export async function refreshSession(): Promise<boolean> {

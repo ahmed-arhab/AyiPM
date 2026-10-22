@@ -1,72 +1,54 @@
-import { createId } from '@/lib/id';
-import { hoursBetween, isLateCheckIn, toDateKey } from '@/lib/date';
+import { api } from '@/lib/api';
+import { addDaysKey } from '@/lib/date';
 import type { ActionResult, AttendanceRecord } from '@/types';
-import { authorize, fail, getState, ok, setState } from '../appStore';
+import { authorize, getState, ok, setState } from '../appStore';
+import { fetchAttendance, handleUnauthorized, refreshActivity, withAttendance } from './session';
 
-// Attendance is still kept in the browser. The attendance API (#103) moves check-in and check-out to the server,
-// including their activity entries and the "Late check-in" notification.
+// The backend works out late and half days from its clock and the workspace schedule, records activity and sends the
+// "Late check-in" notification.
 
-export function checkIn(notes?: string): ActionResult<AttendanceRecord> {
+function upsertRecord(record: AttendanceRecord) {
+  setState((s) => ({
+    attendance: s.attendance.some((r) => r.id === record.id)
+      ? s.attendance.map((r) => (r.id === record.id ? record : r))
+      : [record, ...s.attendance],
+  }));
+}
+
+export async function checkIn(notes?: string): Promise<ActionResult<AttendanceRecord>> {
   const auth = authorize();
   if (!auth.ok) return auth;
-  const user = auth.data;
-  const { attendance, workspace, leaveRequests } = getState();
-  const today = toDateKey();
-  const existing = attendance.find((r) => r.employeeId === user.id && r.date === today);
-  const onLeave = leaveRequests.some((r) => r.employeeId === user.id && r.status === 'approved' && r.startDate <= today && r.endDate >= today);
-
-  if (existing?.status === 'leave' || onLeave) return fail('You are on approved leave today.');
-  if (existing?.checkOutAt) return fail("You've already completed today's shift.");
-  if (existing?.checkInAt) return fail('You are already checked in.');
-
-  const now = new Date();
-  const late = isLateCheckIn(now, workspace.workDayStart, workspace.gracePeriodMinutes);
-  const record: AttendanceRecord = {
-    id: createId('att'),
-    employeeId: user.id,
-    date: today,
-    checkInAt: now.toISOString(),
-    status: late ? 'late' : 'present',
-    notes: notes?.trim() || undefined,
-  };
-  setState((s) => ({ attendance: [record, ...s.attendance.filter((r) => r !== existing)] }));
-
-  return ok(record);
+  const result = handleUnauthorized(await api<AttendanceRecord>('POST', '/api/attendance/check-in', { notes }));
+  if (!result.ok) return result;
+  upsertRecord(result.data);
+  void refreshActivity();
+  return ok(result.data);
 }
 
-export function checkOut(): ActionResult<AttendanceRecord> {
+export async function checkOut(): Promise<ActionResult<AttendanceRecord>> {
   const auth = authorize();
   if (!auth.ok) return auth;
-  const user = auth.data;
-  const { attendance, workspace } = getState();
-  const today = toDateKey();
-  const existing = attendance.find((r) => r.employeeId === user.id && r.date === today);
-  if (!existing?.checkInAt) return fail('You have not checked in today.');
-  if (existing.checkOutAt) return fail('You have already checked out.');
-
-  const now = new Date();
-  const workingHours = Math.round(hoursBetween(existing.checkInAt, now) * 100) / 100;
-  const updated: AttendanceRecord = {
-    ...existing,
-    checkOutAt: now.toISOString(),
-    workingHours,
-    status: workingHours < workspace.halfDayThresholdHours ? 'half_day' : existing.status,
-  };
-  setState((s) => ({ attendance: s.attendance.map((r) => (r.id === existing.id ? updated : r)) }));
-  return ok(updated);
+  const result = handleUnauthorized(await api<AttendanceRecord>('POST', '/api/attendance/check-out'));
+  if (!result.ok) return result;
+  upsertRecord(result.data);
+  void refreshActivity();
+  return ok(result.data);
 }
 
-export function addLeaveAttendance(employeeId: string, dates: string[], note: string): void {
-  const existing = new Set(getState().attendance.filter((r) => r.employeeId === employeeId).map((r) => r.date));
-  const records: AttendanceRecord[] = dates
-    .filter((date) => !existing.has(date))
-    .map((date) => ({ id: createId('att'), employeeId, date, status: 'leave', notes: note }));
-  if (records.length > 0) {
-    setState((s) => ({ attendance: [...records, ...s.attendance] }));
-  }
+/** Loads the records from `from` up to the ones already loaded, for pages that need older ones. */
+export async function loadAttendanceSince(from: string): Promise<ActionResult> {
+  const { attendanceSince } = getState();
+  if (!attendanceSince || from >= attendanceSince) return ok();
+  const to = addDaysKey(attendanceSince, -1);
+  const result = handleUnauthorized(await fetchAttendance(from, to));
+  if (!result.ok) return result;
+  setState((s) => withAttendance(s, from, to, result.data));
+  return ok();
 }
 
-export function getTodayRecord(employeeId: string): AttendanceRecord | undefined {
-  const today = toDateKey();
-  return getState().attendance.find((r) => r.employeeId === employeeId && r.date === today);
+/** One person's records between two dates, without adding them to the store. */
+export async function fetchAttendanceHistory(employeeId: string, from: string, to: string): Promise<ActionResult<AttendanceRecord[]>> {
+  const auth = authorize();
+  if (!auth.ok) return auth;
+  return handleUnauthorized(await fetchAttendance(from, to, employeeId));
 }
