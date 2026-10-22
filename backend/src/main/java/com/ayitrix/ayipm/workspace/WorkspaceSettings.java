@@ -11,7 +11,8 @@ public record WorkspaceSettings(
 		Integer gracePeriodMinutes,
 		Double halfDayThresholdHours,
 		LeaveAllowance leaveAllowance,
-		String employeeIdPrefix) {
+		String employeeIdPrefix,
+		Boolean requireAdminTwoFactor) {
 
 	public record LeaveAllowance(Integer annual, Integer sick, Integer casual) {
 	}
@@ -24,7 +25,8 @@ public record WorkspaceSettings(
 				w.getGracePeriodMinutes(),
 				w.getHalfDayThresholdHours(),
 				new LeaveAllowance(w.getAnnualLeaveDays(), w.getSickLeaveDays(), w.getCasualLeaveDays()),
-				w.getEmployeeIdPrefix());
+				w.getEmployeeIdPrefix(),
+				w.isRequireAdminTwoFactor());
 	}
 
 }

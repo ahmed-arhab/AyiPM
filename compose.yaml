@@ -1,5 +1,6 @@
 # Development: `docker compose up -d` starts only Postgres; run the backend and frontend yourself.
 # Everything in Docker: `docker compose --profile app up --build`, then open http://localhost:3000.
+# On a server, add compose.prod.yaml and a .env file instead; see docs/self-hosting.md.
 # The database credentials match the defaults in backend/src/main/resources/application.yml.
 services:
   postgres:
@@ -26,6 +27,8 @@ services:
       DATABASE_PASSWORD: ayipm
       # Set to "demo" to create the demo accounts on an empty database.
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-}
+      # Needed for two-factor authentication: openssl rand -base64 32
+      TWO_FACTOR_ENCRYPTION_KEY: ${TWO_FACTOR_ENCRYPTION_KEY:-}
     depends_on:
       postgres:
         condition: service_healthy

@@ -23,6 +23,12 @@ management:
       exposure:
         include: health
 
+ayipm:
+  two-factor:
+    # Base64 of 32 random bytes (openssl rand -base64 32). It encrypts the authenticator secrets, so keep it secret and
+    # don't change it once people use two-factor authentication. While it is empty, two-factor authentication is off.
+    encryption-key: ${TWO_FACTOR_ENCRYPTION_KEY:}
+
 # The OpenAPI spec at /v3/api-docs and Swagger UI at /swagger-ui.html. Set both to false to turn them off.
 springdoc:
   api-docs:

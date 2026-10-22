@@ -47,6 +47,9 @@ public class Workspace {
 	@Column(nullable = false)
 	private String employeeIdPrefix = "AX";
 
+	@Column(nullable = false)
+	private boolean requireAdminTwoFactor;
+
 	@CreationTimestamp
 	@Column(nullable = false, updatable = false)
 	private Instant createdAt;
@@ -136,6 +139,14 @@ public class Workspace {
 
 	public void setEmployeeIdPrefix(String employeeIdPrefix) {
 		this.employeeIdPrefix = employeeIdPrefix;
+	}
+
+	public boolean isRequireAdminTwoFactor() {
+		return requireAdminTwoFactor;
+	}
+
+	public void setRequireAdminTwoFactor(boolean requireAdminTwoFactor) {
+		this.requireAdminTwoFactor = requireAdminTwoFactor;
 	}
 
 	public Instant getCreatedAt() {

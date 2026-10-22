@@ -1,18 +1,22 @@
 'use client';
 
 import { useId, useMemo, type ReactNode } from 'react';
+import Link from 'next/link';
 import { Clock } from 'lucide-react';
-import { Field, FormGrid, Input, Select } from '@/components/ui';
+import { Field, FormGrid, Input, Select, Switch } from '@/components/ui';
 import { TIMEZONES } from '@/constants/defaults';
+import { ROUTES } from '@/constants/navigation';
 import { graceDeadlineLabel } from '@/lib/date';
 import type { FieldErrors } from '@/lib/validation';
+import { useTwoFactorStatus } from '@/store';
+import { useT } from '@/translations';
 import type { WorkspaceFormValues } from '../utils';
 import styles from './WorkspaceFields.module.css';
 
 interface FieldsProps {
   values: WorkspaceFormValues;
   errors: FieldErrors<WorkspaceFormValues>;
-  setField: (field: keyof WorkspaceFormValues, value: string) => void;
+  setField: <K extends keyof WorkspaceFormValues>(field: K, value: WorkspaceFormValues[K]) => void;
 }
 
 function FieldGroup({ title, children }: { title: string; children: ReactNode }) {
@@ -127,6 +131,41 @@ export function LeaveFields({ values, errors, setField }: FieldsProps) {
           </Field>
         ))}
       </FormGrid>
+    </FieldGroup>
+  );
+}
+
+export function SecurityFields({ values, setField }: FieldsProps) {
+  const t = useT();
+  const twoFactor = useTwoFactorStatus();
+  const available = twoFactor?.available ?? false;
+  const ownEnabled = twoFactor?.enabled ?? false;
+  // The server refuses too; this explains why before anyone tries.
+  const canRequire = available && ownEnabled;
+
+  let hint: ReactNode = t('Admins without it are signed out, and set it up the next time they sign in.');
+  if (!available) {
+    hint = t("Two-factor authentication isn't set up on this server yet.");
+  } else if (!ownEnabled && !values.requireAdminTwoFactor) {
+    hint = (
+      <>
+        {t('Turn on two-factor authentication for your own account first.')}{' '}
+        <Link href={ROUTES.profile} className={styles.link}>
+          {t('Go to My Profile')}
+        </Link>
+      </>
+    );
+  }
+
+  return (
+    <FieldGroup title={t('Security')}>
+      <Switch
+        checked={values.requireAdminTwoFactor}
+        onChange={(checked) => setField('requireAdminTwoFactor', checked)}
+        label={t('Require two-factor authentication for admins')}
+        description={hint}
+        disabled={!values.requireAdminTwoFactor && !canRequire}
+      />
     </FieldGroup>
   );
 }

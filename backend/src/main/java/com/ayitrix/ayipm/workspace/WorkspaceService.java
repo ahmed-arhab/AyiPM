@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ayitrix.ayipm.activity.ActivityService;
+import com.ayitrix.ayipm.auth.SessionService;
+import com.ayitrix.ayipm.auth.TwoFactorCipher;
 import com.ayitrix.ayipm.common.ApiException;
+import com.ayitrix.ayipm.employee.Role;
 import com.ayitrix.ayipm.employee.User;
 import com.ayitrix.ayipm.employee.UserRepository;
 
@@ -27,12 +30,17 @@ public class WorkspaceService {
 	private final UserRepository users;
 	private final Clock clock;
 	private final ActivityService activity;
+	private final SessionService sessions;
+	private final TwoFactorCipher twoFactorCipher;
 
-	public WorkspaceService(WorkspaceRepository workspaces, UserRepository users, Clock clock, ActivityService activity) {
+	public WorkspaceService(WorkspaceRepository workspaces, UserRepository users, Clock clock, ActivityService activity, SessionService sessions,
+			TwoFactorCipher twoFactorCipher) {
 		this.workspaces = workspaces;
 		this.users = users;
 		this.clock = clock;
 		this.activity = activity;
+		this.sessions = sessions;
+		this.twoFactorCipher = twoFactorCipher;
 	}
 
 	/** The workspace's time zone, or UTC if it isn't set up or the stored value isn't a valid zone. */
@@ -65,6 +73,16 @@ public class WorkspaceService {
 	@Transactional(readOnly = true)
 	public Optional<WorkspaceSettings> getSettings() {
 		return workspaces.findById(Workspace.DEFAULT_ID).map(WorkspaceSettings::from);
+	}
+
+	/**
+	 * Whether admins must use two-factor authentication. The requirement is suspended while the server has no
+	 * encryption key, because nobody could set it up and admins without it would be locked out.
+	 */
+	@Transactional(readOnly = true)
+	public boolean adminTwoFactorRequired() {
+		return twoFactorCipher.isConfigured()
+				&& workspaces.findById(Workspace.DEFAULT_ID).map(Workspace::isRequireAdminTwoFactor).orElse(false);
 	}
 
 	@Transactional(readOnly = true)
@@ -112,9 +130,29 @@ public class WorkspaceService {
 			setLeaveDays(allowance.sick(), workspace::setSickLeaveDays);
 			setLeaveDays(allowance.casual(), workspace::setCasualLeaveDays);
 		}
+		boolean nowRequiringTwoFactor = Boolean.TRUE.equals(update.requireAdminTwoFactor()) && !workspace.isRequireAdminTwoFactor();
+		if (nowRequiringTwoFactor) assertCanRequireTwoFactor(actor);
+		if (update.requireAdminTwoFactor() != null) workspace.setRequireAdminTwoFactor(update.requireAdminTwoFactor());
 		WorkspaceSettings saved = WorkspaceSettings.from(workspaces.saveAndFlush(workspace));
+		if (nowRequiringTwoFactor) signOutAdminsWithoutTwoFactor();
 		activity.record(actor, "Updated Workspace Settings", ActivityService.SETTINGS, null, "Workspace");
 		return saved;
+	}
+
+	// Requiring it is only possible when it can be set up, and once the admin turning it on uses it, so the workspace
+	// always keeps an admin who can sign in.
+	private void assertCanRequireTwoFactor(User actor) {
+		if (!twoFactorCipher.isConfigured()) {
+			throw ApiException.conflict("Two-factor authentication isn't set up on this server yet, so it can't be required.");
+		}
+		if (!actor.hasTwoFactor()) {
+			throw ApiException.badRequest("Turn on two-factor authentication for your own account before requiring it for admins.");
+		}
+	}
+
+	// Admins without two-factor authentication set it up the next time they sign in.
+	private void signOutAdminsWithoutTwoFactor() {
+		users.findAllByRoleAndTwoFactorSecretIsNull(Role.ADMIN).forEach(admin -> sessions.revokeAll(admin.getId()));
 	}
 
 	private static void setLeaveDays(Integer days, IntConsumer setter) {

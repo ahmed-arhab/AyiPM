@@ -1,7 +1,9 @@
 package com.ayitrix.ayipm.auth;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,12 +34,14 @@ public class AuthController {
 	private final SessionService sessions;
 	private final BootstrapService bootstrap;
 	private final WorkspaceService workspace;
+	private final TwoFactorService twoFactor;
 
-	public AuthController(AuthService auth, SessionService sessions, BootstrapService bootstrap, WorkspaceService workspace) {
+	public AuthController(AuthService auth, SessionService sessions, BootstrapService bootstrap, WorkspaceService workspace, TwoFactorService twoFactor) {
 		this.auth = auth;
 		this.sessions = sessions;
 		this.bootstrap = bootstrap;
 		this.workspace = workspace;
+		this.twoFactor = twoFactor;
 	}
 
 	public record SetupRequest(String companyName, String name, String email, String password) {
@@ -58,6 +62,19 @@ public class AuthController {
 	public record InviteDetails(String name, String email, String employeeId, String companyName, Instant expiresAt) {
 	}
 
+	public record ChallengeRequest(String challenge) {
+	}
+
+	public record ChallengeCodeRequest(String challenge, String code) {
+	}
+
+	/** Sent by login and invite acceptance instead of a session when a second step is needed. */
+	public record TwoFactorRequired(TwoFactorService.Challenge twoFactorChallenge) {
+	}
+
+	public record TwoFactorSignIn(BootstrapPayload bootstrap, List<String> recoveryCodes) {
+	}
+
 	@Operation(summary = "Check whether the workspace still needs to be set up")
 	@GetMapping("/api/setup")
 	public ResponseEntity<ApiResponse<Map<String, Boolean>>> setupStatus() {
@@ -72,12 +89,37 @@ public class AuthController {
 		return ApiResponse.created(bootstrap.signedIn(owner, expiresAt));
 	}
 
+	/** Answers with the session, or with {@link TwoFactorRequired} when the account needs a code or two-factor setup. */
 	@Operation(summary = "Sign in with an email or Employee ID", description = "Sets the session cookie, which the browser then sends with every request.")
 	@PostMapping("/api/auth/login")
-	public ResponseEntity<ApiResponse<BootstrapPayload>> login(@RequestBody LoginRequest body, HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<ApiResponse<Object>> login(@RequestBody LoginRequest body, HttpServletRequest request, HttpServletResponse response) {
 		User user = auth.authenticate(body.email(), orEmpty(body.password()));
-		Instant expiresAt = sessions.start(user, Boolean.TRUE.equals(body.remember()), request, response);
-		return ApiResponse.ok(bootstrap.signedIn(user, expiresAt));
+		boolean remember = Boolean.TRUE.equals(body.remember());
+		Optional<TwoFactorService.Challenge> challenge = twoFactor.challengeFor(user, remember);
+		if (challenge.isPresent()) return ApiResponse.ok(new TwoFactorRequired(challenge.get()));
+		return ApiResponse.ok(signIn(user, remember, false, request, response));
+	}
+
+	@Operation(summary = "Finish signing in with an authenticator or recovery code")
+	@PostMapping("/api/auth/login/two-factor")
+	public ResponseEntity<ApiResponse<BootstrapPayload>> loginWithCode(@RequestBody ChallengeCodeRequest body, HttpServletRequest request,
+			HttpServletResponse response) {
+		TwoFactorService.SignIn done = twoFactor.completeSignIn(orEmpty(body.challenge()).trim(), orEmpty(body.code()));
+		return ApiResponse.ok(signIn(done.user(), done.remember(), done.usedRecoveryCode(), request, response));
+	}
+
+	@Operation(summary = "Start two-factor setup during sign-in, when the workspace requires it")
+	@PostMapping("/api/auth/login/two-factor/setup")
+	public ResponseEntity<ApiResponse<TwoFactorService.Setup>> startTwoFactorSetupAtLogin(@RequestBody ChallengeRequest body) {
+		return ApiResponse.ok(twoFactor.startSetupForSignIn(orEmpty(body.challenge()).trim()));
+	}
+
+	@Operation(summary = "Confirm two-factor setup during sign-in, and sign in")
+	@PostMapping("/api/auth/login/two-factor/confirm")
+	public ResponseEntity<ApiResponse<TwoFactorSignIn>> confirmTwoFactorSetupAtLogin(@RequestBody ChallengeCodeRequest body, HttpServletRequest request,
+			HttpServletResponse response) {
+		TwoFactorService.SignIn done = twoFactor.confirmSetupForSignIn(orEmpty(body.challenge()).trim(), orEmpty(body.code()));
+		return ApiResponse.ok(new TwoFactorSignIn(signIn(done.user(), done.remember(), false, request, response), done.recoveryCodes()));
 	}
 
 	@PostMapping("/api/auth/logout")
@@ -103,10 +145,13 @@ public class AuthController {
 		return ApiResponse.ok(new InviteDetails(user.getName(), user.getEmail(), user.getEmployeeId(), companyName, invite.getExpiresAt()));
 	}
 
+	/** Like login, answers with {@link TwoFactorRequired} when a new admin has to set up two-factor authentication first. */
 	@Operation(summary = "Accept an invitation by choosing a password, and sign in")
 	@PostMapping("/api/auth/invite")
-	public ResponseEntity<ApiResponse<BootstrapPayload>> acceptInvite(@RequestBody TokenPasswordRequest body, HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<ApiResponse<Object>> acceptInvite(@RequestBody TokenPasswordRequest body, HttpServletRequest request, HttpServletResponse response) {
 		User user = auth.acceptInvite(orEmpty(body.token()).trim(), orEmpty(body.password()));
+		Optional<TwoFactorService.Challenge> challenge = twoFactor.challengeFor(user, false);
+		if (challenge.isPresent()) return ApiResponse.ok(new TwoFactorRequired(challenge.get()));
 		Instant expiresAt = sessions.start(user, false, request, response);
 		return ApiResponse.ok(bootstrap.signedIn(user, expiresAt));
 	}
@@ -138,6 +183,12 @@ public class AuthController {
 		User user = sessions.requireUser(request);
 		auth.changePassword(user, orEmpty(body.currentPassword()), orEmpty(body.newPassword()));
 		return ApiResponse.ok(null);
+	}
+
+	private BootstrapPayload signIn(User user, boolean remember, boolean usedRecoveryCode, HttpServletRequest request, HttpServletResponse response) {
+		auth.signedIn(user, usedRecoveryCode);
+		Instant expiresAt = sessions.start(user, remember, request, response);
+		return bootstrap.signedIn(user, expiresAt);
 	}
 
 	private static String orEmpty(String value) {
