@@ -106,6 +106,26 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Reset password': 'මුරපදය නැවත සකසන්න',
   'Accept invitation': 'ආරාධනය පිළිගන්න',
   'Welcome to AyiPM': 'AyiPM වෙත සාදරයෙන් පිළිගනිමු',
+  'Continue with Google': 'Google සමඟ ඉදිරියට යන්න',
+  'Join with Google': 'Google සමඟ එක්වන්න',
+  'or': 'හෝ',
+  "Sign-in with Google isn't set up on this server.": 'මෙම සේවාදායකයේ Google සමඟ පුරනය වීම සකසා නැත.',
+  'This sign-in with Google expired, or it was started in another browser. Try again.':
+    'Google සමඟ මෙම පුරනය වීමේ කාලය ඉකුත් වී ඇත, නැතහොත් එය වෙනත් බ්‍රවුසරයකින් ආරම්භ කර ඇත. නැවත උත්සාහ කරන්න.',
+  "Signing in with Google didn't work. Try again.": 'Google සමඟ පුරනය වීම සාර්ථක නොවීය. නැවත උත්සාහ කරන්න.',
+  "There's no account for this Google account's email address. Ask your admin for an invitation.":
+    'මෙම Google ගිණුමේ විද්‍යුත් තැපැල් ලිපිනය සඳහා ගිණුමක් නොමැත. ආරාධනයක් සඳහා ඔබගේ පරිපාලකයාගෙන් ඉල්ලන්න.',
+  'This workspace only accepts Google accounts from its own domain. Use your work Google account.':
+    'මෙම වැඩබිම පිළිගන්නේ තම වසමේ Google ගිණුම් පමණි. ඔබගේ කාර්යාල Google ගිණුම භාවිත කරන්න.',
+  'This account has been deactivated. Contact your administrator.': 'මෙම ගිණුම අක්‍රිය කර ඇත. ඔබගේ පරිපාලකයා අමතන්න.',
+  'Your invitation has expired. Ask your admin for a new one.':
+    'ඔබගේ ආරාධනයේ කාලය ඉකුත් වී ඇත. නව එකක් සඳහා ඔබගේ පරිපාලකයාගෙන් ඉල්ලන්න.',
+  'This invitation is for another email address. Continue with the Google account it was sent to.':
+    'මෙම ආරාධනය වෙනත් විද්‍යුත් තැපැල් ලිපිනයක් සඳහා ය. එය යවන ලද Google ගිණුම සමඟ ඉදිරියට යන්න.',
+  "This Google account doesn't match the one linked to your account. Sign in with your password, or ask your admin.":
+    'මෙම Google ගිණුම ඔබගේ ගිණුමට සම්බන්ධ කර ඇති Google ගිණුමට නොගැළපේ. ඔබගේ මුරපදය සමඟ පුරනය වන්න, නැතහොත් ඔබගේ පරිපාලකයාගෙන් විමසන්න.',
+  'Too many attempts. Wait a minute and try again.':
+    'උත්සාහයන් ඕනෑවට වඩා වැඩිය. මිනිත්තුවක් රැඳී සිට නැවත උත්සාහ කරන්න.',
 
   // Dashboard
   'Good morning': 'සුබ උදෑසනක්',
@@ -645,6 +665,13 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Turn on two-factor authentication for your own account first.':
     'පළමුව ඔබගේම ගිණුම සඳහා ද්වි-සාධක සත්‍යාපනය සක්‍රිය කරන්න.',
   'Go to My Profile': 'මගේ පැතිකඩ වෙත යන්න',
+  'Google sign-in domain': 'Google පුරනය වීමේ වසම',
+  'Only Google Workspace accounts from this domain can sign in with Google.':
+    'Google සමඟ පුරනය විය හැක්කේ මෙම වසමේ Google Workspace ගිණුම්වලට පමණි.',
+  "Leave it empty to accept any Google account with a member's email address.":
+    'සාමාජිකයෙකුගේ විද්‍යුත් තැපැල් ලිපිනය ඇති ඕනෑම Google ගිණුමක් පිළිගැනීමට මෙය හිස්ව තබන්න.',
+  'Enter a domain like example.com, or leave it empty to allow any Google account.':
+    'example.com වැනි වසමක් ඇතුළත් කරන්න, නැතහොත් ඕනෑම Google ගිණුමකට ඉඩ දීමට එය හිස්ව තබන්න.',
   'Enter the 6-digit code from your authenticator app.': 'ඔබගේ සත්‍යාපන යෙදුමේ ඉලක්කම් 6 කේතය ඇතුළත් කරන්න.',
   'Enter one of your recovery codes.': 'ඔබගේ ප්‍රතිසාධන කේතවලින් එකක් ඇතුළත් කරන්න.',
   'Enter the code from your authenticator app, or a recovery code.':
@@ -657,6 +684,8 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
     'එම ප්‍රතිසාධන කේතය ක්‍රියා කළේ නැත. සෑම කේතයක්ම එක් වරක් පමණක් ක්‍රියා කරයි.',
   'This sign-in has expired. Enter your password again.':
     'මෙම පුරනය වීමේ කාලය ඉකුත් වී ඇත. ඔබගේ මුරපදය නැවත ඇතුළත් කරන්න.',
+  'This sign-in has expired. Continue with Google again.':
+    'මෙම පුරනය වීමේ කාලය ඉකුත් වී ඇත. නැවත Google සමඟ ඉදිරියට යන්න.',
   "Codes from authenticator apps can't be checked on this server right now. Use a recovery code, or ask your admin.":
     'මෙම මොහොතේ මෙම සේවාදායකයට සත්‍යාපන යෙදුම්වල කේත පරීක්ෂා කළ නොහැක. ප්‍රතිසාධන කේතයක් භාවිත කරන්න, නැතහොත් ඔබගේ පරිපාලකගෙන් විමසන්න.',
   'Start the setup again to get a new QR code.': 'නව QR කේතයක් ලබා ගැනීමට සැකසුම නැවත අරඹන්න.',

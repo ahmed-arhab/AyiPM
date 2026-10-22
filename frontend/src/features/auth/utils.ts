@@ -23,6 +23,25 @@ export function groupSecret(secret: string): string {
   return secret.replace(/(.{4})(?=.)/g, '$1 ');
 }
 
+/** Where "Continue with Google" goes. With an invitation's token, accepting it is limited to the invited address. */
+export function googleSignInUrl(inviteToken?: string): string {
+  return inviteToken ? `/api/auth/google/start?invite=${encodeURIComponent(inviteToken)}` : '/api/auth/google/start';
+}
+
+/** The backend sends the browser back to /login?google=<code> when a sign-in with Google doesn't work (GoogleSignInException). */
+export const GOOGLE_SIGN_IN_ERRORS: Record<string, string> = {
+  unavailable: "Sign-in with Google isn't set up on this server.",
+  expired: 'This sign-in with Google expired, or it was started in another browser. Try again.',
+  failed: "Signing in with Google didn't work. Try again.",
+  'not-invited': "There's no account for this Google account's email address. Ask your admin for an invitation.",
+  'wrong-domain': 'This workspace only accepts Google accounts from its own domain. Use your work Google account.',
+  deactivated: 'This account has been deactivated. Contact your administrator.',
+  'invite-expired': 'Your invitation has expired. Ask your admin for a new one.',
+  'invite-mismatch': 'This invitation is for another email address. Continue with the Google account it was sent to.',
+  'linked-elsewhere': "This Google account doesn't match the one linked to your account. Sign in with your password, or ask your admin.",
+  'too-many-attempts': 'Too many attempts. Wait a minute and try again.',
+};
+
 export interface PasswordPairValues {
   password: string;
   confirmPassword: string;

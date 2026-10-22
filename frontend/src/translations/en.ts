@@ -104,6 +104,26 @@ export const EN_DICTIONARY = {
   'Reset password': 'Reset password',
   'Accept invitation': 'Accept invitation',
   'Welcome to AyiPM': 'Welcome to AyiPM',
+  'Continue with Google': 'Continue with Google',
+  'Join with Google': 'Join with Google',
+  'or': 'or',
+  "Sign-in with Google isn't set up on this server.": "Sign-in with Google isn't set up on this server.",
+  'This sign-in with Google expired, or it was started in another browser. Try again.':
+    'This sign-in with Google expired, or it was started in another browser. Try again.',
+  "Signing in with Google didn't work. Try again.": "Signing in with Google didn't work. Try again.",
+  "There's no account for this Google account's email address. Ask your admin for an invitation.":
+    "There's no account for this Google account's email address. Ask your admin for an invitation.",
+  'This workspace only accepts Google accounts from its own domain. Use your work Google account.':
+    'This workspace only accepts Google accounts from its own domain. Use your work Google account.',
+  'This account has been deactivated. Contact your administrator.':
+    'This account has been deactivated. Contact your administrator.',
+  'Your invitation has expired. Ask your admin for a new one.':
+    'Your invitation has expired. Ask your admin for a new one.',
+  'This invitation is for another email address. Continue with the Google account it was sent to.':
+    'This invitation is for another email address. Continue with the Google account it was sent to.',
+  "This Google account doesn't match the one linked to your account. Sign in with your password, or ask your admin.":
+    "This Google account doesn't match the one linked to your account. Sign in with your password, or ask your admin.",
+  'Too many attempts. Wait a minute and try again.': 'Too many attempts. Wait a minute and try again.',
 
   // Dashboard
   'Good morning': 'Good morning',
@@ -642,6 +662,13 @@ export const EN_DICTIONARY = {
   'Turn on two-factor authentication for your own account first.':
     'Turn on two-factor authentication for your own account first.',
   'Go to My Profile': 'Go to My Profile',
+  'Google sign-in domain': 'Google sign-in domain',
+  'Only Google Workspace accounts from this domain can sign in with Google.':
+    'Only Google Workspace accounts from this domain can sign in with Google.',
+  "Leave it empty to accept any Google account with a member's email address.":
+    "Leave it empty to accept any Google account with a member's email address.",
+  'Enter a domain like example.com, or leave it empty to allow any Google account.':
+    'Enter a domain like example.com, or leave it empty to allow any Google account.',
   'Enter the 6-digit code from your authenticator app.':
     'Enter the 6-digit code from your authenticator app.',
   'Enter one of your recovery codes.': 'Enter one of your recovery codes.',
@@ -655,6 +682,7 @@ export const EN_DICTIONARY = {
     "That recovery code didn't work. Each code works only once.",
   'This sign-in has expired. Enter your password again.':
     'This sign-in has expired. Enter your password again.',
+  'This sign-in has expired. Continue with Google again.': 'This sign-in has expired. Continue with Google again.',
   "Codes from authenticator apps can't be checked on this server right now. Use a recovery code, or ask your admin.":
     "Codes from authenticator apps can't be checked on this server right now. Use a recovery code, or ask your admin.",
   'Start the setup again to get a new QR code.': 'Start the setup again to get a new QR code.',

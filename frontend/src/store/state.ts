@@ -33,6 +33,7 @@ export interface ServerState {
   // Only the signed-in person's entry is filled in.
   preferences: Record<string, UserPreferences>;
   twoFactor: TwoFactorStatus | null;
+  googleSignIn: boolean;
 }
 
 export interface AppState extends PersistedState, ServerState {
@@ -60,6 +61,7 @@ export function createInitialState(): AppState {
     notifications: [],
     preferences: {},
     twoFactor: null,
+    googleSignIn: false,
     newRecoveryCodes: null,
   };
 }

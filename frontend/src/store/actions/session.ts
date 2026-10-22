@@ -14,6 +14,7 @@ export function applyBootstrap(payload: BootstrapPayload): void {
     workspace: payload.workspace ? { ...DEFAULT_WORKSPACE, ...payload.workspace } : DEFAULT_WORKSPACE,
     preferences: payload.user && payload.preferences ? { [payload.user.id]: payload.preferences } : {},
     twoFactor: payload.twoFactor,
+    googleSignIn: payload.googleSignIn ?? false,
   });
 }
 

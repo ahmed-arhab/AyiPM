@@ -16,6 +16,8 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
 	Optional<User> findFirstByEmailOrEmployeeId(String email, String employeeId);
 
+	Optional<User> findByGoogleSubject(String googleSubject);
+
 	List<User> findAllByOrderByCreatedAtAsc();
 
 	List<User> findAllByEmployeeIdStartingWith(String prefix);
@@ -30,6 +32,10 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	@Query("select u from User u where u.id = :id")
 	Optional<User> lockById(UUID id);
+
+	@Lock(LockModeType.PESSIMISTIC_WRITE)
+	@Query("select u from User u where u.email = :email")
+	Optional<User> lockByEmail(String email);
 
 	@Modifying
 	@Query("update User u set u.passwordResetRequestedAt = :at where u.email = :email and u.status = :status")
