@@ -1,36 +1,13 @@
-export type TaskPriority = 'urgent' | 'high' | 'medium' | 'low';
-export type TaskStatus = 'backlog' | 'in_progress' | 'review' | 'done';
+import type { ApiSchema } from './api-schema';
 
-export interface TaskComment {
-  id: string;
-  authorId: string;
-  text: string;
-  createdAt: string;
-}
+export type TaskPriority = ApiSchema<'TaskPriority'>;
+export type TaskStatus = ApiSchema<'TaskStatus'>;
 
-export interface TaskHistoryEntry {
-  id: string;
-  actorId: string;
-  action: string;
-  createdAt: string;
-}
+export type TaskComment = ApiSchema<'Comment'>;
 
-export interface Task {
-  id: string;
-  projectId: string;
-  title: string;
-  description: string;
-  assigneeId?: string;
-  priority: TaskPriority;
-  status: TaskStatus;
-  dueDate: string;
-  order: number;
-  comments: TaskComment[];
-  history: TaskHistoryEntry[];
-  createdBy: string;
-  createdAt: string;
-  updatedAt: string;
-}
+export type TaskHistoryEntry = ApiSchema<'HistoryEntry'>;
+
+export type Task = ApiSchema<'TaskResponse'>;
 
 export type TaskInput = Pick<Task, 'projectId' | 'title' | 'description' | 'priority' | 'status' | 'dueDate'> &
   Partial<Pick<Task, 'assigneeId'>>;

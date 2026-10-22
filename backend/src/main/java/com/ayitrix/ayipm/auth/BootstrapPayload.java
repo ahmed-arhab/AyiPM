@@ -3,6 +3,8 @@ package com.ayitrix.ayipm.auth;
 import java.time.Instant;
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
+
 import com.ayitrix.ayipm.employee.EmployeeResponse;
 import com.ayitrix.ayipm.preferences.PreferencesResponse;
 import com.ayitrix.ayipm.workspace.WorkspaceSettings;
@@ -13,11 +15,11 @@ import com.ayitrix.ayipm.workspace.WorkspaceSettings;
  */
 public record BootstrapPayload(
 		boolean needsSetup,
-		EmployeeResponse user,
-		Instant expiresAt,
-		WorkspaceSettings workspace,
+		@Nullable EmployeeResponse user,
+		@Nullable Instant expiresAt,
+		@Nullable WorkspaceSettings workspace,
 		List<EmployeeResponse> employees,
-		PreferencesResponse preferences,
-		TwoFactorService.Status twoFactor,
-		boolean googleSignIn) {
+		@Nullable PreferencesResponse preferences,
+		TwoFactorService.@Nullable Status twoFactor,
+		boolean googleSignIn) implements AuthController.SignInResult {
 }

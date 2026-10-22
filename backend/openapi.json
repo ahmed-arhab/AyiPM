@@ -1,0 +1,2960 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "AyiPM API",
+    "description" : "The API behind the AyiPM web app. Successful responses are `{ \"data\": ... }` and errors are `{ \"error\": \"message\" }`.\n\nMost endpoints need a signed-in session. Sign in with `POST /api/auth/login` (or `POST /api/setup` on a new workspace); the browser keeps the session cookie and sends it with every later request, including the ones you try out here.",
+    "version" : "0.0.1-SNAPSHOT"
+  },
+  "servers" : [ {
+    "url" : "/"
+  } ],
+  "security" : [ {
+    "ayipm_session" : [ ]
+  } ],
+  "paths" : {
+    "/api/employees/{id}/status" : {
+      "put" : {
+        "tags" : [ "employee-controller" ],
+        "operationId" : "employeeChangeStatus",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/StatusChange"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseEmployeeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/employees/{id}/role" : {
+      "put" : {
+        "tags" : [ "employee-controller" ],
+        "operationId" : "employeeChangeRole",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RoleChange"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseEmployeeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/employees/{id}/projects" : {
+      "put" : {
+        "tags" : [ "project-controller" ],
+        "summary" : "Replace the projects this person belongs to",
+        "description" : "Returns every project, since several may have changed.",
+        "operationId" : "projectAssign",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Assignments"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseListProjectResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tasks" : {
+      "get" : {
+        "tags" : [ "task-controller" ],
+        "operationId" : "taskList",
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseListTaskResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "task-controller" ],
+        "operationId" : "taskCreate",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/TaskRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseTaskResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tasks/{id}/move" : {
+      "post" : {
+        "tags" : [ "task-controller" ],
+        "summary" : "Move a task to a column and position on the board",
+        "description" : "Used for drag and drop. Returns every task in the target column.",
+        "operationId" : "taskMove",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Move"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseListTaskResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tasks/{id}/comments" : {
+      "post" : {
+        "tags" : [ "task-controller" ],
+        "operationId" : "taskComment",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/NewComment"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseTaskResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/setup" : {
+      "get" : {
+        "tags" : [ "auth-controller" ],
+        "summary" : "Check whether the workspace still needs to be set up",
+        "operationId" : "authSetupStatus",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseMapStringBoolean"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      },
+      "post" : {
+        "tags" : [ "auth-controller" ],
+        "summary" : "Create the workspace and its owner account, and sign in as the owner",
+        "description" : "Works only once; after that it fails with 409.",
+        "operationId" : "authSetup",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SetupRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseBootstrapPayload"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/api/projects" : {
+      "get" : {
+        "tags" : [ "project-controller" ],
+        "operationId" : "projectList",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseListProjectResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "project-controller" ],
+        "operationId" : "projectCreate",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ProjectRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseProjectResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/notifications/read-all" : {
+      "post" : {
+        "tags" : [ "notification-controller" ],
+        "operationId" : "notificationMarkAllRead",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseVoid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/leave" : {
+      "get" : {
+        "tags" : [ "leave-controller" ],
+        "operationId" : "leaveList",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseListLeaveResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "leave-controller" ],
+        "operationId" : "leaveSubmit",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Submission"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseLeaveResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/leave/{id}/reject" : {
+      "post" : {
+        "tags" : [ "leave-controller" ],
+        "operationId" : "leaveReject",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Rejection"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseLeaveResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/leave/{id}/approve" : {
+      "post" : {
+        "tags" : [ "leave-controller" ],
+        "operationId" : "leaveApprove",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseLeaveResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/employees" : {
+      "get" : {
+        "tags" : [ "employee-controller" ],
+        "operationId" : "employeeList",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseListEmployeeResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "employee-controller" ],
+        "operationId" : "employeeCreate",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CreateEmployeeRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseCreatedEmployee"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/employees/{id}/reset-link" : {
+      "post" : {
+        "tags" : [ "employee-controller" ],
+        "summary" : "Issue a one-time password reset link",
+        "description" : "Emails the link to the person when email is set up. The admin can also share it themselves.",
+        "operationId" : "employeeResetLink",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseAccessLink"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/employees/{id}/invite" : {
+      "post" : {
+        "tags" : [ "employee-controller" ],
+        "summary" : "Issue a fresh invitation link for someone who hasn't joined yet",
+        "operationId" : "employeeResendInvite",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseAccessLink"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/two-factor/setup" : {
+      "post" : {
+        "tags" : [ "two-factor-controller" ],
+        "operationId" : "twoFactorStartSetup",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseSetup"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/two-factor/recovery-codes" : {
+      "post" : {
+        "tags" : [ "two-factor-controller" ],
+        "operationId" : "twoFactorRegenerateRecoveryCodes",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CodeRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseNewRecoveryCodes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/two-factor/disable" : {
+      "post" : {
+        "tags" : [ "two-factor-controller" ],
+        "operationId" : "twoFactorDisable",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CodeRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/two-factor/confirm" : {
+      "post" : {
+        "tags" : [ "two-factor-controller" ],
+        "operationId" : "twoFactorConfirmSetup",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CodeRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseNewRecoveryCodes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/reset" : {
+      "get" : {
+        "tags" : [ "auth-controller" ],
+        "summary" : "Look up a password reset link by its token",
+        "operationId" : "authResetDetails",
+        "parameters" : [ {
+          "name" : "token",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "default" : ""
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseMapStringString"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      },
+      "post" : {
+        "tags" : [ "auth-controller" ],
+        "summary" : "Set a new password with a reset link's token",
+        "operationId" : "authResetPassword",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/TokenPasswordRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseVoid"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/api/auth/password" : {
+      "post" : {
+        "tags" : [ "auth-controller" ],
+        "operationId" : "authChangePassword",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ChangePasswordRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseVoid"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "ayipm_session" : [ ]
+        } ]
+      }
+    },
+    "/api/auth/logout" : {
+      "post" : {
+        "tags" : [ "auth-controller" ],
+        "operationId" : "authLogout",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseVoid"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/api/auth/login" : {
+      "post" : {
+        "tags" : [ "auth-controller" ],
+        "summary" : "Sign in with an email or Employee ID",
+        "description" : "Sets the session cookie, which the browser then sends with every request.",
+        "operationId" : "authLogin",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseSignInResult"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/api/auth/login/two-factor" : {
+      "post" : {
+        "tags" : [ "auth-controller" ],
+        "summary" : "Finish signing in with an authenticator or recovery code",
+        "operationId" : "authLoginWithCode",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ChallengeCodeRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseBootstrapPayload"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/api/auth/login/two-factor/setup" : {
+      "post" : {
+        "tags" : [ "auth-controller" ],
+        "summary" : "Start two-factor setup during sign-in, when the workspace requires it",
+        "operationId" : "authStartTwoFactorSetupAtLogin",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ChallengeRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseSetup"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/api/auth/login/two-factor/confirm" : {
+      "post" : {
+        "tags" : [ "auth-controller" ],
+        "summary" : "Confirm two-factor setup during sign-in, and sign in",
+        "operationId" : "authConfirmTwoFactorSetupAtLogin",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ChallengeCodeRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseTwoFactorSignIn"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/api/auth/invite" : {
+      "get" : {
+        "tags" : [ "auth-controller" ],
+        "summary" : "Look up an invitation by its token",
+        "operationId" : "authInviteDetails",
+        "parameters" : [ {
+          "name" : "token",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "default" : ""
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseInviteDetails"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      },
+      "post" : {
+        "tags" : [ "auth-controller" ],
+        "summary" : "Accept an invitation by choosing a password, and sign in",
+        "operationId" : "authAcceptInvite",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/TokenPasswordRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseSignInResult"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/api/auth/google/two-factor" : {
+      "post" : {
+        "tags" : [ "google-sign-in-controller" ],
+        "summary" : "Get the two-factor step of a sign-in with Google",
+        "description" : "After the callback redirected to the login page with google=two-factor. Finish it like a password sign-in, with /api/auth/login/two-factor or its setup steps.",
+        "operationId" : "googleSignInTwoFactorStep",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponsePendingSignIn"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/api/auth/forgot" : {
+      "post" : {
+        "tags" : [ "auth-controller" ],
+        "summary" : "Ask an admin for a password reset link",
+        "description" : "Marks the person's profile as Reset requested.",
+        "operationId" : "authForgotPassword",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ForgotRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseVoid"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/api/attendance/check-out" : {
+      "post" : {
+        "tags" : [ "attendance-controller" ],
+        "operationId" : "attendanceCheckOut",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseAttendanceResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/attendance/check-in" : {
+      "post" : {
+        "tags" : [ "attendance-controller" ],
+        "operationId" : "attendanceCheckIn",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CheckIn"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseAttendanceResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workspace" : {
+      "get" : {
+        "tags" : [ "workspace-controller" ],
+        "operationId" : "workspaceGet",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseWorkspaceSettings"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "workspace-controller" ],
+        "operationId" : "workspaceUpdate",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/WorkspaceSettings"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseWorkspaceSettings"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tasks/{id}" : {
+      "delete" : {
+        "tags" : [ "task-controller" ],
+        "operationId" : "taskDelete",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseVoid"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "task-controller" ],
+        "operationId" : "taskUpdate",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/TaskRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseTaskResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projects/{id}" : {
+      "delete" : {
+        "tags" : [ "project-controller" ],
+        "operationId" : "projectDelete",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseVoid"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "project-controller" ],
+        "operationId" : "projectUpdate",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ProjectRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseProjectResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/notifications/{id}" : {
+      "delete" : {
+        "tags" : [ "notification-controller" ],
+        "operationId" : "notificationDelete",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseVoid"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "notification-controller" ],
+        "operationId" : "notificationSetRead",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ReadChange"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseNotificationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/me/preferences" : {
+      "get" : {
+        "tags" : [ "preferences-controller" ],
+        "operationId" : "preferencesGet",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponsePreferencesResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "preferences-controller" ],
+        "summary" : "Reset your preferences to the defaults",
+        "operationId" : "preferencesReset",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponsePreferencesResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "preferences-controller" ],
+        "operationId" : "preferencesUpdate",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PreferencesResponse"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponsePreferencesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/employees/{id}" : {
+      "patch" : {
+        "tags" : [ "employee-controller" ],
+        "operationId" : "employeeUpdate",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "additionalProperties" : { }
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseEmployeeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/notifications" : {
+      "get" : {
+        "tags" : [ "notification-controller" ],
+        "operationId" : "notificationList",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseListNotificationResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "notification-controller" ],
+        "operationId" : "notificationClear",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseVoid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/leave/balance" : {
+      "get" : {
+        "tags" : [ "leave-controller" ],
+        "operationId" : "leaveBalance",
+        "parameters" : [ {
+          "name" : "employeeId",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseBalance"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/two-factor" : {
+      "get" : {
+        "tags" : [ "two-factor-controller" ],
+        "operationId" : "twoFactorStatus",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/session" : {
+      "get" : {
+        "tags" : [ "auth-controller" ],
+        "operationId" : "authSession",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseBootstrapPayload"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/api/auth/google/start" : {
+      "get" : {
+        "tags" : [ "google-sign-in-controller" ],
+        "summary" : "Start signing in with Google",
+        "description" : "Redirects to Google, which sends the browser back to /api/auth/google/callback. With an invitation's token, accepts that invitation.",
+        "operationId" : "googleSignInStart",
+        "parameters" : [ {
+          "name" : "invite",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "default" : ""
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/api/auth/google/callback" : {
+      "get" : {
+        "tags" : [ "google-sign-in-controller" ],
+        "summary" : "Finish signing in with Google",
+        "description" : "Google sends the browser here. Starts a session and redirects to the dashboard, or redirects to the login page for a two-factor code or with what went wrong.",
+        "operationId" : "googleSignInCallback",
+        "parameters" : [ {
+          "name" : "state",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "code",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "error",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/api/attendance" : {
+      "get" : {
+        "tags" : [ "attendance-controller" ],
+        "operationId" : "attendanceList",
+        "parameters" : [ {
+          "name" : "employeeId",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "name" : "from",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }, {
+          "name" : "to",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseListAttendanceResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/activity" : {
+      "get" : {
+        "tags" : [ "activity-controller" ],
+        "operationId" : "activitySearch",
+        "parameters" : [ {
+          "name" : "actorId",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "name" : "entityType",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "from",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }, {
+          "name" : "to",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 0
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 100
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseListActivityResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/leave/{id}" : {
+      "delete" : {
+        "tags" : [ "leave-controller" ],
+        "summary" : "Cancel your own pending request",
+        "operationId" : "leaveCancel",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponseVoid"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "StatusChange" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ApiResponseEmployeeResponse" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/EmployeeResponse"
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "EmployeeResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "employeeId" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "department" : {
+            "type" : "string"
+          },
+          "designation" : {
+            "type" : "string"
+          },
+          "role" : {
+            "$ref" : "#/components/schemas/Role"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/EmployeeStatus"
+          },
+          "joinDate" : {
+            "type" : "string"
+          },
+          "avatar" : {
+            "type" : "string"
+          },
+          "phone" : {
+            "type" : "string"
+          },
+          "location" : {
+            "type" : "string"
+          },
+          "bio" : {
+            "type" : "string"
+          },
+          "invited" : {
+            "type" : "boolean"
+          },
+          "passwordResetRequestedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updatedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        },
+        "required" : [ "createdAt", "department", "designation", "email", "employeeId", "id", "invited", "joinDate", "name", "role", "status", "updatedAt" ]
+      },
+      "EmployeeStatus" : {
+        "type" : "string",
+        "enum" : [ "active", "inactive" ]
+      },
+      "Role" : {
+        "type" : "string",
+        "enum" : [ "admin", "project_manager", "employee" ]
+      },
+      "RoleChange" : {
+        "type" : "object",
+        "properties" : {
+          "role" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Assignments" : {
+        "type" : "object",
+        "properties" : {
+          "projectIds" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "ApiResponseListProjectResponse" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ProjectResponse"
+            }
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "ProjectResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "client" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "startDate" : {
+            "type" : "string"
+          },
+          "endDate" : {
+            "type" : "string"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/ProjectStatus"
+          },
+          "members" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "managerId" : {
+            "type" : "string"
+          },
+          "budget" : {
+            "type" : "string"
+          },
+          "createdBy" : {
+            "type" : "string"
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updatedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        },
+        "required" : [ "client", "createdAt", "createdBy", "description", "endDate", "id", "members", "name", "startDate", "status", "updatedAt" ]
+      },
+      "ProjectStatus" : {
+        "type" : "string",
+        "enum" : [ "planning", "in_progress", "in_review", "on_hold", "completed" ]
+      },
+      "TaskRequest" : {
+        "type" : "object",
+        "properties" : {
+          "projectId" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "assigneeId" : {
+            "type" : "string"
+          },
+          "priority" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "string"
+          },
+          "dueDate" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ApiResponseTaskResponse" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/TaskResponse"
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "Comment" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "authorId" : {
+            "type" : "string"
+          },
+          "text" : {
+            "type" : "string"
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        },
+        "required" : [ "authorId", "createdAt", "id", "text" ]
+      },
+      "HistoryEntry" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "actorId" : {
+            "type" : "string"
+          },
+          "action" : {
+            "type" : "string"
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        },
+        "required" : [ "action", "actorId", "createdAt", "id" ]
+      },
+      "TaskPriority" : {
+        "type" : "string",
+        "enum" : [ "urgent", "high", "medium", "low" ]
+      },
+      "TaskResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "projectId" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "assigneeId" : {
+            "type" : "string"
+          },
+          "priority" : {
+            "$ref" : "#/components/schemas/TaskPriority"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/TaskStatus"
+          },
+          "dueDate" : {
+            "type" : "string"
+          },
+          "order" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "comments" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Comment"
+            }
+          },
+          "history" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/HistoryEntry"
+            }
+          },
+          "createdBy" : {
+            "type" : "string"
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updatedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        },
+        "required" : [ "comments", "createdAt", "createdBy", "description", "dueDate", "history", "id", "order", "priority", "projectId", "status", "title", "updatedAt" ]
+      },
+      "TaskStatus" : {
+        "type" : "string",
+        "enum" : [ "backlog", "in_progress", "review", "done" ]
+      },
+      "Move" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string"
+          },
+          "index" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "ApiResponseListTaskResponse" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/TaskResponse"
+            }
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "NewComment" : {
+        "type" : "object",
+        "properties" : {
+          "text" : {
+            "type" : "string"
+          }
+        }
+      },
+      "SetupRequest" : {
+        "type" : "object",
+        "properties" : {
+          "companyName" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ApiResponseBootstrapPayload" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/BootstrapPayload"
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "BootstrapPayload" : {
+        "type" : "object",
+        "properties" : {
+          "needsSetup" : {
+            "type" : "boolean"
+          },
+          "user" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/EmployeeResponse"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "expiresAt" : {
+            "type" : [ "string", "null" ],
+            "format" : "date-time"
+          },
+          "workspace" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/WorkspaceSettings"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "employees" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/EmployeeResponse"
+            }
+          },
+          "preferences" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/PreferencesResponse"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "twoFactor" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Status"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "googleSignIn" : {
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "employees", "expiresAt", "googleSignIn", "needsSetup", "preferences", "twoFactor", "user", "workspace" ]
+      },
+      "LeaveAllowance" : {
+        "type" : "object",
+        "properties" : {
+          "annual" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "sick" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "casual" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "annual", "casual", "sick" ]
+      },
+      "PreferencesResponse" : {
+        "type" : "object",
+        "properties" : {
+          "language" : {
+            "type" : "string"
+          },
+          "dateFormat" : {
+            "type" : "string"
+          },
+          "timeFormat" : {
+            "type" : "string"
+          },
+          "weekStart" : {
+            "type" : "string"
+          },
+          "notificationCategories" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "boolean"
+            }
+          }
+        },
+        "required" : [ "dateFormat", "language", "notificationCategories", "timeFormat", "weekStart" ]
+      },
+      "Status" : {
+        "type" : "object",
+        "properties" : {
+          "enabled" : {
+            "type" : "boolean"
+          },
+          "available" : {
+            "type" : "boolean"
+          },
+          "required" : {
+            "type" : "boolean"
+          },
+          "recoveryCodesLeft" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "available", "enabled", "recoveryCodesLeft", "required" ]
+      },
+      "WorkspaceSettings" : {
+        "type" : "object",
+        "properties" : {
+          "companyName" : {
+            "type" : "string"
+          },
+          "timezone" : {
+            "type" : "string"
+          },
+          "workDayStart" : {
+            "type" : "string"
+          },
+          "gracePeriodMinutes" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "halfDayThresholdHours" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "leaveAllowance" : {
+            "$ref" : "#/components/schemas/LeaveAllowance"
+          },
+          "employeeIdPrefix" : {
+            "type" : "string"
+          },
+          "requireAdminTwoFactor" : {
+            "type" : "boolean"
+          },
+          "allowedGoogleDomain" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "allowedGoogleDomain", "companyName", "employeeIdPrefix", "gracePeriodMinutes", "halfDayThresholdHours", "leaveAllowance", "requireAdminTwoFactor", "timezone", "workDayStart" ]
+      },
+      "ProjectRequest" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "client" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "startDate" : {
+            "type" : "string"
+          },
+          "endDate" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "string"
+          },
+          "members" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "managerId" : {
+            "type" : "string"
+          },
+          "budget" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ApiResponseProjectResponse" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/ProjectResponse"
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "ApiResponseVoid" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "null"
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "Submission" : {
+        "type" : "object",
+        "properties" : {
+          "employeeId" : {
+            "type" : "string"
+          },
+          "leaveType" : {
+            "type" : "string"
+          },
+          "startDate" : {
+            "type" : "string"
+          },
+          "endDate" : {
+            "type" : "string"
+          },
+          "reason" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ApiResponseLeaveResponse" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/LeaveResponse"
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "LeaveResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "employeeId" : {
+            "type" : "string"
+          },
+          "leaveType" : {
+            "$ref" : "#/components/schemas/LeaveType"
+          },
+          "startDate" : {
+            "type" : "string"
+          },
+          "endDate" : {
+            "type" : "string"
+          },
+          "days" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "reason" : {
+            "type" : "string"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/LeaveStatus"
+          },
+          "appliedOn" : {
+            "type" : "string"
+          },
+          "reviewedBy" : {
+            "type" : "string"
+          },
+          "reviewedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "rejectionReason" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "appliedOn", "days", "employeeId", "endDate", "id", "leaveType", "reason", "startDate", "status" ]
+      },
+      "LeaveStatus" : {
+        "type" : "string",
+        "enum" : [ "pending", "approved", "rejected" ]
+      },
+      "LeaveType" : {
+        "type" : "string",
+        "enum" : [ "Annual", "Sick", "Casual", "Unpaid" ]
+      },
+      "Rejection" : {
+        "type" : "object",
+        "properties" : {
+          "reason" : {
+            "type" : "string"
+          }
+        }
+      },
+      "CreateEmployeeRequest" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          },
+          "department" : {
+            "type" : "string"
+          },
+          "designation" : {
+            "type" : "string"
+          },
+          "role" : {
+            "type" : "string"
+          },
+          "employeeId" : {
+            "type" : "string"
+          },
+          "joinDate" : {
+            "type" : "string"
+          },
+          "phone" : {
+            "type" : "string"
+          },
+          "location" : {
+            "type" : "string"
+          }
+        }
+      },
+      "AccessLink" : {
+        "type" : "object",
+        "properties" : {
+          "token" : {
+            "type" : "string"
+          },
+          "expiresAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "emailed" : {
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "emailed", "expiresAt", "token" ]
+      },
+      "ApiResponseCreatedEmployee" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/CreatedEmployee"
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "CreatedEmployee" : {
+        "type" : "object",
+        "properties" : {
+          "employee" : {
+            "$ref" : "#/components/schemas/EmployeeResponse"
+          },
+          "invite" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/AccessLink"
+            }, {
+              "type" : "null"
+            } ]
+          }
+        },
+        "required" : [ "employee", "invite" ]
+      },
+      "ApiResponseAccessLink" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/AccessLink"
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "ApiResponseSetup" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/Setup"
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "Setup" : {
+        "type" : "object",
+        "properties" : {
+          "secret" : {
+            "type" : "string"
+          },
+          "otpauthUri" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "otpauthUri", "secret" ]
+      },
+      "CodeRequest" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ApiResponseNewRecoveryCodes" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/NewRecoveryCodes"
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "NewRecoveryCodes" : {
+        "type" : "object",
+        "properties" : {
+          "recoveryCodes" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/Status"
+          }
+        },
+        "required" : [ "recoveryCodes", "status" ]
+      },
+      "ApiResponseStatus" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/Status"
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "TokenPasswordRequest" : {
+        "type" : "object",
+        "properties" : {
+          "token" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ChangePasswordRequest" : {
+        "type" : "object",
+        "properties" : {
+          "currentPassword" : {
+            "type" : "string"
+          },
+          "newPassword" : {
+            "type" : "string"
+          }
+        }
+      },
+      "LoginRequest" : {
+        "type" : "object",
+        "properties" : {
+          "email" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          },
+          "remember" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "ApiResponseSignInResult" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/SignInResult"
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "Challenge" : {
+        "type" : "object",
+        "properties" : {
+          "token" : {
+            "type" : "string"
+          },
+          "expiresAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "setupRequired" : {
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "expiresAt", "setupRequired", "token" ]
+      },
+      "SignInResult" : {
+        "oneOf" : [ {
+          "$ref" : "#/components/schemas/BootstrapPayload"
+        }, {
+          "$ref" : "#/components/schemas/TwoFactorRequired"
+        } ]
+      },
+      "TwoFactorRequired" : {
+        "type" : "object",
+        "properties" : {
+          "twoFactorChallenge" : {
+            "$ref" : "#/components/schemas/Challenge"
+          }
+        },
+        "required" : [ "twoFactorChallenge" ]
+      },
+      "ChallengeCodeRequest" : {
+        "type" : "object",
+        "properties" : {
+          "challenge" : {
+            "type" : "string"
+          },
+          "code" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ChallengeRequest" : {
+        "type" : "object",
+        "properties" : {
+          "challenge" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ApiResponseTwoFactorSignIn" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/TwoFactorSignIn"
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "TwoFactorSignIn" : {
+        "type" : "object",
+        "properties" : {
+          "bootstrap" : {
+            "$ref" : "#/components/schemas/BootstrapPayload"
+          },
+          "recoveryCodes" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        },
+        "required" : [ "bootstrap", "recoveryCodes" ]
+      },
+      "ApiResponsePendingSignIn" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/PendingSignIn"
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "PendingSignIn" : {
+        "type" : "object",
+        "properties" : {
+          "twoFactorChallenge" : {
+            "$ref" : "#/components/schemas/Challenge"
+          },
+          "email" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "email", "twoFactorChallenge" ]
+      },
+      "ForgotRequest" : {
+        "type" : "object",
+        "properties" : {
+          "email" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ApiResponseAttendanceResponse" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/AttendanceResponse"
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "AttendanceResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "employeeId" : {
+            "type" : "string"
+          },
+          "date" : {
+            "type" : "string"
+          },
+          "checkInAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "checkOutAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "workingHours" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/AttendanceStatus"
+          },
+          "notes" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "date", "employeeId", "id", "status" ]
+      },
+      "AttendanceStatus" : {
+        "type" : "string",
+        "enum" : [ "present", "late", "half_day", "absent", "leave" ]
+      },
+      "CheckIn" : {
+        "type" : "object",
+        "properties" : {
+          "notes" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ApiResponseWorkspaceSettings" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/WorkspaceSettings"
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "ReadChange" : {
+        "type" : "object",
+        "properties" : {
+          "read" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "ApiResponseNotificationResponse" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/NotificationResponse"
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "NotificationResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "recipientId" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "category" : {
+            "type" : "string"
+          },
+          "priority" : {
+            "type" : "string"
+          },
+          "read" : {
+            "type" : "boolean"
+          },
+          "link" : {
+            "type" : "string"
+          },
+          "senderId" : {
+            "type" : "string"
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        },
+        "required" : [ "category", "createdAt", "id", "message", "priority", "read", "recipientId", "title" ]
+      },
+      "ApiResponsePreferencesResponse" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/PreferencesResponse"
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "ApiResponseMapStringBoolean" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "boolean"
+            }
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "ApiResponseListNotificationResponse" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/NotificationResponse"
+            }
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "ApiResponseListLeaveResponse" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/LeaveResponse"
+            }
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "ApiResponseBalance" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/Balance"
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "Balance" : {
+        "type" : "object",
+        "properties" : {
+          "annual" : {
+            "$ref" : "#/components/schemas/Bucket"
+          },
+          "sick" : {
+            "$ref" : "#/components/schemas/Bucket"
+          },
+          "casual" : {
+            "$ref" : "#/components/schemas/Bucket"
+          }
+        },
+        "required" : [ "annual", "casual", "sick" ]
+      },
+      "Bucket" : {
+        "type" : "object",
+        "properties" : {
+          "total" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "used" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "total", "used" ]
+      },
+      "ApiResponseListEmployeeResponse" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/EmployeeResponse"
+            }
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "ApiResponseMapStringString" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "string"
+            }
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "ApiResponseInviteDetails" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/InviteDetails"
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "InviteDetails" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "employeeId" : {
+            "type" : "string"
+          },
+          "companyName" : {
+            "type" : "string"
+          },
+          "expiresAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        },
+        "required" : [ "companyName", "email", "employeeId", "expiresAt", "name" ]
+      },
+      "ApiResponseListAttendanceResponse" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AttendanceResponse"
+            }
+          }
+        },
+        "required" : [ "data" ]
+      },
+      "ActivityResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "actorId" : {
+            "type" : "string"
+          },
+          "actorName" : {
+            "type" : "string"
+          },
+          "actorRole" : {
+            "type" : "string"
+          },
+          "action" : {
+            "type" : "string"
+          },
+          "entityType" : {
+            "type" : "string"
+          },
+          "entityId" : {
+            "type" : "string"
+          },
+          "entityName" : {
+            "type" : "string"
+          },
+          "details" : {
+            "type" : "string"
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        },
+        "required" : [ "action", "actorId", "actorName", "actorRole", "createdAt", "entityName", "entityType", "id" ]
+      },
+      "ApiResponseListActivityResponse" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ActivityResponse"
+            }
+          }
+        },
+        "required" : [ "data" ]
+      }
+    },
+    "securitySchemes" : {
+      "ayipm_session" : {
+        "type" : "apiKey",
+        "description" : "The session cookie set when you sign in. It is httpOnly, so there is nothing to enter under Authorize: sign in with `POST /api/auth/login` and the browser sends it for you.",
+        "name" : "ayipm_session",
+        "in" : "cookie"
+      }
+    }
+  }
+}
