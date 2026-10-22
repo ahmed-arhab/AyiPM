@@ -34,6 +34,11 @@ services:
       ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3000}
       # Needed for two-factor authentication: openssl rand -base64 32
       TWO_FACTOR_ENCRYPTION_KEY: ${TWO_FACTOR_ENCRYPTION_KEY:-}
+      # The address people open AyiPM at. Email links and sign-in with Google use it.
+      PUBLIC_URL: ${PUBLIC_URL:-http://localhost:3000}
+      # "Continue with Google", off while these are empty. See "Sign in with Google" in the README.
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
     depends_on:
       postgres:
         condition: service_healthy

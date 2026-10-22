@@ -23,4 +23,6 @@ export interface WorkspaceSettings {
   leaveAllowance: LeaveAllowance;
   employeeIdPrefix: string;
   requireAdminTwoFactor: boolean;
+  /** Only Google accounts of this Google Workspace domain may sign in with Google. Empty allows any domain. */
+  allowedGoogleDomain: string;
 }

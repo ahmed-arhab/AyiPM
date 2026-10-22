@@ -4,6 +4,7 @@ import type {
   BootstrapPayload,
   Employee,
   InviteDetails,
+  PendingGoogleSignIn,
   TwoFactorChallenge,
   TwoFactorRequired,
   TwoFactorSetup,
@@ -54,6 +55,14 @@ export function login(email: string, password: string, remember = false): Promis
 
 export function acceptInvite(token: string, password: string): Promise<ActionResult<SignInOutcome>> {
   return signInOrChallenge(api<BootstrapPayload | TwoFactorRequired>('POST', '/api/auth/invite', { token, password }));
+}
+
+/**
+ * After Google sent the browser back to the login page with ?google=two-factor: the challenge to finish with
+ * verifyLoginCode or the setup steps, like after a password. Works once; a 410 means it expired.
+ */
+export function fetchGoogleTwoFactorStep(): Promise<ApiResult<PendingGoogleSignIn>> {
+  return api<PendingGoogleSignIn>('POST', '/api/auth/google/two-factor');
 }
 
 /** Completes a sign-in with a code from an authenticator app, or a recovery code. A 410 means the challenge expired. */

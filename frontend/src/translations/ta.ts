@@ -106,6 +106,27 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Reset password': 'கடவுச்சொல்லை மீட்டமைக்கவும்',
   'Accept invitation': 'அழைப்பை ஏற்கவும்',
   'Welcome to AyiPM': 'AyiPM க்கு வரவேற்கிறோம்',
+  'Continue with Google': 'Google மூலம் தொடரவும்',
+  'Join with Google': 'Google மூலம் இணையவும்',
+  'or': 'அல்லது',
+  "Sign-in with Google isn't set up on this server.": 'இந்தச் சேவையகத்தில் Google மூலம் உள்நுழைவு அமைக்கப்படவில்லை.',
+  'This sign-in with Google expired, or it was started in another browser. Try again.':
+    'Google மூலமான இந்த உள்நுழைவு காலாவதியாகிவிட்டது, அல்லது வேறொரு உலாவியில் தொடங்கப்பட்டது. மீண்டும் முயற்சிக்கவும்.',
+  "Signing in with Google didn't work. Try again.": 'Google மூலம் உள்நுழைய முடியவில்லை. மீண்டும் முயற்சிக்கவும்.',
+  "There's no account for this Google account's email address. Ask your admin for an invitation.":
+    'இந்த Google கணக்கின் மின்னஞ்சல் முகவரிக்கு எந்தக் கணக்கும் இல்லை. அழைப்புக்கு உங்கள் நிர்வாகியிடம் கேளுங்கள்.',
+  'This workspace only accepts Google accounts from its own domain. Use your work Google account.':
+    'இந்தப் பணியிடம் அதன் சொந்த டொமைனின் Google கணக்குகளை மட்டுமே ஏற்கும். உங்கள் பணி Google கணக்கைப் பயன்படுத்தவும்.',
+  'This account has been deactivated. Contact your administrator.':
+    'இந்தக் கணக்கு செயலிழக்கப்பட்டுள்ளது. உங்கள் நிர்வாகியைத் தொடர்புகொள்ளவும்.',
+  'Your invitation has expired. Ask your admin for a new one.':
+    'உங்கள் அழைப்பு காலாவதியாகிவிட்டது. புதிய அழைப்புக்கு உங்கள் நிர்வாகியிடம் கேளுங்கள்.',
+  'This invitation is for another email address. Continue with the Google account it was sent to.':
+    'இந்த அழைப்பு வேறொரு மின்னஞ்சல் முகவரிக்கானது. அது அனுப்பப்பட்ட Google கணக்கின் மூலம் தொடரவும்.',
+  "This Google account doesn't match the one linked to your account. Sign in with your password, or ask your admin.":
+    'இந்த Google கணக்கு உங்கள் கணக்குடன் இணைக்கப்பட்ட Google கணக்குடன் பொருந்தவில்லை. உங்கள் கடவுச்சொல்லுடன் உள்நுழையவும், அல்லது உங்கள் நிர்வாகியிடம் கேளுங்கள்.',
+  'Too many attempts. Wait a minute and try again.':
+    'அதிகமான முயற்சிகள். ஒரு நிமிடம் காத்திருந்து மீண்டும் முயற்சிக்கவும்.',
 
   // Dashboard
   'Good morning': 'காலை வணக்கம்',
@@ -709,6 +730,13 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Turn on two-factor authentication for your own account first.':
     'முதலில் உங்கள் சொந்தக் கணக்கிற்கு இரு-காரணி அங்கீகாரத்தை இயக்கவும்.',
   'Go to My Profile': 'எனது சுயவிவரத்திற்குச் செல்லவும்',
+  'Google sign-in domain': 'Google உள்நுழைவு டொமைன்',
+  'Only Google Workspace accounts from this domain can sign in with Google.':
+    'இந்த டொமைனின் Google Workspace கணக்குகள் மட்டுமே Google மூலம் உள்நுழைய முடியும்.',
+  "Leave it empty to accept any Google account with a member's email address.":
+    'உறுப்பினரின் மின்னஞ்சல் முகவரி கொண்ட எந்த Google கணக்கையும் ஏற்க இதைக் காலியாக விடவும்.',
+  'Enter a domain like example.com, or leave it empty to allow any Google account.':
+    'example.com போன்ற ஒரு டொமைனை உள்ளிடவும், அல்லது எந்த Google கணக்கையும் அனுமதிக்க இதைக் காலியாக விடவும்.',
   'Enter the 6-digit code from your authenticator app.':
     'உங்கள் அங்கீகரிப்பு செயலியிலுள்ள 6 இலக்கக் குறியீட்டை உள்ளிடவும்.',
   'Enter one of your recovery codes.': 'உங்கள் மீட்புக் குறியீடுகளில் ஒன்றை உள்ளிடவும்.',
@@ -722,6 +750,8 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
     'அந்த மீட்புக் குறியீடு வேலை செய்யவில்லை. ஒவ்வொரு குறியீடும் ஒரு முறை மட்டுமே செயல்படும்.',
   'This sign-in has expired. Enter your password again.':
     'இந்த உள்நுழைவு காலாவதியாகிவிட்டது. உங்கள் கடவுச்சொல்லை மீண்டும் உள்ளிடவும்.',
+  'This sign-in has expired. Continue with Google again.':
+    'இந்த உள்நுழைவு காலாவதியாகிவிட்டது. மீண்டும் Google மூலம் தொடரவும்.',
   "Codes from authenticator apps can't be checked on this server right now. Use a recovery code, or ask your admin.":
     'இப்போது இந்தச் சேவையகத்தால் அங்கீகரிப்பு செயலிகளின் குறியீடுகளைச் சரிபார்க்க முடியவில்லை. மீட்புக் குறியீட்டைப் பயன்படுத்தவும் அல்லது உங்கள் நிர்வாகியிடம் கேளுங்கள்.',
   'Start the setup again to get a new QR code.': 'புதிய QR குறியீட்டைப் பெற அமைப்பை மீண்டும் தொடங்கவும்.',

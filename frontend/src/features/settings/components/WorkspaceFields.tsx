@@ -8,7 +8,7 @@ import { TIMEZONES } from '@/constants/defaults';
 import { ROUTES } from '@/constants/navigation';
 import { graceDeadlineLabel } from '@/lib/date';
 import type { FieldErrors } from '@/lib/validation';
-import { useTwoFactorStatus } from '@/store';
+import { useGoogleSignIn, useTwoFactorStatus } from '@/store';
 import { useT } from '@/translations';
 import type { WorkspaceFormValues } from '../utils';
 import styles from './WorkspaceFields.module.css';
@@ -135,8 +135,10 @@ export function LeaveFields({ values, errors, setField }: FieldsProps) {
   );
 }
 
-export function SecurityFields({ values, setField }: FieldsProps) {
+export function SecurityFields({ values, errors, setField }: FieldsProps) {
   const t = useT();
+  const id = useId();
+  const googleSignIn = useGoogleSignIn();
   const twoFactor = useTwoFactorStatus();
   const available = twoFactor?.available ?? false;
   const ownEnabled = twoFactor?.enabled ?? false;
@@ -166,6 +168,30 @@ export function SecurityFields({ values, setField }: FieldsProps) {
         description={hint}
         disabled={!values.requireAdminTwoFactor && !canRequire}
       />
+      <FormGrid columns={2}>
+        <Field
+          label={t('Google sign-in domain')}
+          htmlFor={`${id}-google-domain`}
+          error={errors.allowedGoogleDomain && t(errors.allowedGoogleDomain)}
+          hint={
+            !googleSignIn
+              ? t("Sign-in with Google isn't set up on this server.")
+              : values.allowedGoogleDomain.trim()
+                ? t('Only Google Workspace accounts from this domain can sign in with Google.')
+                : t("Leave it empty to accept any Google account with a member's email address.")
+          }
+        >
+          <Input
+            id={`${id}-google-domain`}
+            value={values.allowedGoogleDomain}
+            placeholder="example.com"
+            autoCapitalize="none"
+            spellCheck={false}
+            onChange={(e) => setField('allowedGoogleDomain', e.target.value)}
+            invalid={Boolean(errors.allowedGoogleDomain)}
+          />
+        </Field>
+      </FormGrid>
     </FieldGroup>
   );
 }

@@ -175,7 +175,7 @@ The frontend keeps both `package-lock.json` and `pnpm-lock.yaml`. If you change 
 | `DATABASE_USERNAME` | backend | `ayipm` (none with the `prod` profile) | Database user |
 | `DATABASE_PASSWORD` | backend | `ayipm` (none with the `prod` profile) | Database password |
 | `PORT` | backend | `8080` | Port the API listens on |
-| `PUBLIC_URL` | backend | `http://localhost:3000` | The address people open AyiPM at. Links in invitation and reset emails point here. |
+| `PUBLIC_URL` | backend | `http://localhost:3000` | The address people open AyiPM at. Links in invitation and reset emails point here, and Google sends people back to `PUBLIC_URL/api/auth/google/callback` after they sign in with Google. |
 | `SPRING_MAIL_HOST` | backend | not set | SMTP server for invitation and reset emails, such as `smtp.example.com`. Without it, no email is sent and each email is written to the backend log instead. |
 | `SPRING_MAIL_PORT` | backend | `25` | SMTP port, usually `587`. For port `465`, also set `SPRING_MAIL_SSL_ENABLED=true`. |
 | `SPRING_MAIL_USERNAME` | backend | not set | SMTP login, if the server needs one |
@@ -188,6 +188,9 @@ The frontend keeps both `package-lock.json` and `pnpm-lock.yaml`. If you change 
 | `SPRINGDOC_APIDOCS_ENABLED` | backend | `true` | Whether the OpenAPI spec is served at `/v3/api-docs` (`springdoc.api-docs.enabled`). Set to `false` in production. |
 | `SPRINGDOC_SWAGGERUI_ENABLED` | backend | `true` | Whether Swagger UI is served at `/swagger-ui.html` (`springdoc.swagger-ui.enabled`). Set to `false` in production. |
 | `TWO_FACTOR_ENCRYPTION_KEY` | backend | empty | Sets `ayipm.two-factor.encryption-key`: 32 random bytes in base64 that encrypt the authenticator secrets of two-factor authentication. Generate one with `openssl rand -base64 32` and keep it secret, like a database password. While it is empty, two-factor authentication can't be turned on and everything else works as usual; if it is set but isn't a valid key, the backend refuses to start. Don't change or remove it once people use two-factor authentication: their authenticator codes stop working and they can only sign in with a recovery code. |
+| `GOOGLE_CLIENT_ID` | backend | not set | The client ID of a Google OAuth web client, such as `1234-abc.apps.googleusercontent.com` (`ayipm.google.client-id`). Together with `GOOGLE_CLIENT_SECRET`, it turns on **Continue with Google**; see [Sign in with Google](#sign-in-with-google). While both are unset, the button isn't shown and everything else works as usual. Setting only one of the two stops the backend from starting. |
+| `GOOGLE_CLIENT_SECRET` | backend | not set | That client's secret (`ayipm.google.client-secret`). Keep it secret, like a database password. |
+| `GOOGLE_ISSUER` | backend | `https://accounts.google.com` | The OpenID Connect provider behind **Continue with Google** (`ayipm.google.issuer`). Leave it unset; only the tests point it at a fake provider. It must be an `https` address, or `http` on `localhost`. |
 | `BACKEND_URL` | frontend | `http://localhost:8080` | Where `/api` requests are forwarded. Read when the frontend is built, so set it before `npm run build`. |
 
 The mail settings are Spring Boot's standard `spring.mail.*` settings, so any other one can be set the same way. The backend uses STARTTLS when the server offers it and gives up on a server that doesn't answer within 10 seconds. Emails are sent in the background after the change is saved; if sending fails, the error is in the backend log, and the admin can still copy the link from the app. In Docker, add these variables to the `backend` service's `environment` in `compose.yaml`.
@@ -201,6 +204,7 @@ Without `SPRING_MAIL_HOST`, the backend log contains working invitation and rese
 - **The account may be locked.** After 5 failed attempts the account is locked for 15 minutes, and even the correct password is refused until then. To unlock it straight away, run `psql ayipm -c "delete from login_attempts"`.
 - **Your address may be rate limited.** "Too many attempts. Try again in ..." means 10 sign-in requests from your address within a minute. Wait for the time in the message, or restart the backend to clear the counts.
 - **Invited members need to accept their invitation first.** Until they set a password through the invite link, their login is refused. Invite links expire after 7 days; an admin can send a new one from the member's profile.
+- **Continue with Google says the sign-in expired or was started in another browser.** Open AyiPM at the address in `PUBLIC_URL` (by default http://localhost:3000, not http://127.0.0.1:3000). Google sends the browser back to that address, and the cookie set when the sign-in started only reaches it there.
 - **Two-factor authentication is on and the phone and recovery codes are gone.** Turn it off for that account in the database: `psql ayipm -c "update users set two_factor_secret = null, two_factor_last_step = null where email = 'name@company.com'"`, and turn it on again from My Profile after signing in.
 
 To start over with an empty database, run `docker compose down -v` and `docker compose up -d` (Docker), or `dropdb ayipm && createdb -O ayipm ayipm` (Homebrew).
@@ -210,14 +214,14 @@ To start over with an empty database, run `docker compose down -v` and `docker c
 There is no public sign-up. The only account anyone creates themselves is the workspace owner, once, on `/setup`. After that, accounts work the way they do in tools like ClickUp or Jira:
 
 1. An admin adds a person from **Team → Add member**. AyiPM creates an Employee ID and emails them an invitation link that is valid for 7 days. The admin also sees the link and can copy it, which is the only way to share it when email isn't set up (see [Configuration](#configuration)). The person shows as **Invited** until they accept it.
-2. The person opens the link (`/accept-invite`), chooses a password and lands in the workspace.
-3. After that, they sign in with their work email and password. "Keep me signed in" extends the session from 12 hours to 30 days.
+2. The person opens the link (`/accept-invite`), chooses a password and lands in the workspace. If the server offers [sign-in with Google](#sign-in-with-google), they can join with Google instead and don't need a password.
+3. After that, they sign in with their work email and password, or with Google. "Keep me signed in" extends the session from 12 hours to 30 days.
 
 If someone can't sign in, they use **Can't log in?** on the login page. Their profile on the Team page is then marked **Reset requested**, and an admin sends them a one-time reset link (valid for 30 minutes) from that profile. The link is emailed to them and shown to the admin, like an invitation.
 
 After 5 failed attempts within 15 minutes, an account is locked for 15 minutes. Login errors never say whether an account exists.
 
-Separately, each client address can make 10 requests a minute to each sign-in endpoint (`/api/setup`, `/api/auth/login`, the two-factor code steps under `/api/auth/login/two-factor`, `/api/auth/forgot`, `/api/auth/invite` and `/api/auth/reset`), so one address can't work through many accounts. Further requests get `429 Too Many Requests` with a `Retry-After` header. The counts are kept in memory, so they start over when the backend restarts. IPv6 clients are counted per /64 network, because one subscriber usually gets a whole /64.
+Separately, each client address can make 10 requests a minute to each sign-in endpoint (`/api/setup`, `/api/auth/login`, the two-factor code steps under `/api/auth/login/two-factor`, `/api/auth/forgot`, `/api/auth/invite`, `/api/auth/reset` and `/api/auth/google/start`), so one address can't work through many accounts. Further requests get `429 Too Many Requests` with a `Retry-After` header. The counts are kept in memory, so they start over when the backend restarts. IPv6 clients are counted per /64 network, because one subscriber usually gets a whole /64.
 
 Passwords are hashed with Argon2. Sessions are random tokens kept in an `httpOnly` cookie and stored hashed in the database, so signing out or deactivating someone ends their session everywhere.
 
@@ -243,6 +247,31 @@ After that, signing in takes a third step: after the email and password, AyiPM a
 
 Admins can require two-factor authentication for every admin under **Settings → Workspace → Security**. They can only turn it on once they use it themselves, so the workspace always keeps an admin who can sign in. Other admins without it are signed out, and set it up the next time they sign in, before they get a session; so do people who become admins later. While it is required, admins can't turn it off. The authenticator secrets are encrypted with AES-GCM, and recovery codes are stored only as hashes.
 
+### Sign in with Google
+
+Once the server has `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` (see [Setting up Google](#setting-up-google) below), the login page shows **Continue with Google** and the invitation page shows **Join with Google**. They are for people who already have an account or an invitation; signing in with Google never creates an account. Someone whose Google address doesn't belong to anyone in the workspace is sent back to the login page and asked to get an invitation from their admin.
+
+- **Which account.** AyiPM signs the person in to the account whose work email is the Google account's address, and only when Google has verified that address. The first time, it links the account to that Google account, so a different Google account that later gets the same address (for example after someone leaves the company) can't sign in to it. Deactivated accounts are refused, as with a password.
+- **Invitations.** **Join with Google** accepts the invitation without a password, and only with the Google account of the address the invitation was sent to. **Continue with Google** on the login page also accepts an invitation that hasn't expired. Someone who joined with Google has no password; to get one, they use **Can't log in?** and an admin sends them a reset link. A reset also removes the link to their Google account, so an admin can use it when someone's account is linked to the wrong Google account; their next sign-in with Google links it again.
+- **Two-factor authentication** still applies: Google takes the place of the password, and AyiPM then asks for the code from the authenticator app. Admins who have to set up two-factor authentication do that first.
+- **Limiting it to your domain.** Under **Settings → Workspace → Security**, an admin can enter the domain of the company's Google Workspace, such as `example.com`. Then only accounts of that Google Workspace (Google's `hd` claim) can sign in with Google, and Google's page suggests accounts of that domain. While it is empty, any Google account whose verified address belongs to a member can sign in, including personal Gmail accounts. Signing in with a password isn't affected.
+- **Sessions** last 12 hours, like a password sign-in without "Keep me signed in".
+
+Under the hood, AyiPM uses OpenID Connect's authorization code flow with PKCE. The backend talks to Google itself, and checks the ID token's signature against Google's published keys, its issuer, audience, expiry and nonce. Each sign-in works once, within 10 minutes, and only in the browser that started it: that browser gets a random token in an `httpOnly` cookie, the state, nonce and PKCE verifier are derived from it, and the database stores only its hash. So nobody can send their own Google sign-in to someone else's browser to sign them in to the wrong account. Starting a sign-in counts toward the sign-in rate limit.
+
+#### Setting up Google
+
+You need a Google account that can create projects in [Google Cloud](https://console.cloud.google.com). With Google Workspace, use an account in your organisation.
+
+1. In the Google Cloud console, create a project for AyiPM, or pick one.
+2. Open **Google Auth Platform** (in older consoles, **APIs & Services → OAuth consent screen**) and set up the consent screen. Under **Branding**, enter the app name people see on Google's page, such as your company's name and "AyiPM", a support email, and your domain under **Authorised domains**. Under **Audience**, choose:
+   - **Internal** if everyone signs in with an account of your Google Workspace. Only those accounts can use it, and Google doesn't need to review the app.
+   - **External** if some people use other Google accounts. While the app is in **Testing**, only the test users you list can sign in, so **Publish** it when you're ready. AyiPM only asks for the `openid` and `email` scopes, which don't need Google's verification.
+3. Under **Clients** (in older consoles, **Credentials → Create credentials → OAuth client ID**), create a client with the application type **Web application**. Add one **Authorised redirect URI**: your `PUBLIC_URL` followed by `/api/auth/google/callback`, such as `https://ayipm.example.com/api/auth/google/callback`. For local development, add `http://localhost:3000/api/auth/google/callback` too. You don't need any authorised JavaScript origins.
+4. Copy the client ID and client secret into `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`, check that `PUBLIC_URL` is the address people open AyiPM at, and restart the backend. On startup it logs `Sign-in with Google is on. Its authorised redirect URI is ...`; that URI must match the one in the console exactly, or Google shows `Error 400: redirect_uri_mismatch`.
+
+When a sign-in with Google fails for a reason other than the person's account, the login page says so and the backend log has the details.
+
 ## Database
 
 The backend uses PostgreSQL. The schema is managed by [Flyway](https://documentation.red-gate.com/flyway) migrations in `backend/src/main/resources/db/migration`, which run automatically when the backend starts. On startup, Hibernate also checks that the entities match the tables, so a mismatch fails fast instead of at runtime.
@@ -254,7 +283,7 @@ To change the schema, add a new file such as `V2__add_projects.sql` next to the 
 - **Sign-in rate limits are kept per backend instance.** The counts live in memory, so they start over when the backend restarts and aren't shared if you run several backends.
 - **No live updates.** Changes made by other people appear when you reload or switch back to the tab; notifications are checked every minute.
 - **Password resets go through an admin.** **Can't log in?** flags the account for an admin, who sends the reset link; it doesn't email a link by itself.
-- **No single sign-on.** Google and Microsoft sign-in are not available yet.
+- **Google is the only single sign-on.** Microsoft sign-in isn't available yet.
 
 ## Project structure
 
@@ -282,7 +311,7 @@ backend/                     Spring Boot API
 ├── Dockerfile               Production image (builds and runs the jar)
 └── src/
     ├── main/java/com/ayitrix/ayipm/
-    │   ├── auth/            Setup, sign-in, sessions, invites, password resets, two-factor authentication
+    │   ├── auth/            Setup, sign-in, sessions, invites, password resets, two-factor authentication, sign-in with Google
     │   ├── employee/        Users, roles and the /api/employees endpoints
     │   ├── workspace/       Workspace settings and /api/workspace
     │   ├── project/         Projects and their members

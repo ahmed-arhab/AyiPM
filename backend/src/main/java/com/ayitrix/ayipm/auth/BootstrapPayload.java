@@ -7,7 +7,10 @@ import com.ayitrix.ayipm.employee.EmployeeResponse;
 import com.ayitrix.ayipm.preferences.PreferencesResponse;
 import com.ayitrix.ayipm.workspace.WorkspaceSettings;
 
-/** Everything the frontend needs after sign-in. Matches BootstrapPayload in src/types/api.ts. */
+/**
+ * Everything the frontend needs after sign-in. Matches BootstrapPayload in src/types/api.ts. {@code googleSignIn} says
+ * whether the server offers sign-in with Google, and is set whether or not someone is signed in.
+ */
 public record BootstrapPayload(
 		boolean needsSetup,
 		EmployeeResponse user,
@@ -15,5 +18,6 @@ public record BootstrapPayload(
 		WorkspaceSettings workspace,
 		List<EmployeeResponse> employees,
 		PreferencesResponse preferences,
-		TwoFactorService.Status twoFactor) {
+		TwoFactorService.Status twoFactor,
+		boolean googleSignIn) {
 }

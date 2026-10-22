@@ -78,7 +78,8 @@ public class AccessLinkEmails {
 		return EXPIRY.format(expiresAt.atZone(zone)) + " (" + zoneName + " time)";
 	}
 
-	private static String checkPublicUrl(String value) {
+	/** Returns ayipm.public-url without a trailing slash, or fails when it isn't an http(s) address. */
+	static String checkPublicUrl(String value) {
 		String url = value.strip().replaceAll("/+$", "");
 		URI uri;
 		try {
