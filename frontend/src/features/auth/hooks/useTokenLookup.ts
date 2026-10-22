@@ -8,6 +8,7 @@ export function useTokenLookup<T>(token: string, fetcher: (token: string) => Pro
 
   useEffect(() => {
     if (!token) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Resets the result whenever the token changes, before looking it up.
       setState({ status: 'invalid' });
       return;
     }

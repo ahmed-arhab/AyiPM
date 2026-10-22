@@ -118,7 +118,7 @@ Open the PR as a draft if you'd like early feedback. Mark it ready for review wh
 
 ## Before you ask for review
 
-- [ ] Frontend changes: `npx tsc --noEmit` and `npm test` pass, and `npm run build` succeeds (in `frontend/`).
+- [ ] Frontend changes: `npm run lint`, `npx tsc --noEmit` and `npm test` pass, and `npm run build` succeeds (in `frontend/`).
 - [ ] Backend changes: `./mvnw verify` passes (in `backend/`), with tests for new endpoints.
 - [ ] API changes: `backend/openapi.json` and `frontend/src/types/api.generated.ts` are regenerated and committed (see [API types](#api-types)).
 - [ ] The change works in light and dark mode, and at phone width.

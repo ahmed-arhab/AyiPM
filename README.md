@@ -150,6 +150,7 @@ Frontend (run in `frontend/`):
 | `npm run dev` | Start the development server |
 | `npm run build` | Create a production build (also type-checks) |
 | `npm run start` | Serve the production build |
+| `npm run lint` | Check the code with ESLint |
 | `npx tsc --noEmit` | Type-check without building |
 | `npm run generate:api` | Regenerate `src/types/api.generated.ts` from the backend's OpenAPI spec (`backend/openapi.json`) |
 | `npm test` | Run the unit tests once |
@@ -168,7 +169,7 @@ Backend (run in `backend/`):
 
 The backend tests start their own temporary Postgres, so you don't need Docker or a running database to run them. They also save the OpenAPI spec to `backend/openapi.json`, which the frontend's API types are generated from; see [API types](CONTRIBUTING.md#api-types) after changing the API.
 
-No linter is set up for the frontend yet. Next.js 16 removed `next lint`, so ESLint needs its own configuration when it is added.
+ESLint uses the Next.js core web vitals and TypeScript rules from `eslint-config-next`, configured in `frontend/eslint.config.mjs`. CI runs `npm run lint` and fails on errors.
 
 The frontend keeps both `package-lock.json` and `pnpm-lock.yaml`. If you change dependencies, update both: run `npm install`, then `pnpm install --lockfile-only`.
 

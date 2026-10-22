@@ -63,7 +63,7 @@ export function MemberTable({ members, currentUserId, projectsByMember, openTask
         ),
       },
     ];
-  }, [currentUserId, projectsByMember, openTaskCounts, onAssign, onToggleStatus]);
+  }, [t, formatNumber, currentUserId, projectsByMember, openTaskCounts, onAssign, onToggleStatus]);
 
   return (
     <DataTable

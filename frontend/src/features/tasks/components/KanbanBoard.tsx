@@ -19,6 +19,7 @@ interface KanbanBoardProps {
 export function KanbanBoard({ tasks, onOpenTask }: KanbanBoardProps) {
   const columns = useBoardColumns(tasks);
   const columnsRef = useRef(columns);
+  // eslint-disable-next-line react-hooks/refs -- Latest-ref pattern: handleMove reads the newest columns without being recreated.
   columnsRef.current = columns;
   const user = useCurrentUser();
   const projectsById = useProjectsById();

@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { CheckSquare, Clock, FolderKanban, PlaneTakeoff } from 'lucide-react';
 import { StatCard, StatGrid } from '@/components/ui';
 import { ATTENDANCE_STATUS } from '@/constants/status';
-import { percent, pluralize } from '@/lib/format';
+import { percent } from '@/lib/format';
 import {
   selectActiveEmployees,
   selectTodayAttendanceCount,

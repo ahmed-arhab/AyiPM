@@ -23,6 +23,7 @@ export function Modal({ isOpen, onClose, title, description, size = 'md', footer
   const titleId = useId();
   const dialogRef = useRef<HTMLDivElement>(null);
   const onCloseRef = useRef(onClose);
+  // eslint-disable-next-line react-hooks/refs -- Latest-ref pattern: the key listener calls the newest onClose without re-running the open effect.
   onCloseRef.current = onClose;
 
   useEffect(() => {

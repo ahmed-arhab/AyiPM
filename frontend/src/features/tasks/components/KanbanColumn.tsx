@@ -65,8 +65,6 @@ export const KanbanColumn = memo(function KanbanColumn(props: KanbanColumnProps)
   let visibleIndex = 0;
   const indicator = <div className={styles.indicator} aria-hidden />;
 
-  const isTaskDrag = (e: DragEvent) => e.dataTransfer.types.includes(TASK_DRAG_TYPE);
-
   const moveToStatus = async (taskId: string, nextStatus: TaskStatus) => {
     const result = await moveTask(taskId, nextStatus);
     if (!result.ok) toast.error(result.error);

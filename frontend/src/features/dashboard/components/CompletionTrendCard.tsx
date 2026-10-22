@@ -39,6 +39,7 @@ export function CompletionTrendCard({ tasks, personal }: CompletionTrendCardProp
   const { weekStart, dateFormat } = usePreferences();
   // Part of the memo key so the weeks move on when the dashboard stays open past midnight.
   const today = toDateKey();
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- today is only a cache key; the count reads the current date.
   const weeks = useMemo(() => countCompletionsByWeek(tasks, weekStart), [tasks, weekStart, today]);
 
   const total = weeks.reduce((sum, week) => sum + week.count, 0);

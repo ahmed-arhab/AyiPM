@@ -61,6 +61,7 @@ function ThemeTogglerButton({
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Renders the placeholder until hydration, since the theme is only known in the browser.
     setMounted(true);
   }, []);
 

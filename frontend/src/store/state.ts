@@ -16,6 +16,7 @@ import type {
 import { DEFAULT_WORKSPACE } from '@/constants/defaults';
 
 // Nothing is saved in the browser any more; #111 removes this and the code that saved it.
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type -- AppState still extends it until then.
 export interface PersistedState {}
 
 // Loaded from the backend after sign-in and cleared on sign-out.

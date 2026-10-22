@@ -27,6 +27,8 @@ function toneFor(name: string) {
 export const Avatar = memo(function Avatar({ name, src, size = 32, className }: AvatarProps) {
   const style = { width: size, height: size, fontSize: Math.max(10, Math.round(size * 0.38)) };
   if (src) {
+    // Avatars are data URLs from the profile upload, which next/image can't optimise.
+    // eslint-disable-next-line @next/next/no-img-element
     return <img src={src} alt={name} title={name} className={cn(styles.avatar, className)} style={style} loading="lazy" decoding="async" />;
   }
   const tone = toneFor(name);

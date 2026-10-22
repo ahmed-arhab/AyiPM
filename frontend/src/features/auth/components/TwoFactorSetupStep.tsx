@@ -48,6 +48,7 @@ export function TwoFactorSetupStep({ challenge, identifier, onRestart, onSignedI
   const [loadError, setLoadError] = useState<string | null>(null);
   const { values, errors, formError, submitting, setField, setFormError, submit } = useAuthForm(INITIAL, validateAuthenticatorCode);
   const onRestartRef = useRef(onRestart);
+  // eslint-disable-next-line react-hooks/refs -- Latest-ref pattern: the setup request calls the newest onRestart without being sent again.
   onRestartRef.current = onRestart;
 
   useEffect(() => {

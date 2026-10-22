@@ -102,6 +102,7 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
   const collapsed = collapsedPref && !mobileOpen;
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- The saved preference is only readable in the browser, so it is applied after hydration.
     setCollapsed(storage.readRaw(COLLAPSE_KEY) === '1');
   }, []);
 

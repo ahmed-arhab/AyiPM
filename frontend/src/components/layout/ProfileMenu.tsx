@@ -11,7 +11,6 @@ import { Avatar } from '@/components/ui/Avatar';
 import { RoleBadge } from '@/components/ui/Badge';
 import { useConfirm } from '@/components/feedback/ConfirmProvider';
 import { useT } from '@/translations';
-import type { ThemeMode } from '@/types';
 import {
   Collapsible,
   CollapsibleTrigger,
