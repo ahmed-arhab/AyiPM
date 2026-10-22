@@ -6,6 +6,8 @@ export interface Session {
 export interface AccessLink {
   token: string;
   expiresAt: string;
+  /** Whether the server is also emailing the link to the person. False when email isn't set up on the server. */
+  emailed: boolean;
 }
 
 /** Matches TwoFactorService.Status in the backend. */

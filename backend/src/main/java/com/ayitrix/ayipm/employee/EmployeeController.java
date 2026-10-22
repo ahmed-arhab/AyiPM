@@ -84,7 +84,7 @@ public class EmployeeController {
 		return ApiResponse.ok(auth.resendInvite(employees.get(id), actor));
 	}
 
-	@Operation(summary = "Issue a one-time password reset link", description = "The admin shares the link with the person.")
+	@Operation(summary = "Issue a one-time password reset link", description = "Emails the link to the person when email is set up. The admin can also share it themselves.")
 	@PostMapping("/{id}/reset-link")
 	public ResponseEntity<ApiResponse<AccessLink>> resetLink(HttpServletRequest request, @PathVariable String id) {
 		User actor = sessions.requireUser(request, Permission.EMPLOYEES_MANAGE);

@@ -387,6 +387,16 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Employee ID': 'ஊழியர் ஐடி',
   'Join date': 'இணைந்த தேதி',
   'Member': 'உறுப்பினர்',
+  'Expires': 'காலாவதியாகும்',
+  'Copy': 'நகலெடு',
+  'Link': 'இணைப்பு',
+  'Link copied.': 'இணைப்பு நகலெடுக்கப்பட்டது.',
+  'Could not access the clipboard. Copy the link manually.':
+    'கிளிப்போர்டை அணுக முடியவில்லை. இணைப்பை நீங்களே நகலெடுக்கவும்.',
+  "We've emailed this link to them. If it doesn't arrive, copy it and share it privately. Generating a new link cancels this one.":
+    'இந்த இணைப்பை அவர்களுக்கு மின்னஞ்சல் மூலம் அனுப்பியுள்ளோம். அது வந்து சேராவிட்டால், அதை நகலெடுத்துத் தனிப்பட்ட முறையில் பகிரவும். புதிய இணைப்பை உருவாக்கினால் இது ரத்தாகும்.',
+  "Email delivery isn't set up, so share this link privately. Generating a new link cancels this one.":
+    'மின்னஞ்சல் அனுப்புதல் அமைக்கப்படவில்லை, எனவே இந்த இணைப்பைத் தனிப்பட்ட முறையில் பகிரவும். புதிய இணைப்பை உருவாக்கினால் இது ரத்தாகும்.',
 
   // Attendance
   'Daily check-ins, working hours and punctuality across the team.':
@@ -587,7 +597,6 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'QR code for your authenticator app': 'உங்கள் அங்கீகரிப்பு செயலிக்கான QR குறியீடு',
   "Can't scan it? Enter this key in the app instead:":
     'ஸ்கேன் செய்ய முடியவில்லையா? அதற்குப் பதிலாக இந்த விசையைச் செயலியில் உள்ளிடவும்:',
-  'Copy': 'நகலெடு',
   'Key copied.': 'விசை நகலெடுக்கப்பட்டது.',
   'Could not access the clipboard. Copy the key manually.':
     'கிளிப்போர்டை அணுக முடியவில்லை. விசையைக் கைமுறையாக நகலெடுக்கவும்.',
