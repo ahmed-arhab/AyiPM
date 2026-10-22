@@ -151,6 +151,20 @@ export const TA_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Create tasks to see how work is distributed.': 'வேலை எவ்வாறு விநியோகிக்கப்படுகிறது என்பதைப் பார்க்க பணிகளை உருவாக்கவும்.',
   '{overdue} overdue {unit} need attention': '{overdue} காலாவதியான {unit} கவனம் தேவை',
   'No overdue tasks': 'காலாவதியான பணிகள் இல்லை',
+  'Completion trend': 'நிறைவு போக்கு',
+  'My completion trend': 'எனது நிறைவு போக்கு',
+  'Tasks completed per week': 'வாரந்தோறும் முடிக்கப்பட்ட பணிகள்',
+  '{count} {unit} completed in the last {weeks} weeks': 'கடந்த {weeks} வாரங்களில் {count} {unit} முடிக்கப்பட்டன',
+  '{count} {unit} completed in the last {weeks} weeks, most in the week of {week} ({max})':
+    'கடந்த {weeks} வாரங்களில் {count} {unit} முடிக்கப்பட்டன, அதிகபட்சமாக {week} அன்று தொடங்கிய வாரத்தில் ({max})',
+  '{count} completed in the week of {week}': '{week} அன்று தொடங்கிய வாரத்தில் {count} முடிக்கப்பட்டன',
+  'Week of': 'வாரம் தொடங்கும் நாள்',
+  'This week': 'இந்த வாரம்',
+  'Nothing completed in the last {weeks} weeks': 'கடந்த {weeks} வாரங்களில் எதுவும் முடிக்கப்படவில்லை',
+  'Tasks you move to Completed will appear here, week by week.':
+    '“முடிவடைந்தது” நிலைக்கு நீங்கள் நகர்த்தும் பணிகள் வாரம் வாரமாக இங்கே தோன்றும்.',
+  'Tasks moved to Completed will appear here, week by week.':
+    '“முடிவடைந்தது” நிலைக்கு நகர்த்தப்படும் பணிகள் வாரம் வாரமாக இங்கே தோன்றும்.',
   'My tasks': 'எனது பணிகள்',
   '{count} open {unit} assigned to you': 'உங்களுக்கு ஒதுக்கப்பட்ட {count} திறந்த {unit}',
   'Assigned to you': 'உங்களுக்கு ஒதுக்கப்பட்டது',

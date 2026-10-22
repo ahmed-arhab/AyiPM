@@ -2,6 +2,7 @@
 
 import { usePermission } from '@/store';
 import { useDashboardScope } from '../hooks/useDashboardScope';
+import { CompletionTrendCard } from './CompletionTrendCard';
 import { DashboardHeader } from './DashboardHeader';
 import { DashboardStats } from './DashboardStats';
 import { DeadlinesCard } from './DeadlinesCard';
@@ -29,6 +30,7 @@ export function DashboardView() {
             <ProjectOverviewCard projects={scope.projects} />
             <TaskOverviewCard tasks={scope.tasks} personal={!scope.seesAllTasks} />
           </div>
+          <CompletionTrendCard tasks={scope.tasks} personal={!scope.seesAllTasks} />
           <MyTasksCard tasks={scope.myTasks} />
           <RecentProjectsCard projects={scope.projects} />
         </div>

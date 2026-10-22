@@ -1,4 +1,4 @@
-import type { DateFormat, TimeFormat } from '@/types';
+import type { DateFormat, TimeFormat, WeekStart } from '@/types';
 
 const MS_PER_DAY = 86_400_000;
 
@@ -24,6 +24,13 @@ export function formatDate(value: string | Date | undefined, format: DateFormat 
   if (format === 'DD/MM/YYYY') return `${dd}/${mm}/${yyyy}`;
   if (format === 'MM/DD/YYYY') return `${mm}/${dd}/${yyyy}`;
   return `${yyyy}-${mm}-${dd}`;
+}
+
+/** Day and month in the order of the date format, without the year, for tight spaces such as chart axes. */
+export function formatDayMonth(value: string | Date | undefined, format: DateFormat = 'YYYY-MM-DD'): string {
+  const full = formatDate(value, format);
+  if (full === '—') return full;
+  return format === 'YYYY-MM-DD' ? full.slice(5) : full.slice(0, 5);
 }
 
 export function formatDateLong(value: string | Date | undefined, locale = 'en-US'): string {
@@ -123,6 +130,14 @@ export function eachDateKey(startKey: string, endKey: string): string[] {
     d.setDate(start.getDate() + i);
     return toDateKey(d);
   });
+}
+
+/** Local midnight on the first day of the week that contains `d`. */
+export function startOfWeek(d: Date, weekStart: WeekStart = 'Monday'): Date {
+  const firstDay = weekStart === 'Sunday' ? 0 : 1;
+  const start = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  start.setDate(start.getDate() - ((start.getDay() - firstDay + 7) % 7));
+  return start;
 }
 
 export function daysUntil(dateKey: string, from: Date = new Date()): number {

@@ -151,6 +151,20 @@ export const SI_DICTIONARY: Partial<Record<TranslationKey, string>> = {
   'Create tasks to see how work is distributed.': 'වැඩ බෙදී ඇති ආකාරය බැලීමට කාර්යයන් සාදන්න.',
   '{overdue} overdue {unit} need attention': 'කල් ඉකුත් වූ {unit} {overdue} සඳහා අවධානය අවශ්‍යයි',
   'No overdue tasks': 'කල් ඉකුත් වූ කාර්යයන් නොමැත',
+  'Completion trend': 'නිම කිරීමේ ප්‍රවණතාව',
+  'My completion trend': 'මගේ නිම කිරීමේ ප්‍රවණතාව',
+  'Tasks completed per week': 'සතියකට නිම කළ කාර්යයන්',
+  '{count} {unit} completed in the last {weeks} weeks': 'පසුගිය සති {weeks} තුළ {unit} {count} ක් නිම කර ඇත',
+  '{count} {unit} completed in the last {weeks} weeks, most in the week of {week} ({max})':
+    'පසුගිය සති {weeks} තුළ {unit} {count} ක් නිම කර ඇත, වැඩිම ගණන {week} න් ඇරඹෙන සතියේ ({max})',
+  '{count} completed in the week of {week}': '{week} න් ඇරඹෙන සතියේ නිම කළ ගණන {count}',
+  'Week of': 'සතිය ඇරඹෙන දිනය',
+  'This week': 'මෙම සතිය',
+  'Nothing completed in the last {weeks} weeks': 'පසුගිය සති {weeks} තුළ කිසිවක් නිම කර නැත',
+  'Tasks you move to Completed will appear here, week by week.':
+    'ඔබ “සම්පූර්ණයි” වෙත ගෙන යන කාර්යයන් සතියෙන් සතිය මෙහි දිස්වනු ඇත.',
+  'Tasks moved to Completed will appear here, week by week.':
+    '“සම්පූර්ණයි” වෙත ගෙන යන කාර්යයන් සතියෙන් සතිය මෙහි දිස්වනු ඇත.',
   'My tasks': 'මගේ කාර්යයන්',
   '{count} open {unit} assigned to you': 'ඔබට පවරන ලද විවෘත {unit} {count}',
   'Assigned to you': 'ඔබට පවරන ලදි',
