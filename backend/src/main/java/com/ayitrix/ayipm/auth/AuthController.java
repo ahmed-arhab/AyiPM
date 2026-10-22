@@ -34,13 +34,16 @@ public class AuthController {
 	private final SessionService sessions;
 	private final BootstrapService bootstrap;
 	private final WorkspaceService workspace;
+	private final SignInRateLimit rateLimit;
 	private final TwoFactorService twoFactor;
 
-	public AuthController(AuthService auth, SessionService sessions, BootstrapService bootstrap, WorkspaceService workspace, TwoFactorService twoFactor) {
+	public AuthController(AuthService auth, SessionService sessions, BootstrapService bootstrap, WorkspaceService workspace,
+			SignInRateLimit rateLimit, TwoFactorService twoFactor) {
 		this.auth = auth;
 		this.sessions = sessions;
 		this.bootstrap = bootstrap;
 		this.workspace = workspace;
+		this.rateLimit = rateLimit;
 		this.twoFactor = twoFactor;
 	}
 
@@ -84,6 +87,7 @@ public class AuthController {
 	@Operation(summary = "Create the workspace and its owner account, and sign in as the owner", description = "Works only once; after that it fails with 409.")
 	@PostMapping("/api/setup")
 	public ResponseEntity<ApiResponse<BootstrapPayload>> setup(@RequestBody SetupRequest body, HttpServletRequest request, HttpServletResponse response) {
+		rateLimit.check("setup", request);
 		User owner = auth.setupWorkspace(body.companyName(), body.name(), body.email(), orEmpty(body.password()));
 		Instant expiresAt = sessions.start(owner, false, request, response);
 		return ApiResponse.created(bootstrap.signedIn(owner, expiresAt));
@@ -93,6 +97,7 @@ public class AuthController {
 	@Operation(summary = "Sign in with an email or Employee ID", description = "Sets the session cookie, which the browser then sends with every request.")
 	@PostMapping("/api/auth/login")
 	public ResponseEntity<ApiResponse<Object>> login(@RequestBody LoginRequest body, HttpServletRequest request, HttpServletResponse response) {
+		rateLimit.check("login", request);
 		User user = auth.authenticate(body.email(), orEmpty(body.password()));
 		boolean remember = Boolean.TRUE.equals(body.remember());
 		Optional<TwoFactorService.Challenge> challenge = twoFactor.challengeFor(user, remember);
@@ -104,6 +109,7 @@ public class AuthController {
 	@PostMapping("/api/auth/login/two-factor")
 	public ResponseEntity<ApiResponse<BootstrapPayload>> loginWithCode(@RequestBody ChallengeCodeRequest body, HttpServletRequest request,
 			HttpServletResponse response) {
+		rateLimit.check("two-factor", request);
 		TwoFactorService.SignIn done = twoFactor.completeSignIn(orEmpty(body.challenge()).trim(), orEmpty(body.code()));
 		return ApiResponse.ok(signIn(done.user(), done.remember(), done.usedRecoveryCode(), request, response));
 	}
@@ -118,6 +124,7 @@ public class AuthController {
 	@PostMapping("/api/auth/login/two-factor/confirm")
 	public ResponseEntity<ApiResponse<TwoFactorSignIn>> confirmTwoFactorSetupAtLogin(@RequestBody ChallengeCodeRequest body, HttpServletRequest request,
 			HttpServletResponse response) {
+		rateLimit.check("two-factor-setup", request);
 		TwoFactorService.SignIn done = twoFactor.confirmSetupForSignIn(orEmpty(body.challenge()).trim(), orEmpty(body.code()));
 		return ApiResponse.ok(new TwoFactorSignIn(signIn(done.user(), done.remember(), false, request, response), done.recoveryCodes()));
 	}
@@ -149,6 +156,7 @@ public class AuthController {
 	@Operation(summary = "Accept an invitation by choosing a password, and sign in")
 	@PostMapping("/api/auth/invite")
 	public ResponseEntity<ApiResponse<Object>> acceptInvite(@RequestBody TokenPasswordRequest body, HttpServletRequest request, HttpServletResponse response) {
+		rateLimit.check("invite", request);
 		User user = auth.acceptInvite(orEmpty(body.token()).trim(), orEmpty(body.password()));
 		Optional<TwoFactorService.Challenge> challenge = twoFactor.challengeFor(user, false);
 		if (challenge.isPresent()) return ApiResponse.ok(new TwoFactorRequired(challenge.get()));
@@ -165,14 +173,16 @@ public class AuthController {
 
 	@Operation(summary = "Set a new password with a reset link's token")
 	@PostMapping("/api/auth/reset")
-	public ResponseEntity<ApiResponse<Void>> resetPassword(@RequestBody TokenPasswordRequest body) {
+	public ResponseEntity<ApiResponse<Void>> resetPassword(@RequestBody TokenPasswordRequest body, HttpServletRequest request) {
+		rateLimit.check("reset", request);
 		auth.resetPassword(orEmpty(body.token()).trim(), orEmpty(body.password()));
 		return ApiResponse.ok(null);
 	}
 
 	@Operation(summary = "Ask an admin for a password reset link", description = "Marks the person's profile as Reset requested.")
 	@PostMapping("/api/auth/forgot")
-	public ResponseEntity<ApiResponse<Void>> forgotPassword(@RequestBody ForgotRequest body) {
+	public ResponseEntity<ApiResponse<Void>> forgotPassword(@RequestBody ForgotRequest body, HttpServletRequest request) {
+		rateLimit.check("forgot", request);
 		auth.requestPasswordReset(body.email());
 		return ApiResponse.ok(null);
 	}

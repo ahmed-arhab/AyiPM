@@ -19,6 +19,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 
+import com.ayitrix.ayipm.common.InMemoryRateLimiter;
+
 import io.zonky.test.db.postgres.embedded.EmbeddedPostgres;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
@@ -55,6 +57,12 @@ public abstract class IntegrationTest {
 	void cleanDatabase() {
 		clock.reset();
 		jdbc.execute("truncate table login_attempts, users, workspace cascade");
+	}
+
+	// Every test signs in from 127.0.0.1, so each one starts with fresh rate limits.
+	@BeforeEach
+	void resetRateLimits(@Autowired InMemoryRateLimiter rateLimiter) {
+		rateLimiter.clear();
 	}
 
 	/** A browser-like client with its own cookies. */

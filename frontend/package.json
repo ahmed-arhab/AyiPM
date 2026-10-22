@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "node --require ./scripts/client-address.cjs node_modules/next/dist/bin/next start"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",

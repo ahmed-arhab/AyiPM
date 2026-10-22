@@ -3,6 +3,7 @@ package com.ayitrix.ayipm.common;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -22,6 +23,13 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(ApiException.class)
 	ResponseEntity<ApiResponse.Error> handleApi(ApiException e) {
 		return error(e.getStatus(), e.getMessage());
+	}
+
+	@ExceptionHandler(TooManyRequestsException.class)
+	ResponseEntity<ApiResponse.Error> handleTooManyRequests(TooManyRequestsException e) {
+		return ResponseEntity.status(e.getStatus())
+				.header(HttpHeaders.RETRY_AFTER, Long.toString(e.getRetryAfterSeconds()))
+				.body(new ApiResponse.Error(e.getMessage()));
 	}
 
 	@ExceptionHandler({ HttpMessageNotReadableException.class, HttpMediaTypeNotSupportedException.class })
