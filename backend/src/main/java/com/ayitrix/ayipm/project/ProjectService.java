@@ -18,8 +18,11 @@ import com.ayitrix.ayipm.common.Dates;
 import com.ayitrix.ayipm.common.Text;
 import com.ayitrix.ayipm.employee.User;
 import com.ayitrix.ayipm.employee.UserRepository;
+import com.ayitrix.ayipm.mail.AssignmentEmails;
 import com.ayitrix.ayipm.notification.NotificationMessage;
 import com.ayitrix.ayipm.notification.NotificationService;
+import com.ayitrix.ayipm.task.Task;
+import com.ayitrix.ayipm.task.TaskRepository;
 
 /** The rules match what src/store/actions/projects.ts enforced in the browser. */
 @Service
@@ -29,12 +32,17 @@ public class ProjectService {
 	private final UserRepository users;
 	private final ActivityService activity;
 	private final NotificationService notifications;
+	private final AssignmentEmails assignmentEmails;
+	private final TaskRepository tasks;
 
-	public ProjectService(ProjectRepository projects, UserRepository users, ActivityService activity, NotificationService notifications) {
+	public ProjectService(ProjectRepository projects, UserRepository users, ActivityService activity,
+			NotificationService notifications, AssignmentEmails assignmentEmails, TaskRepository tasks) {
 		this.projects = projects;
 		this.users = users;
 		this.activity = activity;
 		this.notifications = notifications;
+		this.assignmentEmails = assignmentEmails;
+		this.tasks = tasks;
 	}
 
 	@Transactional(readOnly = true)
@@ -96,12 +104,14 @@ public class ProjectService {
 		}
 
 		List<String> addedTo = new ArrayList<>();
+		List<Project> addedProjects = new ArrayList<>();
 		for (Project project : projects.findAll()) {
 			boolean member = project.getMemberIds().contains(employeeId);
 			if (wanted.contains(project.getId()) && !member) {
 				project.getMemberIds().add(employeeId);
 				project.touch();
 				addedTo.add(project.getName());
+				addedProjects.add(project);
 			} else if (!wanted.contains(project.getId()) && member) {
 				project.getMemberIds().remove(employeeId);
 				project.touch();
@@ -112,6 +122,10 @@ public class ProjectService {
 		if (!addedTo.isEmpty()) {
 			notifications.notify(List.of(employeeId), new NotificationMessage("Added to project",
 					"You were added to " + String.join(", ", addedTo) + ".", "project", "normal", "/projects", actor.getId()));
+			for (Project project : addedProjects) {
+				List<Task> memberTasks = tasks.findByProjectIdAndAssigneeIdOrderByDueDateAsc(project.getId(), employeeId);
+				assignmentEmails.sendProjectAssignment(employee, actor, project, memberTasks);
+			}
 		}
 	}
 
@@ -155,6 +169,13 @@ public class ProjectService {
 	private void notifyAdded(User actor, Project project, Set<UUID> memberIds) {
 		notifications.notify(memberIds, new NotificationMessage("Added to project", "You were added to " + project.getName() + ".", "project",
 				"normal", "/projects/" + project.getId(), actor.getId()));
+		for (UUID memberId : memberIds) {
+			if (actor != null && memberId.equals(actor.getId())) continue;
+			users.findById(memberId).ifPresent(member -> {
+				List<Task> memberTasks = tasks.findByProjectIdAndAssigneeIdOrderByDueDateAsc(project.getId(), memberId);
+				assignmentEmails.sendProjectAssignment(member, actor, project, memberTasks);
+			});
+		}
 	}
 
 	private static UUID parseId(String value, String message) {

@@ -9,11 +9,13 @@ import org.springframework.data.jpa.repository.Query;
 
 import jakarta.persistence.LockModeType;
 
-interface TaskRepository extends JpaRepository<Task, UUID> {
+public interface TaskRepository extends JpaRepository<Task, UUID> {
 
 	List<Task> findAllByOrderByStatusAscPositionAsc();
 
 	List<Task> findByProjectIdOrderByStatusAscPositionAsc(UUID projectId);
+
+	List<Task> findByProjectIdAndAssigneeIdOrderByDueDateAsc(UUID projectId, UUID assigneeId);
 
 	/**
 	 * Locks every task in one column until the transaction ends, so two people reordering the same column at once

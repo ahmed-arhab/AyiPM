@@ -79,7 +79,7 @@ public class AccessLinkEmails {
 	}
 
 	/** Returns ayipm.public-url without a trailing slash, or fails when it isn't an http(s) address. */
-	static String checkPublicUrl(String value) {
+	public static String checkPublicUrl(String value) {
 		String url = value.strip().replaceAll("/+$", "");
 		URI uri;
 		try {

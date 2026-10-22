@@ -21,6 +21,7 @@ import com.ayitrix.ayipm.common.Dates;
 import com.ayitrix.ayipm.common.Text;
 import com.ayitrix.ayipm.employee.User;
 import com.ayitrix.ayipm.employee.UserRepository;
+import com.ayitrix.ayipm.mail.AssignmentEmails;
 import com.ayitrix.ayipm.notification.NotificationMessage;
 import com.ayitrix.ayipm.notification.NotificationService;
 import com.ayitrix.ayipm.project.ProjectRepository;
@@ -41,9 +42,11 @@ public class TaskService {
 	private final UserRepository users;
 	private final ActivityService activity;
 	private final NotificationService notifications;
+	private final AssignmentEmails assignmentEmails;
 
 	public TaskService(TaskRepository tasks, TaskCommentRepository comments, TaskHistoryRepository history, ProjectRepository projectRepository,
-			ProjectService projects, UserRepository users, ActivityService activity, NotificationService notifications) {
+			ProjectService projects, UserRepository users, ActivityService activity, NotificationService notifications,
+			AssignmentEmails assignmentEmails) {
 		this.tasks = tasks;
 		this.comments = comments;
 		this.history = history;
@@ -52,6 +55,7 @@ public class TaskService {
 		this.users = users;
 		this.activity = activity;
 		this.notifications = notifications;
+		this.assignmentEmails = assignmentEmails;
 	}
 
 	@Transactional(readOnly = true)
@@ -202,6 +206,12 @@ public class TaskService {
 		if (task.getAssigneeId() == null || task.getAssigneeId().equals(actor.getId())) return;
 		notifications.notify(List.of(task.getAssigneeId()), new NotificationMessage("Task assigned to you",
 				actor.getName() + " assigned you \"" + task.getTitle() + "\".", "task", task.getPriority().notificationPriority(), link(task), actor.getId()));
+
+		users.findById(task.getAssigneeId()).ifPresent(assignee -> {
+			projectRepository.findById(task.getProjectId()).ifPresent(project -> {
+				assignmentEmails.sendTaskAssignment(assignee, actor, task, project);
+			});
+		});
 	}
 
 	private static String link(Task task) {

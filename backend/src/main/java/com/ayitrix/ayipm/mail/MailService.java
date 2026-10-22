@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -74,6 +75,10 @@ public class MailService {
 			helper.setTo(email.to());
 			helper.setSubject(email.subject());
 			helper.setText(email.text(), email.html());
+			ClassPathResource banner = new ClassPathResource("mail/banner.jpg");
+			if (banner.exists() && email.html().contains("cid:company-headline")) {
+				helper.addInline("company-headline", banner, "image/jpeg");
+			}
 			sender.send(message);
 			log.info("Sent \"{}\" to {}.", email.subject(), email.to());
 		} catch (MessagingException | RuntimeException e) {
