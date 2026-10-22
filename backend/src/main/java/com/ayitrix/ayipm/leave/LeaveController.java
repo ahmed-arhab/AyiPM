@@ -17,6 +17,7 @@ import com.ayitrix.ayipm.auth.Permission;
 import com.ayitrix.ayipm.auth.SessionService;
 import com.ayitrix.ayipm.common.ApiResponse;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
@@ -54,7 +55,7 @@ public class LeaveController {
 		return ApiResponse.ok(leave.review(sessions.requireUser(request, Permission.LEAVE_REVIEW), id, LeaveStatus.REJECTED, body.reason()));
 	}
 
-	/** Cancels your own pending request. */
+	@Operation(summary = "Cancel your own pending request")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<ApiResponse<Void>> cancel(HttpServletRequest request, @PathVariable UUID id) {
 		leave.cancel(sessions.requireUser(request), id);

@@ -1,6 +1,8 @@
 spring:
   application:
     name: ayipm-backend
+    # Filled in from pom.xml when Maven builds the app. Shown as the version in the OpenAPI spec.
+    version: "@project.version@"
   datasource:
     url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/ayipm}
     username: ${DATABASE_USERNAME:ayipm}
@@ -26,3 +28,12 @@ ayipm:
     # Base64 of 32 random bytes (openssl rand -base64 32). It encrypts the authenticator secrets, so keep it secret and
     # don't change it once people use two-factor authentication. While it is empty, two-factor authentication is off.
     encryption-key: ${TWO_FACTOR_ENCRYPTION_KEY:}
+
+# The OpenAPI spec at /v3/api-docs and Swagger UI at /swagger-ui.html. Set both to false to turn them off.
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+  # Every endpoint returns JSON; without this the spec lists each response as */*.
+  default-produces-media-type: application/json

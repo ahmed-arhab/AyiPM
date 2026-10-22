@@ -109,6 +109,8 @@ cd backend
 
 The API runs on http://localhost:8080. It creates and updates the database tables itself on startup. The `demo` profile adds the demo accounts below; leave out `-Dspring-boot.run.profiles=demo` to start with an empty workspace instead.
 
+To see every endpoint and try them in the browser, open Swagger UI at http://localhost:8080/swagger-ui.html. The OpenAPI spec it reads is at http://localhost:8080/v3/api-docs. Most endpoints need a session, so first run `POST /api/auth/login` with **Try it out**: the backend sets the session cookie and your browser sends it with the requests that follow, so there is nothing to enter under **Authorize**. Swagger UI is served by the backend, so it isn't reachable through the frontend on port 3000 or with Docker Compose.
+
 ### 3. Start the frontend
 
 In a second terminal:
@@ -173,6 +175,8 @@ The frontend keeps both `package-lock.json` and `pnpm-lock.yaml`. If you change 
 | `DATABASE_USERNAME` | backend | `ayipm` (none with the `prod` profile) | Database user |
 | `DATABASE_PASSWORD` | backend | `ayipm` (none with the `prod` profile) | Database password |
 | `PORT` | backend | `8080` | Port the API listens on |
+| `SPRINGDOC_APIDOCS_ENABLED` | backend | `true` | Whether the OpenAPI spec is served at `/v3/api-docs` (`springdoc.api-docs.enabled`). Set to `false` in production. |
+| `SPRINGDOC_SWAGGERUI_ENABLED` | backend | `true` | Whether Swagger UI is served at `/swagger-ui.html` (`springdoc.swagger-ui.enabled`). Set to `false` in production. |
 | `TWO_FACTOR_ENCRYPTION_KEY` | backend | empty | Sets `ayipm.two-factor.encryption-key`: 32 random bytes in base64 that encrypt the authenticator secrets of two-factor authentication. Generate one with `openssl rand -base64 32` and keep it secret, like a database password. While it is empty, two-factor authentication can't be turned on and everything else works as usual; if it is set but isn't a valid key, the backend refuses to start. Don't change or remove it once people use two-factor authentication: their authenticator codes stop working and they can only sign in with a recovery code. |
 | `BACKEND_URL` | frontend | `http://localhost:8080` | Where `/api` requests are forwarded. Read when the frontend is built, so set it before `npm run build`. |
 
@@ -279,6 +283,7 @@ Backend:
 
 - Code is grouped by feature (`auth`, `employee`, `workspace`), not by layer. Each feature has its entities, repositories, a service and a controller.
 - Controllers stay thin: check the session with `SessionService.requireUser(request, permission)`, call a service, and return `ApiResponse.ok(...)`.
+- If an endpoint's method name and path don't say what it does, add `@Operation(summary = "...")`. Swagger UI shows it next to the endpoint.
 - Every response is `{ "data": ... }` on success or `{ "error": "message" }` on failure. Throw `ApiException` for errors the user should see; anything else becomes a generic 500.
 - Response records must match the TypeScript types in `frontend/src/types`. Never return entities directly, and never send password hashes or tokens other than the one-time invite or reset link.
 

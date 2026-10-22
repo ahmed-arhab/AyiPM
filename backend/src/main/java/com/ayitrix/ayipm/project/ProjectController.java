@@ -18,6 +18,7 @@ import com.ayitrix.ayipm.auth.SessionService;
 import com.ayitrix.ayipm.common.ApiResponse;
 import com.ayitrix.ayipm.employee.User;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
@@ -59,7 +60,7 @@ public class ProjectController {
 		return ApiResponse.ok(null);
 	}
 
-	/** Replaces the projects this person belongs to. Returns every project, since several may have changed. */
+	@Operation(summary = "Replace the projects this person belongs to", description = "Returns every project, since several may have changed.")
 	@PutMapping("/api/employees/{id}/projects")
 	public ResponseEntity<ApiResponse<List<ProjectResponse>>> assign(HttpServletRequest request, @PathVariable UUID id, @RequestBody Assignments body) {
 		User actor = sessions.requireUser(request, Permission.PROJECTS_MANAGE);

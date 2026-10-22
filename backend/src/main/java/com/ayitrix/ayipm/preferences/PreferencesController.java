@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ayitrix.ayipm.auth.SessionService;
 import com.ayitrix.ayipm.common.ApiResponse;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 
 /** The signed-in person's own preferences. The theme stays in the browser, because it's chosen per device. */
@@ -36,6 +37,7 @@ public class PreferencesController {
 		return ApiResponse.ok(preferences.update(sessions.requireUser(request).getId(), body));
 	}
 
+	@Operation(summary = "Reset your preferences to the defaults")
 	@DeleteMapping
 	public ResponseEntity<ApiResponse<PreferencesResponse>> reset(HttpServletRequest request) {
 		return ApiResponse.ok(preferences.reset(sessions.requireUser(request).getId()));
