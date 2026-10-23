@@ -10,7 +10,7 @@ import { CardLink } from './CardLink';
 import { useT } from '@/translations';
 import styles from './MyTasksCard.module.css';
 
-const LIMIT = 6;
+const LIMIT = 20;
 
 export function MyTasksCard({ tasks }: { tasks: Task[] }) {
   const t = useT();
@@ -19,7 +19,7 @@ export function MyTasksCard({ tasks }: { tasks: Task[] }) {
   const open = useMemo(() => tasks.filter(isOpenTask).sort(compareTasksByUrgency), [tasks]);
 
   return (
-    <Card as="section">
+    <Card as="section" className={styles.card}>
       <CardHeader
         icon={ListChecks}
         title={t('My tasks')}
@@ -34,20 +34,28 @@ export function MyTasksCard({ tasks }: { tasks: Task[] }) {
         actions={<CardLink href={ROUTES.tasks}>{t('Open board')}</CardLink>}
       />
       {open.length === 0 ? (
-        <EmptyState
-          compact
-          icon={ListChecks}
-          title={t("You're all caught up")}
-          description={t('Tasks assigned to you will appear here, soonest due first.')}
-        />
+        <div className={styles.emptyWrapper}>
+          <EmptyState
+            compact
+            icon={ListChecks}
+            title={t("You're all caught up")}
+            description={t('Tasks assigned to you will appear here, soonest due first.')}
+          />
+        </div>
       ) : (
-        <div className={styles.list}>
-          {open.slice(0, LIMIT).map((task) => (
-            <TaskRow key={task.id} task={task} formatDate={date} context={projectsById.get(task.projectId)?.name} showStatus hideAssignee />
-          ))}
-          {open.length > LIMIT && (
-            <p className={styles.more}>{t('+{count} more on the board', { count: t.formatNumber(open.length - LIMIT) })}</p>
-          )}
+        <div className={styles.scrollArea}>
+          <div className={styles.list}>
+            {open.slice(0, LIMIT).map((task) => (
+              <TaskRow
+                key={task.id}
+                task={task}
+                formatDate={date}
+                context={projectsById.get(task.projectId)?.name}
+                showStatus
+                hideAssignee
+              />
+            ))}
+          </div>
         </div>
       )}
     </Card>

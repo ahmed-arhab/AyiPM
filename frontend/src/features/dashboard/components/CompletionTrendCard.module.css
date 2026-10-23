@@ -1,6 +1,7 @@
 .card {
   display: flex;
   flex-direction: column;
+  min-height: 288px;
 }
 
 .empty {

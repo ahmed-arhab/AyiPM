@@ -36,12 +36,14 @@ export function RecentActivityCard() {
         actions={<CardLink href={ROUTES.activity}>{t('View all')}</CardLink>}
       />
       {items.length === 0 ? (
-        <EmptyState
-          compact
-          icon={History}
-          title={t('No activity yet')}
-          description={t('Actions like creating projects, updating tasks and reviewing leave will show up here.')}
-        />
+        <div className={styles.emptyWrapper}>
+          <EmptyState
+            compact
+            icon={History}
+            title={t('No activity yet')}
+            description={t('Actions like creating projects, updating tasks and reviewing leave will show up here.')}
+          />
+        </div>
       ) : (
         <div className={styles.scrollArea}>
           <ActivityList items={items} employeesById={employeesById} />

@@ -10,7 +10,7 @@ import { DeadlineLabel } from '@/features/projects/components/DeadlineLabel';
 import { DEADLINE_HORIZON_DAYS, buildDeadlines } from '../utils';
 import styles from './DeadlinesCard.module.css';
 
-const LIMIT = 8;
+const LIMIT = 20;
 
 interface DeadlinesCardProps {
   projects: Project[];
@@ -40,31 +40,30 @@ export function DeadlinesCard({ projects, tasks, personal }: DeadlinesCardProps)
           description={t('No open tasks or projects are due in the next {days} days.', { days: t.formatNumber(DEADLINE_HORIZON_DAYS) })}
         />
       ) : (
-        <ul className={styles.list}>
-          {visible.map((item) => {
-            const Icon = item.kind === 'project' ? FolderKanban : CheckSquare;
-            const context = item.kind === 'project' ? t('Project deadline') : (projectsById.get(item.projectId ?? '')?.name ?? t('Task'));
-            return (
-              <li key={`${item.kind}-${item.id}`}>
-                <Link href={item.href} className={styles.row}>
-                  <span className={cn(styles.icon, item.kind === 'project' && styles.projectIcon)}>
-                    <Icon size={15} />
-                  </span>
-                  <span className={styles.text}>
-                    <span className={styles.title}>{item.title}</span>
-                    <span className={styles.context}>
-                      {context} · {date(item.date)}
+        <div className={styles.scrollArea}>
+          <ul className={styles.list}>
+            {visible.map((item) => {
+              const Icon = item.kind === 'project' ? FolderKanban : CheckSquare;
+              const context = item.kind === 'project' ? t('Project deadline') : (projectsById.get(item.projectId ?? '')?.name ?? t('Task'));
+              return (
+                <li key={`${item.kind}-${item.id}`}>
+                  <Link href={item.href} className={styles.row}>
+                    <span className={cn(styles.icon, item.kind === 'project' && styles.projectIcon)}>
+                      <Icon size={15} />
                     </span>
-                  </span>
-                  <DeadlineLabel endDate={item.date} />
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      )}
-      {items.length > LIMIT && (
-        <p className={styles.more}>{t('+{count} more upcoming', { count: t.formatNumber(items.length - LIMIT) })}</p>
+                    <span className={styles.text}>
+                      <span className={styles.title}>{item.title}</span>
+                      <span className={styles.context}>
+                        {context} · {date(item.date)}
+                      </span>
+                    </span>
+                    <DeadlineLabel endDate={item.date} />
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       )}
     </Card>
   );

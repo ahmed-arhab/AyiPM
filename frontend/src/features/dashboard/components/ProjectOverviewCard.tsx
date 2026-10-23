@@ -1,50 +1,40 @@
 import { useMemo } from 'react';
-import Link from 'next/link';
+import { motion } from 'motion/react';
 import { FolderKanban } from 'lucide-react';
-import { Card, CardHeader, EmptyState, ProgressBar } from '@/components/ui';
+import { Card, CardHeader, EmptyState } from '@/components/ui';
+import { Progress } from '@/components/animate-ui/components/radix/progress';
 import { ROUTES } from '@/constants/navigation';
 import { PROJECT_STATUS } from '@/constants/status';
-import { useProjectProgress } from '@/store';
-import type { Project } from '@/types';
-import { DeadlineLabel } from '@/features/projects/components/DeadlineLabel';
+import { percent } from '@/lib/format';
+import type { Project, ProjectStatus } from '@/types';
 import { PROJECT_STATUS_KEYS, countByStatus } from '@/features/projects/utils';
 import { CardLink } from './CardLink';
 import { useT } from '@/translations';
 import styles from './ProjectOverviewCard.module.css';
 
-const TOP_LIMIT = 5;
+const STACK_STATUS_ORDER: ProjectStatus[] = ['completed', 'in_review', 'in_progress', 'planning', 'on_hold'];
 
 export function ProjectOverviewCard({ projects }: { projects: Project[] }) {
   const t = useT();
-  const progress = useProjectProgress();
   const counts = useMemo(() => countByStatus(projects), [projects]);
-  const top = useMemo(
-    () =>
-      projects
-        .filter((p) => p.status !== 'completed')
-        .sort((a, b) => (a.endDate || '9999').localeCompare(b.endDate || '9999'))
-        .slice(0, TOP_LIMIT),
-    [projects]
-  );
+  const total = projects.length;
 
   return (
     <Card as="section" className={styles.card}>
       <CardHeader
         icon={FolderKanban}
         title={t('Project progress')}
-        description={t('Active projects by nearest deadline')}
+        description={
+          total > 0
+            ? t('{completed} completed · {total} projects total', {
+                completed: t.formatNumber(counts.completed),
+                total: t.formatNumber(total),
+              })
+            : t('No active projects')
+        }
         actions={<CardLink href={ROUTES.projects}>{t('View all')}</CardLink>}
       />
-      <ul className={styles.statuses}>
-        {PROJECT_STATUS_KEYS.map((key) => (
-          <li key={key} className={styles.status}>
-            <span className={styles.dot} style={{ background: PROJECT_STATUS[key].color }} aria-hidden />
-            <span>{t(PROJECT_STATUS[key].label)}</span>
-            <strong>{t.formatNumber(counts[key])}</strong>
-          </li>
-        ))}
-      </ul>
-      {top.length === 0 ? (
+      {total === 0 ? (
         <EmptyState
           compact
           className={styles.empty}
@@ -53,26 +43,33 @@ export function ProjectOverviewCard({ projects }: { projects: Project[] }) {
           description={t('Active projects and their progress will appear here.')}
         />
       ) : (
-        <ul className={styles.list}>
-          {top.map((p) => {
-            const entry = progress.get(p.id);
-            return (
-              <li key={p.id}>
-                <Link href={ROUTES.project(p.id)} className={styles.item}>
-                  <div className={styles.itemHead}>
-                    <span className={styles.name}>{p.name}</span>
-                    <DeadlineLabel endDate={p.endDate} />
-                  </div>
-                  <ProgressBar
-                    value={entry?.progress ?? 0}
-                    label={`${t.formatNumber(entry?.done ?? 0)}/${t.formatNumber(entry?.total ?? 0)} ${t('tasks')}`}
-                    showValue
-                  />
-                </Link>
+        <>
+          <div className={styles.stack} aria-hidden>
+            {STACK_STATUS_ORDER.map((s) =>
+              counts[s] > 0 ? (
+                <motion.span
+                  key={s}
+                  initial={{ width: 0 }}
+                  animate={{ width: `${(counts[s] / total) * 100}%` }}
+                  transition={{ type: 'spring', stiffness: 90, damping: 22, mass: 0.8 }}
+                  style={{ background: PROJECT_STATUS[s].color }}
+                />
+              ) : null
+            )}
+          </div>
+          <ul className={styles.rows}>
+            {PROJECT_STATUS_KEYS.map((s) => (
+              <li key={s} className={styles.row}>
+                <span className={styles.label}>
+                  <span className={styles.dot} style={{ background: PROJECT_STATUS[s].color }} aria-hidden />
+                  {t(PROJECT_STATUS[s].label)}
+                </span>
+                <Progress value={percent(counts[s], total)} indicatorColor={PROJECT_STATUS[s].color} className={styles.track} />
+                <strong className={styles.value}>{t.formatNumber(counts[s])}</strong>
               </li>
-            );
-          })}
-        </ul>
+            ))}
+          </ul>
+        </>
       )}
     </Card>
   );

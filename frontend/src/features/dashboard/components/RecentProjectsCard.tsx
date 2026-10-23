@@ -11,7 +11,7 @@ import { useT } from '@/translations';
 import { CardLink } from './CardLink';
 import styles from './RecentProjectsCard.module.css';
 
-const LIMIT = 5;
+const LIMIT = 20;
 
 export function RecentProjectsCard({ projects }: { projects: Project[] }) {
   const t = useT();
@@ -29,24 +29,26 @@ export function RecentProjectsCard({ projects }: { projects: Project[] }) {
       {recent.length === 0 ? (
         <EmptyState compact icon={Layers} title={t('No projects yet')} description={t('Recently updated projects will be listed here.')} />
       ) : (
-        <ul className={styles.list}>
-          {recent.map((p) => (
-            <li key={p.id}>
-              <Link href={ROUTES.project(p.id)} className={styles.row}>
-                <div className={styles.text}>
-                  <span className={styles.name}>{p.name}</span>
-                  <span className={styles.meta} title={t('Latest updated')}>
-                    {p.client || t('Internal')} · {formatRelativeTime(p.updatedAt, undefined, t.locale)}
-                  </span>
-                </div>
-                <div className={styles.side}>
-                  <AvatarGroup people={resolveMembers(p.members, employeesById)} max={3} size={24} />
-                  <StatusBadge kind="project" value={p.status} />
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <div className={styles.scrollArea}>
+          <ul className={styles.list}>
+            {recent.map((p) => (
+              <li key={p.id}>
+                <Link href={ROUTES.project(p.id)} className={styles.row}>
+                  <div className={styles.text}>
+                    <span className={styles.name}>{p.name}</span>
+                    <span className={styles.meta} title={t('Latest updated')}>
+                      {p.client || t('Internal')} · {formatRelativeTime(p.updatedAt, undefined, t.locale)}
+                    </span>
+                  </div>
+                  <div className={styles.side}>
+                    <AvatarGroup people={resolveMembers(p.members, employeesById)} max={3} size={24} />
+                    <StatusBadge kind="project" value={p.status} />
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </Card>
   );

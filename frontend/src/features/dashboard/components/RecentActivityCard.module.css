@@ -1,13 +1,10 @@
 .card {
   display: flex;
   flex-direction: column;
-  height: 100%;
 }
 
 .scrollArea {
-  flex: 1;
-  min-height: 0;
-  max-height: 290px;
+  max-height: 258px;
   overflow-y: auto;
   overflow-x: hidden;
   padding-right: 0.4rem;
@@ -16,6 +13,13 @@
   overscroll-behavior: contain;
   scrollbar-width: thin;
   scrollbar-color: var(--border-default, rgba(120, 120, 120, 0.3)) transparent;
+}
+
+.emptyWrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .scrollArea::-webkit-scrollbar {
@@ -33,4 +37,10 @@
 
 .scrollArea::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted, rgba(120, 120, 120, 0.6));
+}
+
+@media (max-width: 1180px) {
+  .scrollArea {
+    max-height: 480px;
+  }
 }

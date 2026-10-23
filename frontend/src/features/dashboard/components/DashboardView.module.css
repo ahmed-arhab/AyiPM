@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr);
   gap: 1.5rem;
-  align-items: stretch;
+  align-items: start;
 }
 
 .column {
@@ -10,10 +10,6 @@
   flex-direction: column;
   gap: 1.5rem;
   min-width: 0;
-}
-
-.column > :last-child {
-  flex: 1;
 }
 
 .pair {
